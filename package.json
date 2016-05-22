@@ -3,37 +3,84 @@
   "version": "1.0.0",
   "description": "Project for course Software Systems and Internet Services Engineering 2016",
   "keywords": "software engineering",
-  "homepage": "http://metricappteam.github.io/metricapp-server ",
+  "homepage": "http://metricappteam.github.io/metricapp-server",
+  "bugs": {
+    "url": "https://github.com/owner/project/issues",
+    "email": "project@hostname.com"
+  },
   "license": "MIT",
   "author": {
-    "name": "Michele Porretta",
-    "email": "michele.porretta@domain.com",
-    "url": "http://michele.porretta.com"
+    "name": "Giacomo Marciani",
+    "email": "giacomo.marciani@gmail.com",
+    "url": "http://gmarciani.com"
   },
+  "contributors": [
+    {
+      "name": "Alessandro Fazio",
+      "email": "name@domain",
+      "url": "http://website.com"
+    },
+    {
+      "name": "Andre Gennusa",
+      "email": "name@domain",
+      "url": "http://website.com"
+    },
+    {
+      "name": "Giacomo Marciani",
+      "email": "giacomo.marciani@acm.org",
+      "url": "http://gmarciani.com"
+    },
+    {
+      "name": "Davide Nanni",
+      "email": "name@domain",
+      "url": "http://website.com"
+    },
+    {
+      "name": "Marco Piu",
+      "email": "name@domain",
+      "url": "http://website.com"
+    },
+    {
+      "name": "Michele Porretta",
+      "email": "name@domain",
+      "url": "http://website.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/metricAppTeam"
   },
+  "engines": {
+    "node": ">=4.4.3"
+  },
+  "dependencies": {},
   "devDependencies": {
+    "concurrent-transform": "^1.0.0",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
+    "gulp-clean-css": "^2.0.7",
     "gulp-coffee": "^2.3.2",
+    "gulp-compass": "^2.1.0",
     "gulp-concat": "^2.6.0",
-    "gulp-filter": "^4.0.0",
-    "gulp-header": "^1.8.2",
-    "gulp-iconfont": "^6.0.0",
-    "gulp-ignore": "^2.0.1",
+    "gulp-copy": "0.0.2",
+    "gulp-csslint": "^0.3.0",
     "gulp-image-resize": "^0.8.0",
     "gulp-jshint": "^2.0.1",
-    "gulp-minify-css": "^1.2.4",
+    "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
+    "gulp-pug": "^3.0.2",
+    "gulp-pug-lint": "^0.1.6",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.3.1",
+    "gulp-sass-lint": "^1.1.1",
+    "gulp-shell": "^0.5.2",
+    "gulp-svg2png": "^1.0.0",
     "gulp-tap": "^0.1.3",
     "gulp-uglify": "^1.5.3",
+    "gulp-uncss": "^1.0.5",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
-    "jshint": "^2.9.2"
-  }
+    "os": "^0.1.1"
+  },
+  "private": true
 }
