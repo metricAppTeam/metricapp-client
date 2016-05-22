@@ -25,3 +25,8 @@ Finally, install locally node modules and Bower components, running the followin
 Now you are ready!
 
 ## Build
+Completely build the app, running:
+
+>$> gulp
+
+You will find everything built up inside the dist folder.
