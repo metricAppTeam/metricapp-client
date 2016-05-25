@@ -24,7 +24,6 @@ var uncss       = require('gulp-uncss');
 var cleanCss    = require('gulp-clean-css');
 
 // Scripts
-var coffee      = require('gulp-coffee');
 var uglify      = require('gulp-uglify');
 var jshint      = require('gulp-jshint');
 
@@ -41,6 +40,8 @@ var shell       = require('gulp-shell');
 var notify      = require('gulp-notify');
 var parallel    = require('concurrent-transform');
 var os          = require('os');
+var connect     = require('gulp-connect');
+var ngdocs      = require('gulp-ngdocs');
 
 
 /*******************************************************************************
@@ -48,70 +49,87 @@ var os          = require('os');
 *******************************************************************************/
 
 var paths = {
-    base: '.',
 
-    assets: {
-        base        : 'assets',
-        every       : 'assets/**/*',
+    app             : {
+        base        : 'app',
+        index       : 'app/index.html'
+    },
+
+    docs         : {
+        base    : 'docs',
+        every   : 'docs/**/*.html'
+    },
+
+    assets          : {
+        base        : 'app/assets',
+        every       : 'app/assets/**/*',
 
         styles      : {
-            base    : 'assets/styles',
-            every   : 'assets/styles/**/*.s+(a|c)ss',
-            main    : 'assets/styles/main.scss'
-        },
-
-        scripts     : {
-            base    : 'assets/scripts',
-            every   : 'assets/scripts/**/*.js',
-            main    : 'assets/scripts/main.js'
+            base    : 'app/assets/styles',
+            every   : 'app/assets/styles/**/*.s+(a|c)ss',
+            main    : 'app/assets/styles/app.scss'
         },
 
         images      : {
-            base    : 'assets/images',
-            every   : 'assets/images/**/*.{svg,eps,png,jpg,ico}',
-            logo    : 'assets/images/logo.svg',
-            icon    : 'assets/images/icons/icon.svg'
-        },
-
-        views       : {
-            base    : 'assets/views',
-            every   : 'assets/views/**/*.pug',
-            roots   : 'assets/views/*.pug'
+            base    : 'app/assets/images',
+            every   : 'app/assets/images/**/*.{svg,eps,png,jpg,ico}',
+            logo    : 'app/assets/images/logo.svg',
+            icon    : 'app/assets/images/icons/icon.svg'
         }
     },
 
-    dist: {
-        base        : 'dist',
-        every       : 'dist/**/*',
+    core            : {
+        base        : 'app/core',
+        every       : 'app/core/**/*',
 
-        styles      : {
-            base    : 'dist/styles',
-            every   : 'dist/styles/**/*.scss',
-            main    : 'dist/styles/main.scss'
+        scripts     : 'app/core/**/*.js',
+        views       : 'app/core/**/*.view.pug',
+
+        index       : 'app/core/index.pug',
+
+        main        : 'app/core/app.module.js',
+        config      : 'app/core/**/*.config.js',
+        run         : 'app/core/**/*.run.js',
+        services    : 'app/core/**/*.service.js',
+        directives  : 'app/core/**/*.directive.js',
+        filters     : 'app/core/**/*.filter.js',
+        controllers : 'app/core/**/*.controller.js'
+    },
+
+    dist            : {
+        base        : 'app/dist',
+        every       : 'app/dist/**/*',
+
+        views       : {
+            base    : 'app/dist/views',
+            every   : 'app/dist/views/**/*.html',
+            index   : 'app/index.html'
         },
 
         scripts     : {
-            base    : 'dist/scripts',
-            every   : 'dist/scripts/**/*.js',
-            main    : 'dist/scripts/main.js'
+            base    : 'app/dist/scripts',
+            every   : 'app/dist/scripts/**/*.js',
+            main    : 'app/dist/scripts/app.js'
+        },
+
+        styles      : {
+            base    : 'app/dist/styles',
+            every   : 'app/dist/styles/**/*.css',
+            main    : 'app/dist/styles/app.css'
         },
 
         images      : {
-            base    : 'dist/images',
-            every   : 'dist/images/**/*.{svg,eps,png,jpg,ico}',
-            icons   : 'dist/images/icons',
-            logo    : 'dist/images/logo.svg'
-        },
-
-        views       : {
-            base    : 'dist/views',
-            every   : 'dist/views/**/*.{html,php}'
+            base    : 'app/dist/images',
+            every   : 'app/dist/images/**/*.{svg,eps,png,jpg,ico}',
+            icons   : 'app/dist/images/icons',
+            logo    : 'app/dist/images/logo.svg'
         }
     },
 
-    cache: {
+    tmp             : {
         sass        : '.sass-cache'
     }
+
 }
 
 
@@ -124,24 +142,84 @@ gulp.task('default', function() {
 });
 
 gulp.task('all', function() {
-    gulp.start('styles');
-    gulp.start('scripts');
-    gulp.start('images');
     gulp.start('views');
+    gulp.start('scripts');
+    gulp.start('styles');
+    gulp.start('images');
 });
 
 gulp.task('clean', function() {
-    del([paths.dist.base, paths.cache.sass]);
+    del([paths.app.index, paths.dist.base, paths.docs.base, paths.tmp.sass]);
 });
 
 gulp.task('watch', function() {
+
+    watch([paths.core.index, paths.core.views], ['views']);
+
+    watch([paths.core.scripts], ['scripts']);
+
     watch([paths.assets.styles.every], ['styles']);
 
-    watch([paths.assets.scripts.every], ['scripts']);
-
     watch([paths.assets.images.every], ['images']);
+});
 
-    watch([paths.assets.views.every], ['views']);
+gulp.task('connect', function() {
+    connect.server({
+        root: 'app',
+        port: 8090,
+        livereload: true
+    });
+});
+
+gulp.task('disconnect', function() {
+    connect.serverClose();
+});
+
+
+/*******************************************************************************
+* VIEWS
+*******************************************************************************/
+gulp.task('views', function() {
+    gulp.src(paths.core.index)
+    .pipe(plumber())
+    .pipe(pug({
+        pretty: true
+    }))
+    .pipe(gulp.dest(paths.app.base));
+
+    gulp.src(paths.core.views)
+    .pipe(plumber())
+    .pipe(pug({
+        pretty: true
+    }))
+    .pipe(gulp.dest(paths.dist.views.base));
+});
+
+
+/*******************************************************************************
+* SCRIPTS
+*******************************************************************************/
+
+gulp.task('scripts', function() {
+    gulp.src([
+        paths.core.main,
+        paths.core.config,
+        paths.core.run,
+        paths.core.services,
+        paths.core.directives,
+        paths.core.filters,
+        paths.core.controllers
+    ])
+    .pipe(plumber())
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(concat('app.js'))
+    .pipe(gulp.dest(paths.dist.scripts.base))
+    .pipe(rename({
+        suffix: '.min'
+    }))
+    .pipe(uglify())
+    .pipe(gulp.dest(paths.dist.scripts.base));
 });
 
 
@@ -161,36 +239,20 @@ gulp.task('styles', function() {
         style: 'nested',
         comments: false
     }))
+    .pipe(rename({
+        basename: 'app'
+    }))
     .pipe(gulp.dest(paths.dist.styles.base))
     .pipe(cssLint())
     .pipe(cssLint.reporter())
     .pipe(uncss({
-        html: [paths.dist.views.every]
+        html: [paths.app.index, paths.dist.views.every]
     }))
     .pipe(cleanCss())
     .pipe(rename({
         suffix: '.min'
     }))
     .pipe(gulp.dest(paths.dist.styles.base));
-});
-
-
-/*******************************************************************************
-* SCRIPTS
-*******************************************************************************/
-
-gulp.task('scripts', function() {
-    gulp.src(paths.assets.scripts.every)
-    .pipe(plumber())
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(concat('main.js'))
-    .pipe(gulp.dest(paths.dist.scripts.base))
-    .pipe(rename({
-        suffix: '.min'
-    }))
-    .pipe(uglify())
-    .pipe(gulp.dest(paths.dist.scripts.base))
 });
 
 
@@ -227,8 +289,10 @@ gulp.task('logo', function() {
 
 gulp.task('icons', function() {
     var icons = [
+        {name: 'favicon-64', width: 64, height: 64},
         {name: 'favicon-48', width: 48, height: 48},
         {name: 'favicon-32', width: 32, height: 32},
+        {name: 'favicon-24', width: 24, height: 24},
         {name: 'favicon-16', width: 16, height: 16},
 
         {name: 'apple-touch-icon-ipad-retina', width: 144, height: 144},
@@ -263,19 +327,6 @@ gulp.task('icons', function() {
         }))
         .pipe(gulp.dest(paths.dist.images.icons));
     });
-});
-
-
-/*******************************************************************************
-* VIEWS
-*******************************************************************************/
-gulp.task('views', function() {
-    gulp.src(paths.assets.views.roots)
-    .pipe(plumber())
-    .pipe(pug({
-        pretty: true
-    }))
-    .pipe(gulp.dest(paths.dist.views.base));
 });
 
 

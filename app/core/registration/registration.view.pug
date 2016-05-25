@@ -1,0 +1,10 @@
+div(class="" ng-controller="RegistrationController as vm")
+    form(action="/" novalidate)
+        Firstname: input(type="text" placeholder="Firstname" class="" ng-model="vm.firstname" ng-model-options="{ updateOn: 'blur' }" ng-required)
+        br
+        Lastname: input(type="text" placeholder="Lastname" class="" ng-model="vm.lastname" ng-model-options="{ updateOn: 'blur' }" ng-required)
+        br
+        Username: input(type="text" placeholder="Username" class="" ng-model="vm.username" ng-model-options="{ updateOn: 'blur' }" ng-required)
+        br
+        Password: input(type="password" placeholder="Password" class="" ng-model="vm.password" ng-model-options="{ updateOn: 'blur' }" ng-required)
+        button(type="button" class="btn btn-lg btn-primary btn-block" ng-click="vm.signup()") Signup

@@ -1,0 +1,16 @@
+div(class="" ng-controller="LoginController as vm")
+    h2 Login
+    form(name="loginForm" role="form" ng-submit="vm.login()")
+        div(class="form-group" ng-class="{ 'hash-error': loginForm.username.$dirty && loginForm.username.$error.required }")
+            input(type="text" placeholder="Username" class="" ng-model="vm.username" ng-model-options="{ updateOn:'blur' }" ng-required)
+            span(class="" ng-show="loginForm.username.$dirty && loginForm.username.$error.required") Username required
+        div(class="form-group" ng-class="{ 'hash-error': loginForm.password.$dirty && loginForm.password.$error.required }")
+            span.label Password
+            input(type="password" placeholder="Password" class="" ng-model="vm.password" ng-model-options="{ updateOn: 'blur' }" ng-required)
+            span(class="" ng-show="loginForm.password.$dirty && loginForm.password.$error.required") Password required
+        div(class="input checkbox")
+            span.label Remember
+            input(type="checbox" class="" ng-model="vm.remember" ng-model-options="{ updateOn: 'blur' }")
+        div(class="form-actions")
+            button(type="submit" class="btn btn-primary btn-block" ng-disabled="loginForm.$invalid || vm.loading") Login
+            a(class="btn btn-link" ng-click="vm.goToRegistration()") Register

@@ -1,0 +1,9 @@
+{
+    "directory": "app/vendors/",
+    "registry": {
+        "search": [
+            "https://bower.herokuapp.com"
+        ]
+    },
+    "ignoredDependencies": []
+}
