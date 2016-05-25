@@ -1,6 +1,6 @@
 /*******************************************************************************
 * @ngdoc controller
-* @name metricapp.controller.LogoutController
+* @name LogoutController
 * @requires $location
 * @requires AuthService
 *
