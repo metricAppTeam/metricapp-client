@@ -2,7 +2,7 @@ doctype html
 html(lang="en" ng-app="metricapp" ng-strict-di)
 
     head
-
+        base(href="/")
         //- META: BASICS
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible"       content="IE=edge")
@@ -47,30 +47,30 @@ html(lang="en" ng-app="metricapp" ng-strict-di)
         //- STYLES
         link(rel="stylesheet" type="text/css" href=vendors+"/bootstrap/dist/css/bootstrap.min.css" )
 
-        <!--[if lt IE 9]>
-        script(type="text/javascript" src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js")
-        script(type="text/javascript" src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js")
-        <![endif]-->
+        //if lt IE 8
+            script(type="text/javascript" src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js")
+            script(type="text/javascript" src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js")
 
         link(rel="stylesheet" type="text/css" media="screen, projection" href=styles+"/app.min.css")
 
     body
 
         //- NAVIGATION
-        div(ma-navbar)
+        ma-navbar(role="navigation")
 
         //- FLASH MESSAGES
-        div(ma-flash-message)
+        div(m-flash role="alert")
 
         //- CONTENT
-        div(ng-view class="container-fluid")
+        div(ng-view class="container-fluid" role="main")
 
         //- VENDOR SCRIPTS
         script(type="text/javascript" src=vendors+"/jquery/dist/jquery.min.js")
         script(type="text/javascript" src=vendors+"/bootstrap/dist/js/bootstrap.min.js")
-        script(type="text/javascript" src=vendors+"/angular/angular.js")
-        script(type="text/javascript" src=vendors+"/angular-route/angular-route.js")
-        script(type="text/javascript" src=vendors+"/angular-cookies/angular-cookies.js")
+        script(type="text/javascript" src=vendors+"/angular/angular.min.js")
+        script(type="text/javascript" src=vendors+"/angular-route/angular-route.min.js")
+        script(type="text/javascript" src=vendors+"/angular-cookies/angular-cookies.min.js")
+        script(type="text/javascript" src=vendors+"/angular-messages/angular-messages.min.js")
         script(type="text/javascript" src=vendors+"/angular-mocks/angular-mocks.js")
 
         //- APP SCRIPTS

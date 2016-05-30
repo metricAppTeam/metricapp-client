@@ -1,60 +1,44 @@
-/*******************************************************************************
+(function() { 'use strict';
+
+/************************************************************************************
 * @ngdoc controller
 * @name HomeController
 * @module metricapp
+* @requires $rootScope
 * @requires $scope
 * @requires $location
+* @requires AuthService
 *
 * @description
-* Manages the Home dashboard for all the users. Realizes the control layer for:
-* - home.view
-*******************************************************************************/
+* Manages the Home dashboard for all the users.
+* Realizes the control layer for `home.view`.
+************************************************************************************/
 
-(function() {
-    'use strict';
+angular.module('metricapp')
 
-    angular
-        .module('metricapp')
-        .controller('HomeController', HomeController);
+.controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$location'];
+HomeController.$inject = ['$rootScope', '$scope', '$location', 'AuthService'];
 
-    function HomeController($scope, $location) {
-        /* jshint validthis: true */
-        var vm = this;
+function HomeController($rootScope, $scope, $location, AuthService) {
 
-        vm.foo = foo;
+    var vm = this;
 
-        /***********************************************************************
-        * @ngdoc method
-        * @name foo
-        * @description
-        * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        * @param {type} a Insert here param description.
-        * @param {type} b Insert here param description.
-        * @param {type} c Insert here param description.
-        * @returns {type} Insert here return description.
-        ***********************************************************************/
-        function foo(a, b, c) {
+    vm.user = null;
+    vm.ROLES = AuthService.ROLES;
 
-        }
+    _init();
 
-        /***********************************************************************
-        * @ngdoc method
-        * @name _foo
-        * @description
-        * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        * @param {type} a Insert here param description.
-        * @param {type} b Insert here param description.
-        * @param {type} c Insert here param description.
-        * @returns {type} Insert here return description.
-        ***********************************************************************/
-        function _foo(a, b, c) {
-
-        }
-
+    /********************************************************************************
+    * @ngdoc method
+    * @name _init
+    * @description
+    * Initializes the controller:
+    * - retrieving the current user.
+    ********************************************************************************/
+    function _init() {
+        vm.user = AuthService.getUser();
     }
+}
 
 })();

@@ -1,2 +1,8 @@
-div(class="" ng-controller="HomeController as vm")
-    h1 Hi {{vm.user.username}}!
+div(ng-controller="HomeController as vm")
+    div(ng-if="vm.user") Welcome, {{ vm.user.username }}
+    div(ng-switch="vm.user.role")
+        div(ng-switch-when="EXPERT") You have EXPERT rights.
+        div(ng-switch-when="QUESTIONER") You have QUESTIONER rights.
+        div(ng-switch-when="METRICATOR") You have METRICATOR rights.
+        div(ng-switch-default) You have no rights.
+    div(ng-include="'dist/views/authentication/logout.view.html'")

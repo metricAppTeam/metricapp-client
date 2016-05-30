@@ -1,41 +1,45 @@
-/*******************************************************************************
+(function() { 'use strict';
+
+/************************************************************************************
 * @ngdoc controller
 * @name LogoutController
 * @requires $location
 * @requires AuthService
 *
 * @description
-* Manages the user logout. Realizes the control layer for:
-* - logout.view
-*******************************************************************************/
+* Manages the user logout.
+* Realizes the control layer for `logout.view`.
+************************************************************************************/
 
-(function() {
-    'use strict';
+angular.module('metricapp')
 
-    angular
-        .module('metricapp')
-        .controller('LogoutController', LogoutController);
+.controller('LogoutController', LogoutController);
 
-    LogoutController.$inject = ['$location', 'AuthService'];
+LogoutController.$inject = ['$location', 'AuthService'];
 
-    function LogoutController($location, AuthService) {
-        /* jshint validthis: true */
-        var vm = this;
+function LogoutController($location, AuthService) {
 
-        vm.logout = logout;
+    var vm = this;
 
-        /***********************************************************************
-        * @ngdoc method
-        * @name logout
-        * @description
-        * Deauthenticates the user, via its local cookie.
-        ***********************************************************************/
-        function logout() {
-            AuthService.signout();
-            AuthService.clearCurrentUser();
+    vm.loading = false;
+
+    vm.logout = logout;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name logout
+    * @description
+    * Deauthenticates the user, via its local cookie.
+    ********************************************************************************/
+    function logout() {
+        vm.loading = true;
+        AuthService.logout().then(function(response) {
+            AuthService.clearUser();            
+            vm.loading = false;
             $location.path('/');
-        }
-
+        });
     }
+
+}
 
 })();

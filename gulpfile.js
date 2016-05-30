@@ -38,10 +38,9 @@ var pugLint     = require('gulp-pug-lint');
 // Other
 var shell       = require('gulp-shell');
 var notify      = require('gulp-notify');
-var parallel    = require('concurrent-transform');
-var os          = require('os');
 var connect     = require('gulp-connect');
 var ngdocs      = require('gulp-ngdocs');
+var replace     = require('gulp-replace');
 
 
 /*******************************************************************************
@@ -84,12 +83,15 @@ var paths = {
 
         scripts     : 'app/core/**/*.js',
         views       : 'app/core/**/*.view.pug',
+        messages    : 'app/core/**/*.message.pug',
 
         index       : 'app/core/index.pug',
 
         main        : 'app/core/app.module.js',
+        constants   : 'app/core/**/*.const.js',
         config      : 'app/core/**/*.config.js',
         run         : 'app/core/**/*.run.js',
+        providers   : 'app/core/**/*.provider.js',
         services    : 'app/core/**/*.service.js',
         directives  : 'app/core/**/*.directive.js',
         filters     : 'app/core/**/*.filter.js',
@@ -154,7 +156,7 @@ gulp.task('clean', function() {
 
 gulp.task('watch', function() {
 
-    watch([paths.core.index, paths.core.views], ['views']);
+    watch([paths.core.index, paths.core.views, paths.core.messages], ['views']);
 
     watch([paths.core.scripts], ['scripts']);
 
@@ -187,7 +189,7 @@ gulp.task('views', function() {
     }))
     .pipe(gulp.dest(paths.app.base));
 
-    gulp.src(paths.core.views)
+    gulp.src([paths.core.views, paths.core.messages])
     .pipe(plumber())
     .pipe(pug({
         pretty: true
@@ -203,12 +205,14 @@ gulp.task('views', function() {
 gulp.task('scripts', function() {
     gulp.src([
         paths.core.main,
-        paths.core.config,
-        paths.core.run,
+        paths.core.constants,
+        paths.core.config,        
+        paths.core.providers,
         paths.core.services,
         paths.core.directives,
         paths.core.filters,
-        paths.core.controllers
+        paths.core.controllers,
+        paths.core.run
     ])
     .pipe(plumber())
     .pipe(jshint())
@@ -315,13 +319,13 @@ gulp.task('icons', function() {
         gulp.src(paths.assets.images.icon)
         .pipe(plumber())
         .pipe(svg2png())
-        .pipe(parallel(imageResize({
+        .pipe(imageResize({
             width: icon.width,
             height: icon.height,
             crop: false,
             upscale: false,
             imageMagick: true
-        })), os.cpus().length)
+        }))
         .pipe(rename({
             basename: icon.name
         }))

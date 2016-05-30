@@ -24,11 +24,12 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "font-awesome": "fontawesome#^4.6.3",
-    "angular": "^1.5.5",
-    "angular-route": "^1.5.5",
-    "angular-cookies": "^1.5.5",
-    "angular-mocks": "^1.5.5",
-    "crypto-js": "^3.1.6"    
+    "angular": "^1.5.6",
+    "angular-route": "^1.5.6",
+    "angular-cookies": "^1.5.6",
+    "angular-mocks": "^1.5.6",
+    "angular-messages": "^1.5.6",
+    "crypto-js": "^3.1.6"
   },
   "devDependencies": {},
   "private": true

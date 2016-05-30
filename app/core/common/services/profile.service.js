@@ -1,26 +1,26 @@
 (function() { 'use strict';
 
 /************************************************************************************
-* @ngdoc controller
-* @name MetricController
+* @ngdoc service
+* @name ProfileService
 * @module metricapp
-* @requires $scope
-* @requires $location
+* @requires $http
 *
 * @description
-* Manages the Home dashboard for all the users.
-* Realizes the control layer for `metric.view`.
+* Provides public profile management services.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('MetricController', MetricController);
+.service('ProfileService', ProfileService);
 
-MetricController.$inject = ['$scope', '$location'];
+ProfileService.$inject = ['$http'];
 
-function MetricController($scope, $location) {
+function ProfileService($http) {
 
-    var vm = this;
+    var service = this;
+
+    service.foo = foo;
 
     /********************************************************************************
     * @ngdoc method
@@ -31,7 +31,7 @@ function MetricController($scope, $location) {
     * @param {type} a Insert here param description.
     * @param {type} b Insert here param description.
     * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
+    * @return {type} Insert here return description.
     ********************************************************************************/
     function foo(a, b, c) {
 
@@ -46,11 +46,12 @@ function MetricController($scope, $location) {
     * @param {type} a Insert here param description.
     * @param {type} b Insert here param description.
     * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
+    * @return {type} Insert here return description.
     ********************************************************************************/
     function _foo(a, b, c) {
 
     }
+
 }
 
 })();
