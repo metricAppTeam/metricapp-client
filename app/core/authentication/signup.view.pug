@@ -10,7 +10,7 @@ div(class="" ng-controller="SignupController as vm")
                 placeholder="Firstname"
                 ng-model="vm.firstname"
                 ng-class!="{ 'form-control-danger': signupForm.firstname.$dirty && signupForm.firstname.$invalid }"
-                ng-model-options="{ updateOn: 'default blur' }"
+                ng-model-options="{ updateOn: 'blur' }"
                 ng-minlength="3" ng-maxlength="20" required)
             div(class="form-group-helper" role="alert" ng-messages="signupForm.firstname.$error" ng-show="signupForm.firstname.$dirty")
                 div(ng-messages-include="dist/views/authentication/signup.message.html")
@@ -25,7 +25,7 @@ div(class="" ng-controller="SignupController as vm")
                 placeholder="Lastname"
                 ng-model="vm.lastname"
                 ng-class!="{ 'form-control-danger': signupForm.lastname.$dirty && signupForm.lastname.$invalid }"
-                ng-model-options="{ updateOn: 'default blur' }"
+                ng-model-options="{ updateOn: 'blur' }"
                 ng-minlength="3" ng-maxlength="20" required)
             div(class="form-group-helper" role="alert" ng-messages="signupForm.lastname.$error" ng-show="signupForm.lastname.$dirty")
                 div(ng-messages-include="dist/views/authentication/signup.message.html")
@@ -39,7 +39,7 @@ div(class="" ng-controller="SignupController as vm")
                 placeholder="Email"
                 ng-model="vm.email"
                 ng-class!="{ 'form-control-danger': signupForm.email.$dirty && signupForm.email.$invalid }"
-                ng-model-options="{ updateOn: 'default blur', debounce: {default: 500, blur: 0} }"
+                ng-model-options="{ updateOn: 'blur', debounce: {default: 500, blur: 0} }"
                 required
                 m-unique="metricapp.com:8090/api/users/exist/email")
             div(class="form-group-helper" role="alert" ng-messages="signupForm.email.$error" ng-show="signupForm.email.$dirty")
@@ -52,13 +52,12 @@ div(class="" ng-controller="SignupController as vm")
                     class="form-control"
                     ng-model="vm.role"
                     ng-class!="{ 'form-control-danger': signupForm.role.$dirty && signupForm.role.$invalid }"
-                    ng-model-options="{ updateOn: 'default blur', debounce: {default: 500, blur: 0} }"
+                    ng-model-options="{ updateOn: 'default blur' }"
                     required)
                     option(value="" disabled selected) Role
                     option(ng-repeat="(role_key,role_name) in vm.ROLES" ng-value="role_name") {{role_name}}
                 div(class="form-group-helper" role="alert" ng-messages="signupForm.role.$error" ng-show="signupForm.role.$dirty")
                     div(ng-messages-include="dist/views/authentication/signup.message.html")
-
 
         div(class="form-group" ng-class!="{ 'hash-error': signupForm.username.$dirty && signupForm.username.$invalid }")
             input(
@@ -69,7 +68,7 @@ div(class="" ng-controller="SignupController as vm")
                 placeholder="Username"
                 ng-model="vm.username"
                 ng-class!="{ 'form-control-danger': signupForm.username.$dirty && signupForm.username.$invalid }"
-                ng-model-options="{ updateOn: 'default blur', debounce: {default: 500, blur: 0} }"
+                ng-model-options="{ updateOn: 'blur', debounce: {default: 500, blur: 0} }"
                 ng-minlength="3" ng-maxlength="20" required
                 m-unique="metricapp.com:8090/api/users/exist/username")
             div(class="form-group-helper" role="alert" ng-messages="signupForm.username.$error" ng-show="signupForm.username.$dirty")
@@ -84,7 +83,7 @@ div(class="" ng-controller="SignupController as vm")
                 placeholder="Password"
                 ng-model="vm.password"
                 ng-class!="{ 'form-control-danger': signupForm.password.$dirty && signupForm.password.$invalid }"
-                ng-model-options="{ updateOn: 'default blur' }"
+                ng-model-options="{ updateOn: 'blur' }"
                 ng-minlength="3" ng-maxlength="20" required)
             div(class="form-group-helper" role="alert" ng-messages="signupForm.password.$error" ng-show="signupForm.password.$dirty")
                 div(ng-messages-include="dist/views/authentication/signup.message.html")
@@ -97,7 +96,7 @@ div(class="" ng-controller="SignupController as vm")
                 placeholder="Password (repeat)"
                 ng-model="vm.password_r"
                 ng-class!="{ 'form-control-danger': signupForm.password_r.$dirty && signupForm.password_r.$invalid }"
-                ng-model-options="{ updateOn: 'default blur' }"
+                ng-model-options="{ updateOn: 'blur' }"
                 required
                 m-match="{{vm.password}}")
             div(class="form-group-helper" role="alert" ng-messages="signupForm.password_r.$error" ng-show="signupForm.password_r.$dirty")
