@@ -126,49 +126,50 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
         'firstname=' + profile.firstname + ' & ' +
         'lastname=' + profile.lastname + ' & ' +
         'email=' + profile.email);
-        return [200, {}, {}];
+        var message = 'User registered';
+        return [200, message, {}];
     });
 
     /********************************************************************************
     * USERS: EXIST WITH USERNAME
     ********************************************************************************/
-    $httpBackend.whenGET(REST_SERVICE.URL + '/api/users/exists/username')
+    $httpBackend.whenPOST(REST_SERVICE.URL + '/api/users/exist/username')
     .respond(function(method, url, data, headers, params) {
         var username = data;
-        console.log('/api/users/exists/username WITH ' +
+        console.log('/api/users/exist/username WITH ' +
         'username=' + username);
         for (var i = 0; i < USERS.length; i++) {
             var user = USERS[i];
             if (user.username === username) {
-                console.log('SUCCESS EXISTS user WITH ' +
+                console.log('SUCCESS EXIST user WITH ' +
                 'username=' + username);
-                return [200, {exists: true}, {}];
+                return [200, {exist: true}, {}];
             }
         }
-        console.log('SUCCESS NOT EXISTS user WITH ' +
+        console.log('SUCCESS NOT EXIST user WITH ' +
         'username=' + username);
-        return [200, {exists: false}, {}];
+        return [200, {exist: false}, {}];
     });
 
     /********************************************************************************
     * USERS: EXIST WITH EMAIL
     ********************************************************************************/
-    $httpBackend.whenGET(REST_SERVICE.URL + '/api/users/exists/email')
+    $httpBackend.whenPOST(REST_SERVICE.URL + '/api/users/exist/email')
     .respond(function(method, url, data, headers, params) {
         var email = data;
-        console.log('/api/users/exists/email WITH ' +
+        console.log('/api/users/exist/email WITH ' +
         'email=' + email);
         for (var i = 0; i < PROFILES.length; i++) {
             var profile = PROFILES[i];
             if (profile.email === email) {
-                console.log('SUCCESS EXISTS user WITH ' +
+                console.log('SUCCESS EXIST user WITH ' +
                 'email=' + email);
-                return [200, {exists: true}, {}];
+                return [200, {exist: true}, {}];
             }
         }
-        console.log('SUCCESS NOT EXISTS user WITH ' +
+        console.log('SUCCESS NOT EXIST user WITH ' +
         'email=' + email);
-        return [200, {exists: false}, {}];
+        return [200, {exist: false}, {}];
     });
 
     $httpBackend.whenGET(/^dist\//).passThrough();

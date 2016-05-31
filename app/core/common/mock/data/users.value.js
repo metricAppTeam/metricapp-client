@@ -26,11 +26,6 @@ angular.module('metricapp')
         username: 'metricator',
         password: 'password',
         role: 'METRICATOR'
-    },
-    {
-        username: 'none',
-        password: 'password',
-        role: 'NONE'
     }
 ]);
 
