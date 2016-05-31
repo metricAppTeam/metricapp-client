@@ -15,14 +15,12 @@
 
 angular.module('metricapp')
 
-.constant('ROLES', ROLES);
-
-var ROLES = {
+.constant('ROLES', {
     ALL:        '*',
     NONE:       'NONE',
     EXPERT:     'EXPERT',
     QUESTIONER: 'QUESTIONER',
     METRICATOR: 'METRICATOR'
-};
+});
 
 })();

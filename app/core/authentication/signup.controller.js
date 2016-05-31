@@ -7,6 +7,7 @@
 * @requires $scope
 * @requires $location
 * @requires AuthService
+* @requires ROLES
 *
 * @description
 * Manages the user registration.
@@ -17,19 +18,11 @@ angular.module('metricapp')
 
 .controller('SignupController', SignupController);
 
-SignupController.$inject = ['$scope', '$location', 'AuthService'];
+SignupController.$inject = ['$scope', '$location', 'AuthService', 'ROLES'];
 
-function SignupController($scope, $location, AuthService) {
+function SignupController($scope, $location, AuthService, ROLES) {
 
     var vm = this;
-
-    vm.ROLES = {
-        ALL:        '*',
-        NONE:       'NONE',
-        EXPERT:     'EXPERT',
-        QUESTIONER: 'QUESTIONER',
-        METRICATOR: 'METRICATOR'
-    };
 
     vm.loading = false;
 

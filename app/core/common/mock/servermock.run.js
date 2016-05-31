@@ -8,6 +8,9 @@
 * @requires $httpBackend
 * @requires $filter
 * @requires DbMockService
+* @requires REST_SERVICE
+
+* @requires ROLES
 *
 * @description
 * Initializes the backend simulation server for the whole application.
@@ -17,81 +20,12 @@ angular.module('metricapp')
 
 .run(servermock);
 
-servermock.$inject = ['$httpBackend', '$filter'];
+servermock.$inject = ['$httpBackend', '$filter', 'DbMockService', 'REST_SERVICE'];
 
-function servermock($httpBackend, $filter) {
-
-    /********************************************************************************
-    * REST SERVICE
-    ********************************************************************************/
-
-    var REST_SERVICE = {
-        DOMAIN: 'metricapp.com',
-        PORT: 8090,
-        URL: 'metricapp.com:8090'
-    };
-
-    /********************************************************************************
-    * USERS DATA
-    ********************************************************************************/
-
-    var ROLES = {
-        ALL:        '*',
-        NONE:       'NONE',
-        EXPERT:     'EXPERT',
-        QUESTIONER: 'QUESTIONER',
-        METRICATOR: 'METRICATOR'
-    };
-
-    var USERS = [
-        {
-            username: 'expert',
-            password: 'password',
-            role: ROLES.EXPERT
-        },
-        {
-            username: 'questioner',
-            password: 'password',
-            role: ROLES.QUESTIONER
-        },
-        {
-            username: 'metricator',
-            password: 'password',
-            role: ROLES.METRICATOR
-        },
-        {
-            username: 'none',
-            password: 'password',
-            role: ROLES.NONE
-        }
-    ];
-
-    var PROFILES = [
-        {
-            username: 'expert',
-            firstname: 'Giacomo',
-            lastname: 'Marciani',
-            email: 'expert@domain.com'
-        },
-        {
-            username: 'questioner',
-            firstname: 'Marco',
-            lastname: 'Piu',
-            email: 'questioner@domain.com'
-        },
-        {
-            username: 'metricator',
-            firstname: 'Andrea',
-            lastname: 'Gennusa',
-            email: 'metricator@domain.com'
-        },
-        {
-            username: 'default',
-            firstname: 'Mario',
-            lastname: 'Rossi',
-            email: 'default@domain.com'
-        }
-    ];
+function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
+    var ROLES = DbMockService.ROLES;
+    var USERS = DbMockService.USERS;
+    var PROFILES = DbMockService.PROFILES;
 
     for (var role in ROLES) {
         console.log('role: ' + role);

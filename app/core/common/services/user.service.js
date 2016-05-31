@@ -5,6 +5,7 @@
 * @name UserService
 * @module metricapp
 * @requires $http
+* @requires REST_SERVICE
 *
 * @description
 * Realizes a user DAO.
@@ -14,15 +15,9 @@ angular.module('metricapp')
 
 .service('UserService', UserService);
 
-UserService.$inject = ['$http'];
+UserService.$inject = ['$http', 'REST_SERVICE'];
 
-function UserService($http) {
-
-    var REST_SERVICE = {
-        DOMAIN: 'metricapp.com',
-        PORT: 8090,
-        URL: 'metricapp.com:8090'
-    };
+function UserService($http, REST_SERVICE) {
 
     var service = this;
 

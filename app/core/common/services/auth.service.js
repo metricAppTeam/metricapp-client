@@ -8,6 +8,8 @@
 * @requires $rootScope
 * @requires $cookies
 * @requires UserService
+* @requires REST_SERVICE
+* @requires ROLES
 *
 * @description
 * Provides authentication and registration services.
@@ -19,23 +21,9 @@ angular.module('metricapp')
 
 AuthService.$inject = [
     '$http', '$rootScope', '$cookies',
-    'UserService'];
+    'UserService', 'REST_SERVICE', 'ROLES'];
 
-function AuthService($http, $rootScope, $cookies, UserService) {
-
-    var ROLES = {
-        ALL:        '*',
-        NONE:       'NONE',
-        EXPERT:     'EXPERT',
-        QUESTIONER: 'QUESTIONER',
-        METRICATOR: 'METRICATOR'
-    };
-
-    var REST_SERVICE = {
-        DOMAIN: 'metricapp.com',
-        PORT: 8090,
-        URL: 'metricapp.com:8090'
-    };
+function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROLES) {
 
     var service = this;
 

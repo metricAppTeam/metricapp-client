@@ -13,12 +13,10 @@
 
 angular.module('metricapp')
 
-.constant('REST_SERVICE', REST_SERVICE);
-
-var REST_SERVICE = {
+.constant('REST_SERVICE', {
     DOMAIN: 'metricapp.com',
     PORT: 8090,
     URL: 'metricapp.com:8090'
-};
+});
 
 })();

@@ -89,6 +89,7 @@ var paths = {
 
         main        : 'app/core/app.module.js',
         constants   : 'app/core/**/*.const.js',
+        values      : 'app/core/**/*.value.js',
         config      : 'app/core/**/*.config.js',
         run         : 'app/core/**/*.run.js',
         providers   : 'app/core/**/*.provider.js',
@@ -206,7 +207,8 @@ gulp.task('scripts', function() {
     gulp.src([
         paths.core.main,
         paths.core.constants,
-        paths.core.config,        
+        paths.core.values,
+        paths.core.config,
         paths.core.providers,
         paths.core.services,
         paths.core.directives,
