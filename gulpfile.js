@@ -141,10 +141,10 @@ var paths = {
 *******************************************************************************/
 
 gulp.task('default', function() {
-    gulp.start('all')
+    gulp.start('build')
 });
 
-gulp.task('all', function() {
+gulp.task('build', function() {
     gulp.start('views');
     gulp.start('scripts');
     gulp.start('styles');
