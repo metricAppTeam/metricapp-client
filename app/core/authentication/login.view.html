@@ -1,0 +1,20 @@
+<div ng-controller="LoginController as vm">
+  <h2>Login</h2>
+  <form name="loginForm" role="form" ng-submit="vm.login()" novalidate="novalidate">
+    <div class="form-group" ng-class="{ 'hash-error': loginForm.username.$dirty && loginForm.username.$invalid }">
+      <input class="form-control" name="username" type="text" role="textbox" placeholder="Username" ng-model="vm.username" ng-class="{ 'form-control-danger': loginForm.username.$dirty && loginForm.username.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
+      <div class="form-group-helper" role="alert" ng-messages="loginForm.username.$error" ng-show="loginForm.username.$touched">
+        <div ng-messages-include="dist/views/authentication/login.message.html"></div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{ 'hash-error': login.password.$dirty && login.password.$invalid }">
+      <input class="form-control" name="password" type="password" role="textbox" placeholder="Password" ng-model="vm.password" ng-class="{ 'form-control-danger': loginForm.password.$dirty && loginForm.password.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
+      <div class="form-group-helper" role="alert" ng-messages="loginForm.password.$error" ng-show="loginForm.password.$touched">
+        <div ng-messages-include="dist/views/authentication/login.message.html"></div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary btn-block" type="submit" role="button" ng-disabled="loginForm.$invalid || vm.loading">Login</button><a class="btn" role="button" href="/signup">Sign Up</a>
+    </div>
+  </form>
+</div>
