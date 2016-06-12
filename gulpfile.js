@@ -73,6 +73,7 @@ var paths = {
             base    : 'app/assets/images',
             every   : 'app/assets/images/**/*.{svg,eps,png,jpg,ico}',
             logo    : 'app/assets/images/logo.svg',
+            logotype: 'app/assets/images/logotype.svg',
             icon    : 'app/assets/images/icons/icon.svg'
         }
     },
@@ -254,6 +255,7 @@ gulp.task('build-styles', function() {
 
 gulp.task('build-images', function() {
     gulp.start('logo');
+    gulp.start('logotype');
     gulp.start('icons');
 });
 
@@ -275,6 +277,28 @@ gulp.task('logo', function() {
     }))
     .pipe(rename({
         basename: logo.name
+    }))
+    .pipe(gulp.dest(paths.dist.images.base));
+});
+
+gulp.task('logotype', function() {
+    var logotype = {
+        name: 'logotype', width: 400, height: 50
+    };
+
+    gulp.src(paths.assets.images.logotype)
+    .pipe(gulp.dest(paths.dist.images.base))
+    .pipe(plumber())
+    .pipe(svg2png())
+    .pipe(imageResize({
+        width: logotype.width,
+        height: logotype.height,
+        crop: false,
+        upscale: false,
+        imageMagick: true
+    }))
+    .pipe(rename({
+        basename: logotype.name
     }))
     .pipe(gulp.dest(paths.dist.images.base));
 });

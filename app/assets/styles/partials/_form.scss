@@ -1,16 +1,8 @@
-.form-group {
+form {
+    .form-group {
 
-    .form-control {
-
-    }
-
-    .form-group-helper {
-
-        .form-group-helper-message {
-            font-size: $font-size-small;
-            &.message-error {
-                color: $red-normal;
-            }
+        .form-group-helper {
+            margin-top: 5px;
         }
     }
 }
