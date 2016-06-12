@@ -1,26 +1,56 @@
 <!-- COMPONENT: LOGIN -->
 <div ng-controller="LoginController as vm">
-    <h2>Login</h2>
-    <!-- FORM: LOGIN -->
-    <form name="loginForm" role="form" ng-submit="vm.login()" novalidate="novalidate">
-        <!-- FORM FIELD: USERNAME -->
-        <div class="form-group" ng-class="{ 'hash-error': loginForm.username.$dirty && loginForm.username.$invalid }">
-            <input class="form-control" name="username" type="text" role="textbox" placeholder="Username" ng-model="vm.username" ng-class="{ 'form-control-danger': loginForm.username.$dirty && loginForm.username.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
-            <div class="form-group-helper" role="alert" ng-messages="loginForm.username.$error" ng-show="loginForm.username.$touched">
-                <div ng-messages-include="dist/views/authentication/login.message.html"></div>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-logo"></div>
+            <div class="login-body">
+                <div class="login-title"><strong>Log In</strong> to your account</div>
+                <!-- FORM: LOGIN -->
+                <form name="loginForm" role="form" class="form-horizontal" ng-submit="vm.login()" novalidate="novalidate">
+                    <!-- FORM FIELD: USERNAME -->
+                    <div class="form-group" ng-class="{ 'hash-error': loginForm.username.$dirty && loginForm.username.$invalid }">
+                        <div class="col-md-12">
+                            <input class="form-control" name="username" type="text" role="textbox" placeholder="Username" ng-model="vm.username" ng-class="{ 'form-control-danger': loginForm.username.$dirty && loginForm.username.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
+                            <div class="form-group-helper" role="alert" ng-messages="loginForm.username.$error" ng-show="loginForm.username.$touched">
+                                <div ng-messages-include="dist/views/authentication/login.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: PASSWORD -->
+                    <div class="form-group" ng-class="{ 'hash-error': login.password.$dirty && login.password.$invalid }">
+                        <div class="col-md-12">
+                            <input class="form-control" name="password" type="password" role="textbox" placeholder="Password" ng-model="vm.password" ng-class="{ 'form-control-danger': loginForm.password.$dirty && loginForm.password.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
+                            <div class="form-group-helper" role="alert" ng-messages="loginForm.password.$error" ng-show="loginForm.password.$touched">
+                                <div ng-messages-include="dist/views/authentication/login.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM ACTIONS: FORGOT, LOGIN -->
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <a href="#" class="btn btn-link btn-block">Forgot your password?</a>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary btn-block" type="submit" role="button" ng-disabled="loginForm.$invalid || vm.loading">Login</button>
+                        </div>
+                    </div>
+                    <!-- FORM ACTIONS: SIGNUP -->
+                    <div class="login-or">OR</div>
+                    <div class="login-subtitle">
+                        Don't have an account yet? <a role="button" href="/signup">Create an account</a>
+                    </div>
+                </form>
+            </div>
+            <div class="login-footer">
+                <div class="pull-left">
+                    &copy; 2016 Metricapp
+                </div>
+                <div class="pull-right">
+                    <a href="#">About</a> |
+                    <a href="#">Privacy</a> |
+                    <a href="#">Contact Us</a>
+                </div>
             </div>
         </div>
-        <!-- FORM FIELD: PASSWORD -->
-        <div class="form-group" ng-class="{ 'hash-error': login.password.$dirty && login.password.$invalid }">
-            <input class="form-control" name="password" type="password" role="textbox" placeholder="Password" ng-model="vm.password" ng-class="{ 'form-control-danger': loginForm.password.$dirty && loginForm.password.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
-            <div class="form-group-helper" role="alert" ng-messages="loginForm.password.$error" ng-show="loginForm.password.$touched">
-                <div ng-messages-include="dist/views/authentication/login.message.html"></div>
-            </div>
-        </div>
-        <!-- FORM ACTIONS: LOGIN, SIGNUP -->
-        <div class="form-actions">
-        <button class="btn btn-primary btn-block" type="submit" role="button" ng-disabled="loginForm.$invalid || vm.loading">Login</button>
-        <a class="btn" role="button" href="/signup">Sign Up</a>
-        </div>
-    </form>
+    </div>
 </div>
