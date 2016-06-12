@@ -82,10 +82,7 @@ var paths = {
         every       : 'app/core/**/*',
 
         scripts     : 'app/core/**/*.js',
-        views       : 'app/core/**/*.view.pug',
-        messages    : 'app/core/**/*.message.pug',
-
-        index       : 'app/core/index.pug',
+        views       : 'app/core/**/*.{view,message}.html',
 
         main        : 'app/core/app.module.js',
         constants   : 'app/core/**/*.const.js',
@@ -106,7 +103,6 @@ var paths = {
         views       : {
             base    : 'app/dist/views',
             every   : 'app/dist/views/**/*.html',
-            index   : 'app/index.html'
         },
 
         scripts     : {
@@ -145,25 +141,25 @@ gulp.task('default', function() {
 });
 
 gulp.task('build', function() {
-    gulp.start('views');
-    gulp.start('scripts');
-    gulp.start('styles');
-    gulp.start('images');
+    gulp.start('build-views');
+    gulp.start('build-scripts');
+    gulp.start('build-styles');
+    gulp.start('build-images');
 });
 
 gulp.task('clean', function() {
-    del([paths.app.index, paths.dist.base, paths.docs.base, paths.tmp.sass]);
+    del([paths.dist.base, paths.docs.base, paths.tmp.sass]);
 });
 
 gulp.task('watch', function() {
 
-    watch([paths.core.index, paths.core.views, paths.core.messages], ['views']);
+    watch([paths.core.views], ['build-views']);
 
-    watch([paths.core.scripts], ['scripts']);
+    watch([paths.core.scripts], ['build-scripts']);
 
-    watch([paths.assets.styles.every], ['styles']);
+    watch([paths.assets.styles.every], ['build-styles']);
 
-    watch([paths.assets.images.every], ['images']);
+    watch([paths.assets.images.every], ['build-images']);
 });
 
 gulp.task('connect', function() {
@@ -182,19 +178,9 @@ gulp.task('disconnect', function() {
 /*******************************************************************************
 * VIEWS
 *******************************************************************************/
-gulp.task('views', function() {
-    gulp.src(paths.core.index)
+gulp.task('build-views', function() {
+    gulp.src([paths.core.views])
     .pipe(plumber())
-    .pipe(pug({
-        pretty: true
-    }))
-    .pipe(gulp.dest(paths.app.base));
-
-    gulp.src([paths.core.views, paths.core.messages])
-    .pipe(plumber())
-    .pipe(pug({
-        pretty: true
-    }))
     .pipe(gulp.dest(paths.dist.views.base));
 });
 
@@ -203,7 +189,7 @@ gulp.task('views', function() {
 * SCRIPTS
 *******************************************************************************/
 
-gulp.task('scripts', function() {
+gulp.task('build-scripts', function() {
     gulp.src([
         paths.core.main,
         paths.core.constants,
@@ -233,7 +219,7 @@ gulp.task('scripts', function() {
 * STYLES
 *******************************************************************************/
 
-gulp.task('styles', function() {
+gulp.task('build-styles', function() {
     gulp.src(paths.assets.styles.every)
     .pipe(plumber())
     .pipe(sassLint())
@@ -266,7 +252,7 @@ gulp.task('styles', function() {
 * IMAGES
 *******************************************************************************/
 
-gulp.task('images', function() {
+gulp.task('build-images', function() {
     gulp.start('logo');
     gulp.start('icons');
 });

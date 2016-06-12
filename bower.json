@@ -30,7 +30,8 @@
     "angular-mocks": "^1.5.6",
     "angular-messages": "^1.5.6",
     "crypto-js": "^3.1.6",
-    "joli-admin": "sbilly/joli-admin"
+    "joli-admin": "sbilly/joli-admin",
+    "jquery-ui": "^1.11.4"
   },
   "private": true
 }
