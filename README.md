@@ -23,6 +23,20 @@ Completely build the app, running:
 
 You will find everything built up inside the *dist* folder.
 
+You can also build part of app separately.
+
+To build views, run:
+	gulp build-views
+
+To build scripts, run:
+	gulp build-scripts
+
+To build styles, run:
+	gulp build-styles
+
+To build images, run:
+	gulp build-images
+
 ## Run
 Launch the app locally, running:
 

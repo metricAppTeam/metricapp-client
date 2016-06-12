@@ -20,8 +20,8 @@ angular.module('metricapp')
 authcheck.$inject = ['$rootScope', '$cookies', '$http', '$location'];
 
 function authcheck($rootScope, $cookies, $http, $location) {
-    var openLocations = ['/login', '/signup'];
-    var homeLocation = '/home';
+    var openLocations = ['/login', '/signup', '/404'];
+    var homeLocation = '/';
     var failoverLocation = '/login';
 
     $rootScope.globals = $cookies.get('globals') || {};
