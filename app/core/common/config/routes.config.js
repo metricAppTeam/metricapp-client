@@ -31,8 +31,11 @@ function routes($routeProvider, $locationProvider) {
     .when('/home', {
         templateUrl: 'dist/views/home/home.view.html'
     })
+    .when('/404', {
+        templateUrl: 'dist/views/error/error-404.view.html'
+    })
     .otherwise({
-        redirectTo: '/login'
+        redirectTo: '/404'
     });
 
     $locationProvider.html5Mode(true);
