@@ -32,7 +32,10 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/home/home.view.html'
     })
     .when('/404', {
-        templateUrl: 'dist/views/error/error-404.view.html'
+        templateUrl: 'dist/views/error/error404.view.html'
+    })
+    .when('/500', {
+        templateUrl: 'dist/views/error/error500.view.html'
     })
     .otherwise({
         redirectTo: '/404'
