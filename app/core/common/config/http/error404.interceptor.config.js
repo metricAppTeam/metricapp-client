@@ -18,15 +18,20 @@ Error404Interceptor.$inject = ['$q', '$location'];
 
 function Error404Interceptor($q, $location) {
     return {
-        'responseError': function(rejection) {
-            if (rejection.status === 404) {
+        response: function(response) {
+                return response;
+        },
+
+        responseError: function(response) {
+            console.log('Error404Interceptor.responseError');
+            if (response.status === 404) {
                 console.log('status===404');
                 $location.path('/404');
-                return $q.reject(rejection);
+                return $q.reject(response);
             }
-            return $q.reject(rejection);
+            return $q.reject(response);
         }
     };
-};
+}
 
 })();

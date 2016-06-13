@@ -18,7 +18,12 @@ Error500Interceptor.$inject = ['$q', '$location'];
 
 function Error500Interceptor($q, $location) {
     return {
-        'responseError': function(rejection) {
+        response: function(response) {
+            return response;
+        },
+
+        responseError: function(rejection) {
+            console.log('Error500Interceptor.responseError');
             if (rejection.status === 500) {
                 console.log('status===500');
                 $location.path('/500');
@@ -27,6 +32,6 @@ function Error500Interceptor($q, $location) {
             return $q.reject(rejection);
         }
     };
-};
+}
 
 })();
