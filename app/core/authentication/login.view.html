@@ -10,7 +10,7 @@
                     <!-- FORM FIELD: USERNAME -->
                     <div class="form-group" ng-class="{ 'hash-error': loginForm.username.$dirty && loginForm.username.$invalid }">
                         <div class="col-md-12">
-                            <input class="form-control" name="username" type="text" role="textbox" placeholder="Username" ng-model="vm.username" ng-class="{ 'form-control-danger': loginForm.username.$dirty && loginForm.username.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
+                            <input class="form-control" name="username" type="text" role="textbox" placeholder="Username" ng-model="vm.username" ng-class="{ 'error': loginForm.username.$dirty && loginForm.username.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
                             <div class="form-group-helper" role="alert" ng-messages="loginForm.username.$error" ng-show="loginForm.username.$touched">
                                 <div ng-messages-include="dist/views/authentication/login.message.html"></div>
                             </div>
@@ -19,7 +19,7 @@
                     <!-- FORM FIELD: PASSWORD -->
                     <div class="form-group" ng-class="{ 'hash-error': login.password.$dirty && login.password.$invalid }">
                         <div class="col-md-12">
-                            <input class="form-control" name="password" type="password" role="textbox" placeholder="Password" ng-model="vm.password" ng-class="{ 'form-control-danger': loginForm.password.$dirty && loginForm.password.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
+                            <input class="form-control" name="password" type="password" role="textbox" placeholder="Password" ng-model="vm.password" ng-class="{ 'error': loginForm.password.$dirty && loginForm.password.$invalid }" ng-model-options="{ updateOn: 'default blur' }" required="required"/>
                             <div class="form-group-helper" role="alert" ng-messages="loginForm.password.$error" ng-show="loginForm.password.$touched">
                                 <div ng-messages-include="dist/views/authentication/login.message.html"></div>
                             </div>
