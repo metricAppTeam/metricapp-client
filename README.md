@@ -76,3 +76,12 @@ If you have problems with compass installation like:
 you have to install *ruby dev*, running:
 
 	sudo apt-get install ruby-dev
+
+If you have problems with jshint installation like:
+
+ 	throw err;
+	Error: Cannot find module 'jshint/src/cli'
+
+you have to install *jshint* manually, running:
+
+	sudo npm install -g jshint
