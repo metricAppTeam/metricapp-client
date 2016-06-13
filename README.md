@@ -83,4 +83,5 @@ If you have problems with jshint installation like:
 	Error: Cannot find module 'jshint/src/cli'
 
 you have to install *jshint* manually, running:
+
 	sudo npm install -g jshint
