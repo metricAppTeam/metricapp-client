@@ -16,6 +16,14 @@ Finally, install locally node modules and Bower components, running the followin
 
 Now you are ready!
 
+## Develop
+Launch the live server, running:
+
+	gulp live
+
+The server will be running at *localhost:8090*.
+Gulp will be watching your file, thus you just need to save your changes and refresh the page!
+
 ## Build
 Completely build the app, running:
 
