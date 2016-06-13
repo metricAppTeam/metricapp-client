@@ -15,9 +15,9 @@ angular.module('metricapp')
 
 .controller('Error500Controller', Error500Controller);
 
-Error500Controller.$inject = ['$location'];
+Error500Controller.$inject = ['$window', '$location'];
 
-function Error500Controller($location) {
+function Error500Controller($window, $location) {
 
     var vm = this;
 

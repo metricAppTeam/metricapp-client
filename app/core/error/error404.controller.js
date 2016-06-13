@@ -15,9 +15,9 @@ angular.module('metricapp')
 
 .controller('Error404Controller', Error404Controller);
 
-Error404Controller.$inject = ['$location'];
+Error404Controller.$inject = ['$window', '$location'];
 
-function Error404Controller($location) {
+function Error404Controller($window, $location) {
 
     var vm = this;
 
