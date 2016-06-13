@@ -56,14 +56,29 @@
 
     </head>
     <body>
-        <!-- NAVIGATION -->
-        <ma-navbar role="navigation"></ma-navbar>
+        <div class="page-container">
 
-        <!-- FLASH -->
-        <div m-flash role="alert"></div>
+            <!-- SIDEBAR -->
+            <ma-sidebar role="navigation"></ma-sidebar>
 
-        <!-- CONTENT -->
-        <div role="main" ng-view></div>
+            <div class="page-content">
+
+                <!-- TOPBAR -->
+                <ma-topbar role="navigation"></ma-topbar>
+
+                <!-- FLASH -->
+                <div m-flash role="alert"></div>
+
+                <div class="page-content-wrap">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- CONTENT -->
+                            <div role="main" ng-view></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- ANGULAR SCRIPTS -->
         <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
@@ -73,9 +88,9 @@
         <script type="text/javascript" src="vendors/angular-mocks/angular-mocks.js"></script>
 
         <!-- THEME: VENDORS SCRIPTS -->
-        <script type="text/javascript" src="vendors/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="vendors/jquery-ui/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/bootstrap/bootstrap.min.js"></script>
 
         <!-- THEME: THIS PAGE SCRIPTS -->
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/icheck/icheck.min.js"></script>

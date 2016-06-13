@@ -50,8 +50,8 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
         'password=' + credentials.password);
         for (var i = 0; i < USERS.length; i++) {
             var user = USERS[i];
-            if (user.username == credentials.username &&
-                user.password == credentials.password) {
+            if (user.username === credentials.username &&
+                user.password === credentials.password) {
                 var authuser = {
                     username: user.username,
                     password: user.password,
