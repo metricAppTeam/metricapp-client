@@ -43,7 +43,7 @@ function mUnique($http, $q) {
                 return deferred.promise;
             }
         }
-    }
+    };
 }
 
 })();

@@ -28,7 +28,7 @@ function mMatch() {
                 return attributes.mMatch === modelValue;
             };
         }
-    }
+    };
 }
 
 })();
