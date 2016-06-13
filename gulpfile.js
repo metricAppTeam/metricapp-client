@@ -154,13 +154,13 @@ gulp.task('clean', function() {
 
 gulp.task('watch', function() {
 
-    watch([paths.core.views], ['build-views']);
+    gulp.watch([paths.core.views], ['build-views']);
 
-    watch([paths.core.scripts], ['build-scripts']);
+    gulp.watch([paths.core.scripts], ['build-scripts']);
 
-    watch([paths.assets.styles.every], ['build-styles']);
+    gulp.watch([paths.assets.styles.every], ['build-styles']);
 
-    watch([paths.assets.images.every], ['build-images']);
+    gulp.watch([paths.assets.images.every], ['build-images']);
 });
 
 gulp.task('connect', function() {
