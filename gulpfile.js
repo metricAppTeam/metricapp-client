@@ -84,6 +84,7 @@ var paths = {
 
         scripts     : 'app/core/**/*.js',
         views       : 'app/core/**/*.{view,message}.html',
+        index       : 'app/index.html',
 
         main        : 'app/core/app.module.js',
         constants   : 'app/core/**/*.const.js',
@@ -154,7 +155,7 @@ gulp.task('clean', function() {
 
 gulp.task('watch', function() {
 
-    gulp.watch([paths.core.views], ['build-views']);
+    gulp.watch([paths.core.views, paths.core.index], ['build-views']);
 
     gulp.watch([paths.core.scripts], ['build-scripts']);
 
