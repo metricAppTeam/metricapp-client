@@ -2,9 +2,10 @@
 
 /************************************************************************************
 * @ngdoc service
-* @name interceptors.error500
+* @name Error500Interceptor
 * @module metricapp
-* @requires $httpProvider
+* @requires $q
+* @requires $location
 *
 * @description
 * Defines the HTTP interceptor to handle error 500.
@@ -25,7 +26,6 @@ function Error500Interceptor($q, $location) {
         responseError: function(rejection) {
             console.log('Error500Interceptor.responseError');
             if (rejection.status === 500) {
-                console.log('status===500');
                 $location.path('/500');
                 return $q.reject(rejection);
             }

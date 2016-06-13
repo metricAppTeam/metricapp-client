@@ -31,6 +31,9 @@ function routes($routeProvider, $locationProvider) {
     .when('/home', {
         templateUrl: 'dist/views/home/home.view.html'
     })
+    .when('/401', {
+        templateUrl: 'dist/views/error/error401.view.html'
+    })
     .when('/404', {
         templateUrl: 'dist/views/error/error404.view.html'
     })

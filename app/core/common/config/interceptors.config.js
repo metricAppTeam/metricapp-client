@@ -18,6 +18,8 @@ interceptors.$inject = ['$httpProvider'];
 
 function interceptors($httpProvider) {
 
+    $httpProvider.interceptors.push('Error401Interceptor');
+
     $httpProvider.interceptors.push('Error404Interceptor');
 
     $httpProvider.interceptors.push('Error500Interceptor');
