@@ -31,14 +31,13 @@ var jshint      = require('gulp-jshint');
 var svg2png     = require('gulp-svg2png');
 var imageResize = require('gulp-image-resize');
 
-// Views
-var pug         = require('gulp-pug');
-var pugLint     = require('gulp-pug-lint');
+// Deploy
+var connect     = require('gulp-connect');
 
 // Other
 var shell       = require('gulp-shell');
 var notify      = require('gulp-notify');
-var connect     = require('gulp-connect');
+
 var ngdocs      = require('gulp-ngdocs');
 var replace     = require('gulp-replace');
 
@@ -153,7 +152,7 @@ gulp.task('clean', function() {
     del([paths.dist.base, paths.docs.base, paths.tmp.sass]);
 });
 
-gulp.task('watch', function() {
+gulp.task('live', ['connect'], function() {
 
     gulp.watch([paths.core.views, paths.core.index], ['build-views']);
 
