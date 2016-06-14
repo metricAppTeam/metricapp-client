@@ -21,7 +21,8 @@ angular.module('metricapp')
 
 SignupController.$inject = [
     '$scope', '$location',
-    'SignupService', 'ROLES', 'GENDERS'
+    'SignupService',
+    'ROLES', 'GENDERS'
 ];
 
 function SignupController($scope, $location, SignupService, ROLES, GENDERS) {
@@ -43,6 +44,7 @@ function SignupController($scope, $location, SignupService, ROLES, GENDERS) {
     * Registers a new user.
     ********************************************************************************/
     function signup() {
+
         var user = {
             username: vm.username,
             password: vm.password,
@@ -58,14 +60,15 @@ function SignupController($scope, $location, SignupService, ROLES, GENDERS) {
             picture: vm.picture
         };
 
-        AuthService.signup(user, profile).then(
-            function(message) {
-                alert(message);
-                $location.path('/');
-            },
-            function(message) {
-                alert(message);
-            });
+        SignupService.signup(user, profile).then(
+            function(response) {
+                if (response.success) {
+                    $location.path('/');
+                } else {
+                    alert(response.message);
+                }
+            }
+        );
     }
 
     /********************************************************************************

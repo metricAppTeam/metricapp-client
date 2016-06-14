@@ -48,7 +48,7 @@
         <div class="form-group" ng-class="{ 'hash-error': signupForm.birthday.$dirty && signupForm.birthday.$invalid }">
             <label class="col-md-3 control-label">Birthday:</label>
             <div class="col-md-9">
-                <input class="form-control datepicker" name="birthday" type="text" placeholder="dd/mm/yyyy" required="required"
+                <input class="form-control" name="birthday" type="text" placeholder="dd/mm/yyyy" required="required"
                 ng-model="vm.birthday" ng-model-options="{ updateOn: 'blur' }"
                 ng-class="{ 'error': signupForm.birthday.$dirty && signupForm.birthday.$invalid }"/>
                 <div class="form-group-helper" role="alert" ng-messages="signupForm.birthday.$error" ng-show="signupForm.birthday.$dirty">
@@ -73,8 +73,8 @@
         <div class="form-group" ng-class="{ 'hash-error': signupForm.picture.$dirty && signupForm.picture.$invalid }">
             <label class="col-md-3 control-label">Picture:</label>
             <div class="col-md-9">
-                <input type="file" nv-file-select uploader="pictureUploader" required="required"
-                ng-model="vm.picture" ng-model-options="{ updateOn: 'blur', debounce: {default: 500, blur: 0} }"
+                <input class="form-control" name="picture" type="text" role="textbox" placeholder="Picture" required="required"
+                ng-model="vm.picture" ng-model-options="{ updateOn: 'blur' }"
                 ng-class="{ 'error': signupForm.picture.$dirty && signupForm.picture.$invalid }"/>
                 <div class="form-group-helper" role="alert" ng-messages="signupForm.picture.$error" ng-show="signupForm.picture.$dirty">
                     <div ng-messages-include="dist/views/authentication/signup.message.html"></div>

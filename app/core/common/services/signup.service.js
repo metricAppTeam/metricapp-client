@@ -21,7 +21,8 @@ angular.module('metricapp')
 
 SignupService.$inject = [
     '$http', '$rootScope', '$cookies',
-    'UserService', 'REST_SERVICE', 'ROLES'];
+    'UserService',
+    'REST_SERVICE', 'ROLES'];
 
 function SignupService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROLES) {
 
@@ -58,14 +59,14 @@ function SignupService($http, $rootScope, $cookies, UserService, REST_SERVICE, R
                 'username=' + user.username + ' & ' +
                 'password=' + user.password + ' & ' +
                 'role=' + user.role);
-                return message;
+                return {success: true, message: message};
             },
             function(response) {
                 var message = response.data;
                 console.log('FAILURE SIGN-UP user WITH ' +
                 'username=' + credentials.username + ' & ' +
                 'password=' + credential.username);
-                return message;
+                return {success: false, message: message};
             }
         );
 
