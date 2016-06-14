@@ -8,7 +8,8 @@
             <label class="col-md-3 control-label">Firstname:</label>
             <div class="col-md-9">
                 <input class="form-control" name="firstname" type="text" role="textbox" placeholder="Firstname" required="required"
-                ng-model="vm.firstname" ng-model-options="{ updateOn: 'blur' }"
+                ng-model="vm.firstname"
+                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                 ng-class="{ 'error': signupForm.firstname.$dirty && signupForm.firstname.$invalid }"
                 ng-minlength="3" ng-maxlength="20"/>
                 <div class="form-group-helper" role="alert" ng-messages="signupForm.firstname.$error" ng-show="signupForm.firstname.$dirty">
@@ -21,7 +22,8 @@
             <label class="col-md-3 control-label">Lastname:</label>
             <div class="col-md-9">
                 <input class="form-control" name="lastname" type="text" role="textbox" placeholder="Lastname" required="required"
-                ng-model="vm.lastname" ng-model-options="{ updateOn: 'blur' }"
+                ng-model="vm.lastname"
+                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                 ng-class="{ 'error': signupForm.lastname.$dirty && signupForm.lastname.$invalid }"
                 ng-minlength="3" ng-maxlength="20"/>
                 <div class="form-group-helper" role="alert" ng-messages="signupForm.lastname.$error" ng-show="signupForm.lastname.$dirty">
@@ -34,7 +36,8 @@
             <label class="col-md-3 control-label">Gender:</label>
             <div class="col-md-9">
                 <select class="form-control" name="gender" role="combobox" required="required"
-                ng-model="vm.gender" ng-model-options="{ updateOn: 'default blur' }"
+                ng-model="vm.gender"
+                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                 ng-class="{ 'error': signupForm.gender.$dirty && signupForm.gender.$invalid }">
                     <option value="" disabled="disabled" selected="selected">Choose an option</option>
                     <option ng-repeat="(gender_key,gender_name) in vm.GENDERS" ng-value="gender_name">{{gender_name}}</option>
@@ -49,7 +52,8 @@
             <label class="col-md-3 control-label">Birthday:</label>
             <div class="col-md-9">
                 <input class="form-control" name="birthday" type="text" placeholder="dd/mm/yyyy" required="required"
-                ng-model="vm.birthday" ng-model-options="{ updateOn: 'blur' }"
+                ng-model="vm.birthday"
+                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                 ng-class="{ 'error': signupForm.birthday.$dirty && signupForm.birthday.$invalid }"/>
                 <div class="form-group-helper" role="alert" ng-messages="signupForm.birthday.$error" ng-show="signupForm.birthday.$dirty">
                     <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
@@ -61,7 +65,8 @@
             <label class="col-md-3 control-label">Email:</label>
             <div class="col-md-9">
                 <input class="form-control" name="email" type="email" role="textbox" placeholder="Email" required="required"
-                ng-model="vm.email" ng-model-options="{ updateOn: 'blur', debounce: {default: 500, blur: 0} }"
+                ng-model="vm.email"
+                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                 ng-class="{ 'error': signupForm.email.$dirty && signupForm.email.$invalid }"
                 m-unique="metricapp.com:8090/api/users/exist/email"/>
                 <div class="form-group-helper" role="alert" ng-messages="signupForm.email.$error" ng-show="signupForm.email.$dirty">
@@ -74,7 +79,8 @@
             <label class="col-md-3 control-label">Picture:</label>
             <div class="col-md-9">
                 <input class="form-control" name="picture" type="text" role="textbox" placeholder="Picture" required="required"
-                ng-model="vm.picture" ng-model-options="{ updateOn: 'blur' }"
+                ng-model="vm.picture"
+                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                 ng-class="{ 'error': signupForm.picture.$dirty && signupForm.picture.$invalid }"/>
                 <div class="form-group-helper" role="alert" ng-messages="signupForm.picture.$error" ng-show="signupForm.picture.$dirty">
                     <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
@@ -86,7 +92,8 @@
             <label class="col-md-3 control-label">Role:</label>
             <div class="col-md-9">
                 <select class="form-control" name="role" role="combobox" required="required"
-                ng-model="vm.role" ng-model-options="{ updateOn: 'default blur' }"
+                ng-model="vm.role"
+                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                 ng-class="{ 'error': signupForm.role.$dirty && signupForm.role.$invalid }">
                     <option value="" disabled="disabled" selected="selected">Choose an option</option>
                     <option ng-repeat="(role_key,role_name) in vm.ROLES" ng-value="role_name">{{role_name}}</option>
@@ -101,7 +108,8 @@
             <label class="col-md-3 control-label">Username:</label>
             <div class="col-md-9">
                 <input class="form-control" name="username" type="text" role="textbox" placeholder="Username" required="required"
-                ng-model="vm.username" ng-model-options="{ updateOn: 'blur', debounce: {default: 500, blur: 0} }"
+                ng-model="vm.username"
+                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                 ng-class="{ 'error': signupForm.username.$dirty && signupForm.username.$invalid }"
                 ng-minlength="3" ng-maxlength="20"
                 m-unique="metricapp.com:8090/api/users/exist/username"/>
@@ -115,7 +123,8 @@
             <label class="col-md-3 control-label">Password:</label>
             <div class="col-md-9">
                 <input class="form-control" name="password" type="password" role="textbox" placeholder="Password" required="required"
-                ng-model="vm.password" ng-model-options="{ updateOn: 'blur' }"
+                ng-model="vm.password"
+                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                 ng-class="{ 'error': signupForm.password.$dirty && signupForm.password.$invalid }"
                 ng-minlength="3" ng-maxlength="20"/>
                 <div class="form-group-helper" role="alert" ng-messages="signupForm.password.$error" ng-show="signupForm.password.$dirty">
@@ -128,7 +137,8 @@
             <label class="col-md-3 control-label">Password:</label>
             <div class="col-md-9">
                 <input class="form-control" name="password_r" type="password" placeholder="Password (repeat)" required="required"
-                ng-model="vm.password_r" ng-model-options="{ updateOn: 'blur' }"
+                ng-model="vm.password_r"
+                ng-model-options="{ updateOn: 'default' }"
                 ng-class="{ 'error': signupForm.password_r.$dirty && signupForm.password_r.$invalid }"
                 m-match="{{vm.password}}"/>
                 <div class="form-group-helper" role="alert" ng-messages="signupForm.password_r.$error" ng-show="signupForm.password_r.$dirty">
