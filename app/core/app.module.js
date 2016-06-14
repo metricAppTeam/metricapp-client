@@ -12,10 +12,11 @@
 * Defines the app module, giving all its dependencies.
 ************************************************************************************/
 
-    angular.module('metricapp',
-    ['ngRoute',
+angular.module('metricapp',[
+    'ngRoute',
     'ngCookies',
     'ngMessages',
-    'ngMockE2E']);
+    'ngMockE2E'
+]);
 
 })();

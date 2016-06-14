@@ -13,10 +13,13 @@ angular.module('metricapp')
 
 .value('DB_PROFILES', [
     {
-        username: 'expert',
-        firstname: 'Giacomo',
-        lastname: 'Marciani',
-        email: 'giacomo.marciani@domain.com'
+        username:   'expert',
+        firstname:  'Giacomo',
+        lastname:   'Marciani',
+        gender:     'MALE',
+        birthday:     'MALE',
+        gender:     'MALE',
+        email:      'giacomo.marciani@domain.com'
     },
     {
         username: 'questioner',

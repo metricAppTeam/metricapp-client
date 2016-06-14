@@ -27,18 +27,6 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
     var USERS = DbMockService.USERS;
     var PROFILES = DbMockService.PROFILES;
 
-    for (var role in ROLES) {
-        console.log('role: ' + role);
-    }
-
-    for (var i=0; i < USERS.length; i++) {
-        console.log('user.username: ' + USERS[i].username);
-    }
-
-    for (var i=0; i < PROFILES.length; i++) {
-        console.log('profile.email: ' + PROFILES[i].email);
-    }
-
     /********************************************************************************
     * AUTHENTICATION: LOGIN
     ********************************************************************************/

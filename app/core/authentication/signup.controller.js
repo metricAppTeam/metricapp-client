@@ -6,7 +6,7 @@
 * @module metricapp
 * @requires $scope
 * @requires $location
-* @requires AuthService
+* @requires SignupService
 * @requires ROLES
 * @requires GENDERS
 *
@@ -19,9 +19,12 @@ angular.module('metricapp')
 
 .controller('SignupController', SignupController);
 
-SignupController.$inject = ['$scope', '$location', 'AuthService', 'ROLES', 'GENDERS'];
+SignupController.$inject = [
+    '$scope', '$location',
+    'SignupService', 'ROLES', 'GENDERS'
+];
 
-function SignupController($scope, $location, AuthService, ROLES, GENDERS) {
+function SignupController($scope, $location, SignupService, ROLES, GENDERS) {
 
     var vm = this;
 
@@ -51,7 +54,8 @@ function SignupController($scope, $location, AuthService, ROLES, GENDERS) {
             lastname: vm.lastname,
             gender: vm.gender,
             birthday: vm.birthday,
-            email: vm.email
+            email: vm.email,
+            picture: vm.picture
         };
 
         AuthService.signup(user, profile).then(
