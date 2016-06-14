@@ -3,8 +3,10 @@
 /************************************************************************************
 * @ngdoc controller
 * @name LoginController
+* @requires $rootScope
 * @requires $location
 * @requires AuthService
+* @requires AUTH_EVENTS
 *
 * @description
 * Manages the user login.
@@ -15,9 +17,9 @@ angular.module('metricapp')
 
 .controller('LoginController', LoginController);
 
-LoginController.$inject = ['$location', 'AuthService'];
+LoginController.$inject = ['$rootScope', '$location', 'AuthService', 'AUTH_EVENTS'];
 
-function LoginController($location, AuthService) {
+function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
 
     var vm = this;
 
@@ -42,13 +44,17 @@ function LoginController($location, AuthService) {
         AuthService.login(credentials).then(function(authuser) {
             if (authuser) {
                 AuthService.setUser(authuser);
+                $rootScope.$broadcast(AUTH_EVENTS.LOGIN_SUCCESS);
                 $location.path('/home');
             } else {
-                alert('Invalid username/password');
+                alert('Invalid username or password');
+                $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILURE);
+
             }
         });
 
         vm.loading = false;
+
     }
 
 }
