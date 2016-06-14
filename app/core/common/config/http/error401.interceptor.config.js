@@ -23,9 +23,9 @@ function Error401Interceptor($q, $location) {
                 return response;
         },
 
-        responseError: function(response) {
-            console.log('Error401Interceptor.responseError');
+        responseError: function(response) {            
             if (response.status === 401) {
+                console.log('Error401Interceptor.responseError');
                 $location.path('/401');
                 return $q.reject(response);
             }

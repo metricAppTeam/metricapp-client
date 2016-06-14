@@ -23,9 +23,9 @@ function Error404Interceptor($q, $location) {
                 return response;
         },
 
-        responseError: function(response) {
-            console.log('Error404Interceptor.responseError');
+        responseError: function(response) {            
             if (response.status === 404) {
+                console.log('Error404Interceptor.responseError');
                 $location.path('/404');
                 return $q.reject(response);
             }

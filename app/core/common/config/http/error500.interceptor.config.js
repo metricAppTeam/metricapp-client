@@ -23,9 +23,9 @@ function Error500Interceptor($q, $location) {
             return response;
         },
 
-        responseError: function(rejection) {
-            console.log('Error500Interceptor.responseError');
+        responseError: function(rejection) {            
             if (rejection.status === 500) {
+                console.log('Error500Interceptor.responseError');
                 $location.path('/500');
                 return $q.reject(rejection);
             }
