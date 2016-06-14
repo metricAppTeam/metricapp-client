@@ -1,0 +1,47 @@
+<!-- COMPONENT: MEASUREMENTGOAL -->
+<div ng-controller="MeasurementGoalController as vm">
+    <h2>Sign Up</h2>
+    <!-- FORM: MEASUREMENTGOAL -->
+    <form name="measurementGoalForm" role="form" class="form-horizontal" ng-submit="vm.signup()" novalidate="novalidate">
+        <!-- FORM FIELD: OBJECT -->
+        <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.object.$dirty && measurementGoalForm.object.$invalid }">
+            <label class="col-md-3 control-label">Object:</label>
+            <div class="col-md-9">
+                <input class="form-control" name="object" type="text" role="textbox" placeholder="Object" ng-model="vm.object" ng-class="{ 'error': measurementGoalForm.object.$dirty && measurementGoalForm.object.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required="required"/>
+                <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.object.$error" ng-show="measurementGoalForm.object.$dirty">
+                    <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+                </div>
+            </div>
+        </div>
+        <!-- FORM FIELD: PURPOSE -->
+        <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.purpose.$dirty && measurementGoalForm.purpose.$invalid }">
+            <label class="col-md-3 control-label">Purpose:</label>
+            <div class="col-md-9">
+                <input class="form-control" name="purpose" type="text" role="textbox" placeholder="Purpose" ng-model="vm.purpose" ng-class="{ 'error': measurementGoalForm.purpose.$dirty && measurementGoalForm.purpose.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required="required"/>
+                <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.purpose.$error" ng-show="measurementGoalForm.purpose.$dirty">
+                    <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+                </div>
+            </div>
+        </div>
+        !-- FORM FIELD: VIEWPOINT -->
+        <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.viewPoint.$dirty && measurementGoalForm.viewPoint.$invalid }">
+            <label class="col-md-3 control-label">ViewPoint:</label>
+            <div class="col-md-9">
+                <input class="form-control" name="viewPoint" type="text" role="textbox" placeholder="ViewPoint" ng-model="vm.viewPoint" ng-class="{ 'error': measurementGoalForm.viewPoint.$dirty && measurementGoalForm.viewPoint.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required="required"/>
+                <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.viewPoint.$error" ng-show="measurementGoalForm.viewPoint.$dirty">
+                    <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+                </div>
+            </div>
+        </div>
+        <!-- FORM FIELD: FOCUS -->
+        <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.focus.$dirty && measurementGoalForm.focus.$invalid }">
+            <label class="col-md-3 control-label">ViewPoint:</label>
+            <div class="col-md-9">
+                <input class="form-control" name="focus" type="text" role="textbox" placeholder="Focus" ng-model="vm.focus" ng-class="{ 'error': measurementGoalForm.focus.$dirty && measurementGoalForm.focus.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required="required"/>
+                <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.focus.$error" ng-show="measurementGoalForm.focus.$dirty">
+                    <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
