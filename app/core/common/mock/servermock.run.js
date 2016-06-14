@@ -7,7 +7,6 @@
 * @requires $http
 * @requires $httpBackend
 * @requires $filter
-* @requires FileSaver
 * @requires Blob
 * @requires DbMockService
 * @requires REST_SERVICE
@@ -24,11 +23,10 @@ angular.module('metricapp')
 
 servermock.$inject = [
     '$httpBackend', '$filter',
-    'FileSaver', 'Blob',
     'DbMockService',
     'REST_SERVICE'];
 
-function servermock($httpBackend, $filter, FileSaver, Blob, DbMockService, REST_SERVICE) {
+function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
     var ROLES = DbMockService.ROLES;
     var USERS = DbMockService.USERS;
     var PROFILES = DbMockService.PROFILES;
@@ -177,6 +175,7 @@ function servermock($httpBackend, $filter, FileSaver, Blob, DbMockService, REST_
     /********************************************************************************
     * UTIL: UPLOAD
     ********************************************************************************/
+    /*
     $httpBackend.whenPOST(REST_SERVICE.URL + '/api/upload')
     .respond(function(method, url, data, headers, params) {
         var content = data;
@@ -199,6 +198,7 @@ function servermock($httpBackend, $filter, FileSaver, Blob, DbMockService, REST_
             return [501, resdata, {}];
         }
     });
+    */
 
     $httpBackend.whenGET(/^dist\//).passThrough();
 }

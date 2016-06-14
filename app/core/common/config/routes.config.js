@@ -8,7 +8,7 @@
 * @requires $locationProvider
 *
 * @description
-* Defines the routing configuration for the whole application.
+* Defines the routing configuration for the whole app.
 ************************************************************************************/
 
 angular.module('metricapp')

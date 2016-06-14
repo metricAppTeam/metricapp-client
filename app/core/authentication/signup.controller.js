@@ -7,6 +7,7 @@
 * @requires $scope
 * @requires $location
 * @requires SignupService
+* @requires FlashService
 * @requires ROLES
 * @requires GENDERS
 *
@@ -21,11 +22,11 @@ angular.module('metricapp')
 
 SignupController.$inject = [
     '$scope', '$location',
-    'SignupService',
+    'SignupService', 'FlashService',
     'ROLES', 'GENDERS'
 ];
 
-function SignupController($scope, $location, SignupService, ROLES, GENDERS) {
+function SignupController($scope, $location, SignupService, FlashService, ROLES, GENDERS) {
 
     var vm = this;
 
@@ -63,9 +64,10 @@ function SignupController($scope, $location, SignupService, ROLES, GENDERS) {
         SignupService.signup(user, profile).then(
             function(response) {
                 if (response.success) {
+                    FlashService.success(response.message);
                     $location.path('/');
                 } else {
-                    alert(response.message);
+                    FlashService.success(response.message);
                 }
             }
         );

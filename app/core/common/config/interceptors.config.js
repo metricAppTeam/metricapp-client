@@ -7,7 +7,7 @@
 * @requires $httpProvider
 *
 * @description
-* Defines the HTTP interceptors for the whole application.
+* Defines the HTTP interceptors for the whole app.
 ************************************************************************************/
 
 angular.module('metricapp')
