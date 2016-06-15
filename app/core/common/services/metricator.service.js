@@ -8,28 +8,28 @@
 
 /************************************************************************************
 * @ngdoc service
-* @name MeasurementGoalService
+* @name MetricatorService
 * @module metricapp
 * @requires $http
 * @requires $rootScope
 * @requires $cookies
 *
 * @description
-* Submits a MeasurementGoal.
+* Get Measurement Goal.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.service('MeasurementGoalService', MeasurementGoalService);
+.service('MetricatorService', MetricatorService);
 
-MeasurementGoalService.$inject = [
+MetricatorService.$inject = [
     '$http', '$rootScope', '$cookies', '$window'];
 
-function MeasurementGoalService($http, $rootScope, $cookies, $window) {
+function MetricatorService($http, $rootScope, $cookies, $window) {
 
     var service = this;
 
-    service.submitMeasurementGoal = submitMeasurementGoal;
+    service.getMeasurementGoals = getMeasurementGoals;
 
     /********************************************************************************
     * @ngdoc method
@@ -38,34 +38,9 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     * Submits a MeasurementGoal.
     * @param {MeasurementGoal} Measurement Goal to submit.
     ********************************************************************************/
-    function submitMeasurementGoal(measurementGoal) {
-        console.log('SUBMIT measurementGoal WITH ' +
-        'name= '  + measurementGoal.name + ' & ' +	
-        'object=' + measurementGoal.object + ' & ' +
-        'purpose=' + measurementGoal.purpose + ' & ' +
-        'viewPoint=' + measurementGoal.viewPoint + ' & ' +
-        'focus=' + measurementGoal.focus);
-
-        var metadata = {
-        	tags:['saassad','sadsadsad','sadsadsad'],
-  			creatorId:'3',
-      		state:'Created',
-      		releaseNote:'sakjbsakjabskjsa'
-        };
-
-        var submit = {
-        	userId: '26',
-        	name: 'name',
-        	object: measurementGoal.object,
-        	purpose: measurementGoal.purpose,
-        	viewPoint: measurementGoal.viewPoint,
-        	focus: measurementGoal.focus,
-        	OrganizationalGoalId: '4',
-        	metadata: metadata};
-                
-        $window.alert(JSON.stringify(submit));
-
-        return $http.post('localhost:8080/measurementgoal/', submit).then(
+    function getMeasurementGoals() {
+        
+        return $http.get('localhost:8080/measurementgoal/?id=26').then(
             function(response) {
                 var message = response.data;
                 console.log('SUCCESS SUBMIT measurementGoal');
