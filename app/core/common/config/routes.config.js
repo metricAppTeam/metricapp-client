@@ -28,6 +28,18 @@ function routes($routeProvider, $locationProvider) {
     .when('/login', {
         templateUrl: 'dist/views/authentication/login.view.html'
     })
+    .when('/dashboardExpert', {
+        templateUrl: 'dist/views/dashboard/dashboardExpert/dashboardExpert.view.html'
+    })
+    .when('/dashboardMetricator', {
+        templateUrl: 'dist/views/dashboard/dashboardMetricator/dashboardMetricator.view.html'
+    })
+    .when('/dashboardQuestioner', {
+        templateUrl: 'dist/views/dashboard/dashboardQuestioner/dashboardQuestioner.view.html'
+    })
+    .when('/page', {
+        templateUrl: 'dist/views/page/page.view.html'
+    })
     .when('/home', {
         templateUrl: 'dist/views/home/home.view.html'
     })
