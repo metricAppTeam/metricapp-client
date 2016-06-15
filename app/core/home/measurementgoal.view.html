@@ -1,8 +1,8 @@
 <!-- COMPONENT: MEASUREMENTGOAL -->
 <div ng-controller="MeasurementGoalController as vm">
-    <h2>Sign Up</h2>
+    <h2>Measurement Goal</h2>
     <!-- FORM: MEASUREMENTGOAL -->
-    <form name="measurementGoalForm" role="form" class="form-horizontal" ng-submit="vm.signup()" novalidate="novalidate">
+    <form name="measurementGoalForm" role="form" class="form-horizontal" ng-submit="vm.submitMeasurementGoal()" novalidate="novalidate">
         <!-- FORM FIELD: OBJECT -->
         <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.object.$dirty && measurementGoalForm.object.$invalid }">
             <label class="col-md-3 control-label">Object:</label>
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        !-- FORM FIELD: VIEWPOINT -->
+        <!-- FORM FIELD: VIEWPOINT -->
         <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.viewPoint.$dirty && measurementGoalForm.viewPoint.$invalid }">
             <label class="col-md-3 control-label">ViewPoint:</label>
             <div class="col-md-9">
@@ -42,6 +42,11 @@
                     <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
                 </div>
             </div>
+        </div>
+        <!-- FORM ACTIONS: SIGNUP, CANCEL -->
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit" ng-disabled="measurementGoalForm.$invalid || vm.loading">Submit MeasurementGoal</button>
+            <a role="button" href="/login">Go to login</a>
         </div>
     </form>
 </div>

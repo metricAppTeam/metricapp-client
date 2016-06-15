@@ -101,6 +101,17 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
         return [401, credentials.username, {}];
     });
 
+    
+     /********************************************************************************
+    * SUBMIT MEASUREMENT GOAL
+    *********************************************************************************/
+    $httpBackend.whenPOST('http://127.0.0.1:8080/measurementgoal/')
+    .respond(function(method, url, data, headers, params) {
+        var registration = angular.fromJson(data);
+        var message = 'Submit Success!';
+        return [200, message, {}];
+    });
+    
     /********************************************************************************
     * AUTHENTICATION: SIGN-UP
     ********************************************************************************/

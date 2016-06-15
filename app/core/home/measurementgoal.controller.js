@@ -4,7 +4,7 @@
 * @Last Modified by:   alessandro.fazio
 * @Last Modified time: 2016-06-14 16:57:09
 */
-(function() { 'use strict';
+(function () { 'use strict';
 
 /************************************************************************************
 * @ngdoc controller
@@ -21,13 +21,13 @@ angular.module('metricapp')
 
 .controller('MeasurementGoalController', MeasurementGoalController);
 
-MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService'];
+MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService','$window'];
 
-function MeasurementGoalController($scope, $location, MeasurementGoalService) {
+function MeasurementGoalController($scope, $location, MeasurementGoalService, $window) {
 
     var vm = this;
 
-    vm.submit = submit;
+    vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.cancelSubmit = cancelSubmit;
 
     _init();
@@ -46,12 +46,10 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService) {
         	viewPoint : vm.viewPoint,
         	focus : vm.focus  		
         };
-
-
         MeasurementGoalService.submitMeasurementGoal(measurementGoal).then(
             function(message) {
                 alert(message);
-                $location.path('/');
+                //$location.path('/measurementgoal');
             },
             function(message) {
                 alert(message);
@@ -74,7 +72,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService) {
     * @description
     * Cancels the ongoing submit.
     ********************************************************************************/
-    function cancelSumbit() {
+    function cancelSubmit() {
         $location.path('/');
     }
 

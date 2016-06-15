@@ -8,7 +8,7 @@
 
 /************************************************************************************
 * @ngdoc service
-* @name AuthService
+* @name MeasurementGoalService
 * @module metricapp
 * @requires $http
 * @requires $rootScope
@@ -23,9 +23,9 @@ angular.module('metricapp')
 .service('MeasurementGoalService', MeasurementGoalService);
 
 MeasurementGoalService.$inject = [
-    '$http', '$rootScope', '$cookies'];
+    '$http', '$rootScope', '$cookies', '$window'];
 
-function MeasurementGoalService($http, $rootScope, $cookies) {
+function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     var service = this;
 
@@ -44,25 +44,28 @@ function MeasurementGoalService($http, $rootScope, $cookies) {
         'object=' + measurementGoal.object + ' & ' +
         'purpose=' + measurementGoal.purpose + ' & ' +
         'viewPoint=' + measurementGoal.viewPoint + ' & ' +
-        'focus=' + measurementGoal.focus)
+        'focus=' + measurementGoal.focus);
 
         var metadata = {
-        	tags:["saassad","sadsadsad","sadsadsad"],
-  			creatorId:"3",
-      		state:"Created",
-      		releaseNote:"sakjbsakjabskjsa"
+        	tags:['saassad','sadsadsad','sadsadsad'],
+  			creatorId:'3',
+      		state:'Created',
+      		releaseNote:'sakjbsakjabskjsa'
         };
 
         var submit = {
-        	userId: "26",
-        	name: measurementGoal.name,
+        	userId: '26',
+        	name: 'name',
         	object: measurementGoal.object,
         	purpose: measurementGoal.purpose,
         	viewPoint: measurementGoal.viewPoint,
         	focus: measurementGoal.focus,
-        	OrganizationalGoalId: "4",
+        	OrganizationalGoalId: '4',
         	metadata: metadata};
-        return $http.post('localhost:8080/measurementgoal/', submit).then(
+                
+        $window.alert(JSON.stringify(submit));
+
+        return $http.post('http://127.0.0.1:8080/measurementgoal/', submit).then(
             function(response) {
                 var message = response.data;
                 console.log('SUCCESS SUBMIT measurementGoal');
