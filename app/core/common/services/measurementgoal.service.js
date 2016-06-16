@@ -60,14 +60,13 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         	purpose: measurementGoal.purpose,
         	viewPoint: measurementGoal.viewPoint,
         	focus: measurementGoal.focus,
-        	OrganizationalGoalId: '4',
         	metadata: metadata};
                 
         $window.alert(JSON.stringify(submit));
 
-        return $http.post('localhost:8080/measurementgoal/', submit).then(
+        return $http.post('http://localhost:8080/measurementgoal/', submit).then(
             function(response) {
-                var message = response.data;
+                var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS SUBMIT measurementGoal');
                 return message;
             },

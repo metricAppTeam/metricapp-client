@@ -40,7 +40,7 @@ function MetricatorService($http, $rootScope, $cookies, $window) {
     ********************************************************************************/
     function getMeasurementGoals() {
         
-        return $http.get('localhost:8080/measurementgoal/?id=26').then(
+        return $http.get('http://localhost:8080/measurementgoal/?id=26').then(
             function(response) {
                 var message = response.data;
                 console.log('SUCCESS SUBMIT measurementGoal');
