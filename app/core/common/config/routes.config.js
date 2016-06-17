@@ -53,10 +53,10 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/error/error500.view.html'
     })
     .when('/measurementgoal', {
-        templateUrl: 'dist/views/home/measurementgoal.view.html'
+        templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
     })
     .when('/metricator', {
-        templateUrl: 'dist/views/home/metricator.view.html'
+        templateUrl: 'dist/views/metricator/metricator.view.html'
     })
     .otherwise({
         redirectTo: '/404'

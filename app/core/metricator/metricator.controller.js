@@ -25,24 +25,14 @@ MetricatorController.$inject = ['$scope', '$location','MetricatorService','$wind
 
 function MetricatorController($scope, $location, MetricatorService, $window) {
 
-    //var mtc = this;
+    var vm = this;
     
-    this.measurementGoals = MetricatorService.getMeasurementGoals().then(
-            function(data) {
-                console.log(data.measurementGoals);
-                return data.measurementGoals;
-            },
-            function(data) {
-                alert('Error retriving Measurement Goals');
-            }
-        );
-        
-
-    //mtc.getMeasurementGoals = //getMeasurementGoals;
+    vm.measurementGoals = []; 
     
+    vm.getMeasurementGoals = getMeasurementGoals;
     
-    
-    //_init();
+    vm.getMeasurementGoals();
+    _init();
 
     /********************************************************************************
     * @ngdoc method
@@ -50,6 +40,19 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     * @description
     * Submits a MeasurementGoal.
     ********************************************************************************/
+    function getMeasurementGoals(){
+         MetricatorService.getMeasurementGoals().then(
+            function(data) {
+                console.log(data.measurementGoals);
+                vm.measurementGoals = data.measurementGoals;
+            },
+            function(data) {
+                alert('Error retriving Measurement Goals');
+            }
+        );
+    };
+    
+    
     /*
     function getMeasurementGoals() {
         
@@ -90,16 +93,18 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     * @description
     * Initializes the controller.
     ********************************************************************************/
-    /*function _init($scope) {
-        $scope.loading = false;
-        $scope.measurementGoals = MetricatorService.getMeasurementGoals().then(
+    function _init() {
+        //mtc.loading = false;
+        /*MetricatorService.getMeasurementGoals().then(
             function(message) {
                 return message.measurementGoals;
                  },
             function(message) {
                 alert('Error retriving Measurement Goals');
             }
-        );
-    }*/
+        );*/
+    
+        //mtc.getMeasurementGoals();
+    }
 
 })();

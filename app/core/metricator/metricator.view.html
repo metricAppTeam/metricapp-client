@@ -1,0 +1,98 @@
+<!-- METRICATOR'S HOME-->
+<!-- PAGE TITLE -->
+<div class="page-title">                    
+	<h2><span class="fa fa-arrow-circle-o-left"></span> Metricator's Dashboard</h2>
+</div>
+<!-- END PAGE TITLE -->                
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">                
+
+<div class="row">
+<div class="col-md-12">
+
+<div ng-controller="MetricatorController as mtc">
+<!-- START DEFAULT DATATABLE -->
+<div class="panel panel-default">
+    <div class="panel-heading">                                
+        <h3 class="panel-title">Active Measurement Goals</h3>
+        <ul class="panel-controls">
+            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+            <li><a ng-click="mtc.getMeasurementGoals()" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+            <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+        </ul>                                
+    </div>
+    <div class="panel-body">
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>>
+                        <th>CreationDate</th>
+                        <th>LastVersionDate</th>
+                        <th>ReleaseNote</th>
+                        <th>State</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  ng-repeat="measurementGoal in mtc.measurementGoals">
+                        <td>{{measurementGoal.metadata.id}}</td>
+                        <td>{{measurementGoal.metadata.entityType}}</td>
+                        <td>{{measurementGoal.metadata.creationDate}}</td>
+                        <td>{{measurementGoal.metadata.lastVersionDate}}</td>
+                        <td>{{measurementGoal.metadata.releaseNote}}</td>
+                        <td>{{measurementGoal.metadata.state}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+    </div>
+</div>
+<!-- END DEFAULT DATATABLE -->
+    
+</div>
+</div>
+</div>                                
+
+</div>
+<!-- PAGE CONTENT WRAPPER --> 
+
+        <!-- ANGULAR SCRIPTS -->
+        <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-route/angular-route.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-cookies/angular-cookies.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-messages/angular-messages.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-flash-alert/dist/angular-flash.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-mocks/angular-mocks.js"></script>
+
+        <!-- THEME: VENDORS SCRIPTS -->
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/bootstrap/bootstrap.min.js"></script>
+
+        <!-- THEME: THIS PAGE SCRIPTS -->
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/icheck/icheck.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/scrolltotop/scrolltopcontrol.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/morris/raphael-min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/morris/morris.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/rickshaw/d3.v3.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/rickshaw/rickshaw.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/bootstrap/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/owl/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/moment.min.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/daterangepicker/daterangepicker.js"></script>
+
+        <!-- THEME: MAIN SCRIPTS -->
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/actions.js"></script>
+
+        <!-- APP SCRIPTS -->
+        <script type="text/javascript" src="dist/scripts/app.js"></script>
+
+
+<!-- THIS PAGE PLUGINS -->
+    <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/datatables/jquery.dataTables.min.js"></script>    
+<!-- END PAGE PLUGINS -->

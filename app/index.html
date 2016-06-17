@@ -90,6 +90,7 @@
                     <li>
                         <a href="{{vm.getDashboardForRole(globals.user.role)}}"><span class="fa fa-desktop"></span><span class="xn-text">Dashboard</span></a>
                     </li>
+		    <li><a href="/metricator">Metricator</a></li>
                     <div ng-repeat="action in vm.getActionsForRole(globals.user.role)">
                         <li>
                             <a href="{{action.href}}"><span class="fa fa-cog"></span><span class="xn-text">{{action.name}}</span></a>
