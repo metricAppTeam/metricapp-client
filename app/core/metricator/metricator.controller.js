@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-06-14 16:57:09
+* @Last Modified time: 2016-06-18 01:51:06
 */
 (function () { 'use strict';
 
@@ -31,6 +31,19 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     
     vm.getMeasurementGoals = getMeasurementGoals;
     
+    vm.measurementGoalDialog = null;
+
+    /*
+    vm.measurementGoalDialog = {
+            name: "",
+            focus : "",
+            object : "",
+            purpose : "",
+            viewPoint : "",
+        };*/
+
+    vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
+    
     vm.getMeasurementGoals();
     _init();
 
@@ -50,6 +63,18 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
                 alert('Error retriving Measurement Goals');
             }
         );
+    };
+    /*
+    function setMeasurementGoalDialog(measurementGoalToAssign){
+        vm.measurementGoalDialog.name = measurementGoalToAssign.name;
+        vm.measurementGoalDialog.purpose = measurementGoalToAssign.purpose;
+        vm.measurementGoalDialog.object = measurementGoalToAssign.object;
+        vm.measurementGoalDialog.viewPoint = measurementGoalToAssign.viewPoint;
+        vm.measurementGoalDialog.focus = measurementGoalToAssign.focus;
+    };*/
+    
+    function setMeasurementGoalDialog(measurementGoalToAssignId){
+        vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
     };
     
     
