@@ -1,22 +1,20 @@
 (function() { 'use strict';
 
 /************************************************************************************
-* @ngdoc overview
-* @name ROLES
+* @ngdoc constant
+* @name GENDERS
 * @module metricapp
 * @description
-* Defines constants related to user roles.
-* - EXPERT:
-* - QUESTIONER:
-* - METRICATOR:
+* Defines constants related to user genders.
+* - MALE:
+* - FEMALE:
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.constant('ROLES', {
-    EXPERT:     'EXPERT',
-    QUESTIONER: 'QUESTIONER',
-    METRICATOR: 'METRICATOR'
+.constant('GENDERS', {
+    MALE:   'MALE',
+    FEMALE: 'FEMALE'
 });
 
 })();

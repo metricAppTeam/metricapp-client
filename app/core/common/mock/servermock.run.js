@@ -7,6 +7,7 @@
 * @requires $http
 * @requires $httpBackend
 * @requires $filter
+* @requires Blob
 * @requires DbMockService
 * @requires REST_SERVICE
 
@@ -20,24 +21,15 @@ angular.module('metricapp')
 
 .run(servermock);
 
-servermock.$inject = ['$httpBackend', '$filter', 'DbMockService', 'REST_SERVICE'];
+servermock.$inject = [
+    '$httpBackend', '$filter',
+    'DbMockService',
+    'REST_SERVICE'];
 
 function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
     var ROLES = DbMockService.ROLES;
     var USERS = DbMockService.USERS;
     var PROFILES = DbMockService.PROFILES;
-
-    for (var role in ROLES) {
-        console.log('role: ' + role);
-    }
-
-    for (var i=0; i < USERS.length; i++) {
-        console.log('user.username: ' + USERS[i].username);
-    }
-
-    for (var i=0; i < PROFILES.length; i++) {
-        console.log('profile.email: ' + PROFILES[i].email);
-    }
 
     /********************************************************************************
     * AUTHENTICATION: LOGIN
@@ -131,7 +123,11 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
         'role=' + user.role + ' & ' +
         'firstname=' + profile.firstname + ' & ' +
         'lastname=' + profile.lastname + ' & ' +
-        'email=' + profile.email);
+        'gender=' + profile.gender + ' & ' +
+        'birthday' + profile.birthday + ' & ' +
+        'email=' + profile.email + ' & ' +
+        'picture=' + profile.picture
+        );
         profile.username = user.username;
         USERS.push(user);
         PROFILES.push(profile);
@@ -141,7 +137,11 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
         'role=' + user.role + ' & ' +
         'firstname=' + profile.firstname + ' & ' +
         'lastname=' + profile.lastname + ' & ' +
-        'email=' + profile.email);
+        'gender=' + profile.gender + ' & ' +
+        'birthday' + profile.birthday + ' & ' +
+        'email=' + profile.email + ' & ' +
+        'picture=' + profile.picture
+        );
         var message = 'User registered';
         return [200, message, {}];
     });
@@ -187,6 +187,34 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
         'email=' + email);
         return [200, {exist: false}, {}];
     });
+
+    /********************************************************************************
+    * UTIL: UPLOAD
+    ********************************************************************************/
+    /*
+    $httpBackend.whenPOST(REST_SERVICE.URL + '/api/upload')
+    .respond(function(method, url, data, headers, params) {
+        var content = data;
+        console.log('/api/upload');
+        var file = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        var serverPath = 'uploads/file.png';
+        FileSaver.saveAs(file, serverPath);
+        if (true) {
+            var resdata = {
+                localPath: 'local-file-path',
+                remotePath: 'server-file-path'
+            }
+            return [200, resdata, {}];
+        } else {
+            var resdata = {
+                localPath: 'local-file-path',
+                remotePath: 'none',
+                errmsg: 'some error occurred'
+            }
+            return [501, resdata, {}];
+        }
+    });
+    */
 
     $httpBackend.whenGET(/^dist\//).passThrough();
 }

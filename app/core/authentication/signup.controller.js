@@ -6,7 +6,8 @@
 * @module metricapp
 * @requires $scope
 * @requires $location
-* @requires AuthService
+* @requires SignupService
+* @requires FlashService
 * @requires ROLES
 * @requires GENDERS
 *
@@ -19,9 +20,13 @@ angular.module('metricapp')
 
 .controller('SignupController', SignupController);
 
-SignupController.$inject = ['$scope', '$location', 'AuthService', 'ROLES', 'GENDERS'];
+SignupController.$inject = [
+    '$scope', '$location',
+    'SignupService', 'FlashService',
+    'ROLES', 'GENDERS'
+];
 
-function SignupController($scope, $location, AuthService, ROLES, GENDERS) {
+function SignupController($scope, $location, SignupService, FlashService, ROLES, GENDERS) {
 
     var vm = this;
 
@@ -40,6 +45,7 @@ function SignupController($scope, $location, AuthService, ROLES, GENDERS) {
     * Registers a new user.
     ********************************************************************************/
     function signup() {
+
         var user = {
             username: vm.username,
             password: vm.password,
@@ -51,17 +57,20 @@ function SignupController($scope, $location, AuthService, ROLES, GENDERS) {
             lastname: vm.lastname,
             gender: vm.gender,
             birthday: vm.birthday,
-            email: vm.email
+            email: vm.email,
+            picture: vm.picture
         };
 
-        AuthService.signup(user, profile).then(
-            function(message) {
-                alert(message);
-                $location.path('/');
-            },
-            function(message) {
-                alert(message);
-            });
+        SignupService.signup(user, profile).then(
+            function(response) {
+                if (response.success) {
+                    FlashService.success(response.message);
+                    $location.path('/');
+                } else {
+                    FlashService.success(response.message);
+                }
+            }
+        );
     }
 
     /********************************************************************************

@@ -13,28 +13,31 @@ angular.module('metricapp')
 
 .value('DB_PROFILES', [
     {
-        username: 'expert',
-        firstname: 'Giacomo',
-        lastname: 'Marciani',
-        email: 'giacomo.marciani@domain.com'
+        username:   'expert',
+        firstname:  'Giacomo',
+        lastname:   'Marciani',
+        gender:     'MALE',
+        birthday:   '27/06/1990',
+        email:      'giacomo.marciani@domain.com',
+        picture:    'uploads/profile-picture.png'
     },
     {
         username: 'questioner',
         firstname: 'Marco',
         lastname: 'Piu',
-        email: 'marco.piu@domain.com'
+        gender:     'MALE',
+        birthday:   '27/06/1990',
+        email:      'marco.piu@domain.com',
+        picture:    'uploads/profile-picture.png'
     },
     {
         username: 'metricator',
         firstname: 'Andrea',
         lastname: 'Gennusa',
-        email: 'andrea.gennusa@domain.com'
-    },
-    {
-        username: 'default',
-        firstname: 'Mario',
-        lastname: 'Rossi',
-        email: 'mario.rossi@domain.com'
+        gender:     'MALE',
+        birthday:   '27/06/1990',
+        email:      'andrea.gennusa@domain.com',
+        picture:    'uploads/profile-picture.png'
     }
 ]);
 

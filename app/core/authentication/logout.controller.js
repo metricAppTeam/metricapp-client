@@ -3,8 +3,10 @@
 /************************************************************************************
 * @ngdoc controller
 * @name LogoutController
+* @requires $rootScope
 * @requires $location
 * @requires AuthService
+* @requires AUTH_EVENTS
 *
 * @description
 * Manages the user logout.
@@ -15,9 +17,9 @@ angular.module('metricapp')
 
 .controller('LogoutController', LogoutController);
 
-LogoutController.$inject = ['$location', 'AuthService'];
+LogoutController.$inject = ['$rootScope', '$location', 'AuthService', 'AUTH_EVENTS'];
 
-function LogoutController($location, AuthService) {
+function LogoutController($rootScope, $location, AuthService, AUTH_EVENTS) {
 
     var vm = this;
 
@@ -33,11 +35,19 @@ function LogoutController($location, AuthService) {
     ********************************************************************************/
     function logout() {
         vm.loading = true;
-        AuthService.logout().then(function(response) {
-            AuthService.clearUser();            
-            vm.loading = false;
-            $location.path('/');
-        });
+        AuthService.logout().then(
+            function(username) {
+                AuthService.clearUser();
+                $rootScope.$broadcast(AUTH_EVENTS.LOGOUT_SUCCESS);
+                vm.loading = false;
+                $location.path('/');
+            },
+            function(errmsg) {
+                alert(errmsg);
+                $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILURE);
+                vm.loading = false;
+            }
+        );
     }
 
 }

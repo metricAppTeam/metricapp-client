@@ -2,34 +2,43 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name HomeController
+* @name SidebarController
 * @module metricapp
-* @requires $rootScope
 * @requires $scope
 * @requires $location
-* @requires AuthService
 * @requires ActionService
 *
 * @description
-* Manages the Home dashboard for all the users.
-* Realizes the control layer for `home.view`.
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('HomeController', HomeController);
+.controller('SidebarController', SidebarController);
 
-HomeController.$inject = [
-    '$rootScope', '$scope', '$location',
-    'AuthService', 'ActionService'];
+SidebarController.$inject = ['$scope', '$location','ActionService'];
 
-function HomeController($rootScope, $scope, $location, AuthService, ActionService) {
+function SidebarController($scope, $location, ActionService) {
 
     var vm = this;
 
+    vm.getDashboardForRole = getDashboardForRole;
     vm.getActionsForRole = getActionsForRole;
 
     _init();
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getDashboardForRole
+    * @description
+    * Returns the dashboard href for the specified user role.
+    * @param {String} rolename The name of the user role.
+    * @return {String} The Dashboard href for the specified role.
+    ********************************************************************************/
+    function getDashboardForRole(role) {
+        return ActionService.DASHBOARDS[role];
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -41,7 +50,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
     ********************************************************************************/
     function getActionsForRole(role) {
         return ActionService.ACTIONS[role];
-    }
+    }    
 
     /********************************************************************************
     * @ngdoc method

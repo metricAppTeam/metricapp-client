@@ -2,13 +2,12 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name HomeController
+* @name DashboardMetricatorController
 * @module metricapp
 * @requires $rootScope
 * @requires $scope
 * @requires $location
 * @requires AuthService
-* @requires ActionService
 *
 * @description
 * Manages the Home dashboard for all the users.
@@ -17,31 +16,15 @@
 
 angular.module('metricapp')
 
-.controller('HomeController', HomeController);
+.controller('DashboardMetricatorController', DashboardMetricatorController);
 
-HomeController.$inject = [
-    '$rootScope', '$scope', '$location',
-    'AuthService', 'ActionService'];
+DashboardMetricatorController.$inject = ['$rootScope', '$scope', '$location', 'AuthService'];
 
-function HomeController($rootScope, $scope, $location, AuthService, ActionService) {
+function DashboardMetricatorController($rootScope, $scope, $location, AuthService) {
 
     var vm = this;
 
-    vm.getActionsForRole = getActionsForRole;
-
     _init();
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name getActionsForRole
-    * @description
-    * Returns the list of actions for the specified user role.
-    * @param {String} rolename The name of the user role.
-    * @return {List[Action]} The list of actions provided for the specified role.
-    ********************************************************************************/
-    function getActionsForRole(role) {
-        return ActionService.ACTIONS[role];
-    }
 
     /********************************************************************************
     * @ngdoc method
