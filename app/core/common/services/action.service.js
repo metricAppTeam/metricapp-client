@@ -26,6 +26,12 @@ function ActionService(EXPERT_ACTIONS, METRICATOR_ACTIONS, QUESTIONER_ACTIONS) {
 
     var service = this;
 
+    service.DASHBOARDS = {
+        EXPERT: '/dashboardExpert',
+        METRICATOR: '/dashboardMetricator',
+        QUESTIONER: '/dashboardQuestioner'
+    };
+
     service.ACTIONS = {
         EXPERT: EXPERT_ACTIONS,
         METRICATOR: METRICATOR_ACTIONS,

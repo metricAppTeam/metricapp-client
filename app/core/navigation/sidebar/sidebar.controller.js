@@ -6,6 +6,7 @@
 * @module metricapp
 * @requires $scope
 * @requires $location
+* @requires ActionService
 *
 * @description
 * Manages the navbar for all users.
@@ -16,55 +17,51 @@ angular.module('metricapp')
 
 .controller('SidebarController', SidebarController);
 
-SidebarController.$inject = ['$scope', '$location','AuthService'];
+SidebarController.$inject = ['$scope', '$location','ActionService'];
 
-function SidebarController($scope, $location, AuthService) {
+function SidebarController($scope, $location, ActionService) {
 
     var vm = this;
 
-    vm.user = null;
-    vm.ROLES = AuthService.ROLES;
+    vm.getDashboardForRole = getDashboardForRole;
+    vm.getActionsForRole = getActionsForRole;
 
     _init();
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getDashboardForRole
+    * @description
+    * Returns the dashboard href for the specified user role.
+    * @param {String} rolename The name of the user role.
+    * @return {String} The Dashboard href for the specified role.
+    ********************************************************************************/
+    function getDashboardForRole(role) {
+        return ActionService.DASHBOARDS[role];
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getActionsForRole
+    * @description
+    * Returns the list of actions for the specified user role.
+    * @param {String} rolename The name of the user role.
+    * @return {List[Action]} The list of actions provided for the specified role.
+    ********************************************************************************/
+    function getActionsForRole(role) {
+        return ActionService.ACTIONS[role];
+    }    
 
     /********************************************************************************
     * @ngdoc method
     * @name _init
     * @description
     * Initializes the controller:
-    * - retrieving the current user.
+    * - initialization 1.
+    * - initialization 2.
+    * - initialization 3.
     ********************************************************************************/
     function _init() {
-        vm.user = AuthService.getUser();
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function foo(a, b, c) {
-
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name _foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function _foo(a, b, c) {
 
     }
 }

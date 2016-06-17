@@ -7,8 +7,5 @@
         <div ng-switch-when="METRICATOR">You have METRICATOR rights.</div>
         <div ng-switch-default="ng-switch-default">You have no rights.</div>
     </div>
-    <div ng-include="'dist/views/authentication/logout.view.html'"></div>
-    <ul ng-repeat="action in vm.getActionsForRole(globals.user.role)">
-        <li><a href="{{action.href}}">{{action.name}}</a></li>
-    </ul>
 </div>
+<!-- END COMPONENT: HOME -->

@@ -48,10 +48,12 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
     * @name _init
     * @description
     * Initializes the controller:
-    * - retrieving the current user.
+    * - initialization 1.
+    * - initialization 2.
+    * - initialization 3.
     ********************************************************************************/
     function _init() {
-        //vm.user = AuthService.getUser();
+
     }
 }
 
