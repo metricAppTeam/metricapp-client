@@ -1,7 +1,7 @@
 (function() { 'use strict';
 
 /************************************************************************************
-* @ngdoc overview
+* @ngdoc constant
 * @name ROLES
 * @module metricapp
 * @description

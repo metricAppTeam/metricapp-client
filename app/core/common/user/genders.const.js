@@ -1,8 +1,8 @@
 (function() { 'use strict';
 
 /************************************************************************************
-* @ngdoc overview
-* @name ROLES
+* @ngdoc constant
+* @name GENDERS
 * @module metricapp
 * @description
 * Defines constants related to user genders.
