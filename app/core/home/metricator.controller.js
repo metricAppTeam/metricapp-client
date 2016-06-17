@@ -25,11 +25,24 @@ MetricatorController.$inject = ['$scope', '$location','MetricatorService','$wind
 
 function MetricatorController($scope, $location, MetricatorService, $window) {
 
-    var mtc = this;
-
-    mtc.getMeasurementGoals = getMeasurementGoals;
+    //var mtc = this;
     
-    _init();
+    this.measurementGoals = MetricatorService.getMeasurementGoals().then(
+            function(data) {
+                console.log(data.measurementGoals);
+                return data.measurementGoals;
+            },
+            function(data) {
+                alert('Error retriving Measurement Goals');
+            }
+        );
+        
+
+    //mtc.getMeasurementGoals = //getMeasurementGoals;
+    
+    
+    
+    //_init();
 
     /********************************************************************************
     * @ngdoc method
@@ -37,8 +50,10 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     * @description
     * Submits a MeasurementGoal.
     ********************************************************************************/
+    /*
     function getMeasurementGoals() {
-        var measurementGoal = {
+        
+        /*var measurementGoal = {
             id: mtc.id,
         	name : mtc.name,
         	creationDate : mtc.creationDate,
@@ -46,22 +61,25 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
         	releaseNote : mtc.releaseNote,
         	state : mtc.state 		
         };
-        
         MetricatorService.getMeasurementGoals().then(
             function(data) {
-                
+            
                 measurementGoal.id = data.id;
                 measurementGoal.name = data.name;
                 measurementGoal.creationDate = data.creationDate;
                 measurementGoal.lastVersionDate = data.lastVersionDate;
                 measurementGoal.releaseNote = data.releaseNote;
                 measurementGoal.state = data.state;
-                //$location.path('/measurementgoal');
+                $location.path('/measurementgoal');
+                
+                return data.measurementGoals;
+                
+                
             },
             function(message) {
                 alert('Error retriving Measurement Goals');
             }
-        );
+        );*/
         
     }
 
@@ -72,10 +90,16 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     * @description
     * Initializes the controller.
     ********************************************************************************/
-    function _init() {
-        vm.loading = false;
-    }
-
-}
+    /*function _init($scope) {
+        $scope.loading = false;
+        $scope.measurementGoals = MetricatorService.getMeasurementGoals().then(
+            function(message) {
+                return message.measurementGoals;
+                 },
+            function(message) {
+                alert('Error retriving Measurement Goals');
+            }
+        );
+    }*/
 
 })();

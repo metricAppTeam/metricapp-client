@@ -105,12 +105,17 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
      /********************************************************************************
     * SUBMIT MEASUREMENT GOAL
     *********************************************************************************/
-    $httpBackend.whenPOST('http://localhost:8080/measurementgoal/').passThrough();/*
+    $httpBackend.whenPOST('http://localhost:8080/metricapp-server-gitlab/measurementgoal/').passThrough();/*
     .respond(function(method, url, data, headers, params) {
         var registration = angular.fromJson(data);
         var message = 'Submit Success!';
         return [200, message, {}];
     });*/
+    
+     /********************************************************************************
+    * GET MEASUREMENT GOALS
+    *********************************************************************************/
+    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').passThrough();
     
     /********************************************************************************
     * AUTHENTICATION: SIGN-UP

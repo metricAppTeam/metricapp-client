@@ -22,14 +22,15 @@ angular.module('metricapp')
 
 .service('MetricatorService', MetricatorService);
 
-MetricatorService.$inject = [
-    '$http', '$rootScope', '$cookies', '$window'];
+//MetricatorService.$inject = [
+//    '$http', '$rootScope', '$cookies', '$window'];
 
-function MetricatorService($http, $rootScope, $cookies, $window) {
+MetricatorService.$inject = ['$http', '$window'];
+             
+//function MetricatorService($http, $rootScope, $cookies, $window) {
+function MetricatorService($http, $window) {
 
     var service = this;
-
-    service.getMeasurementGoals = getMeasurementGoals;
 
     /********************************************************************************
     * @ngdoc method
@@ -38,17 +39,21 @@ function MetricatorService($http, $rootScope, $cookies, $window) {
     * Submits a MeasurementGoal.
     * @param {MeasurementGoal} Measurement Goal to submit.
     ********************************************************************************/
+    
+    service.getMeasurementGoals = 
     function getMeasurementGoals() {
         
-        return $http.get('http://localhost:8080/measurementgoal/?id=26').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').then(
             function(response) {
-                var message = response.data;
-                console.log('SUCCESS SUBMIT measurementGoal');
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
                 return message;
             },
             function(response) {
-                var message = response.data;
-                console.log('FAILURE SUBMIT measurementGoal');
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
                 return message;
             }
         );

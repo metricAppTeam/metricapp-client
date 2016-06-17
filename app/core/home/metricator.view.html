@@ -35,13 +35,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th>sad5kb78asdkjb4asdk1jbasd</th>
-                        <td>MeasurementGoal1</td>
-                        <td>2016-06-15</td>
-                        <td>2016-06-15</td>
-                        <td>This is a relea...</td>
-                        <td>Created</td>
+                    <tr  ng-repeat="measurementGoal in mtc.measurementGoals">
+                        <th>{{measurementGoal.metadata.id}}</th>
+                        <td>{{measurementGoal.metadata.entityType}}</td>
+                        <td>{{measurementGoal.metadata.creationDate}}</td>
+                        <td>{{measurementGoal.metadata.lastVersionDate}}</td>
+                        <td>{{measurementGoal.metadata.releaseNote}}</td>
+                        <td>{{measurementGoal.metadata.state}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -54,7 +54,6 @@
 
 </div>
 <!-- PAGE CONTENT WRAPPER --> 
-
 
 <!-- THIS PAGE PLUGINS -->
     <script type='text/javascript' src='vendors/joli-admin/joli/js/plugins/icheck/icheck.min.js'></script>
