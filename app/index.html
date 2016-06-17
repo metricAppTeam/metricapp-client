@@ -123,12 +123,10 @@
                         <!-- END SEARCH -->
 
                         <!-- SIGN OUT -->
-                        <div ng-controller="LogoutController as vm">
-                            <li class="xn-icon-button pull-right">
-                                <a href="#" class="mb-control" data-box="#mb-signout" value="Logout" ng-click="vm.logout()" ng-disabled="vm.loading"><span class="fa fa-sign-out"></span></a>
-                            </li>
-                        </div>
-                        <!-- END SIGN OUT -->
+                   	 	<li class="xn-icon-button pull-right">
+                        	<a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span></a>
+                   		</li> 
+                    	<!-- END SIGN OUT -->
 
                         <!-- MESSAGES -->
                         <li class="xn-icon-button pull-right">
@@ -201,6 +199,28 @@
 
         </div>
         <!-- END PAGE CONTAINER -->
+        
+        <!-- MESSAGE BOX FOR LOGOUT-->
+        <div ng-controller="LogoutController as vm">
+            <div class="message-box animated fadeIn" id="mb-signout">
+                <div class="mb-container">
+                    <div class="mb-middle">
+                        <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                        <div class="mb-content">
+                            <p>Are you sure you want to log out?</p>                    
+                            <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                        </div>
+                        <div class="mb-footer">
+                            <div class="pull-right">
+                                <button class="btn btn-success btn-lg mb-control-close" value="Logout" ng-click="vm.logout()" ng-disabled="vm.loading">Yes</button>
+                                <button class="btn btn-default btn-lg mb-control-close">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <!-- END MESSAGE BOX FOR LOGOUT -->
 
         <!-- ANGULAR SCRIPTS -->
         <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
