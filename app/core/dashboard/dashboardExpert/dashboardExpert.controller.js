@@ -24,9 +24,6 @@ function DashboardExpertController($rootScope, $scope, $location, AuthService) {
 
     var vm = this;
 
-    vm.user = null;
-    vm.ROLES = AuthService.ROLES;
-
     _init();
 
     /********************************************************************************
@@ -34,10 +31,12 @@ function DashboardExpertController($rootScope, $scope, $location, AuthService) {
     * @name _init
     * @description
     * Initializes the controller:
-    * - retrieving the current user.
+    * - initialization 1.
+    * - initialization 2.
+    * - initialization 3.
     ********************************************************************************/
     function _init() {
-        vm.user = AuthService.getUser();
+
     }
 }
 
