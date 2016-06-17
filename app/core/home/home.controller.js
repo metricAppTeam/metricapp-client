@@ -8,6 +8,7 @@
 * @requires $scope
 * @requires $location
 * @requires AuthService
+* @requires ActionService
 *
 * @description
 * Manages the Home dashboard for all the users.
@@ -18,16 +19,29 @@ angular.module('metricapp')
 
 .controller('HomeController', HomeController);
 
-HomeController.$inject = ['$rootScope', '$scope', '$location', 'AuthService'];
+HomeController.$inject = [
+    '$rootScope', '$scope', '$location',
+    'AuthService', 'ActionService'];
 
-function HomeController($rootScope, $scope, $location, AuthService) {
+function HomeController($rootScope, $scope, $location, AuthService, ActionService) {
 
     var vm = this;
 
-    vm.user = null;
-    vm.ROLES = AuthService.ROLES;
+    vm.getActionsForRole = getActionsForRole;
 
     _init();
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getActionsForRole
+    * @description
+    * Returns the list of actions for the specified user role.
+    * @param {String} rolename The name of the user role.
+    * @return {List[Action]} The list of actions provided for the specified role.
+    ********************************************************************************/
+    function getActionsForRole(role) {
+        return ActionService.ACTIONS[role];
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -37,7 +51,7 @@ function HomeController($rootScope, $scope, $location, AuthService) {
     * - retrieving the current user.
     ********************************************************************************/
     function _init() {
-        vm.user = AuthService.getUser();
+        //vm.user = AuthService.getUser();
     }
 }
 
