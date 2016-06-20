@@ -23,11 +23,11 @@
         </ul>                                
     </div>
     <div class="panel-body">
-            <table class="table datatable">
+            <table ng-repeat="result in mtc.results" class="table datatable">
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Name</th>>
+                        <th>Name</th>
                         <th>CreationDate</th>
                         <th>LastVersionDate</th>
                         <th>ReleaseNote</th>
@@ -35,9 +35,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="measurementGoal in mtc.measurementGoals">
+                    <tr ng-repeat="measurementGoal in result">
                         <td>
-                    <button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="mtc.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
+                        <!--#modal_large mtc.setModal($parent.$index)-->
+                    <button id="modal_button" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_metric" ng-click="mtc.setMeasurementGoalDialog($parent.$index,$index)">{{measurementGoal.metadata.id}}</button>
                         </td>
                         <td>{{measurementGoal.metadata.entityType}}</td>
                         <td>{{measurementGoal.metadata.creationDate}}</td>
@@ -50,54 +51,142 @@
         </div>   
     </div>
 
-    
-                    <div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="largeModalHead">Measurement Goal</h4>
-                    </div>
-                    <div class="modal-body">
-                    <h2>Measurement Goal</h2>
-                    <ul class="list-group border-bottom">
-                        <h4>Name</h4>
-                            <li class="list-group-item">{{mtc.measurementGoalDialog.name}}</li>
-                            <h4>Focus</h4>
-                            <li class="list-group-item">{{mtc.measurementGoalDialog.focus}}</li>
-                            <h4>Object</h4>
-                            <li class="list-group-item">{{mtc.measurementGoalDialog.object}}</li>
-                            <h4>Purpose</h4>
-                            <li class="list-group-item">{{mtc.measurementGoalDialog.purpose}}</li>
-                            <h4>ViewPoint</h4>
-                            <li class="list-group-item">{{mtc.measurementGoalDialog.viewPoint}}</li>
-                            </ul>
-                            <h3>Interpretation Model</h3>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">Function Javascript :</h4>
-                                </div>
-                                <div class="panel-body scroll" style="height: 30px;">         
-                                    <p>{mtc.measurementGoalDialog.interpretationModel.functionJavascript}}
-                                </div>                                   
-                            </div>
-                             
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">Query noSQL</h4>
-                                </div>
-                                <div class="panel-body scroll" style="height: 30px;">         
-                                    <p>{{mtc.measurementGoalDialog.interpretationModel.queryNoSQL}}</p>
-                                </div>                                   
-                            </div>
-           
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                        
-                    </div>
-                </div>
+    <!-- BEGIN MEASUREMENT GOAL MODAL DIALOG -->
+
+            <div class="modal" id="modal_measurementGoal" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="largeModalHead">Measurement Goal</h4>
             </div>
+            <div class="modal-body">
+            <h2>Measurement Goal</h2>
+            <ul class="list-group border-bottom">
+                <h4>Name</h4>
+                    <li class="list-group-item">{{mtc.measurementGoalDialog.name}}</li>
+                    <h4>Focus</h4>
+                    <li class="list-group-item">{{mtc.measurementGoalDialog.focus}}</li>
+                    <h4>Object</h4>
+                    <li class="list-group-item">{{mtc.measurementGoalDialog.object}}</li>
+                    <h4>Purpose</h4>
+                    <li class="list-group-item">{{mtc.measurementGoalDialog.purpose}}</li>
+                    <h4>ViewPoint</h4>
+                    <li class="list-group-item">{{mtc.measurementGoalDialog.viewPoint}}</li>
+                    
+                    <h3>Interpretation Model</h3>
+                        <h4 class="panel-title">Function Javascript :</h4>
+                        <li class="list-group-item">
+                        <div class="panel-body scroll" style="height: 30px;">         
+                            <p>{{mtc.measurementGoalDialog.interpretationModel.functionJavascript}}
+                        </div>                                   
+                        </li>
+                        <h4 class="panel-title">Function Javascript :</h4>
+                        <li class="list-group-item">
+                        <div class="panel-body scroll" style="height: 30px;">         
+                            <p>{{mtc.measurementGoalDialog.interpretationModel.queryNoSQL}}</p>
+                        </div>
+                    </li>        
+            </ul>                           
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>       </div>
+        </div>
+    </div>
+    </div>
+    <!-- END MEASUREMENT GOAL MODAL DIALOG -->
+
+     <!-- BEGIN METRIC MODAL DIALOG -->
+
+            <div class="modal" id="modal_metric" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="largeModalHead">Metric</h4>
+            </div>
+            <div class="modal-body">
+            <h2>Metric</h2>
+            <ul class="list-group border-bottom">
+                <h4>Has Max</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.hasMax}}</li>
+                    <h4>Has Min</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.hasMin}}</li>
+                    <h4>Has User Defined List</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.hasUserDefinedList}}</li>
+                    <h4>Is Ordered</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.isOrdered}}</li>
+                    <h4>Max</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.max}}</li>
+                    <h4>Min</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.min}}</li>
+                    <h4>Unit</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.unit}}</li>  
+                    <h4>Scale Type</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.scaleType}}</li>  
+                    <h4>Set</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.set}}</li>  
+                    <h4>Tags</h4>
+                    <li class="list-group-item" ng-repeat="tag in mtc.metricDialog.tags">{{tag}}</li>  
+                    <h4>State</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.state}}</li>  
+                    <h4>Last Version Date</h4>
+                    <li class="list-group-item">{{mtc.metricDialog.lastVersionDate}}</li>  
+                    <h4>Release Note</h4>
+                    <li class="list-group-item">  
+                        <div class="panel-body scroll" style="height: 30px;">         
+                            <p>{{mtc.metricDialog.releaseNote}}
+                        </div>                                   
+                    </li>  
+            </ul>                           
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>       </div>
+        </div>
+    </div>
+    </div>
+    <!-- END METRIC MODAL DIALOG -->
+
+         <!-- BEGIN QUESTION MODAL DIALOG -->
+
+            <div class="modal" id="modal_question" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="largeModalHead">Question</h4>
+            </div>
+            <div class="modal-body">
+            <h2>Question</h2>
+            <ul class="list-group border-bottom">
+                <h4>Focus</h4>
+                    <li class="list-group-item">{{mtc.questionDialog.focus}}</li>
+                    <h4>Subject</h4>
+                    <li class="list-group-item">{{mtc.questionDialog.subject}</li>
+                    <h4>Description</h4>
+                    <li class="list-group-item">{{mtc.questionDialog.description}}</li> 
+                    <h4>Tags</h4>
+                    <li class="list-group-item" ng-repeat="tag in mtc.questionDialog.tags">{{tag}}</li> 
+                    <h4>State</h4>
+                    <li class="list-group-item">{{mtc.questionDialog.state}}</li>  
+                    <h4>Last Version Date</h4>
+                    <li class="list-group-item">{{mtc.questionDialog.lastVersionDate}}</li>  
+                    <h4>Creation Date</h4>
+                    <li class="list-group-item">{{mtc.questionDialog.creationDate}}</li> 
+                    <h4>Release Note</h4>
+                    <li class="list-group-item">  
+                        <div class="panel-body scroll" style="height: 30px;">         
+                            <p>{{mtc.questionDialog.releaseNote}}
+                        </div>                                   
+                    </li>  
+            </ul>                           
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>       </div>
+        </div>
+    </div>
+    </div>
+    <!-- END METRIC MODAL DIALOG -->
 
 </div>
 <!-- END DEFAULT DATATABLE -->

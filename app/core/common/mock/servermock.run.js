@@ -109,6 +109,11 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
     *********************************************************************************/
     $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').passThrough();
     
+     /********************************************************************************
+    * GET METRICS
+    *********************************************************************************/
+    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/metric?userid=3').passThrough();
+
     /********************************************************************************
     * AUTHENTICATION: SIGN-UP
     ********************************************************************************/

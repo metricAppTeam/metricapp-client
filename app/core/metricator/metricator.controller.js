@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-06-18 01:51:06
+* @Last Modified time: 2016-06-20 23:51:28
 */
 (function () { 'use strict';
 
@@ -26,12 +26,18 @@ MetricatorController.$inject = ['$scope', '$location','MetricatorService','$wind
 function MetricatorController($scope, $location, MetricatorService, $window) {
 
     var vm = this;
-    
-    vm.measurementGoals = []; 
-    
+
     vm.getMeasurementGoals = getMeasurementGoals;
-    
+    vm.getMetrics = getMetrics;
+
+    vm.results = {
+        measurementGoals : [],
+        metrics : [],
+        questions : []
+    };
+
     vm.measurementGoalDialog = null;
+    vm.metricDialog = null;
 
     /*
     vm.measurementGoalDialog = {
@@ -45,25 +51,45 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
     
     vm.getMeasurementGoals();
+    vm.getMetrics();
     _init();
 
     /********************************************************************************
     * @ngdoc method
     * @name submitMeasurementGoal
     * @description
-    * Submits a MeasurementGoal.
+    * Get active measurement goals for a metricator.
     ********************************************************************************/
     function getMeasurementGoals(){
          MetricatorService.getMeasurementGoals().then(
             function(data) {
                 console.log(data.measurementGoals);
-                vm.measurementGoals = data.measurementGoals;
+                vm.results.measurementGoals = data.measurementGoals;
             },
             function(data) {
                 alert('Error retriving Measurement Goals');
             }
         );
     };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get active metrics for a metricator.
+    ********************************************************************************/
+    function getMetrics(){
+         MetricatorService.getMetrics().then(
+            function(data) {
+                console.log(data.metricsDTO);
+                vm.results.metrics = data.metricsDTO;
+            },
+            function(data) {
+                alert('Error retriving Metrics');
+            }
+        );
+    };
+
     /*
     function setMeasurementGoalDialog(measurementGoalToAssign){
         vm.measurementGoalDialog.name = measurementGoalToAssign.name;
@@ -73,11 +99,26 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
         vm.measurementGoalDialog.focus = measurementGoalToAssign.focus;
     };*/
     
-    function setMeasurementGoalDialog(measurementGoalToAssignId){
-        vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
+    function setMeasurementGoalDialog(modalId,measurementGoalToAssignId){
+        switch (modalId) {
+            case 0:
+                $('#modal_button').attr('data-target','#modal_measurementGoal');
+                vm.measurementGoalDialog = vm.results.measurementGoals[measurementGoalToAssignId];
+                break;
+            case 1:
+                $('#modal_button').attr('data-target','#modal_metric');
+                vm.metricDialog = vm.results.metrics[measurementGoalToAssignId];
+                break;
+            case 2:
+                $('#modal_button').attr('data-target','#modal_question');
+                break;
+            default:
+                $('#modal_button').attr('data-target','#modal_measurementGoal');
+                vm.measurementGoalDialog = vm.results.measurementGoals[measurementGoalToAssignId];
+                break;
+        }
     };
-    
-    
+
     /*
     function getMeasurementGoals() {
         
