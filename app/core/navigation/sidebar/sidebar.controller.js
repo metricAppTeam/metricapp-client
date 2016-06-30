@@ -9,8 +9,8 @@
 * @requires ActionService
 *
 * @description
-* Manages the navbar for all users.
-* Realizes the control layer for {navbar.view}.
+* Manages the sidebar for all users.
+* Realizes the control layer for {sidebar.directive}.
 ************************************************************************************/
 
 angular.module('metricapp')
@@ -50,7 +50,7 @@ function SidebarController($scope, $location, ActionService) {
     ********************************************************************************/
     function getActionsForRole(role) {
         return ActionService.ACTIONS[role];
-    }    
+    }
 
     /********************************************************************************
     * @ngdoc method

@@ -1,14 +1,16 @@
-(function () {
-  'use strict';
+(function () { 'use strict';
 
-  angular.module('metricapp')
-      .directive('sidebar', sidebar);
+angular.module('metricapp')
 
-  function sidebar() {
+.directive('sidebar', sidebar);
+
+function sidebar() {
     return {
       restrict: 'E',
+      scope: false,
+      controller: 'SidebarController as vm',
       templateUrl: 'dist/views/navigation/sidebar/sidebar.view.html'
     };
-  }
+}
 
 })();
