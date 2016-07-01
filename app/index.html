@@ -46,7 +46,7 @@
         <link rel="stylesheet" type="text/css" id="theme" href="vendors/joli-admin/joli/css/theme-default.css"/>
 
         <!-- STYLES: APP -->
-        <link rel="stylesheet" type="text/css" media="screen, projection" href="dist/styles/app.min.css">
+        <link rel="stylesheet" type="text/css" media="screen, projection" href="dist/styles/app.css">
 
         <!-- BROWSERS PORTABILITY -->
         <!--if lt IE 8
@@ -66,7 +66,7 @@
             <sidebar ng-if="globals.user"></sidebar>
             <!-- END: SIDEBAR -->
             <!-- START: PAGE CONTENT -->
-            <div class="page-content">
+            <div class="page-content" ng-class="{'full': !globals.user}">
                 <!-- START: TOPBAR -->
                 <topbar ng-if="globals.user"></topbar>
                 <!-- END: TOPBAR -->
@@ -81,14 +81,6 @@
             <!-- END: PAGE CONTENT -->
         </div>
         <!-- END: PAGE CONTAINER -->
-
-        <!-- ANGULAR SCRIPTS -->
-        <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
-        <script type="text/javascript" src="vendors/angular-route/angular-route.min.js"></script>
-        <script type="text/javascript" src="vendors/angular-cookies/angular-cookies.min.js"></script>
-        <script type="text/javascript" src="vendors/angular-messages/angular-messages.min.js"></script>
-        <script type="text/javascript" src="vendors/angular-flash-alert/dist/angular-flash.min.js"></script>
-        <script type="text/javascript" src="vendors/angular-mocks/angular-mocks.js"></script>
 
         <!-- THEME: VENDORS SCRIPTS -->
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/jquery/jquery.min.js"></script>
@@ -113,6 +105,14 @@
         <!-- THEME: MAIN SCRIPTS -->
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins.js"></script>
         <script type="text/javascript" src="vendors/joli-admin/joli/js/actions.js"></script>
+
+        <!-- ANGULAR SCRIPTS -->
+        <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-route/angular-route.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-cookies/angular-cookies.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-messages/angular-messages.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-flash-alert/dist/angular-flash.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-mocks/angular-mocks.js"></script>
 
         <!-- APP SCRIPTS -->
         <script type="text/javascript" src="dist/scripts/app.js"></script>
