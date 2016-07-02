@@ -1,5 +1,14 @@
-<!-- COMPONENT: PageController -->
+<!-- START: SAMPLE-PAGE -->
 <div ng-controller="PageController as vm">
-    <p> Questa pagina rappresenta una prova</p>
+    <div class="page-title">
+        <h2><span class="fa fa-gitlab"></span> Sample Page <small ng-if="globals.user">Welcome, {{globals.user.username}}</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                Here everything about the Sample Page.
+            </div>
+        </div>
+    </div>
 </div>
-<!-- END NG CONTROLLER->
+<!-- END: SAMPLE-PAGE->
