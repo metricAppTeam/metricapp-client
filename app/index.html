@@ -67,7 +67,7 @@
                 <ul class="x-navigation">
                     <li class="xn-logo">
                         <a href="#/home">metricapp</a>
-                        <!--<a href="#" class="x-navigation-control"></a>-->
+                        <a href="#" class="x-navigation-control"></a>
                     </li>
                     <li class="xn-profile">
                         <a href="#/home" class="profile-mini">
@@ -79,23 +79,22 @@
                                     <img src="dist/images/logos/logo.svg"/>
                                 </a>
                             </div>
-                            <!--
+
                             <div class="profile-data">
-                                <div class="profile-data-name">Metric APP</div>
+                                <div class="profile-data-name">metricapp</div>
                                 <div class="profile-data-title">ISSSR 15/16 Project</div>
                             </div>
-                            -->
                         </div>
                     </li>
-                    <li class="xn-title">Menu</li>
+                    <!--<li class="xn-title">Menu</li>-->
                     <li>
                         <a href="#/home"><span class="fa fa-desktop"></span><span class="xn-text">Home</span></a>
                     </li>
-                    <div ng-repeat="action in vm.getActionsForRole(globals.user.role)">
-                        <li>
-                            <a href="{{action.href}}"><span class="fa fa-{{action.icon}}"></span><span class="xn-text">{{action.name}}</span></a>
-                        </li>
-                    </div>
+                    <span ng-repeat="action in vm.getActionsForRole(globals.user.role)">
+                    <li>
+                        <a href="{{action.href}}"><span class="fa fa-{{action.icon}}"></span><span class="xn-text">{{action.name}}</span></a>
+                    </li>
+                    </span>
                 </ul>
                 <!-- END X-NAVIGATION -->
             </div>
@@ -105,7 +104,7 @@
             <div class="page-content">
 
                 <!-- START: TOPBAR -->
-                <div class="page-topbar" ng-controller="TopbarController as vm" ng-show="globals.user">
+                <div ng-controller="TopbarController as vm" ng-show="globals.user">
 
                     <!-- START X-NAVIGATION VERTICAL -->
                     <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
