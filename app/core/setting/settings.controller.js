@@ -2,23 +2,23 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name TopbarController
+* @name SettingsController
 * @module metricapp
 * @requires $scope
 * @requires $location
 *
 * @description
-* Manages the topbar for all users.
-* Realizes the control layer for {topbar.directive}.
+* Manages the whole app settings.
+* Realizes the control layer for {settings.view}.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('TopbarController', TopbarController);
+.controller('SettingsController', SettingsController);
 
-TopbarController.$inject = ['$scope', '$location', 'AuthService'];
+SettingsController.$inject = ['$scope', '$location', 'AuthService'];
 
-function TopbarController($scope, $location, AuthService) {
+function SettingsController($scope, $location, AuthService) {
 
     var vm = this;
 

@@ -2,23 +2,23 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name TopbarController
+* @name TeamController
 * @module metricapp
 * @requires $scope
 * @requires $location
 *
 * @description
-* Manages the topbar for all users.
-* Realizes the control layer for {topbar.directive}.
+* Manages the team.
+* Realizes the control layer for {team.view}.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('TopbarController', TopbarController);
+.controller('TeamController', TeamController);
 
-TopbarController.$inject = ['$scope', '$location', 'AuthService'];
+TeamController.$inject = ['$scope', '$location', 'AuthService'];
 
-function TopbarController($scope, $location, AuthService) {
+function TeamController($scope, $location, AuthService) {
 
     var vm = this;
 
