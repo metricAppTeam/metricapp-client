@@ -1,0 +1,169 @@
+<!-- START COMPONENT: SIGNUP -->
+<div class="modal" id="modal-signup" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true"
+ng-controller="SignupController as vm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="defModalHead">Signup</h4>
+            </div>
+            <div class="modal-body">
+                <!-- FORM: SIGNUP -->
+                <form name="signupForm" role="form" class="form-horizontal" novalidate="novalidate">
+                    <!-- FORM FIELD: FIRSTNAME -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.firstname.$dirty && signupForm.firstname.$invalid }">
+                        <label class="col-md-3 control-label">Firstname:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="firstname" type="text" role="textbox" placeholder="Firstname" required="required"
+                            ng-model="vm.firstname"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': signupForm.firstname.$dirty && signupForm.firstname.$invalid }"
+                            ng-minlength="3" ng-maxlength="20"/>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.firstname.$error" ng-show="signupForm.firstname.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: LASTNAME -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.lastname.$dirty && signupForm.lastname.$invalid }">
+                        <label class="col-md-3 control-label">Lastname:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="lastname" type="text" role="textbox" placeholder="Lastname" required="required"
+                            ng-model="vm.lastname"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': signupForm.lastname.$dirty && signupForm.lastname.$invalid }"
+                            ng-minlength="3" ng-maxlength="20"/>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.lastname.$error" ng-show="signupForm.lastname.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: GENDER -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.gender.$dirty && signupForm.gender.$invalid }">
+                        <label class="col-md-3 control-label">Gender:</label>
+                        <div class="col-md-9">
+                            <select class="form-control" name="gender" role="combobox" required="required"
+                            ng-model="vm.gender"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': signupForm.gender.$dirty && signupForm.gender.$invalid }">
+                                <option value="" disabled="disabled" selected="selected">Choose an option</option>
+                                <option ng-repeat="(gender_key,gender_name) in vm.GENDERS" ng-value="gender_name">{{gender_name}}</option>
+                            </select>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.gender.$error" ng-show="signupForm.gender.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: BIRTHDAY -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.birthday.$dirty && signupForm.birthday.$invalid }">
+                        <label class="col-md-3 control-label">Birthday:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="birthday" type="date" required="required"
+                            ng-model="vm.birthday"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': signupForm.birthday.$dirty && signupForm.birthday.$invalid }"
+                            min="01-01-1900" max="01-01-2016" date/>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.birthday.$error" ng-show="signupForm.birthday.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: EMAIL -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.email.$dirty && signupForm.email.$invalid }">
+                        <label class="col-md-3 control-label">Email:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="email" type="email" role="textbox" placeholder="Email" required="required"
+                            ng-model="vm.email"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                            ng-class="{ 'error': signupForm.email.$dirty && signupForm.email.$invalid }"
+                            m-unique="metricapp.com:8090/api/users/exist/email"/>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.email.$error" ng-show="signupForm.email.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: PROFILE PICTURE -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.picture.$dirty && signupForm.picture.$invalid }">
+                        <label class="col-md-3 control-label">Picture:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="picture" type="text" role="textbox" placeholder="Picture" required="required"
+                            ng-model="vm.picture"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': signupForm.picture.$dirty && signupForm.picture.$invalid }"/>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.picture.$error" ng-show="signupForm.picture.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: ROLE -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.role.$dirty && signupForm.role.$invalid }">
+                        <label class="col-md-3 control-label">Role:</label>
+                        <div class="col-md-9">
+                            <select class="form-control" name="role" role="combobox" required="required"
+                            ng-model="vm.role"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': signupForm.role.$dirty && signupForm.role.$invalid }">
+                                <option value="" disabled="disabled" selected="selected">Choose an option</option>
+                                <option ng-repeat="(role_key,role_name) in vm.ROLES" ng-value="role_name">{{role_name}}</option>
+                            </select>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.role.$error" ng-show="signupForm.role.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: USERNAME -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.username.$dirty && signupForm.username.$invalid }">
+                        <label class="col-md-3 control-label">Username:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="username" type="text" role="textbox" placeholder="Username" required="required"
+                            ng-model="vm.username"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                            ng-class="{ 'error': signupForm.username.$dirty && signupForm.username.$invalid }"
+                            ng-minlength="3" ng-maxlength="20"
+                            m-unique="metricapp.com:8090/api/users/exist/username"/>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.username.$error" ng-show="signupForm.username.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: PASSWORD -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.password.$dirty && signupForm.password.$invalid }">
+                        <label class="col-md-3 control-label">Password:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="password" type="password" role="textbox" placeholder="Password" required="required"
+                            ng-model="vm.password"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                            ng-class="{ 'error': signupForm.password.$dirty && signupForm.password.$invalid }"
+                            ng-minlength="3" ng-maxlength="20"/>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.password.$error" ng-show="signupForm.password.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: PASSWORD MATCH -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.password_r.$dirty && signupForm.password_r.$invalid }">
+                        <label class="col-md-3 control-label">Password:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="password_r" type="password" placeholder="Password (repeat)" required="required"
+                            ng-model="vm.password_r"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': signupForm.password_r.$dirty && signupForm.password_r.$invalid }"
+                            m-match="{{vm.password}}"/>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.password_r.$error" ng-show="signupForm.password_r.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary"
+                ng-disabled="signupForm.$invalid || vm.loading"
+                ng-click="vm.signup()"
+                data-dismiss="modal">Sign Up</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END COMPONENT: SIGNUP -->

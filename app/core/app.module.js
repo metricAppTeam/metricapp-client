@@ -17,10 +17,7 @@ angular.module('metricapp',[
     'ngCookies',
     'ngMessages',
     'ngFlash',
-    'ngMockE2E',
-    'ngAnimate',
-    'ngTouch',
-    'ui.bootstrap'
+    'ngMockE2E'
 ]);
 
 })();
