@@ -2,23 +2,23 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name GoalController
+* @name GridController
 * @module metricapp
 * @requires $scope
 * @requires $location
 *
 * @description
-* Manages the Home dashboard for all the users.
-* Realizes the control layer for `goal.view`.
+* Manages the Grid.
+* Realizes the control layer for `grid.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('GoalController', GoalController);
+.controller('GridController', GridController);
 
-GoalController.$inject = ['$scope', '$location'];
+GridController.$inject = ['$scope', '$location'];
 
-function GoalController($scope, $location) {
+function GridController($scope, $location) {
 
     var vm = this;
 
