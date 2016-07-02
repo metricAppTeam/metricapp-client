@@ -56,7 +56,7 @@
 
     </head>
 
-    <body>
+    <body ng-class="{'full': !globals.user}">
         <!-- START: FALSH -->
         <flash-message></flash-message>
         <!-- END: FLASH -->
@@ -66,7 +66,7 @@
             <sidebar ng-if="globals.user"></sidebar>
             <!-- END: SIDEBAR -->
             <!-- START: PAGE CONTENT -->
-            <div class="page-content" ng-class="{'full': !globals.user}">
+            <div class="page-content">
                 <!-- START: TOPBAR -->
                 <topbar ng-if="globals.user"></topbar>
                 <!-- END: TOPBAR -->
@@ -82,10 +82,11 @@
         </div>
         <!-- END: PAGE CONTAINER -->
 
-        <!-- THEME: VENDORS SCRIPTS -->
+        <!-- THEME: VENDORS SCRIPTS
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/jquery/jquery-ui.min.js"></script>
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/bootstrap/bootstrap.min.js"></script>
+        -->
 
         <!-- THEME: THIS PAGE SCRIPTS -->
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/icheck/icheck.min.js"></script>
@@ -113,6 +114,10 @@
         <script type="text/javascript" src="vendors/angular-messages/angular-messages.min.js"></script>
         <script type="text/javascript" src="vendors/angular-flash-alert/dist/angular-flash.min.js"></script>
         <script type="text/javascript" src="vendors/angular-mocks/angular-mocks.js"></script>
+        <script type="text/javascript" src="vendors/angular-animate/angular-animate.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-touch/angular-touch.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script type="text/javascript" src="vendors/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
         <!-- APP SCRIPTS -->
         <script type="text/javascript" src="dist/scripts/app.js"></script>

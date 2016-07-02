@@ -1,4 +1,13 @@
-div.page-content.full {
-    margin: 0px;
-    background-color: #1b1e24;
+body.full {
+
+    .page-container {
+        background: inherit;
+
+        .page-content {
+            margin: 0;
+            background: #1b1e24 url('../img/bg.png') left top repeat;
+        }
+
+    }
+
 }
