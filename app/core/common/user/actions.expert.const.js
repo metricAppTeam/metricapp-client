@@ -15,7 +15,7 @@ angular.module('metricapp')
 
 .constant('EXPERT_ACTIONS', [
     {name: 'Profile',   href: '#/profile',   icon: 'user'},
-    {name: 'Inbox',     href: '#/messages',   icon: 'inbox'},
+    {name: 'Messages',  href: '#/messages',  icon: 'comments'},
     {name: 'Grid',      href: '#/grid',      icon: 'codepen'},
     {name: 'Team',      href: '#/team',      icon: 'users'},
     {name: 'Settings',  href: '#/settings',  icon: 'cog'}

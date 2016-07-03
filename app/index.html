@@ -137,7 +137,7 @@
                                     <a class="list-group-item list-group-item-message"
                                     ng-class="{'status-read': msg.read, 'status-unread': !msg.read}"
                                     href="#/messages/{{msg.author.username}}">
-                                        <img src="assets/images/users/user2.jpg" class="pull-left" alt="{{msg.author.username}}"/>
+                                        <img src="{{vm.getUserProfilePicture(msg.author.username)}}" class="pull-left" alt="{{msg.author.username}}"/>
                                         <span class="contacts-title">{{msg.author.firstname}} {{msg.author.lastname}} <small>{{msg.date}}</small></span>
                                         <p>{{vm.getMessageExcerpt(msg.content, (msg.read)?56:50, true)}}</p>
                                     </a>

@@ -15,7 +15,7 @@ angular.module('metricapp')
 
 .constant('METRICATOR_ACTIONS', [
     {name: 'Profile',   href: '#/profile',   icon: 'user'},
-    {name: 'Inbox',     href: '#/messages',   icon: 'inbox'},
+    {name: 'Messages',  href: '#/messages',  icon: 'comments'},
     {name: 'Action',    href: '#/metricator_action', icon: 'cog'},
     {name: 'Settings',  href: '#/settings',  icon: 'cog'}
 ]);

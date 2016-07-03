@@ -27,31 +27,29 @@ function MessagesController($scope, $location, $routeParams) {
 
     _init();
 
-    vm.getNumberOfMessages = getNumberOfMessages;
-    vm.getNumberOfUnreadMessages = getNumberOfUnreadMessages;
-    vm.getMessagesSlice = getMessagesSlice;
+    vm.getAllConversations = getAllConversations;
     vm.getMessageExcerpt = getMessageExcerpt;
+    vm.getUserProfilePicture = getUserProfilePicture;
+    vm.getNumberOfUnreadMessagesInConversation = getNumberOfUnreadMessagesInConversation;
 
-    function getNumberOfMessages() {
-        return vm.messages.length;
-    }
-
-    function getNumberOfUnreadMessages() {
-        var unreads = 0;
-        for (var i = 0; i < vm.messages.length; i++) {
-            var msg = vm.messages[i];
-            if (!msg.read) unreads++;
-        }
-        return unreads;
-    }
-
-    function getMessagesSlice(user, i, j) {
-        return vm.messages.slice(i, j);
+    function getAllConversations(user) {
+        return vm.conversations;
     }
 
     function getMessageExcerpt(text, chars, suspension) {
         var suspstr = (suspension && chars < text.length) ? '...' : '';
         return text.substring(0, chars) + ' ' + suspstr;
+    }
+
+    function getUserProfilePicture(username) {
+        return 'uploads/profile-picture.png';
+    }
+
+    function getNumberOfUnreadMessagesInConversation(username) {
+        if (username==='giacomo.marciani') {
+            return 5;
+        }
+        return 0;
     }
 
     function _init() {
@@ -61,16 +59,16 @@ function MessagesController($scope, $location, $routeParams) {
         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \
         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-        vm.messages = [
-            {author: {username: 'giacomo.marciani', firstname: 'Giacomo',    lastname: 'Marciani'}, date: '01/01/2016', time: '1:00PM', content: lipsum, read: false},
-            {author: {username: 'michele.porretta', firstname: 'Michele',    lastname: 'Porretta'}, date: '01/01/2016', time: '1:00PM', content: lipsum, read: false},
-            {author: {username: 'andrea.gennusa',   firstname: 'Andrea',     lastname: 'Gennusa'},  date: '01/01/2016', time: '1:00PM', content: lipsum, read: true},
-            {author: {username: 'alessandro.fazio', firstname: 'Alessandro', lastname: 'Fazio'},    date: '01/01/2016', time: '1:00PM', content: lipsum, read: true},
-            {author: {username: 'marco.piu',        firstname: 'Marco',      lastname: 'Piu'},      date: '01/01/2016', time: '1:00PM', content: lipsum, read: true},
-            {author: {username: 'davide.nanni',     firstname: 'Davide',     lastname: 'Nanni'},    date: '01/01/2016', time: '1:00PM', content: lipsum, read: true}
+        vm.conversations = [
+            {author: {username: 'giacomo.marciani', firstname: 'Giacomo',    lastname: 'Marciani'}, date: '01/01/2016', time: '1:00PM', messages: [lipsum,lipsum,lipsum], read: false},
+            {author: {username: 'michele.porretta', firstname: 'Michele',    lastname: 'Porretta'}, date: '01/01/2016', time: '1:00PM', messages: [lipsum,lipsum,lipsum], read: false},
+            {author: {username: 'andrea.gennusa',   firstname: 'Andrea',     lastname: 'Gennusa'},  date: '01/01/2016', time: '1:00PM', messages: [lipsum,lipsum,lipsum], read: true},
+            {author: {username: 'alessandro.fazio', firstname: 'Alessandro', lastname: 'Fazio'},    date: '01/01/2016', time: '1:00PM', messages: [lipsum,lipsum,lipsum], read: true},
+            {author: {username: 'marco.piu',        firstname: 'Marco',      lastname: 'Piu'},      date: '01/01/2016', time: '1:00PM', messages: [lipsum,lipsum,lipsum], read: true},
+            {author: {username: 'davide.nanni',     firstname: 'Davide',     lastname: 'Nanni'},    date: '01/01/2016', time: '1:00PM', messages: [lipsum,lipsum,lipsum], read: true}
         ];
 
-        var currentConversationAuthor = ($routeParams.author) ? $routeParams.author : vm.messages[0].author.username;
+        var currentConversationAuthor = ($routeParams.author) ? $routeParams.author : vm.conversations[0].author.username;
         vm.currentConversation = {
             author: currentConversationAuthor
         };

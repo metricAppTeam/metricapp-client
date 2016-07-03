@@ -29,6 +29,7 @@ function MessagesWidgetController($scope, $location) {
     vm.getNumberOfUnreadMessages = getNumberOfUnreadMessages;
     vm.getMessagesSlice = getMessagesSlice;
     vm.getMessageExcerpt = getMessageExcerpt;
+    vm.getUserProfilePicture = getUserProfilePicture;
 
     function getNumberOfMessages() {
         return vm.messages.length;
@@ -50,6 +51,10 @@ function MessagesWidgetController($scope, $location) {
     function getMessageExcerpt(text, chars, suspension) {
         var suspstr = (suspension && chars < text.length) ? '...' : '';
         return text.substring(0, chars) + ' ' + suspstr;
+    }
+
+    function getUserProfilePicture(username) {
+        return 'uploads/profile-picture.png';
     }
 
     function _init() {
