@@ -1,3 +1,12 @@
-<div ng-controller="MessageController as vm">
-    <h1>Messages</h1>
+<div ng-controller="MessagesController as vm">
+    <div class="page-title">
+        <h2><span class="fa fa-gitlab"></span> Messages <small ng-if="globals.user">Welcome, {{globals.user.username}}</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                Here everything about Messages. The current conversation is with {{vm.currentConversation.author}}.
+            </div>
+        </div>
+    </div>
 </div>

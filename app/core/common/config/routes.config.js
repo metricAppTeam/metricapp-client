@@ -37,6 +37,9 @@ function routes($routeProvider, $locationProvider) {
     .when('/messages', {
         templateUrl: 'dist/views/message/messages.view.html'
     })
+    .when('/messages/:author', {
+        templateUrl: 'dist/views/message/messages.view.html'
+    })
     .when('/profile', {
         templateUrl: 'dist/views/people/profile.view.html'
     })

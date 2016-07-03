@@ -1,0 +1,10 @@
+.list-group-messages {
+    .list-group-item-message {
+        &.status-read {
+            font-weight: inherit;
+        }
+        &.status-unread {
+            font-weight: bold;
+        }
+    }
+}

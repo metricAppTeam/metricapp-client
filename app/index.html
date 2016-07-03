@@ -90,11 +90,11 @@
                     <li>
                         <a href="#/home"><span class="fa fa-desktop"></span><span class="xn-text">Home</span></a>
                     </li>
-                    <span ng-repeat="action in vm.getActionsForRole(globals.user.role)">
+                    <div ng-repeat="action in vm.getActionsForRole(globals.user.role)">
                     <li>
                         <a href="{{action.href}}"><span class="fa fa-{{action.icon}}"></span><span class="xn-text">{{action.name}}</span></a>
                     </li>
-                    </span>
+                    </div>
                 </ul>
                 <!-- END X-NAVIGATION -->
             </div>
@@ -122,7 +122,7 @@
                         <!-- END: SIGN OUT -->
 
                         <!-- MESSAGES -->
-                        <li class="xn-icon-button pull-right" ng-controller="MessageController as vm">
+                        <li class="xn-icon-button pull-right" ng-controller="MessagesWidgetController as vm">
                             <a href="#"><span class="fa fa-comments"></span></a>
                             <div class="informer informer-danger">{{vm.getNumberOfUnreadMessages()}}</div>
                             <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
@@ -132,22 +132,18 @@
                                         <span class="label label-danger">{{vm.getNumberOfUnreadMessages()}} new</span>
                                     </div>
                                 </div>
-                                <div class="panel-body list-group list-group-contacts scroll" style="height: 200px;">
-                                    <a class="list-group-item" href="#">
-                                        <div class="list-group-status status-online"></div>
-                                        <img src="assets/images/users/user2.jpg" class="pull-left" alt="John Doe"/>
-                                        <span class="contacts-title">Giacomo Marciani</span>
-                                        <p>Praesent placerat tellus id augue condimentum</p>
-                                    </a>
-                                    <a class="list-group-item" href="#">
-                                        <div class="list-group-status status-offline"></div>
-                                        <img src="assets/images/users/user2.jpg" class="pull-left" alt="John Doe"/>
-                                        <span class="contacts-title">Michele Porretta</span>
-                                        <p>Praesent placerat tellus id augue condimentum</p>
+                                <div class="panel-body list-group list-group-contacts list-group-messages"
+                                ng-repeat="msg in vm.getMessagesSlice(globals.user, 0, 4)">
+                                    <a class="list-group-item list-group-item-message"
+                                    ng-class="{'status-read': msg.read, 'status-unread': !msg.read}"
+                                    href="#/messages/{{msg.author.username}}">
+                                        <img src="assets/images/users/user2.jpg" class="pull-left" alt="{{msg.author.username}}"/>
+                                        <span class="contacts-title">{{msg.author.firstname}} {{msg.author.lastname}} <small>{{msg.date}}</small></span>
+                                        <p>{{vm.getMessageExcerpt(msg.content, (msg.read)?56:50, true)}}</p>
                                     </a>
                                 </div>
                                 <div class="panel-footer text-center">
-                                    <a href="/messages">Show all messages</a>
+                                    <a href="#/messages">Show all</a>
                                 </div>
                             </div>
                         </li>
