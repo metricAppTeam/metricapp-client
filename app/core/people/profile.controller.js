@@ -23,6 +23,16 @@ function ProfileController($scope, $location, ProfileService) {
 
     var vm = this;
 
+    //Section.show
+    vm.show=1;
+
+    //load picture
+    vm.picture = 'assets/images/users/user2.jpg';
+
+    //full name
+    vm.userFullName = 'Maria Bianchi';
+    vm.workRole = 'Metricator';
+
     /********************************************************************************
     * @ngdoc method
     * @name foo
