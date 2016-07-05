@@ -24,8 +24,8 @@ function authcheck($rootScope, $cookies, $http, $location) {
     var homeLocation = '/';
     var failoverLocation = '/login';
 
-    $rootScope.globals = $cookies.get('globals') || {};
-
+    $rootScope.globals = $cookies.getObject('globals') || {};
+    //$rootScope.globals = $cookies.get('globals') || {};
     if ($rootScope.globals.user) {
         $http.defaults.headers.common.Authorization =
         'Basic ' + $rootScope.globals.user.authdata;
