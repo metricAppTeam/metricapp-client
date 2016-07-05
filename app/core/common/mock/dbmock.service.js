@@ -6,7 +6,7 @@
 * @module metricapp
 * @requires ROLES
 * @requires DB_USERS
-* @requires DB_PROFILES
+* @requires DB_CONVERSATIONS
 *
 * @description
 * Provides DB backend simulated data.
@@ -16,16 +16,15 @@ angular.module('metricapp')
 
 .service('DbMockService', DbMockService);
 
-DbMockService.$inject = ['ROLES', 'GENDERS', 'DB_USERS', 'DB_PROFILES'];
+DbMockService.$inject = ['ROLES', 'GENDERS', 'DB_USERS', 'DB_CONVERSATIONS'];
 
-function DbMockService(ROLES, GENDERS, DB_USERS, DB_PROFILES) {
+function DbMockService(ROLES, GENDERS, DB_USERS, DB_CONVERSATIONS) {
     var service = this;
 
     service.ROLES = ROLES;
     service.GENDERS = GENDERS;
     service.USERS = DB_USERS;
-    service.PROFILES = DB_PROFILES;
-
+    service.CONVERSATIONS = DB_CONVERSATIONS;
 }
 
 })();
