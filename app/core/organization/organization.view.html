@@ -1,0 +1,62 @@
+<!-- START: ORGANIZATION -->
+<div ng-controller="OrganizationController as vm">
+    <div class="page-title">
+        <h2><span class="fa fa-book"></span> Organization <small ng-if="!vm.loading">{{vm.users.length}} people</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-search"></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Who are you looking for?" ng-model="vm.search"/>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.loading">
+            <p> LOADING </p>
+        </div>
+        <div class="row">
+            <div class="col-md-3" ng-repeat="user in vm.users track by user.username">
+                <!-- START: CONTACT -->
+                <div class="panel panel-default">
+                    <div class="panel-body profile">
+                        <div class="profile-image">
+                            <img src="{{user.picture}}" alt="{{user.username}}"/>
+                        </div>
+                        <div class="profile-data">
+                            <div class="profile-data-name">{{user.firstname}} {{user.lastname}}</div>
+                            <div class="profile-data-title">{{user.role}}</div>
+                        </div>
+                        <div class="profile-controls">
+                            <a href="#/profile/{{user.username}}" class="profile-control-left"><span class="fa fa-info"></span></a>
+                            <a href="#/messages/{{user.username}}" class="profile-control-right"><span class="fa fa-comment"></span></a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="contact-info">
+                            <p><small>Mobile</small><br/>{{user.mobile}}</p>
+                            <p><small>Email</small><br/>{{user.email}}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END CONTACT ITEM -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: ORGANIZATION -->
