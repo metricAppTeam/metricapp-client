@@ -31,26 +31,29 @@ function routes($routeProvider, $locationProvider) {
     .when('/home', {
         templateUrl: 'dist/views/home/home.view.html'
     })
+    .when('/profile/:username', {
+        templateUrl: 'dist/views/profile/profile.view.html'
+    })
+    .when('/organization', {
+        templateUrl: 'dist/views/organization/organization.view.html'
+    })
+    .when('/messages/:username', {
+        templateUrl: 'dist/views/message/messages.view.html'
+    })
     .when('/notifications', {
         templateUrl: 'dist/views/notification/notifications.view.html'
-    })
-    .when('/messages', {
-        templateUrl: 'dist/views/message/messages.view.html'
-    })
-    .when('/messages/:author', {
-        templateUrl: 'dist/views/message/messages.view.html'
-    })
-    .when('/profile', {
-        templateUrl: 'dist/views/people/profile.view.html'
     })
     .when('/settings', {
         templateUrl: 'dist/views/setting/settings.view.html'
     })
     .when('/grid', {
-        templateUrl: 'dist/views/graph/grid/grid.view.html'
+        templateUrl: 'dist/views/grid/grid.view.html'
     })
     .when('/team', {
         templateUrl: 'dist/views/team/team.view.html'
+    })
+    .when('/analytics', {
+        templateUrl: 'dist/views/analytics/analytics.view.html'
     })
     .when('/401', {
         templateUrl: 'dist/views/error/error401.view.html'
