@@ -7,7 +7,7 @@
             <div class="block">
                 <h5 style="color:#757575;">BIO</h5>
                 <div class="col-md-10">
-                    <p class="form-control-static">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p class="form-control-static">{{vm.biography}}</p>
                 </div>
             </div>
 
@@ -16,24 +16,25 @@
                 <h5 style="color:#757575;">BASIC INFORMATION</h5>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
+                        
                         <label class="col-sm-2 control-label">Email</label>
                         <div class="col-md-10">
-                            <p class="form-control-static">email@example.com</p>
+                            <p class="form-control-static">{{vm.email}}</p>
                         </div>
-                    
+
                         <label class="col-sm-2 control-label">Web</label>
                         <div class="col-md-10">
-                            <p class="form-control-static">www.mariabianchi.com</p>
+                            <p class="form-control-static">{{vm.url}}</p>
                         </div>
                     
                         <label class="col-sm-2 control-label">Phone</label>
                         <div class="col-md-10">
-                            <p class="form-control-static"> +39 3 8376 6284</p>
+                            <p class="form-control-static">{{vm.phone}}</p>
                         </div>
                     
-                        <label class="col-sm-2 control-label">Position</label>
+                        <label class="col-sm-2 control-label">Role</label>
                         <div class="col-md-10">
-                            <p class="form-control-static">Metricator</p>
+                            <p class="form-control-static">{{vm.role}}</p>
                         </div>
                     </div>
                 </form>
@@ -47,33 +48,19 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Full name</label>
                         <div class="col-md-10">
-                            <p class="form-control-static">Maria Bianchi</p>
+                            <p class="form-control-static">{{vm.firstname}} {{vm.lastname}}</p>
                         </div>
                         
                         <label class="col-sm-2 control-label">Birth Date</label>
                         <div class="col-md-10">
-                            <p class="form-control-static">1 January 1980</p>
+                            <p class="form-control-static">{{vm.birthday}}</p>
                         </div>
                     
                         <label class="col-sm-2 control-label">Gender</label>
                         <div class="col-md-10">
-                            <p class="form-control-static">Male</p>
+                            <p class="form-control-static">{{vm.gender}}</p>
                         </div>
 
-                        <label class="col-sm-2 control-label">Languages</label>
-                        <div class="col-md-10">
-                            <p class="form-control-static">English</p>
-                        </div>
-                    
-                        <label class="col-sm-2 control-label">City</label>
-                        <div class="col-md-10">
-                            <p class="form-control-static">Rome</p>
-                        </div>
-                    
-                        <label class="col-sm-2 control-label">Country</label>
-                        <div class="col-md-10">
-                            <p class="form-control-static">Italy</p>
-                        </div>
                     </div>
                 </form>
             </div>
