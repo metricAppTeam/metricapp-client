@@ -31,8 +31,6 @@ function authcheck($rootScope, $cookies, $http, $location) {
         'Basic ' + $rootScope.globals.user.authdata;
     }
 
-    // INSERT HERE AUTOLOGIN
-
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         var restrict = $.inArray($location.path(), openLocations) === -1;
         var loggedIn = $rootScope.globals.user;
