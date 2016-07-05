@@ -15,17 +15,41 @@ angular.module('metricapp')
     {
         username: 'expert',
         password: 'password',
-        role: 'EXPERT'
+        role: 'EXPERT',
+        firstname:  'Giacomo',
+        lastname:   'Marciani',
+        gender:     'MALE',
+        birthday:   '27/06/1990',
+        email:      'giacomo.marciani@domain.com',
+        mobile:     '+39 12345678',
+        picture:    'uploads/profile-picture.png',
+        online: false
     },
     {
         username: 'questioner',
         password: 'password',
-        role: 'QUESTIONER'
+        role: 'QUESTIONER',
+        firstname: 'Marco',
+        lastname: 'Piu',
+        gender:     'MALE',
+        birthday:   '27/06/1990',
+        email:      'marco.piu@domain.com',
+        mobile:     '+39 12345678',
+        picture:    'uploads/profile-picture.png',
+        online: false
     },
     {
         username: 'metricator',
         password: 'password',
-        role: 'METRICATOR'
+        role: 'METRICATOR',
+        firstname: 'Andrea',
+        lastname: 'Gennusa',
+        gender:     'MALE',
+        birthday:   '27/06/1990',
+        email:      'andrea.gennusa@domain.com',
+        mobile:     '+39 12345678',
+        picture:    'uploads/profile-picture.png',
+        online: false
     }
 ]);
 
