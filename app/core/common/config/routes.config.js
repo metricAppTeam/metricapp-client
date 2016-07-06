@@ -46,6 +46,9 @@ function routes($routeProvider, $locationProvider) {
     .when('/grid', {
         templateUrl: 'dist/views/graph/grid/grid.view.html'
     })
+    .when('/graph_draft', {
+        templateUrl: 'dist/views/graph/draft/draft.view.html'
+    })
     .when('/team', {
         templateUrl: 'dist/views/team/team.view.html'
     })
