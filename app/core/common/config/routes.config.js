@@ -40,6 +40,9 @@ function routes($routeProvider, $locationProvider) {
     .when('/profile', {
         templateUrl: 'dist/views/people/profile.view.html'
     })
+    .when('/profile_pop_up', {
+        templateUrl: 'dist/views/people/profile_pop_up.view.html'
+    })
     .when('/settings', {
         templateUrl: 'dist/views/setting/settings.view.html'
     })

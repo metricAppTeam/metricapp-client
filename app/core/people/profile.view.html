@@ -5,6 +5,7 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
+            
             <!-- PROFILE WIDGET -->
             <div class="col-md-4">
                 <div class="panel panel-default">
@@ -14,8 +15,8 @@
                             <img ng-src="{{ vm.picture }}">
                         </div>
                         <div class="profile-data">
-                            <div class="profile-data-name"  value="{{ vm.userFullName }}"></div>
-                            <div class="profile-data-title" value="{{ vm.workRole}}" tyle="color:#FFF;"></div>
+                            <div class="profile-data-name" >{{ vm.userFullName }}</div>
+                            <div class="profile-data-title" style="color:#FF5;">{{ vm.workRole}}</div>
                         </div>
                         
                     </div>
@@ -27,13 +28,13 @@
                         <a class="list-group-item" ng-click="vm.show=5"><span class="fa fa-gear"></span> Edit Credentials</a>
                     </div>                            
                 </div>
-
             </div>
             
             <div ng-switch on="vm.show">
                 <div ng-switch-when="1"><viewabout></viewabout></div>
                 <div ng-switch-when="2"><viewprojects></viewprojects></div>
                 <div ng-switch-when="3"><viewstatistics></viewstatistics></div>
+                <!-- AGGIUNGERE NG-IF PER DIVIDERE DA PERSONAL PROFILE A USER PROFILE--> 
                 <div ng-switch-when="4"><vieweditprofile></vieweditprofile></div>
                 <div ng-switch-when="5"><vieweditcredentials></vieweditcredentials></div>
             </div>

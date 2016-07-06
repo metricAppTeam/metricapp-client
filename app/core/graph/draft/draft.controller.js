@@ -26,6 +26,8 @@ function DraftController($scope, $location, ProfileService, FlashService, GENDER
         chart: {
             type: 'forceDirectedGraph',
             height: 300,
+            radius: 10,
+            linkStrength: 0.1,
             width: (function(){ return nv.utils.windowSize().width })(),
             margin:{top: 10, right: 10, bottom: 10, left: 10},
             color: function(d){
@@ -34,8 +36,8 @@ function DraftController($scope, $location, ProfileService, FlashService, GENDER
             nodeExtras: function(node) {
                 node && node
                   .append("text")
-                  .attr("dx", 12)
-                  .attr("dy", ".35em")
+                  .attr("dx", 15)
+                  .attr("dy", ".60em")
                   .text(function(d) { return d.name })
                   .style('font-size', '15px');
             }

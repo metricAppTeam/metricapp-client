@@ -1,0 +1,29 @@
+<!-- COMPONENT VIEW PROFILE -->
+<div ng-controller="ProfileController as vm">
+    <!-- PROFILE POP UP -->
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-body profile bg-info">
+                <div class="profile-image">
+                    <img ng-src="{{ vm.picture }}">
+                </div>
+                <div class="profile-data">
+                    <div class="profile-data-name" >{{ vm.userFullName }}</div>
+                    <div class="profile-data-title" style="color:#FFF;">{{ vm.workRole}}</div>
+                </div>                        
+            </div>
+            <div class="panel-body">                                    
+                <div class="contact-info">
+                    <p><small>Mobile</small><br/>{{vm.phone}}</p>
+                    <p><small>Email</small><br/>{{vm.email}}</p>
+                    <p><small>Web</small><br/>{{vm.url}}</p>                                   
+                </div>
+            </div>  
+            <div class="panel-footer"> 
+                <button class="btn btn-info pull-right">View Profile</button>
+            </div>
+        </div>
+    </div>
+    <!-- END PROFILE POP UP --> 
+</div>
+<!-- NG CONTROLLER -->
