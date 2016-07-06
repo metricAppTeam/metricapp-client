@@ -35,7 +35,7 @@
         </div>
         <!-- FORM FIELD: FOCUS -->
         <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.focus.$dirty && measurementGoalForm.focus.$invalid }">
-            <label class="col-md-3 control-label">ViewPoint:</label>
+            <label class="col-md-3 control-label">Focus:</label>
             <div class="col-md-9">
                 <input class="form-control" name="focus" type="text" role="textbox" placeholder="Focus" ng-model="vm.focus" ng-class="{ 'error': measurementGoalForm.focus.$dirty && measurementGoalForm.focus.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required="required"/>
                 <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.focus.$error" ng-show="measurementGoalForm.focus.$dirty">

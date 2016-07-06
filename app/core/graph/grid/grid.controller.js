@@ -2,41 +2,25 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name NavbarController
+* @name GridController
 * @module metricapp
 * @requires $scope
 * @requires $location
 *
 * @description
-* Manages the navbar for all users.
-* Realizes the control layer for {navbar.view}.
+* Manages the Grid.
+* Realizes the control layer for `grid.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('NavbarController', NavbarController);
+.controller('GridController', GridController);
 
-NavbarController.$inject = ['$scope', '$location', 'AuthService'];
+GridController.$inject = ['$scope', '$location'];
 
-function NavbarController($scope, $location, AuthService) {
+function GridController($scope, $location) {
 
     var vm = this;
-
-    vm.user = null;
-    vm.ROLES = AuthService.ROLES;
-
-    _init();
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name _init
-    * @description
-    * Initializes the controller:
-    * - retrieving the current user.
-    ********************************************************************************/
-    function _init() {
-        vm.user = AuthService.getUser();
-    }
 
     /********************************************************************************
     * @ngdoc method

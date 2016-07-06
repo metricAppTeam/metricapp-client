@@ -71,9 +71,10 @@ var paths = {
         images      : {
             base    : 'app/assets/images',
             every   : 'app/assets/images/**/*.{svg,eps,png,jpg,ico}',
-            logo    : 'app/assets/images/logo.svg',
-            logotype: 'app/assets/images/logotype.svg',
-            icon    : 'app/assets/images/icons/icon.svg'
+            logo    : 'app/assets/images/logos/logo.svg',
+            logotype: 'app/assets/images/logos/logotype.svg',
+            icon    : 'app/assets/images/icons/icon.svg',
+            bg      : 'app/assets/images/backgrounds/**/*.{svg,eps,png,jpg}'
         }
     },
 
@@ -122,7 +123,8 @@ var paths = {
             base    : 'app/dist/images',
             every   : 'app/dist/images/**/*.{svg,eps,png,jpg,ico}',
             icons   : 'app/dist/images/icons',
-            logo    : 'app/dist/images/logo.svg'
+            logos    : 'app/dist/images/logos',
+            bg      : 'app/dist/images/backgrounds'
         }
     },
 
@@ -257,6 +259,7 @@ gulp.task('build-images', function() {
     gulp.start('logo');
     gulp.start('logotype');
     gulp.start('icons');
+    gulp.start('backgrounds');
 });
 
 gulp.task('logo', function() {
@@ -264,8 +267,8 @@ gulp.task('logo', function() {
         name: 'logo', width: 500, height: 500
     };
 
-    gulp.src(paths.assets.images.logo, {base: paths.assets.images.base})
-    .pipe(gulp.dest(paths.dist.images.base))
+    gulp.src(paths.assets.images.logo)
+    .pipe(gulp.dest(paths.dist.images.logos))
     .pipe(plumber())
     .pipe(svg2png())
     .pipe(imageResize({
@@ -278,7 +281,7 @@ gulp.task('logo', function() {
     .pipe(rename({
         basename: logo.name
     }))
-    .pipe(gulp.dest(paths.dist.images.base));
+    .pipe(gulp.dest(paths.dist.images.logos));
 });
 
 gulp.task('logotype', function() {
@@ -287,7 +290,7 @@ gulp.task('logotype', function() {
     };
 
     gulp.src(paths.assets.images.logotype)
-    .pipe(gulp.dest(paths.dist.images.base))
+    .pipe(gulp.dest(paths.dist.images.logos))
     .pipe(plumber())
     .pipe(svg2png())
     .pipe(imageResize({
@@ -300,7 +303,7 @@ gulp.task('logotype', function() {
     .pipe(rename({
         basename: logotype.name
     }))
-    .pipe(gulp.dest(paths.dist.images.base));
+    .pipe(gulp.dest(paths.dist.images.logos));
 });
 
 gulp.task('icons', function() {
@@ -343,6 +346,11 @@ gulp.task('icons', function() {
         }))
         .pipe(gulp.dest(paths.dist.images.icons));
     });
+});
+
+gulp.task('backgrounds', function() {
+    gulp.src(paths.assets.images.bg)
+    .pipe(gulp.dest(paths.dist.images.bg));
 });
 
 

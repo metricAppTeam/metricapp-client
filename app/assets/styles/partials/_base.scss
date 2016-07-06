@@ -5,3 +5,7 @@ $body-bg-color: $grey-light;
 body {
     background-color: $body-bg-color;
 }
+
+a[role="button"] {
+    cursor: pointer;
+}

@@ -28,20 +28,26 @@ function routes($routeProvider, $locationProvider) {
     .when('/login', {
         templateUrl: 'dist/views/authentication/login.view.html'
     })
-    .when('/dashboardExpert', {
-        templateUrl: 'dist/views/dashboard/dashboardExpert/dashboardExpert.view.html'
-    })
-    .when('/dashboardMetricator', {
-        templateUrl: 'dist/views/dashboard/dashboardMetricator/dashboardMetricator.view.html'
-    })
-    .when('/dashboardQuestioner', {
-        templateUrl: 'dist/views/dashboard/dashboardQuestioner/dashboardQuestioner.view.html'
-    })
-    .when('/page', {
-        templateUrl: 'dist/views/page/page.view.html'
-    })
     .when('/home', {
         templateUrl: 'dist/views/home/home.view.html'
+    })
+    .when('/notifications', {
+        templateUrl: 'dist/views/notification/notifications.view.html'
+    })
+    .when('/messages', {
+        templateUrl: 'dist/views/message/messages.view.html'
+    })
+    .when('/profile', {
+        templateUrl: 'dist/views/people/profile.view.html'
+    })
+    .when('/settings', {
+        templateUrl: 'dist/views/setting/settings.view.html'
+    })
+    .when('/grid', {
+        templateUrl: 'dist/views/graph/grid/grid.view.html'
+    })
+    .when('/team', {
+        templateUrl: 'dist/views/team/team.view.html'
     })
     .when('/401', {
         templateUrl: 'dist/views/error/error401.view.html'
@@ -61,8 +67,6 @@ function routes($routeProvider, $locationProvider) {
     .otherwise({
         redirectTo: '/404'
     });
-
-    $locationProvider.html5Mode(true);
 }
 
 })();

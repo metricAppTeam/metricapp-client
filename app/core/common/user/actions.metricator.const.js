@@ -14,9 +14,9 @@
 angular.module('metricapp')
 
 .constant('METRICATOR_ACTIONS', [
-    {name: 'METRICATOR_ACTION_1', href: '/metricator_action_1'},
-    {name: 'METRICATOR_ACTION_2', href: '/metricator_action_2'},
-    {name: 'METRICATOR_ACTION_3', href: '/metricator_action_3'}
+    {name: 'Profile', href: '#/profile'},
+    {name: 'METRICATOR_ACTION_2', href: '#/metricator_action_2'},
+    {name: 'Settings', href: '#/settings'}
 ]);
 
 })();

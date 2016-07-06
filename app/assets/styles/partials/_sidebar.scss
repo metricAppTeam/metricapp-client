@@ -1,0 +1,11 @@
+.x-navigation li > a {
+    padding: 15px 5px 15px 15px;
+}
+
+.x-navigation li.active > a {
+    background: inherit;
+}
+
+.x-navigation.x-navigation-minimized li.active .profile {
+    display: none;
+}

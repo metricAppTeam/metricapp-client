@@ -1,4 +1,4 @@
-<!-- COMPONENT: LOGIN -->
+<!-- START: LOGIN -->
 <div ng-controller="LoginController as vm">
     <div class="login-container">
         <div class="login-box animated fadeInDown">
@@ -43,7 +43,8 @@
                     <!-- FORM ACTIONS: SIGNUP -->
                     <div class="login-or">OR</div>
                     <div class="login-subtitle">
-                        Don't have an account yet? <a role="button" href="/signup">Create an account</a>
+                        <!--Don't have an account yet? <a role="button" href="/signup">Create an account</a>-->
+                        Don't have an account yet? <a role="button" data-toggle="modal" data-target="#modal-signup">Create an account</a>
                     </div>
                 </form>
             </div>
@@ -52,10 +53,13 @@
                     &copy; 2016 Metricapp
                 </div>
                 <div class="pull-right">
-                    <a href="https://github.com/metricAppTeam">Github</a>
+                    <a href="https://github.com/metricAppTeam" target="_blank">Github</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- START MODAL: SIGNUP -->
+<div ng-include="'dist/views/authentication/signup.dialog.view.html'"></div>
+<!-- END MODAL: SIGNUP -->
 <!-- END COMPONENT: LOGIN -->

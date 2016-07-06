@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-06-20 23:51:28
+* @Last Modified time: 2016-06-21 12:17:17
 */
 (function () { 'use strict';
 
@@ -38,6 +38,8 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
 
     vm.measurementGoalDialog = null;
     vm.metricDialog = null;
+
+    vm.modal = "";
 
     /*
     vm.measurementGoalDialog = {
@@ -102,15 +104,18 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     function setMeasurementGoalDialog(modalId,measurementGoalToAssignId){
         switch (modalId) {
             case 0:
-                $('#modal_button').attr('data-target','#modal_measurementGoal');
+                //$('#modal_button').attr('data-target','#modal_measurementGoal');
+                vm.modal = 'measurementGoal';
                 vm.measurementGoalDialog = vm.results.measurementGoals[measurementGoalToAssignId];
                 break;
             case 1:
-                $('#modal_button').attr('data-target','#modal_metric');
+                //$('#modal_button').attr('data-target','#modal_metric');
+                vm.modal = 'metric';
                 vm.metricDialog = vm.results.metrics[measurementGoalToAssignId];
                 break;
             case 2:
-                $('#modal_button').attr('data-target','#modal_question');
+                vm.modal = 'question';
+                //$('#modal_button').attr('data-target','#modal_question');
                 break;
             default:
                 $('#modal_button').attr('data-target','#modal_measurementGoal');

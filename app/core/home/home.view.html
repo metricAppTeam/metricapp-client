@@ -1,4 +1,4 @@
-<!-- COMPONENT: HOME -->
+<!-- START: HOME -->
 <div ng-controller="HomeController as vm">
     <div ng-if="globals.user">Welcome, {{globals.user.username}}</div>
     <div ng-switch="globals.user.role">
@@ -9,6 +9,6 @@
         	<div ng-include="'dist/views/metricator/metricator.view.html'"></div>
         </div>
         <div ng-switch-default="ng-switch-default">You have no rights.</div>
-    </div>
 </div>
-<!-- END COMPONENT: HOME -->
+</div>
+<!-- END: HOME -->

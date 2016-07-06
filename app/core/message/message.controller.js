@@ -6,51 +6,53 @@
 * @module metricapp
 * @requires $scope
 * @requires $location
+* @requires MESSAGE_STATE
 *
 * @description
 * Manages the message-based conversation between users.
-* Realizes the control layer for `message.view`.
+* Realizes the control layer for:
+* - `messages.view`
+* - widgets about messages.
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .controller('MessageController', MessageController);
 
-MessageController.$inject = ['$scope', '$location'];
+MessageController.$inject = ['$scope', '$location', 'MESSAGE_STATE'];
 
-function MessageController($scope, $location) {
+function MessageController($scope, $location, MESSAGE_STATE) {
 
     var vm = this;
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function foo(a, b, c) {
+    _init();
 
+    vm.getNumberOfMessages = getNumberOfMessages;
+    vm.getNumberOfUnreadMessages = getNumberOfUnreadMessages;
+
+    function getNumberOfMessages() {
+        return vm.messages.length;
     }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name _foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function _foo(a, b, c) {
-
+    function getNumberOfUnreadMessages() {
+        var unreads = 0;
+        for (var i = 0; i < vm.messages.length; i++) {
+            var msg = vm.messages[i];
+            if (msg.state === MESSAGE_STATE.UNREAD) {
+                unreads++;
+            }
+        }
+        return unreads;
     }
+
+    function _init() {
+        vm.messages = [
+            {author: 'giacomo.marciani', content: 'Lorem ipsum dolor sit amet.', state: MESSAGE_STATE.UNREAD},
+            {author: 'michele.porretta', content: 'Lorem ipsum dolor sit amet.', state: MESSAGE_STATE.UNREAD},
+            {author: 'marco.piu',        content: 'Lorem ipsum dolor sit amet.', state: MESSAGE_STATE.READ},
+        ];
+    }
+
 }
 
 })();

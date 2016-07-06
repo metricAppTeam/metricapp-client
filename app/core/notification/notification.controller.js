@@ -9,7 +9,9 @@
 *
 * @description
 * Manages the notifications for users.
-* Realizes the control layer for `notification.view`.
+* Realizes the control layer for:
+* - `notifications.view`
+* - widgets about notifications.
 ************************************************************************************/
 
 angular.module('metricapp')
@@ -22,36 +24,16 @@ function NotificationController($scope, $location) {
 
     var vm = this;
 
-    vm.foo = foo;
+    vm.getNumberOfUnreadNotifications = getNumberOfUnreadNotifications;
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function foo(a, b, c) {
+    _init();
 
+    function getNumberOfUnreadNotifications() {
+        return 10;
     }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name _foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function _foo(a, b, c) {
-
+    function _init() {
+        
     }
 
 }
