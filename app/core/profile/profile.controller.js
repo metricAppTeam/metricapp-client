@@ -7,7 +7,7 @@
 * @requires $scope
 * @requires $location
 * @requires $routeParams
-* @requires ProfileService
+* @requires UserService
 *
 * @description
 * Manages the profile visualization and editing.
@@ -18,28 +18,40 @@ angular.module('metricapp')
 
 .controller('ProfileController', ProfileController);
 
-ProfileController.$inject = ['$scope', '$location', '$routeParams', 'ProfileService'];
+ProfileController.$inject = ['$scope', '$location', '$routeParams', 'UserService'];
 
-function ProfileController($scope, $location, $routeParams, ProfileService) {
+function ProfileController($scope, $location, $routeParams, UserService) {
 
     var vm = this;
 
     _init();
 
+    function _loadProfile(username) {
+        vm.loading = true;
+        vm.success = false;
+        UserService.getProfile(username).then(
+            function(response) {
+                vm.loading = false;
+                vm.success = true;
+            }
+        );
+    }
+
     function _init() {
         vm.loading = true;
+        vm.success = false;
         if (!$routeParams.username) {
             var authusername = $rootScope.globals.user.username;
             if (authusername) {
                 $location.path('/profile/' + authusername);
             } else {
-                alert('WARNING [ProfileController._init()]: authusername undefined');
                 $location.path('/home');
             }
         }
-        vm.user = {
+        vm.currUser = {
             username: $routeParams.username
         };
+        _loadProfile(vm.currUser.username);
     }
 
 }

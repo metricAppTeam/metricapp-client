@@ -4,10 +4,16 @@
         <h2><span class="fa fa-user"></span> Profile </h2>
     </div>
     <div class="page-content-wrap">
-        <div class="row">
+        <div class="row" ng-switch="vm.loading">
             <div class="col-md-12">
-                <p>Username: {{vm.user.username}}</p>
-                <button ng-if="vm.user.username === globals.user.username">Edit Profile</button>
+                <p ng-switch-when="true">Loading user {{vm.currUser.username}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <ul ng-switch-when="true">
+                        <p>Here the user {{vm.currUser.username}}</p>
+                        <li ng-repeat="(key, value) in vm.currUser">{{key}}: {{value}}</li>
+                    </ul>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                </div>
             </div>
         </div>
     </div>
