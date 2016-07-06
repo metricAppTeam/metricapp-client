@@ -43,17 +43,41 @@ function routes($routeProvider, $locationProvider) {
     .when('/notifications', {
         templateUrl: 'dist/views/notification/notifications.view.html'
     })
-    .when('/settings', {
-        templateUrl: 'dist/views/setting/settings.view.html'
+    .when('/notifications/:notificationid', {
+        templateUrl: 'dist/views/notification/notification.view.html'
     })
-    .when('/grid', {
+    .when('/grids', {
+        templateUrl: 'dist/views/grid/grids.view.html'
+    })
+    .when('/grids/:gridid', {
         templateUrl: 'dist/views/grid/grid.view.html'
     })
-    .when('/team', {
+    .when('/goals', {
+        templateUrl: 'dist/views/grid/goal/goals.view.html'
+    })
+    .when('/goals/:goalid', {
+        templateUrl: 'dist/views/grid/goal/goal.view.html'
+    })
+    .when('/teams', {
+        templateUrl: 'dist/views/team/teams.view.html'
+    })
+    .when('/teams/:teamid', {
         templateUrl: 'dist/views/team/team.view.html'
+    })
+    .when('/tasks', {
+        templateUrl: 'dist/views/task/tasks.view.html'
+    })
+    .when('/tasks/:taskid', {
+        templateUrl: 'dist/views/task/task.view.html'
     })
     .when('/analytics', {
         templateUrl: 'dist/views/analytics/analytics.view.html'
+    })
+    .when('/analytics/:analyticid', {
+        templateUrl: 'dist/views/analytics/analytic.view.html'
+    })
+    .when('/settings', {
+        templateUrl: 'dist/views/setting/settings.view.html'
     })
     .when('/401', {
         templateUrl: 'dist/views/error/error401.view.html'
