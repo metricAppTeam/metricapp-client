@@ -14,10 +14,10 @@
 angular.module('metricapp')
 
 .constant('METRICATOR_ACTIONS', [
-    {name: 'Profile', href: '#/profile'},
-    {name: 'METRICATOR_ACTION_2', href: '#/metricator_action_2'},
-    {name: 'Metrics', href: '#/metric'},
-    {name: 'Settings', href: '#/settings'}
+    {name: 'Profile', 				href: '#/profile',				icon: 'user'},
+    {name: 'METRICATOR_ACTION_2', 	href: '#/metricator_action_2'				},
+    {name: 'Metrics', 				href: '#/metric'							},
+    {name: 'Settings', 				href: '#/settings', 			icon: 'cog'}
 ]);
 
 })();
