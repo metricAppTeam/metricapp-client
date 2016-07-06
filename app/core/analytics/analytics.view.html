@@ -1,14 +1,21 @@
-<!-- START: GRID -->
+<!-- START: ANALYTICS -->
 <div ng-controller="AnalyticsController as vm">
     <div class="page-title">
-        <h2><span class="fa fa-database"></span> Analytics <small ng-if="globals.user">Welcome, {{globals.user.username}}</small></h2>
+        <h2><span class="fa fa-database"></span> Analytic <small>{{vm.numanalytics}} running</small></h2>
     </div>
     <div class="page-content-wrap">
-        <div class="row">
+        <div class="row" ng-switch="vm.loading">
             <div class="col-md-12">
-                Here everything about the Analytics.
+                <p ng-switch-when="true">Loading analytics ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <p ng-switch-when="true" ng-if="vm.numanalytics == 0">No analytics yet.</p>
+                    <ul ng-switch-when="true">
+                        <li ng-repeat="analytic in vm.analytics | orderBy: 'id' track by analytic.id">{{analytic.id}}</li>
+                    </ul>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!-- END: GRID -->
+<!-- END: ANALYTICS -->

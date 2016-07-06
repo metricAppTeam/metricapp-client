@@ -2,32 +2,33 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name AnalyticsController
+* @name AnalyticController
 * @module metricapp
 * @requires $scope
 * @requires $location
+* @requires $routeParams
 * @requires AnalyticService
 *
 * @description
-* Realizes the control layer for `analytics.view`.
+* Realizes the control layer for `analytic.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('AnalyticsController', AnalyticsController);
+.controller('AnalyticController', AnalyticController);
 
-AnalyticsController.$inject = ['$scope', '$location', 'AnalyticService'];
+AnalyticController.$inject = ['$scope', '$location', '$routeParams', 'AnalyticService'];
 
-function AnalyticsController($scope, $location, AnalyticService) {
+function AnalyticController($scope, $location, $routeParams, AnalyticService) {
 
     var vm = this;
 
     _init();
 
-    function _loadAnalytics(anaStart, anaN) {
+    function _loadAnalytic(analyticid) {
         vm.loading = true;
         vm.success = false;
-        AnalyticService.getAnalytics(anaStart, anaN).then(
+        AnalyticService.getAnalytic(analyticid).then(
             function(response) {
                 vm.loading = false;
                 vm.success = true;
@@ -38,9 +39,13 @@ function AnalyticsController($scope, $location, AnalyticService) {
     function _init() {
         vm.loading = true;
         vm.success = false;
-        vm.analytics = [];
-        vm.numanalytics = 0;
-        _loadAnalytics(0, 20);
+        if (!$routeParams.analyticid) {
+            $location.path('/analytics');
+        }
+        vm.currAnalytic = {
+            id: $routeParams.analyticid
+        };
+        _loadAnalytic(vm.currAnalytic.id);
     }
 
 }
