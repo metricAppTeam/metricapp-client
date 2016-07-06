@@ -1,0 +1,21 @@
+<!-- START: TASK -->
+<div ng-controller="TaskController as vm">
+    <div class="page-title">
+        <h2><span class="fa fa-tasks"></span> Task </h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading task {{vm.currTask.id}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <ul ng-switch-when="true">
+                        <p>Here the task {{vm.currTask.id}}</p>
+                        <li ng-repeat="(key, value) in vm.currTask">{{key}}: {{value}}</li>
+                    </ul>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: TASK -->
