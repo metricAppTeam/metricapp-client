@@ -82,6 +82,21 @@ ng-controller="SignupController as vm">
                             </div>
                         </div>
                     </div>
+                    <!-- FORM FIELD: MOBILE -->
+                    <div class="form-group" ng-class="{ 'hash-error': signupForm.mobile.$dirty && signupForm.mobile.$invalid }">
+                        <label class="col-md-3 control-label">Mobile:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="email" type="email" role="textbox" placeholder="Email" required="required"
+                            ng-model="vm.mobile"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                            ng-class="{ 'error': signupForm.mobile.$dirty && signupForm.mobile.$invalid }"
+                            ng-minlength="3" ng-maxlength="20"
+                            m-unique="metricapp.com:8090/api/users/exist/mobile"/>
+                            <div class="form-group-helper" role="alert" ng-messages="signupForm.mobile.$error" ng-show="signupForm.mobile.$dirty">
+                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- FORM FIELD: PROFILE PICTURE -->
                     <div class="form-group" ng-class="{ 'hash-error': signupForm.picture.$dirty && signupForm.picture.$invalid }">
                         <label class="col-md-3 control-label">Picture:</label>

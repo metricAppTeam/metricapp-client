@@ -54,7 +54,6 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
         });
 
         vm.loading = false;
-
     }
 
 }
