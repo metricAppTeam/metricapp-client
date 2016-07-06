@@ -2,33 +2,32 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name GoalController
+* @name GoalsController
 * @module metricapp
 * @requires $scope
 * @requires $location
-* @requires $routeParams
 * @requires GoalService
 *
 * @description
-* Realizes the control layer for `goal.view`.
+* Realizes the control layer for `goals.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('GoalController', GoalController);
+.controller('GoalsController', GoalsController);
 
-GoalController.$inject = ['$scope', '$location', '$routeParams', 'GoalService'];
+GoalsController.$inject = ['$scope', '$location', 'GoalService'];
 
-function GoalController($scope, $location, $routeParams, GoalService) {
+function GoalsController($scope, $location, GoalService) {
 
     var vm = this;
 
     _init();
 
-    function _loadGoal(goalid) {
+    function _loadGoals(goaStart, goaN) {
         vm.loading = true;
         vm.success = false;
-        GoalService.getGoal(goalid).then(
+        GoalService.getGoals(goaStart, goaN).then(
             function(response) {
                 vm.loading = false;
                 vm.success = true;
@@ -39,13 +38,9 @@ function GoalController($scope, $location, $routeParams, GoalService) {
     function _init() {
         vm.loading = true;
         vm.success = false;
-        if (!$routeParams.goalid) {
-            $location.path('/goals');
-        }
-        vm.currGoal = {
-            id: $routeParams.goalid
-        };
-        _loadGoal(vm.currGoal.id);
+        vm.goals = [];
+        vm.numgoals = 0;
+        _loadGoals(0, 20);
     }
 
 }

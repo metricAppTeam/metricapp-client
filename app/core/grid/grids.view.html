@@ -1,0 +1,22 @@
+<!-- START: GRIDS -->
+<div ng-controller="GridsController as vm">
+    <div class="page-title">
+        <h2><span class="fa fa-codepen"></span> Grids <small>{{vm.numgrids}} running</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading grids ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <p ng-switch-when="true" ng-if="vm.numgrids == 0">No grids yet.</p>
+                    <ul ng-switch-when="true">
+                        <p>Here the grids</p>
+                        <li ng-repeat="grid in vm.grids | orderBy: 'id' track by grid.id">{{grid.id}}</li>
+                    </ul>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: GRIDS -->

@@ -1,4 +1,4 @@
-(function() { 'use strict';
+(function() {  'use strict';
 
 /************************************************************************************
 * @ngdoc controller
@@ -6,9 +6,10 @@
 * @module metricapp
 * @requires $scope
 * @requires $location
+* @requires $routeParams
+* @requires GridService
 *
 * @description
-* Manages the Grid.
 * Realizes the control layer for `grid.view`.
 ************************************************************************************/
 
@@ -16,41 +17,37 @@ angular.module('metricapp')
 
 .controller('GridController', GridController);
 
-GridController.$inject = ['$scope', '$location'];
+GridController.$inject = ['$scope', '$location', '$routeParams', 'GridService'];
 
-function GridController($scope, $location) {
+function GridController($scope, $location, $routeParams, GridService) {
 
     var vm = this;
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function foo(a, b, c) {
+    _init();
 
+    function _loadGrid(gridid) {
+        vm.loading = true;
+        vm.success = false;
+        GridService.getGrid(gridid).then(
+            function(response) {
+                vm.loading = false;
+                vm.success = true;
+            }
+        );
     }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name _foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function _foo(a, b, c) {
-
+    function _init() {
+        vm.loading = true;
+        vm.success = false;
+        if (!$routeParams.gridid) {
+            $location.path('/grids');
+        }
+        vm.currGrid = {
+            id: $routeParams.gridid
+        };
+        _loadGrid(vm.currGrid.id);
     }
+
 }
 
 })();
