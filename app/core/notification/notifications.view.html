@@ -1,3 +1,21 @@
-<div ng-controller="NotificationController as vm">
-    <h1>Notifications</h1>
+<!-- START: NOTIFICATIONS -->
+<div ng-controller="NotificationsController as vm">
+    <div class="page-title">
+        <h2><span class="fa fa-globe"></span> Notifications <small ng-if="vm.toread > 0">{{vm.toread}} new</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading notifications ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <p ng-switch-when="true" ng-if="vm.notifications.length == 0">No notifications yet.</p>
+                    <ul ng-switch-when="true">
+                        <li ng-repeat="notification in vm.notifications | orderBy: 'id' track by notification.id">{{notification.id}}</li>
+                    </ul>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- END: NOTIFICATIONS -->

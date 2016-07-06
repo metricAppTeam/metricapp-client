@@ -1,0 +1,21 @@
+<!-- START: NOTIFICATION -->
+<div ng-controller="NotificationController as vm">
+    <div class="page-title">
+        <h2><span class="fa fa-globe"></span> Notification </h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading notification {{vm.currNotification.id}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <ul ng-switch-when="true">
+                        <p>Here the notification {{vm.currNotification.id}}</p>
+                        <li ng-repeat="(key, value) in vm.currNotification">{{key}}: {{value}}</li>
+                    </ul>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: NOTIFICATION -->

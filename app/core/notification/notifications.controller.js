@@ -2,35 +2,34 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name NotificationController
+* @name NotificationsController
 * @module metricapp
 * @requires $scope
 * @requires $location
-* @requires $routeParams
 * @requires NotificationService
 *
 * @description
 * Manages the notifications for users.
 * Realizes the control layer for:
-* - `notification.view`
+* - `notifications.view`
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('NotificationController', NotificationController);
+.controller('NotificationsController', NotificationsController);
 
-NotificationController.$inject = ['$scope', '$location', '$routeParams', 'NotificationService'];
+NotificationsController.$inject = ['$scope', '$location', 'NotificationService'];
 
-function NotificationController($scope, $location, $routeParams, NotificationService) {
+function NotificationsController($scope, $location, NotificationService) {
 
     var vm = this;
 
     _init();
 
-    function _loadNotification(notificationid) {
+    function _loadNotifications(ntfStart, ntfN) {
         vm.loading = true;
         vm.success = false;
-        NotificationService.getNotification(notificationid).then(
+        NotificationService.getNotifications(ntfStart, ntfN).then(
             function(response) {
                 vm.loading = false;
                 vm.success = true;
@@ -41,13 +40,9 @@ function NotificationController($scope, $location, $routeParams, NotificationSer
     function _init() {
         vm.loading = true;
         vm.success = false;
-        if (!$routeParams.notificationid) {
-            $location.path('/notifications');
-        }
-        vm.currNotification = {
-            id: $routeParams.notificationid
-        };
-        _loadNotification(vm.currNotification.id);
+        vm.notifications = [];
+        vm.toread = 0;
+        _loadNotifications(0, 20);
     }
 
 }
