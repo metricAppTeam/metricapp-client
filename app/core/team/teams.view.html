@@ -1,16 +1,16 @@
-<!-- START: TEAM -->
-<div ng-controller="TeamController as vm">
+<!-- START: TEAMS -->
+<div ng-controller="TeamsController as vm">
     <div class="page-title">
-        <h2><span class="fa fa-users"></span> Team </h2>
+        <h2><span class="fa fa-users"></span> Teams <small>{{vm.numteams}} teams</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">
             <div class="col-md-12">
-                <p ng-switch-when="true">Loading team {{vm.currTeam.id}} ...</p>
+                <p ng-switch-when="true">Loading teams ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
+                    <p ng-switch-when="true" ng-if="vm.numteams == 0">No teams yet.</p>
                     <ul ng-switch-when="true">
-                        <p>Here the team {{vm.currTeam.id}}</p>
-                        <li ng-repeat="(key, value) in vm.currTeam">{{key}}: {{value}}</li>
+                        <li ng-repeat="team in vm.teams | orderBy: 'id' track by team.id">{{team.id}}</li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
                 </div>
@@ -18,4 +18,4 @@
         </div>
     </div>
 </div>
-<!-- END: TEAM -->
+<!-- END: TEAMS -->
