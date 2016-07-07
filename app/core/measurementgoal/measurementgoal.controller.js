@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-06-14 16:57:09
+* @Last Modified time: 2016-07-07 19:51:00
 */
 (function () { 'use strict';
 
@@ -27,6 +27,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
 
     var vm = this;
 
+    vm.measurementGoals = [];
+    vm.measurementGoalDialog;
     vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.cancelSubmit = cancelSubmit;
 
@@ -68,12 +70,60 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
 
     /********************************************************************************
     * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get active measurement goals for a metricator.
+    ********************************************************************************/
+    function getMeasurementGoals(){
+        //TODO add method to retrieve last approved measurementGoal
+        //TODO add method to send for approval
+         MeasurementGoalService.getMeasurementGoals().then(
+            function(data) {
+                console.log(data.measurementGoals);
+                vm.measurementGoals = data.measurementGoals;
+            },
+            function(data) {
+                alert('Error retriving Measurement Goals');
+            }
+        );
+    };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get active measurement goals for a metricator by some field.
+    ********************************************************************************/
+    function getMeasurementGoalsBy(keyword,field){
+         MeasurementGoalService.getMeasurementGoalsBy(keyword,field).then(
+            function(data) {
+                console.log(data.measurementGoals);
+                vm.measurementGoals = data.measurementGoals;
+            },
+            function(data) {
+                alert('Error retriving Measurement Goals');
+            }
+        );
+    };
+
+
+    /********************************************************************************
+    * @ngdoc method
     * @name cancelSignup
     * @description
     * Cancels the ongoing submit.
     ********************************************************************************/
     function cancelSubmit() {
-        $location.path('/');
+        $location.path('/measurementgoal');
+    }
+
+    function setMeasurementGoalDialog(measurementGoalToAssignId){
+            vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
+    }
+
+    function goToUpdateMeasurementGoal(){
+        MeasurementGoalService.toUpdateMeasurementGoal(vm.measurementGoalDialog);
+        $location.path('/measurementgoal');
     }
 
     /********************************************************************************

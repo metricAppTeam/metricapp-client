@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-06-14 17:07:12
+* @Last Modified time: 2016-07-07 19:48:07
 */
 (function() { 'use strict';
 
@@ -29,7 +29,11 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     var service = this;
 
+    service.measurementGoalToUpdate;
+
     service.submitMeasurementGoal = submitMeasurementGoal;
+    service.getMeasurementGoals = getMeasurementGoals;
+    service.getMeasurementGoalsBy = getMeasurementGoalsBy;
 
     /********************************************************************************
     * @ngdoc method
@@ -67,17 +71,85 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         return $http.post('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', submit).then(
             function(response) {
                 var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
-                console.log('SUCCESS SUBMIT measurementGoal');
+                console.log('SUCCESS GET measurementGoal');
                 return message;
             },
             function(response) {
                 var message = response.data;
-                console.log('FAILURE SUBMIT measurementGoal');
+                console.log('FAILURE GET measurementGoal');
                 return message;
             }
         );
 
     }
+
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get measurement goals.
+    ********************************************************************************/
+    
+    function getMeasurementGoals() {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get a measurement goal
+    * @param {MeasurementGoal} field key.
+    * @param {MeasurementGoal} field value .
+    ********************************************************************************/
+    
+    function getMeasurementGoalsBy(keyword,field) {
+        
+        return $http.get("http://localhost:8080/metricapp-server-gitlab/measurementgoal?" + field + "=" + keyword).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Update a measurement goal, when a controller asks for it to show a form
+    * @param {MeasurementGoal} measurement goal to update.
+    ********************************************************************************/
+    function toUpdateMeasurementGoal(toUpdate){
+        service.measurementGoalToUpdate = toUpdate;
+    }
+
 }
 
 })();

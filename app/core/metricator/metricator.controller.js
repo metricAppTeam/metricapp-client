@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-07 11:55:23
+* @Last Modified time: 2016-07-07 18:18:04
 */
 (function () { 'use strict';
 
@@ -21,9 +21,9 @@ angular.module('metricapp')
 
 .controller('MetricatorController', MetricatorController);
 
-MetricatorController.$inject = ['$scope', '$location','MetricatorService','$window'];
+MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window'];
 
-function MetricatorController($scope, $location, MetricatorService, $window) {
+function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window) {
 
     var vm = this;
 
@@ -65,7 +65,7 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     function getMeasurementGoals(){
         //TODO add method to retrieve last approved measurementGoal
         //TODO add method to send for approval
-         MetricatorService.getMeasurementGoals().then(
+         MeasurementGoalService.getMeasurementGoals().then(
             function(data) {
                 console.log(data.measurementGoals);
                 vm.results.measurementGoals = data.measurementGoals;
@@ -83,7 +83,7 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     * Get active metrics for a metricator.
     ********************************************************************************/
     function getMetrics(){
-         MetricatorService.getMetrics().then(
+         MetricService.getMetrics().then(
             function(data) {
                 console.log(data.metricsDTO);
                 vm.results.metrics = data.metricsDTO;
