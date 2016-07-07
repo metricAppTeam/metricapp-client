@@ -4,7 +4,6 @@
 * @ngdoc controller
 * @name SettingsController
 * @module metricapp
-* @requires $scope
 * @requires $location
 * @requires SettingService
 *
@@ -16,9 +15,9 @@ angular.module('metricapp')
 
 .controller('SettingsController', SettingsController);
 
-SettingsController.$inject = ['$scope', '$location', 'SettingService'];
+SettingsController.$inject = ['$location', 'SettingService'];
 
-function SettingsController($scope, $location, SettingService) {
+function SettingsController($location, SettingService) {
 
     var vm = this;
 
@@ -27,12 +26,21 @@ function SettingsController($scope, $location, SettingService) {
     function _loadSettings() {
         vm.loading = true;
         vm.success = false;
-        SettingService.getSettings().then(
-            function(response) {
-                vm.loading = false;
+        SettingService.getAllSettings().then(
+            function(resolve) {
+                var settings = resolve.settings;
+                for (var info in settings) {
+                    vm.settings[info] = settings[info];
+                }
+                vm.numsettings = Object.keys(vm.settings).length;
                 vm.success = true;
+            },
+            function(reject) {
+                vm.success = false;
             }
-        );
+        ).finally(function() {
+            vm.loading = false;
+        });
     }
 
     function _init() {

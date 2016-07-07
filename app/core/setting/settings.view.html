@@ -1,7 +1,7 @@
 <!-- START: SETTINGS -->
 <div ng-controller="SettingsController as vm">
     <div class="page-title">
-        <h2><span class="fa fa-cog"></span> Settings <small ng-if="globals.user">Welcome, {{globals.user.username}}</small></h2>
+        <h2><span class="fa fa-cog"></span> Settings </h2>
     </div>
     <div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">
@@ -10,7 +10,7 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.numsettings == 0">No settings yet.</p>
                     <ul ng-switch-when="true">
-                        <li ng-repeat="setting in vm.settings track by setting.id">{{setting.id}}</li>
+                        <li ng-repeat="(key, value) in vm.settings track by key">{{key}} = {{value}}</li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
                 </div>

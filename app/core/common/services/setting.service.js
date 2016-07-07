@@ -5,6 +5,7 @@
 * @name SettingService
 * @module metricapp
 * @requires $http
+* @requires $cookies
 * @requires REST_SERVICE
 *
 * @description
@@ -15,36 +16,60 @@ angular.module('metricapp')
 
 .service('SettingService', SettingService);
 
-SettingService.$inject = ['$http', 'REST_SERVICE'];
+SettingService.$inject = ['$http', '$cookies', '$q', 'REST_SERVICE', 'DB_SETTINGS'];
 
-function SettingService($http, REST_SERVICE) {
+function SettingService($http, $cookies, $q, REST_SERVICE, DB_SETTINGS) {
 
     var service = this;
 
     service.getSetting = getSetting;
-    service.getSettings = getSettings;
+    service.getAllSettings = getAllSettings;
 
     /********************************************************************************
     * @ngdoc method
     * @name getSetting
     * @description
     * Retrieves the specified setting.
-    * @param {Int} settingid The setting id for authuser.
-    * @returns {Setting|Error} On success, the setting value; an error, otherwise.
+    * @param {String} settingid The setting id for authuser.
+    * @returns {Setting|Error} On success, the setting value; an error message,
+    * otherwise.
     ********************************************************************************/
     function getSetting(settingid) {
-
+        var username = $cookies.getObject('globals').user.username;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var SETTINGS = DB_SETTINGS[username];
+                if (SETTINGS) {
+                    var SETTING = SETTINGS[settingid];
+                    if (SETTING) {
+                        resolve({setting: SETTING});
+                    } else {
+                        reject({errmsg: 'Setting ' + settingid + ' not found for user ' + username});
+                    }
+                } else {
+                    reject({errmsg: 'Settings not found for user ' + username});
+                }
+            }, 500);
+        });
     }
 
     /********************************************************************************
     * @ngdoc method
-    * @name getSettings
+    * @name getAllSettings
     * @description
     * Retrieves the settings for authuser.
-    * @returns {Setting|Error} On success, the settings; an error, otherwise.
+    * @returns {Settings|Error} On success, the settings; an error, otherwise.
     ********************************************************************************/
-    function getSettings() {
-
+    function getAllSettings() {
+        var username = $cookies.getObject('globals').user.username;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                if (DB_SETTINGS[username]) {
+                    resolve({settings: DB_SETTINGS[username]});
+                } else {
+                    reject('Settings not found for user: ' + username);
+                }
+            }, 500);
     }
 
 }
