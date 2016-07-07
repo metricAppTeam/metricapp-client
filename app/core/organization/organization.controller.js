@@ -4,13 +4,10 @@
 * @ngdoc controller
 * @name OrganizationController
 * @module metricapp
-* @requires $rootScope
-* @requires $scope
 * @requires $location
 * @requires UserService
 *
 * @description
-* Manages the contact listing.
 * Realizes the control layer for `organization.view`.
 ************************************************************************************/
 
@@ -18,41 +15,43 @@ angular.module('metricapp')
 
 .controller('OrganizationController', OrganizationController);
 
-OrganizationController.$inject = ['$rootScope', '$scope', '$location', 'UserService'];
+OrganizationController.$inject = ['$location', 'UserService'];
 
-function OrganizationController($rootScope, $scope, $location, UserService) {
+function OrganizationController($location, UserService) {
 
     var vm = this;
 
+    vm.search = search;
+
     _init();
 
-    function getAllUsers() {
-        var authuser = $rootScope.globals.user;
-        UserService.getAll().then(function(response) {
-            if (response.success) {
-                var users = response.data;
-                var i = 0;
-                while (i < users.length) {
-                    var u = users[i];
-                    if (u.username === authuser.username) {
-                        users.splice(i, 1);
-                        break;
-                    }
-                    i++;
-                }
-                vm.users = users;
-            } else {
-                var message = response.message;
-                alert(message);
-                vm.users = [];
+    function search() {
+        
+    }
+
+    function _loadUsers(usrStart, usrN) {
+        vm.loading = true;
+        vm.success = false;
+        UserService.getNUsersFrom(usrStart, usrN).then(
+            function(resolve) {
+                vm.numusers = resolve.numusers;
+                vm.users.push(resolve.users);
+                vm.success = true;
+            },
+            function(reject) {
+                vm.success = false;
             }
+        ).finally(function() {
+            vm.loading = false;
         });
     }
 
     function _init() {
         vm.loading = true;
-        getAllUsers();
-        vm.loading = false;
+        vm.success = false;
+        vm.users = [];
+        vm.numusers = 0;
+        _loadUsers(0, 20);
     }
 
 }
