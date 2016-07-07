@@ -22,7 +22,7 @@ function DraftController($scope, $location, ProfileService, FlashService, GENDER
 
     var color = d3.scale.category20();
 
-    $scope.options = {
+    vm.options = {
         chart: {
             type: 'forceDirectedGraph',
             height: 300,
@@ -44,7 +44,7 @@ function DraftController($scope, $location, ProfileService, FlashService, GENDER
         }
     };
     
-    $scope.data = {
+    vm.data = {
         "nodes":[
             {"name":"A","group":1},
             {"name":"B","group":2},
