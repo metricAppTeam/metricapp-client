@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-06-21 12:17:17
+* @Last Modified time: 2016-07-07 11:55:23
 */
 (function () { 'use strict';
 
@@ -63,6 +63,8 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
     * Get active measurement goals for a metricator.
     ********************************************************************************/
     function getMeasurementGoals(){
+        //TODO add method to retrieve last approved measurementGoal
+        //TODO add method to send for approval
          MetricatorService.getMeasurementGoals().then(
             function(data) {
                 console.log(data.measurementGoals);
@@ -118,7 +120,8 @@ function MetricatorController($scope, $location, MetricatorService, $window) {
                 //$('#modal_button').attr('data-target','#modal_question');
                 break;
             default:
-                $('#modal_button').attr('data-target','#modal_measurementGoal');
+                //$('#modal_button').attr('data-target','#modal_measurementGoal');
+                vm.modal = 'metric';
                 vm.measurementGoalDialog = vm.results.measurementGoals[measurementGoalToAssignId];
                 break;
         }
