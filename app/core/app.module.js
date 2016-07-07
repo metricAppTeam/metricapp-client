@@ -18,7 +18,8 @@ angular.module('metricapp',[
     'ngMessages',
     'ngFlash',
     'ngMockE2E',
-    'nvd3'
+    'nvd3',
+    'stpa.morris'
 ]);
 
 })();
