@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-07 18:18:04
+* @Last Modified time: 2016-07-07 22:46:59
 */
 (function () { 'use strict';
 
@@ -29,6 +29,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
 
     vm.getMeasurementGoals = getMeasurementGoals;
     vm.getMetrics = getMetrics;
+    vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
 
     vm.results = {
         measurementGoals : [],
@@ -126,6 +127,14 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 break;
         }
     };
+
+    function goToUpdateMeasurementGoal(){
+        MeasurementGoalService.toUpdateMeasurementGoal(vm.measurementGoalDialog);
+        console.log("Going to Update Measurement Goal");
+        $location.path('/measurementgoal');
+        console.log($location.path('/measurementgoal'));
+
+    }
 
     /*
     function getMeasurementGoals() {

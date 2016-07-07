@@ -2,6 +2,8 @@
 <div ng-controller="MeasurementGoalController as vm">
     <h2>Measurement Goal</h2>
     <!-- FORM: MEASUREMENTGOAL -->
+    <div class="row">
+    <div class="col-md-6 pull-left">
     <form name="measurementGoalForm" role="form" class="form-horizontal" ng-submit="vm.submitMeasurementGoal()" novalidate="novalidate">
         <!-- FORM FIELD: OBJECT -->
         <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.object.$dirty && measurementGoalForm.object.$invalid }">
@@ -47,7 +49,37 @@
         <div class="form-actions">
             <button class="btn btn-primary" type="submit" ng-disabled="measurementGoalForm.$invalid || vm.loading">Submit MeasurementGoal</button>
         </div>
-    </form>    
+    </form>
+    </div>
+    <div class="col-md-6 pull-right">
+            <ul class="list-group border-bottom">
+                    <h4>Name</h4>
+                    <li class="list-group-item">{{vm.measurementGoalDialog.name}}</li>
+                    <h4>Focus</h4>
+                    <li class="list-group-item">{{vm.measurementGoalDialog.focus}}</li>
+                    <h4>Object</h4>
+                    <li class="list-group-item">{{vm.measurementGoalDialog.object}}</li>
+                    <h4>Purpose</h4>
+                    <li class="list-group-item">{{vm.measurementGoalDialog.purpose}}</li>
+                    <h4>ViewPoint</h4>
+                    <li class="list-group-item">{{vm.measurementGoalDialog.viewPoint}}</li>
+                    
+                    <h3>Interpretation Model</h3>
+                        <h4 class="panel-title">Function Javascript :</h4>
+                        <li class="list-group-item">
+                        <div class="panel-body scroll" style="height: 30px;">         
+                            <p>{{vm.measurementGoalDialog.interpretationModel.functionJavascript}}
+                        </div>                                   
+                        </li>
+                        <h4 class="panel-title">Query noSQL :</h4>
+                        <li class="list-group-item">
+                        <div class="panel-body scroll" style="height: 30px;">         
+                            <p>{{vm.measurementGoalDialog.interpretationModel.queryNoSQL}}</p>
+                        </div>
+                    </li>        
+            </ul>              
+        </div>
+    </div>
 </div>
 
 

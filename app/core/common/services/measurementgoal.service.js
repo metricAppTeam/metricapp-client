@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-07 19:48:07
+* @Last Modified time: 2016-07-07 23:41:18
 */
 (function() { 'use strict';
 
@@ -30,10 +30,11 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     var service = this;
 
     service.measurementGoalToUpdate;
-
     service.submitMeasurementGoal = submitMeasurementGoal;
     service.getMeasurementGoals = getMeasurementGoals;
     service.getMeasurementGoalsBy = getMeasurementGoalsBy;
+    service.toUpdateMeasurementGoal = toUpdateMeasurementGoal;
+    service.getUpdateMeasurementGoal = getUpdateMeasurementGoal;
 
     /********************************************************************************
     * @ngdoc method
@@ -148,6 +149,16 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     ********************************************************************************/
     function toUpdateMeasurementGoal(toUpdate){
         service.measurementGoalToUpdate = toUpdate;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get measurement goal to update
+    ********************************************************************************/
+    function getUpdateMeasurementGoal(){
+        return service.measurementGoalToUpdate;
     }
 
 }

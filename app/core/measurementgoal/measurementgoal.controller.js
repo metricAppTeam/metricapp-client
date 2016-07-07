@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-07 19:51:00
+* @Last Modified time: 2016-07-07 23:40:45
 */
 (function () { 'use strict';
 
@@ -28,7 +28,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
     var vm = this;
 
     vm.measurementGoals = [];
-    vm.measurementGoalDialog;
+    vm.measurementGoalDialog = MeasurementGoalService.getUpdateMeasurementGoal();
     vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.cancelSubmit = cancelSubmit;
 
@@ -124,6 +124,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
     function goToUpdateMeasurementGoal(){
         MeasurementGoalService.toUpdateMeasurementGoal(vm.measurementGoalDialog);
         $location.path('/measurementgoal');
+        console.log($location.path('/measurementgoal'));
     }
 
     /********************************************************************************
