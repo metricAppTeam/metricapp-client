@@ -1,7 +1,7 @@
 <!-- START: TASKS -->
 <div ng-controller="TasksController as vm">
     <div class="page-title">
-        <h2><span class="fa fa-tasks"></span> Tasks <small>{{vm.numtasks}} running</small></h2>
+        <h2><span class="fa fa-tasks"></span> Tasks <small ng-if="!vm.loading && vm.success">{{vm.numtasks}} tasks</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">
@@ -10,7 +10,12 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.numtasks == 0">No tasks yet.</p>
                     <ul ng-switch-when="true">
-                        <li ng-repeat="task in vm.tasks | orderBy: 'id' track by task.id">{{task.id}}</li>
+                        <li ng-repeat="task in vm.tasks | orderBy: '-ts_update' track by task.id">
+                            <a href="#/tasks/{{task.id}}">{{task.name}}</a>
+                            <ul>
+                                <li ng-repeat="(key, value) in task">{{key}} = {{value}}</li>
+                            <ul>
+                        </li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
                 </div>

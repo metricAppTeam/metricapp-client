@@ -10,7 +10,7 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <ul ng-switch-when="true">
                         <p>Here the task {{vm.currTask.id}}</p>
-                        <li ng-repeat="(key, value) in vm.currTask">{{key}}: {{value}}</li>
+                        <li ng-repeat="(key, value) in vm.currTask">{{key}} = {{value}}</li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
                 </div>
