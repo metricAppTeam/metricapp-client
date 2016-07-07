@@ -33,32 +33,28 @@
                             <div class="informer informer-default dir-br"><span class="fa fa-users"></span></div>
                         </a>                            
                     </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
                 </div>         
-                <!-- END TILES -->
+                <!-- END ROW -->
+                <!--<canvas id="myChart" width="400" height="400"></canvas>-->
+                <!--<div ac-chart="'line'" ac-data="vm.data" ac-config="vm.config" id='chart' class='chart' width="400" height="400"></div>-->
+                <div
+                line-chart
+                line-data='[
+                    { y: "2006", a: 100, b: 90 },
+                    { y: "2007", a: 75,  b: 65 },
+                    { y: "2008", a: 50,  b: 40 },
+                    { y: "2009", a: 75,  b: 65 },
+                    { y: "2010", a: 50,  b: 40 },
+                    { y: "2011", a: 75,  b: 65 },
+                    { y: "2012", a: 100, b: 90 }
+                ]'
+                line-xkey='y'
+                line-ykeys='["a", "b"]'
+                line-labels='["Serie A", "Serie B"]'
+                line-colors='["#31C0BE", "#c7254e"]'>
+                </div>
             </div>
-            <!-- END PAGE WRAP -->
+            <!-- END PANEL -->
         </div>   
         <!-- END DEFAULT PANEL -->
     </div>
