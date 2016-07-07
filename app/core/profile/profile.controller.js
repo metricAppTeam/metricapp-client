@@ -4,13 +4,11 @@
 * @ngdoc controller
 * @name ProfileController
 * @module metricapp
-* @requires $scope
 * @requires $location
 * @requires $routeParams
 * @requires UserService
 *
 * @description
-* Manages the profile visualization and editing.
 * Realizes the control layer for `profile.view`.
 ************************************************************************************/
 
@@ -18,9 +16,9 @@ angular.module('metricapp')
 
 .controller('ProfileController', ProfileController);
 
-ProfileController.$inject = ['$scope', '$location', '$routeParams', 'UserService'];
+ProfileController.$inject = ['$location', '$routeParams', 'UserService'];
 
-function ProfileController($scope, $location, $routeParams, UserService) {
+function ProfileController($location, $routeParams, UserService) {
 
     var vm = this;
 
@@ -29,12 +27,26 @@ function ProfileController($scope, $location, $routeParams, UserService) {
     function _loadProfile(username) {
         vm.loading = true;
         vm.success = false;
-        UserService.getProfile(username).then(
-            function(response) {
-                vm.loading = false;
+        UserService.getUser(username).then(
+            function(resolve) {
+                vm.currUser.username = resolve.user.username;
+                vm.currUser.role = resolve.user.role;
+                vm.currUser.firstname = resolve.user.firstname;
+                vm.currUser.lastname = resolve.user.lastname;
+                vm.currUser.gender = resolve.user.gender;
+                vm.currUser.birthday = resolve.user.birthday;
+                vm.currUser.email = resolve.user.email;
+                vm.currUser.mobile = resolve.user.mobile;
+                vm.currUser.picture = resolve.user.picture;
+                vm.currUser.online = resolve.user.online;
                 vm.success = true;
+            },
+            function(reject) {
+                vm.success = false;
             }
-        );
+        ).finally(function() {
+            vm.loading = false;
+        });
     }
 
     function _init() {
@@ -49,7 +61,17 @@ function ProfileController($scope, $location, $routeParams, UserService) {
             }
         }
         vm.currUser = {
-            username: $routeParams.username
+            username: $routeParams.username,
+            password: null,
+            role: null,
+            firstname:  null,
+            lastname:   null,
+            gender:     null,
+            birthday:   null,
+            email:      null,
+            mobile:     null,
+            picture:    null,
+            online: false
         };
         _loadProfile(vm.currUser.username);
     }
