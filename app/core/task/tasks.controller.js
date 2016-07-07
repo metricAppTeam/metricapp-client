@@ -4,9 +4,9 @@
 * @ngdoc controller
 * @name TasksController
 * @module metricapp
-* @requires $scope
 * @requires $location
 * @requires TaskService
+* @requires UserService
 *
 * @description
 * Realizes the control layer for `tasks.view`.
@@ -16,9 +16,9 @@ angular.module('metricapp')
 
 .controller('TasksController', TasksController);
 
-TasksController.$inject = ['$scope', '$location', 'TaskService'];
+TasksController.$inject = ['$location', 'TaskService', 'UserService'];
 
-function TasksController($scope, $location, TaskService) {
+function TasksController($location, TaskService, UserService) {
 
     var vm = this;
 
@@ -28,11 +28,39 @@ function TasksController($scope, $location, TaskService) {
         vm.loading = true;
         vm.success = false;
         TaskService.getTasks(tskStart, tskN).then(
-            function(response) {
-                vm.loading = false;
-                vm.success = true;
+            function(resolve) {
+                vm.numtasks = resolve.numtasks;
+                var tasks = resolve.tasks;
+                var assignees = [];
+                tasks.forEach(function(task) {
+                    assignees.push(task.assignee);
+                });
+                return UserService.getUsersInArray(assignees).then(
+                    function(resolve) {
+                        var users = resolve.users;
+                        tasks.forEach(function(task) {
+                            var assignee = task.assignee;
+                            if (users[assignee]) {
+                                task.assignee = {};
+                                for (var info in users[assignee]) {
+                                    task.assignee[info] = users[assignee][info];
+                                }
+                                vm.tasks.push(task);
+                            }
+                        });
+                        vm.success = true;
+                    },
+                    function(reject) {
+                        vm.success = false;
+                    }
+                );
+            },
+            function(reject) {
+                vm.success = false;
             }
-        );
+        ).finally(function() {
+            vm.loading = false;
+        });
     }
 
     function _init() {

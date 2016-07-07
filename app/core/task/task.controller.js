@@ -4,10 +4,10 @@
 * @ngdoc controller
 * @name TaskController
 * @module metricapp
-* @requires $scope
 * @requires $location
 * @requires $routeParams
 * @requires TaskService
+* @requires UserService
 *
 * @description
 * Realizes the control layer for `task.view`
@@ -17,9 +17,9 @@ angular.module('metricapp')
 
 .controller('TaskController', TaskController);
 
-TaskController.$inject = ['$scope', '$location', '$routeParams', 'TaskService'];
+TaskController.$inject = ['$location', '$routeParams', 'TaskService', 'UserService'];
 
-function TaskController($scope, $location, $routeParams, TaskService) {
+function TaskController($location, $routeParams, TaskService, UserService) {
 
     var vm = this;
 
@@ -29,11 +29,30 @@ function TaskController($scope, $location, $routeParams, TaskService) {
         vm.loading = true;
         vm.success = false;
         TaskService.getTask(taskid).then(
-            function(response) {
-                vm.loading = false;
-                vm.success = true;
+            function(resolve) {
+                vm.currTask.id = resolve.task.id;
+                vm.currTask.name = resolve.task.name;
+                vm.currTask.description = resolve.task.description;
+                vm.currTask.assignee = {};
+                vm.currTask.ts_create = resolve.task.ts_create;
+                vm.currTask.ts_update = resolve.task.ts_update;
+                return UserService.getUser(resolve.task.author).then(
+                    function(resolve) {
+                        for (var info in resolve.user) {
+                            vm.elem.assignee[info] = resolve.user[info];
+                        }
+                    },
+                    function(reject) {
+                        vm.success = false;
+                    }
+                );
+            },
+            function(reject) {
+                vm.success = false;
             }
-        );
+        ).finally(function() {
+            vm.loading = false;
+        });
     }
 
     function _init() {
@@ -43,7 +62,13 @@ function TaskController($scope, $location, $routeParams, TaskService) {
             $location.path('/tasks');
         }
         vm.currTask = {
-            id: $routeParams.taskid
+            id: $routeParams.taskid,
+            name: null,
+            description: null,
+            assignee: null,
+            progress: null,
+            ts_create: null,
+            ts_update: null
         };
         _loadTask(vm.currTask.id);
     }

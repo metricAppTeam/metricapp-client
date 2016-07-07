@@ -4,9 +4,9 @@
 * @ngdoc controller
 * @name TasksWidgetController
 * @module metricapp
-* @requires $scope
 * @requires $location
 * @requires TaskService
+* @requires UserService
 *
 * @description
 * Realizes the control layer for `tasks.widget.view`.
@@ -16,9 +16,9 @@ angular.module('metricapp')
 
 .controller('TasksWidgetController', TasksWidgetController);
 
-TasksWidgetController.$inject = ['$scope', '$location', 'TaskService'];
+TasksWidgetController.$inject = ['$location', 'TaskService', 'UserService'];
 
-function TasksWidgetController($scope, $location, TaskService) {
+function TasksWidgetController($location, TaskService, UserService) {
 
     var vm = this;
 
@@ -27,12 +27,40 @@ function TasksWidgetController($scope, $location, TaskService) {
     function _loadTasks(tskStart, tskN) {
         vm.loading = true;
         vm.success = false;
-        TaskService.getTasks(tskStart, tskN).then(
-            function(response) {
-                vm.loading = false;
-                vm.success = true;
+        TaskService.getNTasksFrom(tskStart, tskN).then(
+            function(resolve) {
+                vm.numtasks = resolve.numtasks;
+                var tasks = resolve.tasks;
+                var assignees = [];
+                tasks.forEach(function(task) {
+                    assignees.push(task.assignee);
+                });
+                return UserService.getUsersInArray(assignees).then(
+                    function(resolve) {
+                        var users = resolve.users;
+                        tasks.forEach(function(task) {
+                            var assignee = task.assignee;
+                            if (users[assignee]) {
+                                task.assignee = {};
+                                for (var info in users[assignee]) {
+                                    task.assignee[info] = users[assignee][info];
+                                }
+                                vm.tasks.push(task);
+                            }
+                        });
+                        vm.success = true;
+                    },
+                    function(reject) {
+                        vm.success = false;
+                    }
+                );
+            },
+            function(reject) {
+                vm.success = false;
             }
-        );
+        ).finally(function() {
+            vm.loading = false;
+        });
     }
 
     function _init() {
