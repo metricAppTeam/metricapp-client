@@ -1,13 +1,10 @@
 <!-- START: HOME -->
 <div ng-controller="HomeController as vm">
-    <div class="page-title">
-        <h2><span class="fa fa-desktop"></span> Home <small ng-if="globals.user">Welcome, {{globals.user.username}}</small></h2>
-    </div>
     <div class="page-content-wrap">
         <div class="row">
             <div class="col-md-12">
                 <div ng-switch="globals.user.role">
-                    <p ng-switch-when="EXPERT">You have EXPERT rights.</p>
+                    <p ng-switch-when="EXPERT"><viewexpertdashboard></viewexpertdashboard></p>
                     <p ng-switch-when="QUESTIONER">You have QUESTIONER rights.</p>
                     <p ng-switch-when="METRICATOR">You have METRICATOR rights.</p>
                     <p ng-switch-default="ng-switch-default">You have no rights.</p>

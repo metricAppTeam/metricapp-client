@@ -46,8 +46,8 @@ function DraftController($scope, $location, ProfileService, FlashService, GENDER
     
     vm.data = {
         "nodes":[
-            {"name":"A","group":1},
-            {"name":"B","group":2},
+            {"name":"Adaadasdasdsadsads","group":1},
+            {"name":"B","group":2,"civico":19},
             {"name":"C","group":3},
             {"name":"D","group":4},
             {"name":"E","group":5},

@@ -29,38 +29,6 @@ function ProfileController($scope, $location, ProfileService, FlashService, GEND
 
     vm.GENDERS = GENDERS;
 
-    vm.config = {
-        title: 'Products',
-        tooltips: true,
-        labels: false,
-        mouseover: function() {},
-        mouseout: function() {},
-        click: function() {},
-        legend: {
-          display: true,
-          //could be 'left, right'
-          position: 'right'
-        }
-      };
-
-    vm.data = {
-        series: ['Sales', 'Income', 'Expense', 'Laptops', 'Keyboards'],
-        data: [{
-          x: "Laptops",
-          y: [100, 500, 0],
-          tooltip: "this is tooltip"
-        }, {
-          x: "Desktops",
-          y: [300, 100, 100]
-        }, {
-          x: "Mobiles",
-          y: [351]
-        }, {
-          x: "Tablets",
-          y: [54, 0, 879]
-        }]
-      };
-
     //load picture
     vm.picture = 'assets/images/users/user2.jpg';
 
@@ -70,6 +38,9 @@ function ProfileController($scope, $location, ProfileService, FlashService, GEND
 
     vm.firstname = 'Maria';
     vm.lastname = 'Bianchi';
+    vm.username = 'maria_bianchi';
+    vm.password = 'password';
+    vm.password_r = 'password';
     vm.email = 'mariabianchi@gmail.com';
     vm.phone = '+39 38376 6284';
     vm.role = 'Metricator';
