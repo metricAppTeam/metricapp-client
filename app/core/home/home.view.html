@@ -1,19 +1,17 @@
 <!-- START: HOME -->
 <div ng-controller="HomeController as vm">
-    <div class="page-title">
-        <h2><span class="fa fa-desktop"></span> Home <small ng-if="globals.user">Welcome, {{globals.user.username}}</small></h2>
-    </div>
-    <div class="page-content-wrap">
-        <div class="row">
-            <div class="col-md-12">
-                <div ng-switch="globals.user.role">
-                    <p ng-switch-when="EXPERT">You have EXPERT rights.</p>
-                    <p ng-switch-when="QUESTIONER">You have QUESTIONER rights.</p>
-                    <p ng-switch-when="METRICATOR">You have METRICATOR rights.</p>
-                    <p ng-switch-default="ng-switch-default">You have no rights.</p>
-                </div>
-            </div>
+    <div ng-if="globals.user">Welcome, {{globals.user.username}}</div>
+    <div ng-switch="globals.user.role">
+        <div ng-switch-when="EXPERT">You have EXPERT rights.</div>
+        <div ng-switch-when="QUESTIONER">You have QUESTIONER rights.</div>
+        <!--<div ng-switch-when="METRICATOR">You have METRICATOR rights.</div>-->
+        <div ng-switch-when="METRICATOR">
+            You have METRICATOR rights
+            <!--<a href="#/metricator">Metricator's Dashboard</a>-->
+        	<!--<div ng-include="'dist/views/metricator/metricator.view.html'"></div>-->
+        	<!--<div ng-include="'dist/views/measurementgoal/measurementgoal.view.html'"></div>-->
         </div>
-    </div>
+        <div ng-switch-default="ng-switch-default">You have no rights.</div>
+</div>
 </div>
 <!-- END: HOME -->

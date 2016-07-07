@@ -90,11 +90,12 @@
                     <li>
                         <a href="#/home"><span class="fa fa-desktop"></span><span class="xn-text">Home</span></a>
                     </li>
-                    <span ng-repeat="action in vm.getActionsForRole(globals.user.role)">
-                    <li>
-                        <a href="{{action.href}}"><span class="fa fa-{{action.icon}}"></span><span class="xn-text">{{action.name}}</span></a>
-                    </li>
-                    </span>
+		    <li><a href="/metricator">Metricator</a></li>
+                    <div ng-repeat="action in vm.getActionsForRole(globals.user.role)">
+                        <li>
+                            <a href="{{action.href}}"><span class="fa fa-cog"></span><span class="xn-text">{{action.name}}</span></a>
+                        </li>
+                    </div>
                 </ul>
                 <!-- END X-NAVIGATION -->
             </div>
@@ -242,11 +243,13 @@
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/bootstrap/bootstrap-datepicker.js"></script>
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/owl/owl.carousel.min.js"></script>
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/moment.min.js"></script>
-        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/daterangepicker/daterangepicker.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/daterangepicker/daterangepicker.js"></script>   
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/datatables/jquery.dataTables.min.js"></script> 
 
         <!-- THEME: MAIN SCRIPTS -->
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins.js"></script>
         <script type="text/javascript" src="vendors/joli-admin/joli/js/actions.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/settings.js"></script>
 
         <!-- ANGULAR SCRIPTS -->
         <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
