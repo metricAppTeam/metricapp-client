@@ -36,7 +36,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 DB_TASKS.forEach(function(TASK) {
-                    if (TASK.id === elemid) {
+                    if (TASK.id === taskid) {
                         resolve({task: TASK});
                         return;
                     }
