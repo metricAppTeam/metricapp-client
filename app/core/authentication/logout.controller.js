@@ -9,7 +9,6 @@
 * @requires AUTH_EVENTS
 *
 * @description
-* Manages the user logout.
 * Realizes the control layer for `logout.view`.
 ************************************************************************************/
 
@@ -23,9 +22,9 @@ function LogoutController($rootScope, $location, AuthService, AUTH_EVENTS) {
 
     var vm = this;
 
-    vm.loading = false;
-
     vm.logout = logout;
+
+    _init();
 
     /********************************************************************************
     * @ngdoc method
@@ -36,18 +35,21 @@ function LogoutController($rootScope, $location, AuthService, AUTH_EVENTS) {
     function logout() {
         vm.loading = true;
         AuthService.logout().then(
-            function(username) {
+            function(resolve) {
                 AuthService.clearUser();
                 $rootScope.$broadcast(AUTH_EVENTS.LOGOUT_SUCCESS);
-                vm.loading = false;
                 $location.path('/');
             },
-            function(errmsg) {
-                alert(errmsg);
+            function(reject) {
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILURE);
-                vm.loading = false;
             }
-        );
+        ).finally(function() {
+            vm.loading = false;
+        });
+    }
+
+    function _init() {
+        vm.loading = false;
     }
 
 }
