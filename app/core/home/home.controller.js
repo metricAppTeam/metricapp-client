@@ -23,7 +23,7 @@ HomeController.$inject = [
     '$rootScope', '$scope', '$location',
     'AuthService', 'ActionService','$filter'];
 
-function HomeController($rootScope, $scope, $location, AuthService, ActionService,$filter) {
+function HomeController($rootScope, $scope, $location, AuthService, ActionService) {
 
     var vm = this;
 
@@ -90,6 +90,12 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
     //Date() for clock
     vm.date = new Date();
 
+    vm.exportDataXLS = function () {
+        var blob = new Blob([document.getElementById('exportable').innerHTML], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+        });
+        saveAs(blob, "Report.xls");
+    };
 
     /******************************************************
     *

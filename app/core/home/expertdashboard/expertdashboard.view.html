@@ -66,6 +66,7 @@
                         	donut-resize="true">
                         </div>
                     </div>                                    
+                    <div class="panel-footer"></div>  
                 </div>
             </div>
             <!-- END USERS ACTIVITY BLOCK -->
@@ -90,6 +91,7 @@
                         bar-resize="true">
                         </div>
                     </div>
+                    <div class="panel-footer"></div>  
                 </div>
                 <!-- END VISITORS BLOCK -->
             </div>
@@ -105,7 +107,7 @@
                     </div>
                     <div class="panel-body panel-body-table">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped"  id="exportable">
                                 <thead>
                                     <tr>
                                     	<th width="50%">
@@ -137,6 +139,16 @@
                             </table>
                         </div>
                     </div>
+                    <div class="panel-footer">
+                        <div class="btn-group  pull-right">
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="glyphicon glyphicon-save"></span>Export</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation" class="dropdown-header">Download file in...</li>
+                                <li><a ng-click="vm.exportDataXLS()"> XLS Format</a></li>
+                            </ul>
+                        </div>
+                    </div>  
                 </div>
                 <!-- END PROJECTS BLOCK -->
             </div>
