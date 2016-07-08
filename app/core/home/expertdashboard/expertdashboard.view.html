@@ -125,7 +125,7 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="x in vm.projects">
-                                        <td><strong>{{x.grid_name}}</strong></td>
+                                        <td><strong>{{x.name}}</strong></td>
                                         <td><span class="label label-success">{{x.status}}</span></td>
                                         <td>
                                             <div class="progress progress-small progress-striped active">
@@ -141,25 +141,6 @@
                 <!-- END PROJECTS BLOCK -->
             </div>
         </div>
-        <div class="row">
-        	<div class="panel panel-default chart-holder">
-				<div class="panel-heading">
-					<div class="panel-title-box">
-					    <h3>Metrics and Questions Trend</h3>
-					    <span>General Productivity of Teams</span>
-					</div>	        	        	            
-				</div>
-	        	<div
-	      			line-chart
-	      			line-data='vm.teams_productivity_trend'
-	      			line-xkey='y'
-	      			line-ykeys='["questions", "metrics"]'
-	      			line-labels='["Questions", "Metrics"]'
-	      			line-colors='["#31C0BE", "#c7254e"]'
-	      			line-resize="true">       	        
-				</div>
-        	</div>
-    	</div>
     </div>
 </div>
 <!-- END: HOME -->
