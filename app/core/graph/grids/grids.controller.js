@@ -22,6 +22,17 @@ function GridController($scope, $location) {
 
     var vm = this;
 
+
+    //list of projects for view user project
+    vm.grids = [
+        {name: "GRID 1",progress: 30, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {name: "GRID 2",progress: 40, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {name: "GRID 3",progress: 100, status: "complete", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {name: "GRID 4",progress: 10, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        
+        
+    ];
+
     /********************************************************************************
     * @ngdoc method
     * @name foo

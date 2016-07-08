@@ -1,0 +1,70 @@
+<!-- START: GRID -->
+<div ng-controller="GridController as vm">
+    <div class="page-title">
+        <h2><span class="fa fa-codepen"></span> Grids <small ng-if="globals.user">Welcome, {{globals.user.username}}</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START SPARKLINE CHARTS -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">ORGANIZATION GRIDS</h3>
+                    </div>
+                    <div class="block-content">                                    
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="20%">
+                                        <div class="th">Grid name</div>
+                                    </th>
+                                    <th width="10%">
+                                        <div class="th">
+                                            Progress
+                                        </div>
+                                    </th>
+                                    <th width="10%">
+                                        <div class="th">
+                                            Status
+                                        </div>
+                                    </th>
+                                    <th width="60%">
+                                        <div class="th">
+                                            Description
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in vm.grids">
+                                    <td><strong>{{x.name}}</strong></td>
+                                    <td>
+                                        <round-progress
+                                            max="100"
+                                            current="x.progress"
+                                            color="#fea223"
+                                            bgcolor="#eaeaea"
+                                            radius="30"
+                                            stroke="7"
+                                            semi="false"
+                                            rounded="true"
+                                            clockwise="true"
+                                            responsive="true"
+                                            duration="800"
+                                            animation="easeInOutQuart"
+                                            animation-delay="0">
+                                        </round-progress>
+                                    </td>
+                                    <td><span class="label label-danger">{{x.status}}</span></td>
+                                    <td><p class="text-justify">{{x.description}}</p></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END SPARKLINE CHARTS -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: GRID -->
