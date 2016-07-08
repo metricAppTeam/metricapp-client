@@ -4,24 +4,22 @@
 * @ngdoc controller
 * @name NotificationController
 * @module metricapp
-* @requires $scope
 * @requires $location
 * @requires $routeParams
 * @requires NotificationService
+* @requires UserService
 *
 * @description
-* Manages the notifications for users.
-* Realizes the control layer for:
-* - `notification.view`
+* Realizes the control layer for `notification.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .controller('NotificationController', NotificationController);
 
-NotificationController.$inject = ['$scope', '$location', '$routeParams', 'NotificationService'];
+NotificationController.$inject = ['$location', '$routeParams', 'NotificationService', 'UserService'];
 
-function NotificationController($scope, $location, $routeParams, NotificationService) {
+function NotificationController($location, $routeParams, NotificationService, UserService) {
 
     var vm = this;
 
@@ -31,11 +29,32 @@ function NotificationController($scope, $location, $routeParams, NotificationSer
         vm.loading = true;
         vm.success = false;
         NotificationService.getNotification(notificationid).then(
-            function(response) {
-                vm.loading = false;
-                vm.success = true;
+            function(resolve) {
+                vm.currNotification.id = resolve.notification.id;
+                vm.currNotification.scope = resolve.notification.scope;
+                vm.currNotification.name = resolve.notification.name;
+                vm.currNotification.description = resolve.notification.description;
+                vm.currNotification.author = {};
+                vm.currNotification.href = resolve.notification.href;
+                vm.currNotification.ts_create = resolve.notification.ts_create;
+                vm.currNotification.read = resolve.notification.read;
+                return UserService.getUser(resolve.notification.author).then(
+                    function(resolve) {
+                        for (var info in resolve.user) {
+                            vm.currNotification.author[info] = resolve.user[info];
+                        }
+                    },
+                    function(reject) {
+                        vm.success = false;
+                    }
+                );
+            },
+            function(reject) {
+                vm.success = false;
             }
-        );
+        ).finally(function() {
+            vm.loading = false;
+        });
     }
 
     function _init() {
@@ -45,7 +64,14 @@ function NotificationController($scope, $location, $routeParams, NotificationSer
             $location.path('/notifications');
         }
         vm.currNotification = {
-            id: $routeParams.notificationid
+            id: $routeParams.notificationid,
+            scope: null,
+            name: null,
+            description: null,
+            author:  null,
+            href: null,
+            ts_create: null,
+            read: null
         };
         _loadNotification(vm.currNotification.id);
     }

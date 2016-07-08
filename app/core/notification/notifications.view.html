@@ -1,7 +1,7 @@
 <!-- START: NOTIFICATIONS -->
 <div ng-controller="NotificationsController as vm">
     <div class="page-title">
-        <h2><span class="fa fa-globe"></span> Notifications <small ng-if="vm.toread > 0">{{vm.toread}} new</small></h2>
+        <h2><span class="fa fa-globe"></span> Notifications <small ng-if="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}} to read</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">
@@ -10,7 +10,12 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.notifications.length == 0">No notifications yet.</p>
                     <ul ng-switch-when="true">
-                        <li ng-repeat="notification in vm.notifications | orderBy: 'id' track by notification.id">{{notification.id}}</li>
+                        <li ng-repeat="notification in vm.notifications | orderBy: '-ts_create' track by notification.id">
+                            <a href="#/notifications/{{notification.id}}">{{notification.name}}</a>
+                            <ul>
+                                <li ng-repeat="(key, value) in notification">{{key}} = {{value}}</li>
+                            <ul>
+                        </li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
                 </div>
