@@ -10,8 +10,12 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.numgrids == 0">No grids yet.</p>
                     <ul ng-switch-when="true">
-                        <p>Here the grids</p>
-                        <li ng-repeat="grid in vm.grids | orderBy: 'id' track by grid.id">{{grid.id}}</li>
+                        <li ng-repeat="grid in vm.grids | orderBy: 'name' track by grid.id">
+                            <a ng-href="#/grids/{{grid.id}}">{{grid.name}}</a>
+                            <ul>
+                                <li ng-repeat="(key, value) in grid">{{key}} = {{value}}</li>
+                            <ul>
+                        </li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
                 </div>

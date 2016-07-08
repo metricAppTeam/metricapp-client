@@ -11,7 +11,7 @@
                     <p ng-switch-when="true" ng-if="vm.numtasks == 0">No tasks yet.</p>
                     <ul ng-switch-when="true">
                         <li ng-repeat="task in vm.tasks | orderBy: '-ts_update' track by task.id">
-                            <a href="#/tasks/{{task.id}}">{{task.name}}</a>
+                            <a ng-href="#/tasks/{{task.id}}">{{task.name}}</a>
                             <ul>
                                 <li ng-repeat="(key, value) in task">{{key}} = {{value}}</li>
                             <ul>

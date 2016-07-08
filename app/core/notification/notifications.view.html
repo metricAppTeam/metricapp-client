@@ -11,7 +11,7 @@
                     <p ng-switch-when="true" ng-if="vm.notifications.length == 0">No notifications yet.</p>
                     <ul ng-switch-when="true">
                         <li ng-repeat="notification in vm.notifications | orderBy: '-ts_create' track by notification.id">
-                            <a href="#/notifications/{{notification.id}}">{{notification.name}}</a>
+                            <a ng-href="#/notifications/{{notification.id}}">{{notification.name}}</a>
                             <ul>
                                 <li ng-repeat="(key, value) in notification">{{key}} = {{value}}</li>
                             <ul>

@@ -10,8 +10,12 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.numgoals == 0">No goals yet.</p>
                     <ul ng-switch-when="true">
-                        <p>Here the goals</p>
-                        <li ng-repeat="goal in vm.goals | orderBy: 'id' track by goal.id">{{goal.id}}</li>
+                        <li ng-repeat="goal in vm.goals | orderBy: '-ts_update' track by goal.id">
+                            <a ng-href="#/goals/{{goal.id}}">{{goal.name}}</a>
+                            <ul>
+                                <li ng-repeat="(key, value) in goal">{{key}} = {{value}}</li>
+                            <ul>
+                        </li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
                 </div>

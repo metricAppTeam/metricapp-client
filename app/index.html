@@ -86,7 +86,7 @@
                         </div>
                     </li>
                     <li ng-repeat="action in vm.actions">
-                        <a href="{{action.href}}"><span class="fa fa-{{action.icon}}"></span><span class="xn-text">{{action.name}}</span></a>
+                        <a ng-href="{{action.href}}"><span class="fa fa-{{action.icon}}"></span><span class="xn-text">{{action.name}}</span></a>
                     </li>
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -115,7 +115,7 @@
                         <!-- END: SIGN OUT -->
 
                         <!-- START: MESSAGES -->
-                        <li class="xn-icon-button pull-right" ng-controller="MessagesWidgetController as vm">
+                        <li class="xn-icon-button pull-right" ng-controller="ChatsWidgetController as vm">
                             <a href="#"><span class="fa fa-comments"></span></a>
                             <div class="informer informer-danger" ng-show="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}}</div>
                             <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
@@ -137,7 +137,7 @@
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': conversation.toread == 0,
                                         'status-unread': conversation.toread > 0}"
-                                        href="#/messages/{{conversation.recipient.username}}">
+                                        ng-href="#/messages/{{conversation.recipient.username}}">
                                             <div class="list-group-status"
                                             ng-class="{'status-online': conversation.recipient.online,
                                             'status-offline': !conversation.recipient.online}"></div>
@@ -186,7 +186,7 @@
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': notification.read,
                                         'status-unread': !notification.read}"
-                                        href="{{#/notifications/{{notification.id}}">
+                                        ng-href="{{#/notifications/{{notification.id}}">
                                             <img ng-src="{{notification.author.picture}}" class="pull-left" alt="{{notification.author.username}}"/>
                                             <span class="contacts-title">
                                                 {{notification.author.firstname}} {{notification.author.lastname}} /
@@ -229,7 +229,8 @@
                                         <a ng-switch-when="true" ng-show="vm.notifications.length == 0" class="list-group-item list-group-item-task" href="#">
                                             <span class="contacts-title">No tasks yet</span>
                                         </a>
-                                        <a ng-switch-when="true" ng-repeat="task in vm.tasks | orderBy: '-ts_update' track by task.id" class="list-group-item" href="#/tasks/{{task.id}}">
+                                        <a ng-switch-when="true" ng-repeat="task in vm.tasks | orderBy: '-ts_update' track by task.id"
+                                        class="list-group-item" ng-href="#/tasks/{{task.id}}">
                                             <strong>{{task.name}}</strong>
                                             <div class="progress progress-small">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="{{task.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">{{task.progress}}%</div>
