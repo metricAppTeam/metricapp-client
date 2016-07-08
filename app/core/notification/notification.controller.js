@@ -43,6 +43,7 @@ function NotificationController($location, $routeParams, NotificationService, Us
                         for (var info in resolve.user) {
                             vm.currNotification.author[info] = resolve.user[info];
                         }
+                        vm.success = true;
                     },
                     function(reject) {
                         vm.success = false;

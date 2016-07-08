@@ -131,7 +131,7 @@
                                     </a>
                                     <div ng-switch-when="false" ng-switch="vm.success">
                                         <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="#">
-                                            <span class="contacts-title"><strong>Hey,</strong> you have no messages</span>
+                                            <span class="contacts-title">No conversations yet</span>
                                         </a>
                                         <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy: '-ts_update' track by conversation.recipient.username"
                                         class="list-group-item list-group-item-message"
@@ -180,7 +180,7 @@
                                     </a>
                                     <div ng-switch-when="false" ng-switch="vm.success">
                                         <a ng-switch-when="true" ng-show="vm.notifications.length == 0" class="list-group-item list-group-item-message" href="#">
-                                            <span class="contacts-title"><strong>Hey,</strong> you have no notifications</span>
+                                            <span class="contacts-title">No notifications yet</span>
                                         </a>
                                         <a ng-switch-when="true" ng-repeat="notification in vm.notifications | orderBy: '-ts_create' track by notification.id"
                                         class="list-group-item list-group-item-message"
@@ -227,7 +227,7 @@
                                     </a>
                                     <div ng-switch-when="false" ng-switch="vm.success">
                                         <a ng-switch-when="true" ng-show="vm.notifications.length == 0" class="list-group-item list-group-item-task" href="#">
-                                            <span class="contacts-title"><strong>Hey,</strong> you have no tasks</span>
+                                            <span class="contacts-title">No tasks yet</span>
                                         </a>
                                         <a ng-switch-when="true" ng-repeat="task in vm.tasks | orderBy: '-ts_update' track by task.id" class="list-group-item" href="#/tasks/{{task.id}}">
                                             <strong>{{task.name}}</strong>

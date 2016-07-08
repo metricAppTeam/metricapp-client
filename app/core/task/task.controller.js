@@ -41,6 +41,7 @@ function TaskController($location, $routeParams, TaskService, UserService) {
                         for (var info in resolve.user) {
                             vm.currTask.assignee[info] = resolve.user[info];
                         }
+                        vm.success = true;
                     },
                     function(reject) {
                         vm.success = false;
