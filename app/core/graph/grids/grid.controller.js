@@ -2,21 +2,23 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name DraftController
+* @name GridController
 * @module metricapp
 * @requires $scope
+* @requires $location
 *
 * @description
+* Manages the Grid.
+* Realizes the control layer for `grid.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('DraftController', DraftController);
+.controller('GridController', GridController);
 
-DraftController.$inject = ['$scope', '$location', 'ProfileService','FlashService', 'GENDERS'];
+GridController.$inject = ['$scope', '$location'];
 
-function DraftController($scope, $location, ProfileService, FlashService, GENDERS) 
-{
+function GridController($scope, $location) {
 
     var vm = this;
 
@@ -88,7 +90,7 @@ function DraftController($scope, $location, ProfileService, FlashService, GENDER
     * @param {type} a Insert here param description.
     * @param {type} b Insert here param description.
     * @param {type} c Insert here param description.
-    * @return {type} Insert here return description.
+    * @returns {type} Insert here return description.
     ********************************************************************************/
     function _foo(a, b, c) {
 

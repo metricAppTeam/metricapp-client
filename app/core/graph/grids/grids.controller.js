@@ -2,33 +2,33 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name GridController
+* @name GridsController
 * @module metricapp
 * @requires $scope
 * @requires $location
 *
 * @description
-* Manages the Grid.
-* Realizes the control layer for `grid.view`.
+* Manages the Grids.
+* Realizes the control layer for `grids.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('GridController', GridController);
+.controller('GridsController', GridsController);
 
-GridController.$inject = ['$scope', '$location'];
+GridsController.$inject = ['$scope', '$location'];
 
-function GridController($scope, $location) {
+function GridsController($scope, $location) {
 
     var vm = this;
 
 
     //list of projects for view user project
     vm.grids = [
-        {name: "GRID 1",progress: 30, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
-        {name: "GRID 2",progress: 40, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
-        {name: "GRID 3",progress: 100, status: "complete", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
-        {name: "GRID 4",progress: 10, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {id: "1", name: "GRID 1",progress: 30, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {id: "2", name: "GRID 2",progress: 40, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {id: "3", name: "GRID 3",progress: 90, status: "complete", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {id: "4", name: "GRID 4",progress: 10, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
         
         
     ];

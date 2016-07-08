@@ -1,5 +1,5 @@
 <!-- START: GRID -->
-<div ng-controller="GridController as vm">
+<div ng-controller="GridsController as vm">
     <div class="page-title">
         <h2><span class="fa fa-codepen"></span> Grids <small ng-if="globals.user">Welcome, {{globals.user.username}}</small></h2>
     </div>
@@ -18,12 +18,12 @@
                                     <th width="20%">
                                         <div class="th">Grid name</div>
                                     </th>
-                                    <th width="10%">
+                                    <th width="9%">
                                         <div class="th">
                                             Progress
                                         </div>
                                     </th>
-                                    <th width="10%">
+                                    <th width="15%">
                                         <div class="th">
                                             Status
                                         </div>
@@ -37,15 +37,22 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="x in vm.grids">
-                                    <td><strong>{{x.name}}</strong></td>
+                                    <td>
+                                        <!--<a href="#/grid/{{x.id}}">
+                                            <h2>{{x.name}}</h2>
+                                        </a>-->
+                                        <a href="/#grid">
+                                            <h2>{{x.id}} {{x.name}}</h2>
+                                        </a>
+                                    </td>
                                     <td>
                                         <round-progress
                                             max="100"
                                             current="x.progress"
-                                            color="#fea223"
+                                            color="#81C784"
                                             bgcolor="#eaeaea"
-                                            radius="30"
-                                            stroke="7"
+                                            radius="20"
+                                            stroke="5"
                                             semi="false"
                                             rounded="true"
                                             clockwise="true"
