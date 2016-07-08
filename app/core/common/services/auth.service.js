@@ -45,10 +45,11 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
         var password = credentials.password;
         return $q(function(resolve, reject) {
             setTimeout(function() {
-                if (DB_USERS[username]) {
-                    if (DB_USERS[username].password === password) {
-                        DB_USERS[username].online = true;
-                        resolve({authuser: DB_USERS[username]});
+                var USER = DB_USERS[username];
+                if (USER) {
+                    if (USER.password === password) {
+                        USER.online = true;
+                        resolve({authuser: USER});
                     } else {
                         reject('Wrong password for: ' + username);
                     }
@@ -71,8 +72,9 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
         var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
             setTimeout(function() {
-                if (DB_USERS[username]) {
-                    DB_USERS[username].online = false;
+                var USER = DB_USERS[username];
+                if (USER) {
+                    USER.online = false;
                     resolve({username: username});
                 } else {
                     reject('Wrong username for: ' + username);
@@ -89,12 +91,12 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
     * @returns {User} THe authuser stored into the cookie.
     ********************************************************************************/
     function getUser() {
-        console.log('GET-USER cookie');
+        //console.log('GET-USER cookie');
         var user = $cookies.getObject('globals').user;
-        console.log('GET-COOKIE globals.user WITH ' +
+        /*console.log('GET-COOKIE globals.user WITH ' +
         'username=' + user.username + ' & ' +
         'role=' + user.role + ' & ' +
-        'authdata=' + user.authdata);
+        'authdata=' + user.authdata);*/
         return user;
     }
 
@@ -107,10 +109,10 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
     * @returns {String} Insert description here.
     ********************************************************************************/
     function setUser(authuser) {
-        console.log('SET-USER cookie WITH ' +
+        /*console.log('SET-USER cookie WITH ' +
         'username=' + authuser.username + ' & ' +
         'password=' + authuser.password + ' & ' +
-        'role=' + authuser.role);
+        'role=' + authuser.role);*/
 
         var authdata = authuser.username + ':' + authuser.password + ':' + authuser.role;
 
@@ -123,14 +125,14 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
         };
 
         $cookies.putObject('globals', $rootScope.globals);
-        console.log('PUT-COOKIE globals.user WITH ' +
+        /*console.log('PUT-COOKIE globals.user WITH ' +
         'username=' + $rootScope.globals.user.username + ' & ' +
         'role=' + $rootScope.globals.user.role + ' & ' +
-        'authdata=' + $rootScope.globals.user.authdata);
+        'authdata=' + $rootScope.globals.user.authdata);*/
 
         $http.defaults.headers.common.Authorization = 'Basic ' + authdata;
-        console.log('SET-HEADER common WITH ' +
-        'Authorization=' + $http.defaults.headers.common.Authorization);
+        /*console.log('SET-HEADER common WITH ' +
+        'Authorization=' + $http.defaults.headers.common.Authorization);*/
     }
 
     /********************************************************************************
@@ -140,13 +142,14 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
     * Removes the user stored ito the cookie.
     ********************************************************************************/
     function clearUser() {
-        console.log('CLEAR-USER cookie');
+        //console.log('CLEAR-USER cookie');
         $rootScope.globals = {};
         $cookies.remove('globals');
-        console.log('REMOVE-COOKIE globals');
+        //console.log('REMOVE-COOKIE globals');
         $http.defaults.headers.common.Authorization = 'Basic';
-        console.log('SET-HEADER common WITH ' +
+        /*console.log('SET-HEADER common WITH ' +
         'Authorization=' + $http.defaults.headers.common.Authorization);
+        */
     }
 
 }
