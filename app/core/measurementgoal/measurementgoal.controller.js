@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-07 23:40:45
+* @Last Modified time: 2016-07-08 18:44:18
 */
 (function () { 'use strict';
 
@@ -29,9 +29,17 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
 
     vm.measurementGoals = [];
     vm.measurementGoalDialog = MeasurementGoalService.getUpdateMeasurementGoal();
+    vm.organizationalGoalDialog = {};
     vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.cancelSubmit = cancelSubmit;
+    vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
+    vm.getOrganizationalGoalById = getOrganizationalGoalById;
+    vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
+    vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
+    vm.setOrganizationalGoalDialog = setOrganizationalGoalDialog;
+    vm.initOrganizationalGoalDialog = initOrganizationalGoalDialog;
 
+    initOrganizationalGoalDialog();
     _init();
 
     /********************************************************************************
@@ -106,6 +114,25 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
         );
     };
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name getOrganizationalGoal
+    * @description
+    * Get organizational goal.
+    ********************************************************************************/
+    function getOrganizationalGoalById(id){
+         MeasurementGoalService.getOrganizationalGoalById(id).then(
+            function(data) {
+                console.log("getOrganizationalGoalDialog");
+                console.log(data);
+                vm.organizationalGoalDialog = data;
+                //return data;//vm.organizationalGoalDialog;
+            },
+            function(data) {
+                alert('Error retriving Measurement Goals by state');
+            }
+        );
+    };
 
     /********************************************************************************
     * @ngdoc method
@@ -119,6 +146,24 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
 
     function setMeasurementGoalDialog(measurementGoalToAssignId){
             vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
+
+            if(vm.measurementGoalDialog != null){
+                setOrganizationalGoalDialog(vm.measurementGoalDialog.organizatoinalGoalId);
+            }
+    }
+
+    function setOrganizationalGoalDialog(organizationalGoalToAssignId){
+            if(organizationalGoalToAssignId != null){
+                //vm.organizationalGoalDialog = 
+                getOrganizationalGoalById(organizationalGoalToAssignId);
+                console.log(vm.organizationalGoalDialog);
+            }
+    }
+
+    function initOrganizationalGoalDialog(){
+        if(vm.measurementGoalDialog != null){
+            setOrganizationalGoalDialog('1');//vm.measurementGoalDialog.organizatoinalGoalId);
+        }
     }
 
     function goToUpdateMeasurementGoal(){

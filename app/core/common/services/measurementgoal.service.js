@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-07 23:41:18
+* @Last Modified time: 2016-07-08 17:51:01
 */
 (function() { 'use strict';
 
@@ -35,6 +35,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     service.getMeasurementGoalsBy = getMeasurementGoalsBy;
     service.toUpdateMeasurementGoal = toUpdateMeasurementGoal;
     service.getUpdateMeasurementGoal = getUpdateMeasurementGoal;
+    service.getOrganizationalGoalById = getOrganizationalGoalById;
 
     /********************************************************************************
     * @ngdoc method
@@ -104,6 +105,34 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get measurement goals.
+    ********************************************************************************/
+    
+    function getOrganizationalGoalById(organizationalGoalId) {
+        
+        //return $http.get('http://localhost:8080/metricapp-server-gitlab/external/organizationalgoal?id='+organizationalGoalId).then(
+        
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET ORGANIZATIONAL GOAL');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET ORGANIZATIONAL GOAL');
                 console.log(message);
                 return message;
             }
