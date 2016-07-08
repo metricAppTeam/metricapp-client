@@ -19,7 +19,7 @@ angular.module('metricapp',[
     'ngFlash',
     'ngMockE2E',
     'nvd3',
-    'stpa.morris'
+    'angular.morris-chart'
 ]);
 
 })();
