@@ -27,10 +27,10 @@ function GridController($scope, $location) {
     vm.options = {
         chart: {
             type: 'forceDirectedGraph',
-            height: 300,
-            radius: 10,
-            linkStrength: 0.1,
-            width: (function(){ return nv.utils.windowSize().width })(),
+            height: (function(){ return nv.utils.windowSize().height -200})(),
+            radius: 12,
+            linkStrength: -0.03,
+            width: (function(){ return nv.utils.windowSize().width -800})(),
             margin:{top: 10, right: 10, bottom: 10, left: 10},
             color: function(d){
                 return color(d.group)
@@ -39,17 +39,17 @@ function GridController($scope, $location) {
                 node && node
                   .append("text")
                   .attr("dx", 15)
-                  .attr("dy", ".60em")
+                  .attr("dy", ".6em")
                   .text(function(d) { return d.name })
-                  .style('font-size', '15px');
+                  .style('font-size', '20px');
             }
         }
     };
     
     vm.data = {
         "nodes":[
-            {"name":"Adaadasdasdsadsads","group":1},
-            {"name":"B","group":2,"civico":19},
+            {"name":"A","group":1},
+            {"name":"B","group":2},
             {"name":"C","group":3},
             {"name":"D","group":4},
             {"name":"E","group":5},
@@ -58,9 +58,9 @@ function GridController($scope, $location) {
         ],
         "links":[
             {"source":1,"target":0,"value":1},
-            {"source":1,"target":0,"value":2},
-            {"source":1,"target":0,"value":3},
-            {"source":3,"target":0,"value":4},
+            {"source":4,"target":0,"value":2},
+            {"source":2,"target":0,"value":1},
+            {"source":3,"target":0,"value":2},
             {"source":4,"target":0,"value":5},
             {"source":5,"target":0,"value":6},
         ]
