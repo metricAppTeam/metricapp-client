@@ -7,7 +7,6 @@
 * @requires $http
 * @requires $rootScope
 * @requires $cookies
-* @requires UserService
 * @requires REST_SERVICE
 * @requires ROLES
 *
@@ -19,9 +18,9 @@ angular.module('metricapp')
 
 .service('AuthService', AuthService);
 
-AuthService.$inject = ['$http', '$rootScope', '$cookies', 'UserService', 'REST_SERVICE', 'ROLES'];
+AuthService.$inject = ['$http', '$rootScope', '$cookies', '$q', 'REST_SERVICE', 'ROLES', 'DB_USERS'];
 
-function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROLES) {
+function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_USERS) {
 
     var service = this;
 
@@ -42,25 +41,22 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
     * @returns {User} On success, the authenticated User; null otherwise.
     ***************************************************************************/
     function login(credentials) {
-        console.log('LOGIN user WITH ' +
-        'username=' + credentials.username + ' & ' +
-        'password=' + credentials.password);
-        return $http.post(REST_SERVICE.URL + '/api/login', credentials).then(
-            function(response) {
-                var authuser = response.data;
-                console.log('SUCCESS LOGIN user WITH ' +
-                'username=' + authuser.username + ' & ' +
-                'password=' + authuser.password + ' & ' +
-                'role=' + authuser.role);
-                return authuser;
-            },
-            function(response) {
-                console.log('FAILURE LOGIN user WITH ' +
-                'username=' + credentials.username + ' & ' +
-                'password=' + credentials.password);
-                return null;
-            }
-        );
+        var username = credentials.username;
+        var password = credentials.password;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                if (DB_USERS[username]) {
+                    if (DB_USERS[username].password === password) {
+                        DB_USERS[username].online = true;
+                        resolve({authuser: DB_USERS[username]});
+                    } else {
+                        reject('Wrong password for: ' + username);
+                    }
+                } else {
+                    reject('Wrong username for: ' + username);
+                }
+            }, 500);
+        });
     }
 
     /********************************************************************************
@@ -72,22 +68,17 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
     * @returns {Response} Insert description here.
     ********************************************************************************/
     function logout() {
-        console.log('LOGOUT user');
-        return $http.post(REST_SERVICE.URL + '/api/logout').then(
-            function(response) {
-                var username = response.data;
-                console.log('SUCCESS LOGOUT user WITH ' +
-                'username=' + username);
-                return username;
-            },
-            function(response) {
-                var username = response.data;
-                console.log('FAILURE LOGOUT user WITH ' +
-                'username=' + username);
-                var errmsg = 'Cannot logout ' + username;
-                return errmsg;
-            }
-        );
+        var username = $cookies.getObject('globals').user.username;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                if (DB_USERS[username]) {
+                    DB_USERS[username].online = false;
+                    resolve({username: username});
+                } else {
+                    reject('Wrong username for: ' + username);
+                }
+            }, 500);
+        });
     }
 
     /********************************************************************************
