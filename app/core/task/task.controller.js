@@ -39,7 +39,7 @@ function TaskController($location, $routeParams, TaskService, UserService) {
                 return UserService.getUser(resolve.task.author).then(
                     function(resolve) {
                         for (var info in resolve.user) {
-                            vm.elem.assignee[info] = resolve.user[info];
+                            vm.currTask.assignee[info] = resolve.user[info];
                         }
                     },
                     function(reject) {
