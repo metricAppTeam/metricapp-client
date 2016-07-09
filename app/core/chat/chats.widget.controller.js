@@ -24,18 +24,35 @@ function ChatsWidgetController($location, MessageService, UserService) {
 
     _init();
 
-    function _loadConversations(cnvStart, cnvN, msgStart, msgN) {
+    function _loadConversations(cnvStart, cnvN) {
         vm.loading = true;
         vm.success = false;
-        MessageService.getConversations(cnvStart, cnvN, msgStart, msgN).then(
+        MessageService.getNFrom(cnvStart, cnvN).then(
             function(resolve) {
-                vm.conversations.push(resolve.conversations);
+                var conversations = resolve.conversations;
                 vm.toread = resolve.toread;
-                vm.success = true;
+                var recipients = [];
+                conversations.forEach(function(conversation) {
+                    recipients.push(conversation.recipient);
+                });
+                return UserService.getInArray(recipients).then(
+                    function(resolve) {
+                        var users = resolve.users;
+                        conversations.forEach(fuction(conversation) {
+                            var recipient = conversation.recipient;
+                            conversation.recipient = angular.copy(users[recipient]);
+                            if (conversation.recipient) vm.conversations.push(conversation);
+                        });
+                        vm.success = true;
+                    },
+                    function(reject) {
+                        vm.errmsg = reject.errmsg;
+                        vm.success = false;
+                    }
+                );
             },
             function(reject) {
-                var errmsg = reject.errmsg;
-                alert('FAILURE [MessagesWidgetController._loadConversations()]: ' + errmsg);
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {
@@ -46,9 +63,10 @@ function ChatsWidgetController($location, MessageService, UserService) {
     function _init() {
         vm.loading = true;
         vm.success = false;
+        vm.errmsg = null;
         vm.conversations = [];
         vm.toread = 0;
-        _loadConversations(0, 5, 0, 1);
+        _loadConversations(0, 5);
     }
 
 }

@@ -1,54 +1,73 @@
-(function() {  'use strict';
+(function() { 'use strict';
 
 /************************************************************************************
 * @ngdoc controller
 * @name ChatController
 * @module metricapp
+* @requires $rootScope
+* @requires $scope
 * @requires $location
 * @requires $routeParams
 * @requires MessageService
 * @requires UserService
 *
 * @description
-* Realizes the control layer for `chat.view`
-*************************************.***********************************************/
+* Realizes the control layer for `chat.view`.
+************************************************************************************/
 
 angular.module('metricapp')
 
 .controller('ChatController', ChatController);
 
-ChatController.$inject = ['$location', '$routeParams', 'MessageService', 'UserService'];
+ChatController.$inject = ['$rootScope', '$scope', '$location', '$routeParams', 'MessageService', 'UserService'];
 
-function ChatController($location, $routeParams, MessageService, UserService) {
+function ChatController($rootScope, $scope, $location, $routeParams, MessageService, UserService) {
 
     var vm = this;
 
+    vm.loadMore = loadMore
+    vm.sendMessage = sendMessage;
+
     _init();
 
-    function _loadTask(taskid) {
+    function loadMore() {
+        /*
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.conversation.messages = vm.conversation.messages.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
+        */
+    }
+
+    function sendMessage(content) {
+        var message = {
+            ts_create: new Date(),
+            author: $rootScope.globals.user.username,
+            content: content
+        };
+        vm.currConversation.messages.push(message);
+    }
+
+    function _loadConversation(recipient) {
         vm.loading = true;
         vm.success = false;
-        TaskService.getTask(taskid).then(
+        MessageService.getById(recipient, -1).then(
             function(resolve) {
-                vm.currTask.id = resolve.task.id;
-                vm.currTask.name = resolve.task.name;
-                vm.currTask.description = resolve.task.description;
-                vm.currTask.assignee = {};
-                vm.currTask.ts_create = resolve.task.ts_create;
-                vm.currTask.ts_update = resolve.task.ts_update;
-                return UserService.getUser(resolve.task.author).then(
+                vm.currConversation = angular.copy(resolve.conversation);
+                return UserService.getUser(vm.currConversation.recipient).then(
                     function(resolve) {
-                        for (var info in resolve.user) {
-                            vm.currTask.assignee[info] = resolve.user[info];
-                        }
+                        vm.currConversation.recipient = angular.copy(resolve.user);
                         vm.success = true;
                     },
                     function(reject) {
+                        vm.errmsg = reject.errmsg;
                         vm.success = false;
                     }
                 );
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {
@@ -59,19 +78,30 @@ function ChatController($location, $routeParams, MessageService, UserService) {
     function _init() {
         vm.loading = true;
         vm.success = false;
-        if (!$routeParams.taskid) {
-            $location.path('/tasks');
+        vm.errmsg = null;
+        if (!$routeParams.username) {
+            return;
         }
-        vm.currTask = {
-            id: $routeParams.taskid,
-            name: null,
-            description: null,
-            assignee: null,
-            progress: null,
-            ts_create: null,
-            ts_update: null
-        };
-        _loadTask(vm.currTask.id);
+        vm.currConversation = {
+            recipient: {username: $routeParams.username}
+        }
+        /*
+        vm.data = [];
+        vm.buffer = [];
+        vm.currConversation[messages] = [];
+        vm.idx = 0;
+        vm.step = 10;
+        vm.orderBy = 'ts_create';
+        */
+        _loadConversation(vm.currConversation.recipient.username);
+        /*
+        $scope.$watch('vm.buffer', function() {
+            vm.idx = 0;
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.currConversation.messages = vm.buffer.slice(vm.idx, e);
+            vm.idx = e;
+        });
+        */
     }
 
 }

@@ -36,7 +36,7 @@
                             <div class="contacts-title">{{conversation.recipient.firstname}} {{conversation.recipient.lastname}}
                                 <span ng-show="conversation.toread > 0" class="label label-danger">{{conversation.toread}}</span>
                             </div>
-                            <p>{{conversation.messages[0].content.toString().substring(0, (conversation.toread > 0) ? 30 : 28)}}...</p>
+                            <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 30 : 28)}}...</p>
                         </a>
                     </div>
                     <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
@@ -47,7 +47,7 @@
         </div>
         <!-- END: FRAME-RIGHT -->
         <!-- START: FRAME-BODY -->
-        <div class="content-frame-body content-frame-body-left">
+        <div class="content-frame-body content-frame-body-left" ng-controller="ChatController as vm">
             <div class="messages messages-img" style="overflow-y:scroll;" m-when-scroll-top="vm.loadMore()">
                 <div ng-repeat="message in vm.currConversation.messages | orderBy: 'ts_create' track by $index" class="item item-visible" ng-class="{'in': message.author != globals.user.username}">
                     <div class="image" ng-switch="message.author">
@@ -56,7 +56,8 @@
                     </div>
                     <div class="text">
                         <div class="heading">
-                            <a href="#">{{vm.getFullname(message.author)}}</a>
+                            <a ng-switch-when="globals.user.username" g-href="#/profile/{{globals.user.username}}">{{globals.user.firstname}} {{globals.user.lastname}}</a>
+                            <a ng-switch-when="conversation.recipient.username" g-href="#/profile/{{conversation.recipient.username}}">{{conversation.recipient.firstname}} {{conversation.recipient.lastname}}</a>
                             <span class="date">
                                 on {{message.ts_create.toLocaleDateString()}}
                                 at {{message.ts_create.toLocaleTimeString()}}</span>
@@ -75,7 +76,7 @@
                         </div>
                         <input type="text" class="form-control" placeholder="Your message..." ng-model="vm.myMessage"/>
                         <div class="input-group-btn">
-                            <button class="btn btn-default" ng-disabled="vm.myMessage.length == 0" ng-click="vm.sendMessage()">Send</button>
+                            <button class="btn btn-default" ng-disabled="vm.myMessage.length == 0" ng-click="vm.sendMessage(vm.myMessage)">Send</button>
                         </div>
                     </div>
                 </div>

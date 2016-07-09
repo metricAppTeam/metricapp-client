@@ -34,7 +34,8 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     * @name getAll
     * @description
     * Retrieves all the users.
-    * @returns {[User]|Error} On success, the users; an error message, otherwise.
+    * @returns {[User]|Error} On success, the users;
+    * an error message, otherwise.
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
@@ -54,7 +55,8 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     * @description
     * Retrieves the specified user.
     * @param {String} username The username of the user to retrieve.
-    * @returns {User|Error} On success, the user; an error message, otherwise.
+    * @returns {User|Error} On success, the user;
+    * an error message, otherwise.
     ********************************************************************************/
     function getById(username) {
         return $q(function(resolve, reject) {
@@ -75,8 +77,8 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     * @description
     * Retrieves the specified users.
     * @param {[String]} usernames Usernames of users to retrieve.
-    * @returns {{username:User}|Error} On success, the list of users; an error message,
-    * otherwise.
+    * @returns {{username:User}|Error} On success, the list of users;
+    * an error message, otherwise.
     ********************************************************************************/
     function getInArray(usernames) {
         return $q(function(resolve, reject) {
@@ -100,8 +102,8 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     * Retrieves the specified users.
     * @param {Int} usrStart First user index.
     * @param {Int} usrN Number of users.
-    * @returns {[User]|Error} On success, the list of users; an error message,
-    * otherwise.
+    * @returns {[User]|Error} On success, the list of users;
+    * an error message, otherwise.
     ********************************************************************************/
     function getNFrom(usrStart, usrN) {
         return $q(function(resolve, reject) {

@@ -39,7 +39,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
             setTimeout(function() {
                 var tasks = [];
                 for (task in DB_TASKS) {
-                    tasks.push(task);
+                    tasks.push(DB_TASKS[task]);
                 }
                 resolve({tasks: tasks});
             }, 500);
@@ -51,7 +51,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
     * @name getById
     * @description
     * Retrieves the specified task.
-    * @param {Int} taskid The task id to retrieve.
+    * @param {Int} taskid The id of the task to retrieve.
     * @returns {Task|Error} On success, the specified task;
     * an error message, otherwise.
     ********************************************************************************/
@@ -98,8 +98,8 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
     * Retrieves the specified tasks for authuser.
     * @param {Int} tskStart First task index.
     * @param {Int} tskN Number of tasks.
-    * @returns {[Task]|Error} On success, the list of tasks; an error message,
-    * otherwise.
+    * @returns {[Task]|Error} On success, the list of tasks;
+    * an error message, otherwise.
     ********************************************************************************/
     function getNTasksFrom(tskStart, tskN) {
         return $q(function(resolve, reject) {

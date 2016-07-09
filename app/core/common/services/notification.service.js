@@ -23,34 +23,29 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
 
     var service = this;
 
-    service.getNotification = getNotification;
-    service.getNNotificationsFrom = getNNotificationsFrom;
-    service.cleanNews = cleanNews;
+    service.getAll = getAll;
+    service.getById = getById;
+    service.getInArray = getInArray;
+    service.getNFrom = getNFrom;
 
     /********************************************************************************
     * @ngdoc method
-    * @name getNotification
+    * @name getAll
     * @description
-    * Retrieves the specified notification for authuser.
-    * @param {Int} notificationid The nontification id.
-    * @returns {Notification|Error} On success, the notification; an error message,
-    * otherwise.
+    * Retrieves all the notifications for authuser;
+    * @returns {[Task]|Error} On success, the tasks;
+    * an error message, otherwise.
     ********************************************************************************/
-    function getNotification(notificationid) {
-        var username = $cookies.getObject('globals').user.username;
+    function getAll() {
         return $q(function(resolve, reject) {
+            var username = $cookies.getObject('globals').user.username;
             setTimeout(function() {
-                if (DB_NOTIFICATIONS[username]) {
-                    var NOTIFICATIONS = DB_NOTIFICATIONS[username].notifications;
-                    NOTIFICATIONS.forEach(function(NOTIFICATION) {
-                        if (NOTIFICATION.id === notificationid) {
-                            resolve({notification: NOTIFICATION});
-                            return;
-                        }
-                    });
-                    reject('Notifications ' + notificationid + 'not found for user ' + username);
+                var INBOX = DB_NOTIFICATIONS[username];
+                if (INBOX) {
+                    var NOTIFICATIONS = INBOX.notifications;
+                    resolve({notifications: NOTIFICATIONS});
                 } else {
-                    reject('Notifications not found for user ' + username);
+                    reject({errmsg: 'Notifications not found for user ' + username});
                 }
             }, 500);
         });
@@ -58,25 +53,55 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
 
     /********************************************************************************
     * @ngdoc method
-    * @name getNNotificationsFrom
+    * @name getById
+    * @description
+    * Retrieves the specified notification for authuser.
+    * @param {Int} notificationid The id of the notification to retrieve
+    * @returns {Notification|Error} On success, the specified notification;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function getById(notificationid) {
+        var username = $cookies.getObject('globals').user.username;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var INBOX = DB_NOTIFICATIONS[username];
+                if (INBOX) {
+                    var NOTIFICATIONS = INBOX.notifications;
+                    NOTIFICATIONS.forEach(function(NOTIFICATION) {
+                        if (NOTIFICATION.id === notificationid) {
+                            resolve({notification: NOTIFICATION});
+                            return;
+                        }
+                    });
+                    reject({errmsg: 'Notification ' + notificationid + ' not found for user ' + username});
+                } else {
+                    reject({errmsg: 'Notifications not found for user ' + username});
+                }
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getNFrom
     * @description
     * Retrieves the specified notifications for authuser.
     * @param {Int} ntfStart First notification index.
     * @param {Int} ntfN Number of notifications.
-    * @returns {[Notification]|Error} On success, the list of notifications with
-     * meta for authuser; an error, otherwise.
+    * @returns {[Notification]|Error} On success, the notifications for authuser;
+    * an error message, otherwise.
     ***************************************************************************/
-    function getNNotificationsFrom(ntfStart, ntfN) {
+    function getNFrom(ntfStart, ntfN) {
         var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
             setTimeout(function() {
-                if (DB_NOTIFICATIONS[username]) {
-                    var news = DB_NOTIFICATIONS[username].news;
-                    var NOTIFICATIONS = DB_NOTIFICATIONS[username].notifications;
+                var INBOX = DB_NOTIFICATIONS[username];
+                if (INBOX) {
+                    var news = INBOX.news;
+                    var NOTIFICATIONS = INBOX.notifications;
                     var notifications = [];
                     var toread = 0;
-                    var numnotifications = NOTIFICATIONS.length;
-                    var end = (ntfN == -1) ? numnotifications:Math.min(ntfStart + ntfN, numnotifications);
+                    var end = (ntfN == -1) ? NOTIFICATIONS.length : Math.min(ntfStart + ntfN, NOTIFICATIONS.length);
                     for (var i = ntfStart; i < end; i++) {
                       notifications.push(NOTIFICATIONS[i]);
                       if (!NOTIFICATIONS[i].read) {
@@ -84,29 +109,9 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
                       }
                     }
                     resolve({notifications: notifications, news: news, toread: toread});
-                    /*DB_NOTIFICATIONS[username].notifications.news =
-                    Math.max(DB_NOTIFICATIONS[username].notifications.news - ntfN, 0);
-                    */
                 } else {
-                    reject('Notifications not found for user ' + username);
+                    reject({errmsg: 'Notifications not found for user ' + username});
                 }
-            }, 500);
-        });
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name cleanNews
-    * @description
-    * Set to zero the number of notifications news.
-    * @returns {[RichNotification]|Error} On success, the list of notifications with
-     * meta for authuser; an error, otherwise.
-    ***************************************************************************/
-    function cleanNews() {
-        var username = $cookies.getObject('globals').user.username;
-        return $q(function(resolve, reject) {
-            setTimeout(function() {
-                resolve({}); // TO BE IMPLEMENTED
             }, 500);
         });
     }
