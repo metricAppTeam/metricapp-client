@@ -2,34 +2,35 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name GoalController
+* @name GridAnalyticsController
 * @module metricapp
 * @requires $scope
 * @requires $location
 * @requires $routeParams
-* @requires GoalService
+* @requires GridService
 *
 * @description
-* Realizes the control layer for `goal.view`.
+* Realizes the control layer for `grid.analytics.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('GoalController', GoalController);
+.controller('GridAnalyticsController', GridAnalyticsController);
 
-GoalController.$inject = ['$scope', '$location', '$routeParams', 'GoalService'];
+GridAnalyticsController.$inject = ['$scope', '$location', '$routeParams', 'GridService'];
 
-function GoalController($scope, $location, $routeParams, GoalService) {
+function GridAnalyticsController($scope, $location, $routeParams, GridService) {
 
     var vm = this;
 
     _init();
 
-    function _loadGoal(goalid) {
+    function _loadGrid(gridid) {
         vm.loading = true;
         vm.success = false;
-        GoalService.getGoal(goalid).then(
+        GridService.getById(gridid).then(
             function(response) {
+                vm.currGrid = angular.copy(resolve.grid);
                 vm.success = true;
             },
             function(reject) {
@@ -45,10 +46,10 @@ function GoalController($scope, $location, $routeParams, GoalService) {
         vm.loading = true;
         vm.success = false;
         vm.errmsg = null;
-        vm.currGoal = {
-            id: $routeParams.goalid
+        vm.currGrid = {
+            id: $routeParams.gridid
         };
-        _loadGoal(vm.currGoal.id);
+        _loadGrid(vm.currGrid.id);
     }
 
 }

@@ -2,22 +2,22 @@
 
 /************************************************************************************
 * @ngdoc service
-* @name GoalService
+* @name MGoalService
 * @module metricapp
 * @requires $http
 * @requires REST_SERVICE
 *
 * @description
-* Provides goal management services.
+* Provides measurement goal management services.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.service('GoalService', GoalService);
+.service('MGoalService', MGoalService);
 
-GoalService.$inject = ['$http', 'REST_SERVICE'];
+MGoalService.$inject = ['$http', '$q', 'REST_SERVICE', 'DB_MGOALS'];
 
-function GoalService($http, REST_SERVICE) {
+function MGoalService($http, $q, REST_SERVICE, DB_MGOALS) {
 
     var service = this;
 
@@ -33,7 +33,11 @@ function GoalService($http, REST_SERVICE) {
     * @returns {Goal|Error} On success, the goal; an error, otherwise.
     ********************************************************************************/
     function getGoal(goalid) {
-
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                reject('Goal not found: ' + goalid);
+            }, 500);
+        });
     }
 
     /********************************************************************************
@@ -46,7 +50,11 @@ function GoalService($http, REST_SERVICE) {
     * @returns {[Goal]|Error} On success, the list of goals; an error, otherwise.
     ********************************************************************************/
     function getGoals(goaStart, goaN) {
-
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                resolve({goals: []});
+            }, 500);
+        });
     }
 
 }

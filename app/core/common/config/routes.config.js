@@ -32,10 +32,10 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/home/home.view.html'
     })
     .when('/profile/:username', {
-        templateUrl: 'dist/views/profile/profile.view.html'
+        templateUrl: 'dist/views/user/profile.view.html'
     })
     .when('/profile/:username/analytics', {
-        templateUrl: 'dist/views/profile/profile.analytics.view.html'
+        templateUrl: 'dist/views/user/analytics.view.html'
     })
     .when('/organization', {
         templateUrl: 'dist/views/organization/organization.view.html'
@@ -56,7 +56,7 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/grid/grid.view.html'
     })
     .when('/grids/:gridid/analytics', {
-        templateUrl: 'dist/views/grid/grid.analytics.view.html'
+        templateUrl: 'dist/views/grid/analytics.view.html'
     })
     .when('/goals', {
         templateUrl: 'dist/views/grid/goal/goals.view.html'

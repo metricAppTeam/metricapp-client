@@ -22,9 +22,24 @@ function GoalsController($scope, $location, GoalService) {
 
     var vm = this;
 
+    vm.loadMore = loadMore;
+    vm.search = search;
+
     _init();
 
-    function _loadGoals(goaStart, goaN) {
+    function loadMore() {
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.goals = vm.goals.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
+    }
+
+    function search(query) {
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+    }
+
+    function _loadAllGoals(goaStart, goaN) {
         vm.loading = true;
         vm.success = false;
         GoalService.getGoals(goaStart, goaN).then(
@@ -40,7 +55,7 @@ function GoalsController($scope, $location, GoalService) {
         vm.success = false;
         vm.goals = [];
         vm.numgoals = 0;
-        _loadGoals(0, 20);
+        _loadAllGoals();
     }
 
 }
