@@ -28,19 +28,12 @@ function TaskController($location, $routeParams, TaskService, UserService) {
     function _loadTask(taskid) {
         vm.loading = true;
         vm.success = false;
-        TaskService.getTask(taskid).then(
+        TaskService.getById(taskid).then(
             function(resolve) {
-                vm.currTask.id = resolve.task.id;
-                vm.currTask.name = resolve.task.name;
-                vm.currTask.description = resolve.task.description;
-                vm.currTask.assignee = {};
-                vm.currTask.ts_create = resolve.task.ts_create;
-                vm.currTask.ts_update = resolve.task.ts_update;
-                return UserService.getUser(resolve.task.author).then(
+                vm.currTask = angular.copy(resolve.task);
+                return UserService.getById(vm.currTask.assignee).then(
                     function(resolve) {
-                        for (var info in resolve.user) {
-                            vm.currTask.assignee[info] = resolve.user[info];
-                        }
+                        vm.currTask.assignee = angular.copy(resolve.user);
                         vm.success = true;
                     },
                     function(reject) {
@@ -49,6 +42,7 @@ function TaskController($location, $routeParams, TaskService, UserService) {
                 );
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {
@@ -59,17 +53,9 @@ function TaskController($location, $routeParams, TaskService, UserService) {
     function _init() {
         vm.loading = true;
         vm.success = false;
-        if (!$routeParams.taskid) {
-            $location.path('/tasks');
-        }
+        vm.errmsg = null;
         vm.currTask = {
-            id: $routeParams.taskid,
-            name: null,
-            description: null,
-            assignee: null,
-            progress: null,
-            ts_create: null,
-            ts_update: null
+            id: $routeParams.taskid
         };
         _loadTask(vm.currTask.id);
     }

@@ -27,30 +27,26 @@ function TasksWidgetController($location, TaskService, UserService) {
     function _loadTasks(tskStart, tskN) {
         vm.loading = true;
         vm.success = false;
-        TaskService.getNTasksFrom(tskStart, tskN).then(
+        TaskService.getNFrom(tskStart, tskN).then(
             function(resolve) {
-                vm.numtasks = resolve.numtasks;
                 var tasks = resolve.tasks;
                 var assignees = [];
                 tasks.forEach(function(task) {
                     assignees.push(task.assignee);
                 });
-                return UserService.getUsersInArray(assignees).then(
+                return UserService.getInArray(authors).then(
                     function(resolve) {
                         var users = resolve.users;
                         tasks.forEach(function(task) {
                             var assignee = task.assignee;
-                            if (users[assignee]) {
-                                task.assignee = {};
-                                for (var info in users[assignee]) {
-                                    task.assignee[info] = users[assignee][info];
-                                }
-                                vm.tasks.push(task);
-                            }
+                            task.assignee = angular.copy(users[assignee]);
+                            if (task.assignee) vm.data.push(task);
                         });
+                        vm.buffer = $filter('orderBy')(angular.copy(vm.data),vm.orderBy);
                         vm.success = true;
                     },
                     function(reject) {
+                        vm.errmsg = reject.errmsg;
                         vm.success = false;
                     }
                 );
@@ -66,8 +62,8 @@ function TasksWidgetController($location, TaskService, UserService) {
     function _init() {
         vm.loading = true;
         vm.success = false;
+        vm.errmsg = null;
         vm.tasks = [];
-        vm.numtasks = 0;
         _loadTasks(0, 5);
     }
 

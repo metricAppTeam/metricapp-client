@@ -4,6 +4,8 @@
 * @ngdoc controller
 * @name TasksController
 * @module metricapp
+* @requires $scope
+* @requires $filter
 * @requires $location
 * @requires TaskService
 * @requires UserService
@@ -16,59 +18,83 @@ angular.module('metricapp')
 
 .controller('TasksController', TasksController);
 
-TasksController.$inject = ['$location', 'TaskService', 'UserService'];
+TasksController.$inject = ['$scope', '$filter', '$location', 'TaskService', 'UserService'];
 
-function TasksController($location, TaskService, UserService) {
+function TasksController($scope, $filter, $location, TaskService, UserService) {
 
     var vm = this;
 
+    vm.loadMore = loadMore;
+    vm.search = search;
+
     _init();
 
-    function _loadTasks(tskStart, tskN) {
+    function loadMore() {
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.tasks = vm.tasks.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
+    }
+
+    function search(query) {
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+    }
+
+    function _loadAllTasks() {
         vm.loading = true;
         vm.success = false;
-        TaskService.getTasks(tskStart, tskN).then(
+        Task.getAll().then(
             function(resolve) {
-                vm.numtasks = resolve.numtasks;
                 var tasks = resolve.tasks;
                 var assignees = [];
                 tasks.forEach(function(task) {
                     assignees.push(task.assignee);
                 });
-                return UserService.getUsersInArray(assignees).then(
+                return UserService.getInArray(authors).then(
                     function(resolve) {
                         var users = resolve.users;
                         tasks.forEach(function(task) {
                             var assignee = task.assignee;
-                            if (users[assignee]) {
-                                task.assignee = {};
-                                for (var info in users[assignee]) {
-                                    task.assignee[info] = users[assignee][info];
-                                }
-                                vm.tasks.push(task);
-                            }
+                            task.assignee = angular.copy(users[assignee]);
+                            if (task.assignee) vm.data.push(task);
                         });
+                        vm.buffer = $filter('orderBy')(angular.copy(vm.data),vm.orderBy);
                         vm.success = true;
                     },
                     function(reject) {
+                        vm.errmsg = reject.errmsg;
                         vm.success = false;
                     }
                 );
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {
             vm.loading = false;
         });
-    }
+  }
 
     function _init() {
         vm.loading = true;
         vm.success = false;
+        vm.errmsg = null;
+        vm.data = [];
+        vm.buffer = [];
         vm.tasks = [];
-        vm.numtasks = 0;
-        _loadTasks(0, 20);
+        vm.idx = 0;
+        vm.step = 5;
+        vm.query = '';
+        vm.orderBy = 'name';
+        _loadAllTasks();
+        $scope.$watch('vm.buffer', function() {
+            vm.idx = 0;
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.elems = vm.buffer.slice(vm.idx, e);
+            vm.idx = e;
+        });
     }
 
 }
