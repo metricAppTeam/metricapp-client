@@ -61,9 +61,9 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
                 var TASK = DB_TASKS[taskid];
                 if (TASK) {
                     resolve({task: TASK});
-                    return;
-                }
-                reject({errmsg: 'Task ' + taskid + ' not found'});
+                } else {
+                    reject({errmsg: 'Task ' + taskid + ' not found'});
+                }                
             }, 500);
         });
     }
