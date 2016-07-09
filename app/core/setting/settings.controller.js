@@ -23,15 +23,12 @@ function SettingsController($location, SettingService) {
 
     _init();
 
-    function _loadSettings() {
+    function _loadAll() {
         vm.loading = true;
         vm.success = false;
         SettingService.getAllSettings().then(
             function(resolve) {
-                var settings = resolve.settings;
-                for (var info in settings) {
-                    vm.settings[info] = settings[info];
-                }
+                var settings = angular.copy(resolve.settings);
                 vm.numsettings = Object.keys(vm.settings).length;
                 vm.success = true;
             },
@@ -48,7 +45,7 @@ function SettingsController($location, SettingService) {
         vm.success = false;
         vm.settings = {};
         vm.numsettings = 0;
-        _loadSettings();
+        _loadAllSettings();
     }
 
 }
