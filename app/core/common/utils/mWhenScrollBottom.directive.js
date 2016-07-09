@@ -2,7 +2,7 @@
 
 /************************************************************************************
 * @ngdoc directive
-* @name mWhenScroll
+* @name mWhenScrollBottom
 * @module metricapp
 * @restrict A
 *
@@ -11,7 +11,7 @@
 *
 * @example
 *   <div style="width:400px;heigth:100px;overflow-y:scroll;"
-*   m-when-scroll="vm.callback()">
+*   m-when-scroll-bottom="vm.callback()">
 *   <!-- your elements -->
 *   </div>
 *
@@ -19,15 +19,14 @@
 
 angular.module('metricapp')
 
-.directive('mWhenScroll', mWhenScroll);
+.directive('mWhenScrollBottom', mWhenScrollBottom);
 
-function mWhenScroll() {
+function mWhenScrollBottom() {
     return {
       restrict: 'A',
       link: function(scope, elem, attrs) {
         var scroller = elem[0];
-        var func = attrs.mWhenScroll;
-        console.log('func = ' + func);
+        var func = attrs.mWhenScrollBottom;
         $(scroller).bind('scroll', function() {
           if (scroller.scrollTop + scroller.offsetHeight >= scroller.scrollHeight) {
             scope.$apply(func);
