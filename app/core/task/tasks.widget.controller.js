@@ -40,9 +40,8 @@ function TasksWidgetController($location, TaskService, UserService) {
                         tasks.forEach(function(task) {
                             var assignee = task.assignee;
                             task.assignee = angular.copy(users[assignee]);
-                            if (task.assignee) vm.data.push(task);
+                            if (task.assignee) vm.tasks.push(task);
                         });
-                        vm.buffer = $filter('orderBy')(angular.copy(vm.data),vm.orderBy);
                         vm.success = true;
                     },
                     function(reject) {

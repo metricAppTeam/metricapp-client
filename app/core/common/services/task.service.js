@@ -31,13 +31,17 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
     * @name getAll
     * @description
     * Retrieves all the tasks.
-    * @returns {Tasks|Error} On success, the tasks;
+    * @returns {[Task]|Error} On success, the tasks;
     * an error message, otherwise.
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
             setTimeout(function() {
-                resolve({tasks: DB_TASKS});
+                var tasks = [];
+                for (task in DB_TASKS) {
+                    tasks.push(task);
+                }
+                resolve({tasks: tasks});
             }, 500);
         });
     }
@@ -70,7 +74,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
     * @description
     * Retrieves the specified tasks.
     * @param {[Int]} taskids The list of task id to retrieve.
-    * @returns {Tasks|Error} On success, the specified tasks;
+    * @returns {{taskid:Task}|Error} On success, the specified tasks;
     * an error message, otherwise.
     ********************************************************************************/
     function getInArray(taskids) {

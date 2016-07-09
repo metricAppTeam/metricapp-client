@@ -39,7 +39,11 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     function getAll() {
         return $q(function(resolve, reject) {
             setTimeout(function() {
-                resolve({users: DB_USERS});
+                var users = [];
+                for (user in DB_USERS) {
+                    users.push(DB_USERS[user]);
+                }
+                resolve({users: users});
             }, 500);
         });
     }
@@ -71,7 +75,7 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     * @description
     * Retrieves the specified users.
     * @param {[String]} usernames Usernames of users to retrieve.
-    * @returns {[User]|Error} On success, the list of users; an error message,
+    * @returns {{username:User}|Error} On success, the list of users; an error message,
     * otherwise.
     ********************************************************************************/
     function getInArray(usernames) {

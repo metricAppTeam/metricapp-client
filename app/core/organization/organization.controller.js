@@ -21,37 +21,59 @@ function OrganizationController($location, UserService) {
 
     var vm = this;
 
+    vm.loadMore = loadMore;
     vm.search = search;
 
     _init();
 
-    function search() {
-        
+    function loadMore() {
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.users = vm.users.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
     }
 
-    function _loadUsers(usrStart, usrN) {
+    function search(query) {
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+    }
+
+    function _loadAllUsers() {
         vm.loading = true;
         vm.success = false;
-        UserService.getNUsersFrom(usrStart, usrN).then(
+        UserService.getAll().then(
             function(resolve) {
-                vm.numusers = resolve.numusers;
-                vm.users.push(resolve.users);
+                vm.data = angular.copy(resolve.users);
+                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                 vm.success = true;
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {
             vm.loading = false;
         });
-    }
+  }
 
     function _init() {
         vm.loading = true;
         vm.success = false;
+        vm.errmsg = null;
+        vm.data = [];
+        vm.buffer = [];
         vm.users = [];
-        vm.numusers = 0;
-        _loadUsers(0, 20);
+        vm.idx = 0;
+        vm.step = 5;
+        vm.query = '';
+        vm.orderBy = 'name';
+        _loadAllUsers();
+        $scope.$watch('vm.buffer', function() {
+            vm.idx = 0;
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.users = vm.buffer.slice(vm.idx, e);
+            vm.idx = e;
+        });
     }
 
 }

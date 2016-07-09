@@ -44,14 +44,14 @@ function TasksController($scope, $filter, $location, TaskService, UserService) {
     function _loadAllTasks() {
         vm.loading = true;
         vm.success = false;
-        Task.getAll().then(
+        TaskService.getAll().then(
             function(resolve) {
                 var tasks = resolve.tasks;
                 var assignees = [];
                 tasks.forEach(function(task) {
                     assignees.push(task.assignee);
                 });
-                return UserService.getInArray(authors).then(
+                return UserService.getInArray(assignees).then(
                     function(resolve) {
                         var users = resolve.users;
                         tasks.forEach(function(task) {
@@ -59,7 +59,7 @@ function TasksController($scope, $filter, $location, TaskService, UserService) {
                             task.assignee = angular.copy(users[assignee]);
                             if (task.assignee) vm.data.push(task);
                         });
-                        vm.buffer = $filter('orderBy')(angular.copy(vm.data),vm.orderBy);
+                        vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                         vm.success = true;
                     },
                     function(reject) {
@@ -92,7 +92,7 @@ function TasksController($scope, $filter, $location, TaskService, UserService) {
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.elems = vm.buffer.slice(vm.idx, e);
+            vm.tasks = vm.buffer.slice(vm.idx, e);
             vm.idx = e;
         });
     }
