@@ -1,18 +1,20 @@
-body.full {
+$dark-grey: #1b1e24;
+
+.body-full {
 
     .page-container {
         background: inherit;
 
         .page-content {
+            background: url('../images/backgrounds/bg.png') left top repeat $dark-grey;
             margin: 0;
-            background: url("../images/backgrounds/bg.png") left top repeat #1b1e24;
         }
 
     }
 
 }
 
-div.scrollable {
-  height: 100px;
-  overflow-y: scroll;
+.scrollable {
+    height: 100px;
+    overflow-y: scroll;
 }
