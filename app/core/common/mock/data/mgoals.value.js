@@ -16,6 +16,7 @@ angular.module('metricapp')
         id: 101,
         name: 'MGoal-101',
         description: LIPSUM,
+        expert: 'expert',
         progress: 30,
         ts_create: new Date(2016, 01, 15, 13, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 13, 30, 45, 500)
@@ -24,6 +25,7 @@ angular.module('metricapp')
         id: 102,
         name: 'MGoal-102',
         description: LIPSUM,
+        expert: 'expert',
         progress: 30,
         ts_create: new Date(2016, 01, 15, 14, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 14, 30, 45, 500)
@@ -32,6 +34,7 @@ angular.module('metricapp')
         id: 103,
         name: 'MGoal-103',
         description: LIPSUM,
+        expert: 'expert',
         progress: 60,
         ts_create: new Date(2016, 01, 15, 15, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 15, 30, 45, 500)

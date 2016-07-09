@@ -13,8 +13,8 @@ var LIPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ei
 
 angular.module('metricapp')
 
-.value('DB_GRIDS', [
-    {
+.value('DB_GRIDS', {
+    1: {
         id: 1,
         name: 'Grid-1',
         description: LIPSUM,
@@ -39,7 +39,7 @@ angular.module('metricapp')
             209: [303]
         }
     },
-    {
+    2: {
         id: 2,
         name: 'Grid-2',
         description: LIPSUM,
@@ -64,7 +64,7 @@ angular.module('metricapp')
             209: [303]
         }
     },
-    {
+    3: {
         id: 3,
         name: 'Grid-3',
         description: LIPSUM,
@@ -91,7 +91,7 @@ angular.module('metricapp')
             209: [303]
         }
     },
-    {
+    4: {
         id: 4,
         name: 'Grid-4',
         description: LIPSUM,
@@ -118,7 +118,7 @@ angular.module('metricapp')
             209: [303]
         }
     },
-    {
+    5: {
         id: 5,
         name: 'Grid-5',
         description: LIPSUM,
@@ -145,7 +145,7 @@ angular.module('metricapp')
             209: [303]
         }
     },
-    {
+    6: {
         id: 6,
         name: 'Grid-6',
         description: LIPSUM,
@@ -173,6 +173,6 @@ angular.module('metricapp')
         }
     }
 
-]);
+});
 
 })();

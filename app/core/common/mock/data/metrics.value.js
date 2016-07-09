@@ -16,6 +16,8 @@ angular.module('metricapp')
         id: 301,
         name: 'Metric-301',
         description: LIPSUM,
+        expert: 'expert',
+        metricator: 'metricator',
         progress: 30,
         ts_create: new Date(2016, 01, 15, 13, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 13, 30, 45, 500)
@@ -24,6 +26,8 @@ angular.module('metricapp')
         id: 302,
         name: 'Metric-302',
         description: LIPSUM,
+        expert: 'expert',
+        metricator: 'metricator',
         progress: 30,
         ts_create: new Date(2016, 01, 15, 13, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 13, 30, 45, 500)
@@ -32,6 +36,8 @@ angular.module('metricapp')
         id: 302,
         name: 'Metric-303',
         description: LIPSUM,
+        expert: 'expert',
+        metricator: 'metricator',
         progress: 30,
         ts_create: new Date(2016, 01, 15, 13, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 13, 30, 45, 500)
