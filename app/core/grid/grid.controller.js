@@ -28,20 +28,24 @@ function GridController($scope, $location, $routeParams, GridService) {
     function _loadGrid(gridid) {
         vm.loading = true;
         vm.success = false;
-        GridService.getGrid(gridid).then(
+        GridService.getById(gridid).then(
             function(response) {
-                vm.loading = false;
+                vm.currGrid = angular.copy(resolve.grid);
                 vm.success = true;
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
             }
-        );
+        ).finally(function() {
+            vm.loading = false;
+        });
     }
 
     function _init() {
         vm.loading = true;
         vm.success = false;
-        if (!$routeParams.gridid) {
-            $location.path('/grids');
-        }
+        vm.errmsg = null;
         vm.currGrid = {
             id: $routeParams.gridid
         };

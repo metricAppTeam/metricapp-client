@@ -37,7 +37,7 @@
             <div class="col-md-12">
                 <p ng-switch-when="true">Loading grids ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
-                    <p ng-switch-when="true" ng-if="vm.buffer.length == 0">No grids yet.</p>
+                    <p ng-switch-when="true" ng-if="vm.grids.length == 0">No grids yet.</p>
                     <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
                         <ul>
                             <li ng-repeat="grid in vm.grids | filter:vm.query | orderBy:vm.orderBy track by grid.id">
