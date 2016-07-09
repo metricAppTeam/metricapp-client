@@ -11,8 +11,8 @@
 
 angular.module('metricapp')
 
-.value('DB_TASKS', [
-    {
+.value('DB_TASKS', {
+    1: {
         id: 1,
         name: 'Task-1',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -21,7 +21,7 @@ angular.module('metricapp')
         ts_create: new Date(2016, 01, 15, 13, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 13, 30, 45, 500)
     },
-    {
+    2: {
         id: 2,
         name: 'Task-2',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -30,7 +30,7 @@ angular.module('metricapp')
         ts_create: new Date(2016, 01, 15, 14, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 14, 30, 45, 500)
     },
-    {
+    3: {
         id: 3,
         name: 'Task-3',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -39,7 +39,7 @@ angular.module('metricapp')
         ts_create: new Date(2016, 01, 15, 15, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 15, 30, 45, 500)
     },
-    {
+    4: {
         id: 4,
         name: 'Task-4',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -48,7 +48,7 @@ angular.module('metricapp')
         ts_create: new Date(2016, 01, 15, 16, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 16, 30, 45, 500)
     },
-    {
+    5: {
         id: 5,
         name: 'Task-5',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -57,7 +57,7 @@ angular.module('metricapp')
         ts_create: new Date(2016, 01, 15, 17, 30, 45, 500),
         ts_update: new Date(2016, 01, 20, 17, 30, 45, 500)
     },
-    {
+    6: {
         id: 6,
         name: 'Task-6',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -67,6 +67,6 @@ angular.module('metricapp')
         ts_update: new Date(2016, 01, 20, 18, 30, 45, 500)
     }
 
-]);
+});
 
 })();
