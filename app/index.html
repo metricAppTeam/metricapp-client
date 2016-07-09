@@ -127,7 +127,7 @@
                                 </div>
                                 <div class="panel-body list-group list-group-contacts list-group-messages scroll" style="max-height: 200px" ng-switch="vm.loading">
                                     <a ng-switch-when="true" class="list-group-item list-group-item-message" href="#">
-                                        <span class="contacts-title">Loading  messages . . .</span>
+                                        <span class="contacts-title">Loading  messages ...</span>
                                     </a>
                                     <div ng-switch-when="false" ng-switch="vm.success">
                                         <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="#">
@@ -176,7 +176,7 @@
                                 </div>
                                 <div class="panel-body list-group list-group-contacts list-group-messages scroll" style="max-height: 200px" ng-switch="vm.loading">
                                     <a ng-switch-when="true" class="list-group-item list-group-item-message" href="#">
-                                        <span class="contacts-title">Loading notifications . . .</span>
+                                        <span class="contacts-title">Loading notifications ...</span>
                                     </a>
                                     <div ng-switch-when="false" ng-switch="vm.success">
                                         <a ng-switch-when="true" ng-show="vm.notifications.length == 0" class="list-group-item list-group-item-message" href="#">
@@ -223,10 +223,10 @@
                                 </div>
                                 <div class="panel-body list-group scroll" style="max-height: 200px" ng-switch="vm.loading">
                                     <a ng-switch-when="true" class="list-group-item list-group-item-task" href="#">
-                                        <span class="contacts-title">Loading tasks . . .</span>
+                                        <span class="contacts-title">Loading tasks ...</span>
                                     </a>
                                     <div ng-switch-when="false" ng-switch="vm.success">
-                                        <a ng-switch-when="true" ng-show="vm.notifications.length == 0" class="list-group-item list-group-item-task" href="#">
+                                        <a ng-switch-when="true" ng-show="vm.tasks.length == 0" class="list-group-item list-group-item-task" href="#">
                                             <span class="contacts-title">No tasks yet</span>
                                         </a>
                                         <a ng-switch-when="true" ng-repeat="task in vm.tasks | orderBy: '-ts_update' track by task.id"
