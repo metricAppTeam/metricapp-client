@@ -34,6 +34,9 @@ function routes($routeProvider, $locationProvider) {
     .when('/profile/:username', {
         templateUrl: 'dist/views/profile/profile.view.html'
     })
+    .when('/profile/:username/analytics', {
+        templateUrl: 'dist/views/profile/profile.analytics.view.html'
+    })
     .when('/organization', {
         templateUrl: 'dist/views/organization/organization.view.html'
     })
@@ -52,29 +55,23 @@ function routes($routeProvider, $locationProvider) {
     .when('/grids/:gridid', {
         templateUrl: 'dist/views/grid/grid.view.html'
     })
+    .when('/grids/:gridid/analytics', {
+        templateUrl: 'dist/views/grid/grid.analytics.view.html'
+    })
     .when('/goals', {
         templateUrl: 'dist/views/grid/goal/goals.view.html'
     })
     .when('/goals/:goalid', {
         templateUrl: 'dist/views/grid/goal/goal.view.html'
     })
-    .when('/teams', {
-        templateUrl: 'dist/views/team/teams.view.html'
-    })
-    .when('/teams/:teamid', {
-        templateUrl: 'dist/views/team/team.view.html'
+    .when('/goals/:goalid/analytics', {
+        templateUrl: 'dist/views/grid/goal/goal.analytics.view.html'
     })
     .when('/tasks', {
         templateUrl: 'dist/views/task/tasks.view.html'
     })
     .when('/tasks/:taskid', {
         templateUrl: 'dist/views/task/task.view.html'
-    })
-    .when('/analytics', {
-        templateUrl: 'dist/views/analytics/analytics.view.html'
-    })
-    .when('/analytics/:analyticid', {
-        templateUrl: 'dist/views/analytics/analytic.view.html'
     })
     .when('/settings', {
         templateUrl: 'dist/views/setting/settings.view.html'
