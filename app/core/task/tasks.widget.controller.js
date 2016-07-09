@@ -51,6 +51,7 @@ function TasksWidgetController($location, TaskService, UserService) {
                 );
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {

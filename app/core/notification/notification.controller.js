@@ -28,29 +28,22 @@ function NotificationController($location, $routeParams, NotificationService, Us
     function _loadNotification(notificationid) {
         vm.loading = true;
         vm.success = false;
-        NotificationService.getNotification(notificationid).then(
+        NotificationService.getById(notificationid).then(
             function(resolve) {
-                vm.currNotification.id = resolve.notification.id;
-                vm.currNotification.scope = resolve.notification.scope;
-                vm.currNotification.name = resolve.notification.name;
-                vm.currNotification.description = resolve.notification.description;
-                vm.currNotification.author = {};
-                vm.currNotification.href = resolve.notification.href;
-                vm.currNotification.ts_create = resolve.notification.ts_create;
-                vm.currNotification.read = resolve.notification.read;
-                return UserService.getUser(resolve.notification.author).then(
+                vm.currNotification = angular.copy(resolve.notification);
+                return UserService.getById(vm.currNotification.author).then(
                     function(resolve) {
-                        for (var info in resolve.user) {
-                            vm.currNotification.author[info] = resolve.user[info];
-                        }
+                        vm.currNotification.author = angular.copy(resolve.user);
                         vm.success = true;
                     },
                     function(reject) {
+                        vm.errmsg = reject.errmsg;
                         vm.success = false;
                     }
                 );
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {
@@ -61,18 +54,9 @@ function NotificationController($location, $routeParams, NotificationService, Us
     function _init() {
         vm.loading = true;
         vm.success = false;
-        if (!$routeParams.notificationid) {
-            $location.path('/notifications');
-        }
+        vm.errmsg = null;
         vm.currNotification = {
             id: $routeParams.notificationid,
-            scope: null,
-            name: null,
-            description: null,
-            author:  null,
-            href: null,
-            ts_create: null,
-            read: null
         };
         _loadNotification(vm.currNotification.id);
     }

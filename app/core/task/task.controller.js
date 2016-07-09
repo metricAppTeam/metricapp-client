@@ -37,6 +37,7 @@ function TaskController($location, $routeParams, TaskService, UserService) {
                         vm.success = true;
                     },
                     function(reject) {
+                        vm.errmsg = reject.errmsg;
                         vm.success = false;
                     }
                 );

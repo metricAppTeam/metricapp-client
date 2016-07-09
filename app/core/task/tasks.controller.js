@@ -75,7 +75,7 @@ function TasksController($scope, $filter, $location, TaskService, UserService) {
         ).finally(function() {
             vm.loading = false;
         });
-  }
+    }
 
     function _init() {
         vm.loading = true;

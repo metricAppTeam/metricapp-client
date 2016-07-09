@@ -22,40 +22,52 @@ function NotificationsController($location, NotificationService, UserService) {
 
     var vm = this;
 
+    vm.loadMore = loadMore;
+    vm.search = search;
+
     _init();
 
-    function _loadNotifications(ntfStart, ntfN) {
+    function loadMore() {
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.notifications = vm.notifications.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
+    }
+
+    function search(query) {
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+    }
+
+    function _loadAllNotifications() {
         vm.loading = true;
         vm.success = false;
-        NotificationService.getNNotificationsFrom(ntfStart, ntfN).then(
+        NotificationService.getAll().then(
             function(resolve) {
-                vm.news = resolve.news;
-                vm.toread = resolve.toread;
                 var notifications = resolve.notifications;
                 var authors = [];
                 notifications.forEach(function(notification) {
                     authors.push(notification.author);
                 });
-                return UserService.getUsersInArray(authors).then(
+                return UserService.getInArray(authors).then(
                     function(resolve) {
                         var users = resolve.users;
                         notifications.forEach(function(notification) {
-                            if (users[author]) {
-                                notification.author = {};
-                                for (var info in users[author]) {
-                                    notification.author[info] = users[author][info];
-                                }
-                                vm.notifications.push(notification);
-                            }
+                            var author = notification.author;
+                            notification.author = angular.copy(users[author]);
+                            if (notification.author) vm.data.push(notification);
                         });
+                        vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                         vm.success = true;
                     },
                     function(reject) {
+                        vm.errmsg = reject.errmsg;
                         vm.success = false;
                     }
                 );
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {
@@ -66,10 +78,21 @@ function NotificationsController($location, NotificationService, UserService) {
     function _init() {
         vm.loading = true;
         vm.success = false;
+        vm.errmsg = null;
+        vm.data = [];
+        vm.buffer = [];
         vm.notifications = [];
-        vm.news = 0;
-        vm.toread = 0;
-        _loadNotifications(0, 20);
+        vm.idx = 0;
+        vm.step = 5;
+        vm.query = '';
+        vm.orderBy = '-ts_create';
+        _loadAllNotifications();
+        $scope.$watch('vm.buffer', function() {
+            vm.idx = 0;
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.notifications = vm.buffer.slice(vm.idx, e);
+            vm.idx = e;
+        });
     }
 
 }

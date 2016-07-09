@@ -24,25 +24,10 @@ function NotificationsWidgetController($location, NotificationService, UserServi
 
     _init();
 
-    vm.cleanNews = cleanNews;
-
-    function cleanNews() {
-        NotificationService.cleanNews().then(
-            function(resolve) {
-                // TO BE IMPLEMENTED
-            },
-            function(reject) {
-                // TO BE IMPLEMENTED
-            }
-        ).finally(function() {
-            vm.news = 0;
-        });
-    }
-
     function _loadNotifications(ntfStart, ntfN) {
         vm.loading = true;
         vm.success = false;
-        NotificationService.getNNotificationsFrom(ntfStart, ntfN).then(
+        NotificationService.getNFrom(ntfStart, ntfN).then(
             function(resolve) {
                 vm.news = resolve.news;
                 vm.toread = resolve.toread;
@@ -51,26 +36,24 @@ function NotificationsWidgetController($location, NotificationService, UserServi
                 notifications.forEach(function(notification) {
                     authors.push(notification.author);
                 });
-                return UserService.getUsersInArray(authors).then(
+                return UserService.getInArray(authors).then(
                     function(resolve) {
                         var users = resolve.users;
                         notifications.forEach(function(notification) {
-                            if (users[author]) {
-                                notification.author = {};
-                                for (var info in users[author]) {
-                                    notification.author[info] = users[author][info];
-                                }
-                                vm.notifications.push(notification);
-                            }
+                            var author = notification.author;
+                            notification.author = angular.copy(users[author]);
+                            if (notification.author) vm.notifications.push(notification);
                         });
                         vm.success = true;
                     },
                     function(reject) {
+                        vm.errmsg = reject.errmsg;
                         vm.success = false;
                     }
                 );
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {
@@ -81,6 +64,7 @@ function NotificationsWidgetController($location, NotificationService, UserServi
     function _init() {
         vm.loading = true;
         vm.success = false;
+        vm.errmsg = null;
         vm.notifications = [];
         vm.news = 0;
         vm.toread = 0;
