@@ -9,7 +9,7 @@
                 <p ng-switch-when="true">Loading settings ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.numsettings == 0">No settings yet.</p>
-                    <ul ng-switch-when="true">
+                    <ul >
                         <li ng-repeat="(key, value) in vm.settings track by key">{{key}} = {{value}}</li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>

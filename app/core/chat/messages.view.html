@@ -1,10 +1,10 @@
-<div ng-controller="MessagesController as vm">
+<div ng-controller="ChatsController as vm">
     <!-- START: FRAME -->
     <div class="content-frame">
         <!-- START: FRAME-TOP -->
         <div class="content-frame-top">
             <div class="page-title">
-                <h2><span class="fa fa-comments"></span> Messages <small ng-show="!vm.loading && vm.success && vm.toread > 0"> {{vm.totUnreads}} new </small></h2>
+                <h2><span class="fa fa-comments"></span> Messages <small ng-show="!vm.loading && vm.success && vm.toread > 0"> {{vm.toread}} new </small></h2>
             </div>
             <div class="pull-right">
                 <button class="btn btn-danger"
@@ -14,29 +14,31 @@
         </div>
         <!-- END: FRAME-TOP -->
         <!-- START: FRAME-RIGHT -->
-        <div class="content-frame-right" ng-controller="ChatsController as vm">
+        <div class="content-frame-right">
             <div class="list-group list-group-contacts list-group-messages border-bottom push-down-10" ng-switch="vm.loading">
                 <a ng-switch-when="true" class="list-group-item list-group-item-message" href="#">
-                    <span class="contacts-title">Loading  messages . . .</span>
+                    <span class="contacts-title">Loading  messages ...</span>
                 </a>
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="#">
                         <span class="contacts-title">No conversations yet</span>
                     </a>
-                    <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy: '-ts_update' track by conversation.recipient.username"
-                    href="#/messages/{{conversation.recipient}}" class="list-group-item list-group-item-message"
-                    ng-class="{'active': conversation.recipient.username === vm.currConversation.recipient.username,
-                    'status-read': conversation.toread == 0,
-                    'status-unread': conversation.toread > 0}">
-                        <div class="list-group-status"
-                        ng-class="{'status-online': conversation.recipient.online,
-                        'status-offline': !conversation.recipient.online}"></div>
-                        <img ng-src="{{conversation.recipient.picture}}" class="pull-left" alt="{{conversation.recipient.username}}">
-                        <div class="contacts-title">{{conversation.recipient.firstname}} {{conversation.recipient.lastname}}
-                            <span ng-show="conversation.toread > 0" class="label label-danger">{{conversation.toread}}</span>
-                        </div>
-                        <p>{{conversation.messages[0].content.toString().substring(0, (conversation.toread > 0) ? 30 : 28)}}...</p>
-                    </a>
+                    <div ng-switch-when="true" style="overflow-y:scroll;" m-when-scroll-bottom="vm.loadMore()">
+                        <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy: '-ts_update' track by conversation.recipient.username"
+                        href="#/messages/{{conversation.recipient}}" class="list-group-item list-group-item-message"
+                        ng-class="{'active': conversation.recipient.username === vm.currConversation.recipient.username,
+                        'status-read': conversation.toread == 0,
+                        'status-unread': conversation.toread > 0}">
+                            <div class="list-group-status"
+                            ng-class="{'status-online': conversation.recipient.online,
+                            'status-offline': !conversation.recipient.online}"></div>
+                            <img ng-src="{{conversation.recipient.picture}}" class="pull-left" alt="{{conversation.recipient.username}}">
+                            <div class="contacts-title">{{conversation.recipient.firstname}} {{conversation.recipient.lastname}}
+                                <span ng-show="conversation.toread > 0" class="label label-danger">{{conversation.toread}}</span>
+                            </div>
+                            <p>{{conversation.messages[0].content.toString().substring(0, (conversation.toread > 0) ? 30 : 28)}}...</p>
+                        </a>
+                    </div>
                     <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
                         <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-(</span>
                     </a>
@@ -45,10 +47,9 @@
         </div>
         <!-- END: FRAME-RIGHT -->
         <!-- START: FRAME-BODY -->
-        <div class="content-frame-body content-frame-body-left" ng-controller="ChatController as vm">
-            <div class="messages messages-img"
-            ng-repeat="message in vm.currConversation.messages | orderBy: 'ts_create' track by $index">
-                <div class="item item-visible" ng-class="{'in': message.author != globals.user.username}">
+        <div class="content-frame-body content-frame-body-left">
+            <div class="messages messages-img" style="overflow-y:scroll;" m-when-scroll-bottom="vm.loadMore()">
+                <div ng-repeat="message in vm.currConversation.messages | orderBy: 'ts_create' track by $index" class="item item-visible" ng-class="{'in': message.author != globals.user.username}">
                     <div class="image" ng-switch="message.author">
                         <img ng-switch-when="globals.user.username" ng-src="{{globals.user.picture}}" alt="globals.user.username">
                         <img ng-switch-when="conversation.recipient.username" ng-src="{{conversation.recipient.picture}}" alt="conversation.recipient.username">
@@ -85,6 +86,6 @@
     <!-- END: FRAME -->
 </div>
 <!-- START: DIALOG CREATE-CONVERSATION -->
-<div ng-include="'dist/views/message/conversation.create.view.html'"></div>
+<!--<div ng-include="'dist/views/message/conversation.create.view.html'"></div>-->
 <!-- END: DIALOG CREATE-CONVERSATION -->
 <!-- END: MESSAGES -->

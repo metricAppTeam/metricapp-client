@@ -1,22 +1,53 @@
 <!-- START: GRIDS -->
 <div ng-controller="GridsController as vm">
     <div class="page-title">
-        <h2><span class="fa fa-codepen"></span> Grids <small>{{vm.numgrids}} running</small></h2>
+        <h2><span class="fa fa-codepen"></span> Grids <small>{{vm.buffer.length}} running</small></h2>
     </div>
     <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form name="searchForm" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-search"></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Who are you looking for?"
+                                        ng-model="vm.query"
+                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                                        ng-required="true"/>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary"
+                                            ng-disabled="searchForm.$invalid | vm.loading"
+                                            ng-click="vm.search(vm.query)">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row" ng-switch="vm.loading">
             <div class="col-md-12">
                 <p ng-switch-when="true">Loading grids ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
-                    <p ng-switch-when="true" ng-if="vm.numgrids == 0">No grids yet.</p>
-                    <ul ng-switch-when="true">
-                        <li ng-repeat="grid in vm.grids | orderBy: 'name' track by grid.id">
-                            <a ng-href="#/grids/{{grid.id}}">{{grid.name}}</a>
-                            <ul>
-                                <li ng-repeat="(key, value) in grid">{{key}} = {{value}}</li>
-                            <ul>
-                        </li>
-                    </ul>
+                    <p ng-switch-when="true" ng-if="vm.buffer.length == 0">No grids yet.</p>
+                    <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
+                        <ul>
+                            <li ng-repeat="grid in vm.grids | filter:vm.query | orderBy:vm.orderBy track by grid.id">
+                                <a ng-href="#/grids/{{grid.id}}">{{grid.name}}</a>
+                                <ul>
+                                    <li ng-repeat="(key, value) in grid">{{key}} = {{value}}</li>
+                                <ul>
+                            </li>
+                        </ul>
+                    </div>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
                 </div>
             </div>

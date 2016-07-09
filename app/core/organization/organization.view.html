@@ -16,13 +16,13 @@
                                             <span class="fa fa-search"></span>
                                         </div>
                                         <input type="text" class="form-control" placeholder="Who are you looking for?"
-                                        ng-model="vm.search"
+                                        ng-model="vm.query"
                                         ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                                         ng-required="true"/>
                                         <div class="input-group-btn">
                                             <button class="btn btn-primary"
                                             ng-disabled="searchForm.$invalid | vm.loading"
-                                            ng-click="vm.search()">Search</button>
+                                            ng-click="vm.search(vm.query)">Search</button>
                                         </div>
                                     </div>
                                 </div>
@@ -32,6 +32,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row" ng-switch="vm.loading">
             <div ng-switch-when="true" class="col-md-12">
                 <p>Loading contacts ...</p>
@@ -40,25 +41,27 @@
                 <div ng-switch-when="true" ng-if="vm.numusers == 0" class="col-md-12">
                     <p>No contacts yet</p>
                 </div>
-                <div ng-switch-when"true" class="col-md-3" ng-repeat="user in vm.users | filter:vm.search | orderBy: 'firstname' track by user.username">
-                    <div class="panel panel-default">
-                        <div class="panel-body profile">
-                            <div class="profile-image">
-                                <img src="{{user.picture}}" alt="{{user.username}}"/>
+                <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
+                    <div class="col-md-3" ng-repeat="user in vm.users | filter:vm.query | orderBy:vm.orderBy track by user.username">
+                        <div class="panel panel-default">
+                            <div class="panel-body profile">
+                                <div class="profile-image">
+                                    <img src="{{user.picture}}" alt="{{user.username}}"/>
+                                </div>
+                                <div class="profile-data">
+                                    <div class="profile-data-name">{{user.firstname}} {{user.lastname}}</div>
+                                    <div class="profile-data-title">{{user.role}}</div>
+                                </div>
+                                <div class="profile-controls">
+                                    <a ng-href="#/profile/{{user.username}}" class="profile-control-left"><span class="fa fa-info"></span></a>
+                                    <a ng-href="#/messages/{{user.username}}" class="profile-control-right"><span class="fa fa-comment"></span></a>
+                                </div>
                             </div>
-                            <div class="profile-data">
-                                <div class="profile-data-name">{{user.firstname}} {{user.lastname}}</div>
-                                <div class="profile-data-title">{{user.role}}</div>
-                            </div>
-                            <div class="profile-controls">
-                                <a ng-href="#/profile/{{user.username}}" class="profile-control-left"><span class="fa fa-info"></span></a>
-                                <a ng-href="#/messages/{{user.username}}" class="profile-control-right"><span class="fa fa-comment"></span></a>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="contact-info">
-                                <p><small>Mobile</small><br/>{{user.mobile}}</p>
-                                <p><small>Email</small><br/>{{user.email}}</p>
+                            <div class="panel-body">
+                                <div class="contact-info">
+                                    <p><small>Mobile</small><br/>{{user.mobile}}</p>
+                                    <p><small>Email</small><br/>{{user.email}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
