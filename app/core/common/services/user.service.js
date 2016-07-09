@@ -129,13 +129,15 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     ********************************************************************************/
     function create(user) {
         return $q(function(resolve, reject) {
+            var username = user.username;
             setTimeout(function() {
-                for (var i = 0; i < DB_USERS.length; i++) {
-                    if (DB_USERS[i].username === username) {
-                        resolve({isonline: DB_USERS[i].online});
-                    }
+                if (DB_USERS[username]) {
+                    reject({errmsg: 'User ' + username + ' already registered'});
+                } else {
+                    DB_USERS[username] = angular.copy(user);
+                    DB_USERS[username].online = false;
+                    resolve({username: username, msg: 'Thank you for signing up ' + username});
                 }
-                reject('User not found: ' + username);
             }, 500);
         });
     }

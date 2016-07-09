@@ -25,6 +25,17 @@ function GridService($http, $q, REST_SERVICE, DB_GRIDS) {
     service.getAll = getAll;
     service.getById = getById;
 
+    function _getAuthUsername() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return user.username;
+            }
+        }
+        return null;
+    }
+
     /********************************************************************************
     * @ngdoc method
     * @name getAll
@@ -34,8 +45,11 @@ function GridService($http, $q, REST_SERVICE, DB_GRIDS) {
     * an error message, otherwise.
     ********************************************************************************/
     function getAll() {
-        var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var grids = [];
                 for (var gridid in DB_GRIDS) {
@@ -59,8 +73,11 @@ function GridService($http, $q, REST_SERVICE, DB_GRIDS) {
     * an error message, otherwise.
     ********************************************************************************/
     function getById(gridid) {
-        var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var GRID = DB_GRIDS[gridid];
                 if (GRID) {

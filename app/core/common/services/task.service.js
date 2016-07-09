@@ -94,7 +94,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
 
     /********************************************************************************
     * @ngdoc method
-    * @name getNTasksFrom
+    * @name getNFrom
     * @description
     * Retrieves the specified tasks for authuser.
     * @param {Int} tskStart First task index.
@@ -102,7 +102,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
     * @returns {[Task]|Error} On success, the list of tasks;
     * an error message, otherwise.
     ********************************************************************************/
-    function getNTasksFrom(tskStart, tskN) {
+    function getNFrom(tskStart, tskN) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var tasks = [];

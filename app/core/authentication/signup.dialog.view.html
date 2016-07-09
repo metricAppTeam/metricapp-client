@@ -75,8 +75,7 @@ ng-controller="SignupController as vm">
                             <input class="form-control" name="email" type="email" role="textbox" placeholder="Email" required="required"
                             ng-model="vm.email"
                             ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
-                            ng-class="{ 'error': signupForm.email.$dirty && signupForm.email.$invalid }"
-                            m-unique="metricapp.com:8090/api/users/exist/email"/>
+                            ng-class="{ 'error': signupForm.email.$dirty && signupForm.email.$invalid }"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.email.$error" ng-show="signupForm.email.$dirty">
                                 <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
                             </div>
@@ -86,12 +85,11 @@ ng-controller="SignupController as vm">
                     <div class="form-group" ng-class="{ 'hash-error': signupForm.mobile.$dirty && signupForm.mobile.$invalid }">
                         <label class="col-md-3 control-label">Mobile:</label>
                         <div class="col-md-9">
-                            <input class="form-control" name="email" type="email" role="textbox" placeholder="Email" required="required"
+                            <input class="form-control" name="mobile" type="text" role="textbox" placeholder="Mobile" required="required"
                             ng-model="vm.mobile"
                             ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                             ng-class="{ 'error': signupForm.mobile.$dirty && signupForm.mobile.$invalid }"
-                            ng-minlength="3" ng-maxlength="20"
-                            m-unique="metricapp.com:8090/api/users/exist/mobile"/>
+                            ng-minlength="3" ng-maxlength="30"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.mobile.$error" ng-show="signupForm.mobile.$dirty">
                                 <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
                             </div>
@@ -134,8 +132,7 @@ ng-controller="SignupController as vm">
                             ng-model="vm.username"
                             ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                             ng-class="{ 'error': signupForm.username.$dirty && signupForm.username.$invalid }"
-                            ng-minlength="3" ng-maxlength="20"
-                            m-unique="metricapp.com:8090/api/users/exist/username"/>
+                            ng-minlength="3" ng-maxlength="20"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.username.$error" ng-show="signupForm.username.$dirty">
                                 <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
                             </div>

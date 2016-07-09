@@ -25,10 +25,20 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
 
     service.getAll = getAll;
     service.getById = getById;
-    service.getInArray = getInArray;
     service.getNFrom = getNFrom;
 
     service.getLastRecipient = getLastRecipient;
+
+    function _getAuthUsername() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return user.username;
+            }
+        }
+        return null;
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -40,7 +50,10 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
-            var username = $cookies.getObject('globals').user.username;
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var conversations = [];
                 var toread = 0;
@@ -71,33 +84,38 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
     * an error message, otherwise.
     ********************************************************************************/
     function getById(recipient, nmessages) {
-        var username = $cookies.getObject('globals').user.username;
-        setTimeout(function() {
-            var INBOX = DB_CONVERSATIONS[username];
-            if (INBOX) {
-                var CONVERSATION = INBOX[recipient];
-                if (CONVERSATION) {
-                    if (nmessages < 0) {
-                        resolve({conversation: CONVERSATION});
+        return $q(function(resolve,reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
+            setTimeout(function() {
+                var INBOX = DB_CONVERSATIONS[username];
+                if (INBOX) {
+                    var CONVERSATION = INBOX[recipient];
+                    if (CONVERSATION) {
+                        if (nmessages < 0) {
+                            resolve({conversation: CONVERSATION});
+                        } else {
+                            var conversation = {
+                                sender: CONVERSATION.sender,
+                                recipient: CONVERSATION.recipient,
+                                ts_update: CONVERSATION.ts_update,
+                                toread: CONVERSATION.toread
+                            };
+                            var MESSAGES = CONVERSATION.messages;
+                            var s = Math.max(MESSAGES.length - nmessages - 1, 0);
+                            conversation.messages = MESSAGES.slice(s, MESSAGES.length - 1);
+                            resolve({conversation: conversation});
+                        }
                     } else {
-                        var conversation = {
-                            sender: CONVERSATION.sender,
-                            recipient: CONVERSATION.recipient,
-                            ts_update: CONVERSATION.ts_update,
-                            toread: CONVERSATION.toread
-                        };
-                        var MESSAGES = CONVERSATION.messages;
-                        var s = Math.max(MESSAGES.length - nmessages - 1, 0);
-                        conversation.messages = MESSAGES.slice(s, MESSAGES.length - 1);
-                        resolve({conversation: conversation});
+                        reject({errmsg: 'Conversation not found for user ' + username + ' with recipient ' + recipient});
                     }
                 } else {
-                    reject({errmsg: 'Conversation not found for user ' + username + ' with recipient ' + recipient});
+                    reject({errmsg: 'Conversations not found for user ' + username});
                 }
-            } else {
-                reject({errmsg: 'Conversations not found for user ' + username});
-            }
-        }, 500);
+            }, 500);
+        });
     }
 
     /********************************************************************************
@@ -111,8 +129,11 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
     * an error message, otherwise.
     ***************************************************************************/
     function getNFrom(cnvStart, cnvN) {
-        var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var INBOX = DB_CONVERSATIONS[username];
                 if (INBOX) {
@@ -142,8 +163,11 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
     * an error message, otherwise.
     ***************************************************************************/
     function getLastRecipient() {
-        var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var INBOX = DB_CONVERSATIONS[username];
                 if (INBOX) {

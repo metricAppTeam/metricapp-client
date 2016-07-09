@@ -114,6 +114,12 @@
                         </li>
                         <!-- END: SIGN OUT -->
 
+                        <!-- START: SETTINGS -->
+                        <li class="xn-icon-button pull-right">
+                            <a href="#/settings" class="mb-control"><span class="fa fa-cog"></span></a>
+                        </li>
+                        <!-- END: SETTINGS -->
+
                         <!-- START: MESSAGES -->
                         <li class="xn-icon-button pull-right" ng-controller="ChatsWidgetController as vm">
                             <a href="#"><span class="fa fa-comments"></span></a>
@@ -186,7 +192,7 @@
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': notification.read,
                                         'status-unread': !notification.read}"
-                                        ng-href="{{#/notifications/{{notification.id}}">
+                                        ng-href="#/notifications/{{notification.id}}">
                                             <img ng-src="{{notification.author.picture}}" class="pull-left" alt="{{notification.author.username}}"/>
                                             <span class="contacts-title">
                                                 {{notification.author.firstname}} {{notification.author.lastname}} /

@@ -41,6 +41,9 @@ function LogoutController($rootScope, $location, AuthService, AUTH_EVENTS) {
                 $location.path('/');
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
+                alert(vm.errmsg);
+                vm.success = false;
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILURE);
             }
         ).finally(function() {
@@ -50,6 +53,8 @@ function LogoutController($rootScope, $location, AuthService, AUTH_EVENTS) {
 
     function _init() {
         vm.loading = false;
+        vm.success = false;
+        vm.errmsg = null;
     }
 
 }

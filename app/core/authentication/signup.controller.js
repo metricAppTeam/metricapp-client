@@ -42,6 +42,7 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
     * Registers a new user.
     ********************************************************************************/
     function signup() {
+        vm.loading = true;
 
         var user = {
             username: vm.username,
@@ -58,15 +59,20 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
         };
 
         UserService.create(user).then(
-            function(response) {
-                if (response.success) {
-                    FlashService.success(response.message);
-                    $location.path('/');
-                } else {
-                    FlashService.success(response.message);
-                }
+            function(resolve) {
+                var msg = resolve.msg;
+                vm.success = true;
+                FlashService.success(msg);
+                $location.path('/');
+            },
+            function(reject) {
+                var errmsg = reject.errmsg;
+                vm.success = false;
+                FlashService.danger(errmsg);
             }
-        );
+        ).finally(function() {
+            vm.loading = false
+        });
     }
 
     /********************************************************************************
@@ -87,6 +93,8 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
     ********************************************************************************/
     function _init() {
         vm.loading = false;
+        vm.success = false;
+        vm.errmsg = null;
         vm.user = {};
     }
 

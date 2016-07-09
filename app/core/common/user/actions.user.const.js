@@ -17,8 +17,7 @@ angular.module('metricapp')
     {name: 'Home',          href: '#/home',         icon: 'desktop'},
     {name: 'Profile',       href: '#/profile',      icon: 'user'},
     {name: 'Organization',  href: '#/organization', icon: 'sitemap'},
-    {name: 'Messages',      href: '#/messages',     icon: 'comments'},
-    {name: 'Settings',      href: '#/settings',     icon: 'cog'}
+    {name: 'Messages',      href: '#/messages',     icon: 'comments'}
 ]);
 
 })();

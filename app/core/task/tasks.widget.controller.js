@@ -34,7 +34,7 @@ function TasksWidgetController($location, TaskService, UserService) {
                 tasks.forEach(function(task) {
                     assignees.push(task.assignee);
                 });
-                return UserService.getInArray(authors).then(
+                return UserService.getInArray(assignees).then(
                     function(resolve) {
                         var users = resolve.users;
                         tasks.forEach(function(task) {

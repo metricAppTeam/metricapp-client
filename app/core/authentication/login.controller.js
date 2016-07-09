@@ -40,13 +40,15 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
 
         AuthService.login(credentials).then(
             function(resolve) {
+                var authuser = resolve.authuser;
                 AuthService.setUser(authuser);
                 vm.success = true;
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_SUCCESS);
                 $location.path('/home');
             },
             function(reject) {
-                alert('Invalid username or password');
+                vm.errmsg = reject.errmsg;
+                alert(errmsg);
                 vm.success = false;
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILURE);
             }
@@ -57,7 +59,8 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
 
     function _init() {
         vm.loading = false;
-        vm.success = true;
+        vm.success = false;
+        vm.errmsg = null;
     }
 
 }

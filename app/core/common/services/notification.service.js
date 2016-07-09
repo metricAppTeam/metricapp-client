@@ -25,8 +25,18 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
 
     service.getAll = getAll;
     service.getById = getById;
-    service.getInArray = getInArray;
     service.getNFrom = getNFrom;
+
+    function _getAuthUsername() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return user.username;
+            }
+        }
+        return null;
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -38,7 +48,10 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
-            var username = $cookies.getObject('globals').user.username;
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var INBOX = DB_NOTIFICATIONS[username];
                 if (INBOX) {
@@ -61,8 +74,11 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
     * an error message, otherwise.
     ********************************************************************************/
     function getById(notificationid) {
-        var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var INBOX = DB_NOTIFICATIONS[username];
                 if (INBOX) {
@@ -92,8 +108,11 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
     * an error message, otherwise.
     ***************************************************************************/
     function getNFrom(ntfStart, ntfN) {
-        var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var INBOX = DB_NOTIFICATIONS[username];
                 if (INBOX) {

@@ -9,6 +9,8 @@
 * Provides the simulation of the DB document `mgoals`.
 ************************************************************************************/
 
+var LIPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+
 angular.module('metricapp')
 
 .value('DB_MGOALS', {

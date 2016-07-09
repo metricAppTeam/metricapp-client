@@ -26,6 +26,17 @@ function SettingService($http, $cookies, $q, REST_SERVICE, DB_SETTINGS) {
     service.getById = getById;
     service.getInArray = getInArray;
 
+    function _getAuthUsername() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return user.username;
+            }
+        }
+        return null;
+    }
+
     /********************************************************************************
     * @ngdoc method
     * @name getAll
@@ -35,8 +46,11 @@ function SettingService($http, $cookies, $q, REST_SERVICE, DB_SETTINGS) {
     * message, otherwise.
     ********************************************************************************/
     function getAll() {
-        var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 if (DB_SETTINGS[username]) {
                     resolve({settings: DB_SETTINGS[username]});
@@ -58,8 +72,11 @@ function SettingService($http, $cookies, $q, REST_SERVICE, DB_SETTINGS) {
     * message, otherwise.
     ********************************************************************************/
     function getById(settingid) {
-        var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var SETTINGS = DB_SETTINGS[username];
                 if (SETTINGS) {
@@ -85,9 +102,12 @@ function SettingService($http, $cookies, $q, REST_SERVICE, DB_SETTINGS) {
     * @returns {Settings|Error} On success, the settings for authuser; an error
     * message, otherwise.
     ********************************************************************************/
-    function getInArray(array) {
-        var username = $cookies.getObject('globals').user.username;
+    function getInArray(array) {        
         return $q(function(resolve, reject) {
+            var username = _getAuthUsername();
+            if (!username) {
+                reject({errmsg: 'User not logged'});
+            }
             setTimeout(function() {
                 var settings = {};
                 var SETTINGS = DB_SETTINGS[username];
