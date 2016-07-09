@@ -24,21 +24,12 @@ function ProfileController($location, $routeParams, UserService) {
 
     _init();
 
-    function _loadProfile(username) {
+    function _loadUser(username) {
         vm.loading = true;
         vm.success = false;
         UserService.getUser(username).then(
             function(resolve) {
-                vm.currUser.username = resolve.user.username;
-                vm.currUser.role = resolve.user.role;
-                vm.currUser.firstname = resolve.user.firstname;
-                vm.currUser.lastname = resolve.user.lastname;
-                vm.currUser.gender = resolve.user.gender;
-                vm.currUser.birthday = resolve.user.birthday;
-                vm.currUser.email = resolve.user.email;
-                vm.currUser.mobile = resolve.user.mobile;
-                vm.currUser.picture = resolve.user.picture;
-                vm.currUser.online = resolve.user.online;
+                vm.currUser = angular.copy(resolve.user);
                 vm.success = true;
             },
             function(reject) {
@@ -61,19 +52,9 @@ function ProfileController($location, $routeParams, UserService) {
             }
         }
         vm.currUser = {
-            username: $routeParams.username,
-            password: null,
-            role: null,
-            firstname:  null,
-            lastname:   null,
-            gender:     null,
-            birthday:   null,
-            email:      null,
-            mobile:     null,
-            picture:    null,
-            online: false
+            username: $routeParams.username
         };
-        _loadProfile(vm.currUser.username);
+        _loadUser(vm.currUser.username);
     }
 
 }
