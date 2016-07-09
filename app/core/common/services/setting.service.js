@@ -22,19 +22,41 @@ function SettingService($http, $cookies, $q, REST_SERVICE, DB_SETTINGS) {
 
     var service = this;
 
-    service.getSetting = getSetting;
-    service.getAllSettings = getAllSettings;
+    service.getAll = getAll;
+    service.getById = getById;
+    service.getInArray = getInArray;
 
     /********************************************************************************
     * @ngdoc method
-    * @name getSetting
+    * @name getAll
+    * @description
+    * Retrieves the settings for authuser.
+    * @returns {Settings|Error} On success, the settings for authuser; an error
+    * message, otherwise.
+    ********************************************************************************/
+    function getAll() {
+        var username = $cookies.getObject('globals').user.username;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                if (DB_SETTINGS[username]) {
+                    resolve({settings: DB_SETTINGS[username]});
+                } else {
+                    reject({errmsg: 'Settings not found for user: ' + username});
+                }
+            }, 500);
+    }
+
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getById
     * @description
     * Retrieves the specified setting.
     * @param {String} settingid The setting id for authuser.
-    * @returns {Setting|Error} On success, the setting value; an error message,
-    * otherwise.
+    * @returns {Setting|Error} On success, the setting for authuser; an error
+    * message, otherwise.
     ********************************************************************************/
-    function getSetting(settingid) {
+    function getById(settingid) {
         var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
             setTimeout(function() {
@@ -55,19 +77,29 @@ function SettingService($http, $cookies, $q, REST_SERVICE, DB_SETTINGS) {
 
     /********************************************************************************
     * @ngdoc method
-    * @name getAllSettings
+    * @name getInArray
     * @description
-    * Retrieves the settings for authuser.
-    * @returns {Settings|Error} On success, the settings; an error, otherwise.
+    * Retrieves the specified settings for authuser.
+    * @param {[String]} array The list of setting id for the authuser.
+    * @returns {Settings|Error} On success, the settings for authuser; an error
+    * message, otherwise.
     ********************************************************************************/
-    function getAllSettings() {
+    function getInArray(array) {
         var username = $cookies.getObject('globals').user.username;
         return $q(function(resolve, reject) {
             setTimeout(function() {
-                if (DB_SETTINGS[username]) {
-                    resolve({settings: DB_SETTINGS[username]});
+                var settings = {};
+                var SETTINGS = DB_SETTINGS[username];
+                if (SETTINGS) {
+                    array.forEach(function(settingid) {
+                        var SETTING = SETTINGS[settingid];
+                        if (SETTING) {
+                            settings[settingid] = angular.copy(SETTING);
+                        }
+                    });
+                    resolve({settings: settings});
                 } else {
-                    reject('Settings not found for user: ' + username);
+                    reject({errmsg: 'Settings not found for user: ' + username});
                 }
             }, 500);
     }
