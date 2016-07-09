@@ -25,7 +25,7 @@
                     </a>
                     <div ng-switch-when="true" style="overflow-y:scroll;" m-when-scroll-bottom="vm.loadMore()">
                         <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy: '-ts_update' track by conversation.recipient.username"
-                        href="#/messages/{{conversation.recipient}}" class="list-group-item list-group-item-message"
+                        ng-href="#/messages/{{conversation.recipient}}" class="list-group-item list-group-item-message"
                         ng-class="{'active': conversation.recipient.username === vm.currConversation.recipient.username,
                         'status-read': conversation.toread == 0,
                         'status-unread': conversation.toread > 0}">
@@ -48,7 +48,7 @@
         <!-- END: FRAME-RIGHT -->
         <!-- START: FRAME-BODY -->
         <div class="content-frame-body content-frame-body-left">
-            <div class="messages messages-img" style="overflow-y:scroll;" m-when-scroll-bottom="vm.loadMore()">
+            <div class="messages messages-img" style="overflow-y:scroll;" m-when-scroll-top="vm.loadMore()">
                 <div ng-repeat="message in vm.currConversation.messages | orderBy: 'ts_create' track by $index" class="item item-visible" ng-class="{'in': message.author != globals.user.username}">
                     <div class="image" ng-switch="message.author">
                         <img ng-switch-when="globals.user.username" ng-src="{{globals.user.picture}}" alt="globals.user.username">
