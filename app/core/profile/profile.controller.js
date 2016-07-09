@@ -27,12 +27,13 @@ function ProfileController($location, $routeParams, UserService) {
     function _loadUser(username) {
         vm.loading = true;
         vm.success = false;
-        UserService.getUser(username).then(
+        UserService.getById(username).then(
             function(resolve) {
                 vm.currUser = angular.copy(resolve.user);
                 vm.success = true;
             },
             function(reject) {
+                vm.errmsg = reject.errmsg;
                 vm.success = false;
             }
         ).finally(function() {
@@ -43,14 +44,7 @@ function ProfileController($location, $routeParams, UserService) {
     function _init() {
         vm.loading = true;
         vm.success = false;
-        if (!$routeParams.username) {
-            var authusername = $rootScope.globals.user.username;
-            if (authusername) {
-                $location.path('/profile/' + authusername);
-            } else {
-                $location.path('/home');
-            }
-        }
+        vm.errmsg = null;
         vm.currUser = {
             username: $routeParams.username
         };

@@ -22,24 +22,37 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
 
     var service = this;
 
-    service.getUser = getUser;
-    service.getUsersInArray = getUsersInArray;
-    service.getNUsersFrom = getNUsersFrom;
-    service.isOnline = isOnline;
-
     service.getAll = getAll;
+    service.getById = getById;
+    service.getInArray = getInArray;
+    service.getNFrom = getNFrom;
 
     service.create = create;
 
     /********************************************************************************
     * @ngdoc method
-    * @name getUser
+    * @name getAll
+    * @description
+    * Retrieves all the users.
+    * @returns {[User]|Error} On success, the users; an error message, otherwise.
+    ********************************************************************************/
+    function getAll() {
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                resolve({users: DB_USERS});
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getById
     * @description
     * Retrieves the specified user.
-    * @param {Int} username The username of the user.
+    * @param {String} username The username of the user to retrieve.
     * @returns {User|Error} On success, the user; an error message, otherwise.
     ********************************************************************************/
-    function getUser(username) {
+    function getById(username) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var USER = DB_USERS[username];
@@ -54,14 +67,14 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
 
     /********************************************************************************
     * @ngdoc method
-    * @name getUsersInArray
+    * @name getInArray
     * @description
     * Retrieves the specified users.
     * @param {[String]} usernames Usernames of users to retrieve.
     * @returns {[User]|Error} On success, the list of users; an error message,
     * otherwise.
     ********************************************************************************/
-    function getUsersInArray(usernames) {
+    function getInArray(usernames) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var users = {};
@@ -78,7 +91,7 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
 
     /********************************************************************************
     * @ngdoc method
-    * @name getNUsersFrom
+    * @name getNFrom
     * @description
     * Retrieves the specified users.
     * @param {Int} usrStart First user index.
@@ -86,7 +99,7 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     * @returns {[User]|Error} On success, the list of users; an error message,
     * otherwise.
     ********************************************************************************/
-    function getNUsersFrom(usrStart, usrN) {
+    function getNFrom(usrStart, usrN) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var users = [];
@@ -96,43 +109,6 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
                     users.push(DB_USERS[i]);
                 }
                 resolve({users: users, numusers: numusers});
-            }, 500);
-        });
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name isOnline
-    * @description
-    * Retrieves the status of the specified user.
-    * @param {String} username The username whose status is to retrieve.
-    * @returns {{online:Boolean}|Error} On success, a boolean status;
-    * a JSON representing the error, otherwise.
-    ********************************************************************************/
-    function isOnline(username) {
-        return $q(function(resolve, reject) {
-            setTimeout(function() {
-                var USER = DB_USERS[username];
-                if (USER) {
-                    resolve({online: USER.online});
-                } else {
-                    reject({errmsg: 'User ' + username + ' not found'});
-                }
-            }, 500);
-        });
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name getAll
-    * @description
-    * Retrieves all users.
-    * @returns {{username:User}} On success, an array of users;
-    ********************************************************************************/
-    function getAll() {
-        return $q(function(resolve, reject) {
-            setTimeout(function() {
-                resolve({users: DB_USERS});
             }, 500);
         });
     }
