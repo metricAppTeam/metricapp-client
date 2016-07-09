@@ -145,11 +145,11 @@
                                             <span class="contacts-title">
                                                 {{conversation.recipient.firstname}} {{conversation.recipient.lastname}}
                                                 <small>
-                                                    on {{conversation.messages[0].ts_create.toLocaleDateString()}}
-                                                    at {{conversation.messages[0].ts_create.toLocaleTimeString()}}
+                                                    on {{conversation.messages[conversation.messages.length - 1].ts_create.toLocaleDateString()}}
+                                                    at {{conversation.messages[conversation.messages.length - 1].ts_create.toLocaleTimeString()}}
                                                 </small>
                                             </span>
-                                            <p>{{conversation.messages[0].content.toString().substring(0, (conversation.toread > 0) ? 50 : 45)}}...</p>
+                                            <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 50 : 45)}}...</p>
                                         </a>
                                         <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
                                             <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-(</span>
@@ -165,7 +165,7 @@
 
                         <!-- START: NOTIFICATIONS -->
                         <li class="xn-icon-button pull-right" ng-controller="NotificationsWidgetController as vm">
-                            <a href="#"><span class="fa fa-globe" ng-click="vm.cleanNews()"></span></a>
+                            <a href="#"><span class="fa fa-globe"></span></a>
                             <div class="informer informer-danger" ng-show="!vm.loading && vm.success && vm.news > 0">{{vm.news}}</div>
                             <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
                                 <div class="panel-heading">
