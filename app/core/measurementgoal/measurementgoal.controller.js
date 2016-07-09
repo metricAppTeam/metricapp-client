@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-08 18:44:18
+* @Last Modified time: 2016-07-09 13:29:37
 */
 (function () { 'use strict';
 
@@ -21,15 +21,16 @@ angular.module('metricapp')
 
 .controller('MeasurementGoalController', MeasurementGoalController);
 
-MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService','$window'];
+MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService','MetricService','$window'];
 
-function MeasurementGoalController($scope, $location, MeasurementGoalService, $window) {
+function MeasurementGoalController($scope, $location, MeasurementGoalService, MetricService, $window) {
 
     var vm = this;
 
     vm.measurementGoals = [];
     vm.measurementGoalDialog = MeasurementGoalService.getUpdateMeasurementGoal();
     vm.organizationalGoalDialog = {};
+    vm.metricsDialog = [];
     vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.cancelSubmit = cancelSubmit;
     vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
@@ -38,8 +39,12 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
     vm.setOrganizationalGoalDialog = setOrganizationalGoalDialog;
     vm.initOrganizationalGoalDialog = initOrganizationalGoalDialog;
+    vm.addTagToMeasurementGoal = addTagToMeasurementGoal;
+    vm.removeTagFromMeasurementGoal = removeTagFromMeasurementGoal;
+    vm.getMetricsByMeasurementGoal = getMetricsByMeasurementGoal;
 
     initOrganizationalGoalDialog();
+    getMetricsByMeasurementGoal();
     _init();
 
     /********************************************************************************
@@ -50,11 +55,27 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
     ********************************************************************************/
     function submitMeasurementGoal() {
         var measurementGoal = {
+            userid : vm.measurementGoalDialog.userid,
         	name : vm.name,
         	object : vm.object,
         	purpose : vm.purpose,
         	viewPoint : vm.viewPoint,
-        	focus : vm.focus  		
+        	focus : vm.focus,
+            OrganizationalGoalId : vm.measurementGoalDialog.OrganizationalGoalId,
+            metricIdList : vm.measurementGoalDialog.metricIdList,
+            questionIdList : vm.measurementGoalDialog.questionIdList,
+            metricatorId : vm.measurementGoalDialog.metricatorId,
+            contextFactorIdList : vm.measurementGoalDialog.contextFactorIdList,
+            assumptionIdList : vm.measurementGoalDialog.assumptionIdList,
+            interpretationModel : {
+                functionJavascript : vm.functionJavascript,
+                queryNoSQL : vm.queryNoSQL
+            },
+            metadata : {
+                tags : vm.measurementGoalDialog.metadata.tags,
+                state : vm.measurementGoalDialog.metadata.state,
+                releaseNote : vm.measurementGoalDialog.metadata.releaseNote
+            }
         };
         MeasurementGoalService.submitMeasurementGoal(measurementGoal).then(
             function(message) {
@@ -92,6 +113,25 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
             },
             function(data) {
                 alert('Error retriving Measurement Goals');
+            }
+        );
+    };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMetricsByMeasurementGoal
+    * @description
+    * Get approved metrics by measurement goal.
+    ********************************************************************************/
+    function getMetricsByMeasurementGoal(){
+         MetricService.getMetrics().then(
+            function(data) {
+                console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL')
+                console.log(data.metricsDTO);
+                vm.metricsDialog = data.metricsDTO;
+            },
+            function(data) {
+                alert('Error retriving Metrics');
             }
         );
     };
@@ -147,13 +187,13 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
     function setMeasurementGoalDialog(measurementGoalToAssignId){
             vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
 
-            if(vm.measurementGoalDialog != null){
+            if(vm.measurementGoalDialog !== null){
                 setOrganizationalGoalDialog(vm.measurementGoalDialog.organizatoinalGoalId);
             }
     }
 
     function setOrganizationalGoalDialog(organizationalGoalToAssignId){
-            if(organizationalGoalToAssignId != null){
+            if(organizationalGoalToAssignId !== null){
                 //vm.organizationalGoalDialog = 
                 getOrganizationalGoalById(organizationalGoalToAssignId);
                 console.log(vm.organizationalGoalDialog);
@@ -161,7 +201,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
     }
 
     function initOrganizationalGoalDialog(){
-        if(vm.measurementGoalDialog != null){
+        if(vm.measurementGoalDialog !== null){
             setOrganizationalGoalDialog('1');//vm.measurementGoalDialog.organizatoinalGoalId);
         }
     }
@@ -171,6 +211,27 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, $w
         $location.path('/measurementgoal');
         console.log($location.path('/measurementgoal'));
     }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name addTagToMeasurementGoal
+    * @description
+    * Add tag to a measurement goal.
+    ********************************************************************************/
+    function addTagToMeasurementGoal(){
+         vm.measurementGoalDialog.metadata.tags.push(vm.newTag);
+    };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name addTagToMeasurementGoal
+    * @description
+    * Remove tag from a measurement goal.
+    ********************************************************************************/
+    function removeTagFromMeasurementGoal(index){
+        vm.measurementGoalDialog.metadata.tags.splice(index, 1);
+    };
+
 
     /********************************************************************************
     * @ngdoc method

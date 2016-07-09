@@ -1,9 +1,10 @@
 <!-- COMPONENT: MEASUREMENTGOAL -->
 <div ng-controller="MeasurementGoalController as vm">
-    <h2>Measurement Goal</h2>
+    
     <!-- FORM: MEASUREMENTGOAL -->
     <div class="row">
     <div class="col-md-6 pull-left">
+    <h2>Measurement Goal</h2>
     <form name="measurementGoalForm" role="form" class="form-horizontal" ng-submit="vm.submitMeasurementGoal()" novalidate="novalidate">
         <!-- FORM FIELD: OBJECT -->
         <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.object.$dirty && measurementGoalForm.object.$invalid }">
@@ -45,6 +46,139 @@
                 </div>
             </div>
         </div>
+        <!-- FORM FIELD: FUNCTION JAVASCRIPT -->
+        <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }">
+            <label class="col-md-3 control-label">Interpretation Model:</label>
+            <div class="col-md-9">
+                <input class="form-control" name="functionJavascript" type="text" role="textbox" placeholder="{{vm.measurementGoalDialog.interpretationModel.functionJavascript}}" ng-model="vm.functionJavascript" ng-class="{ 'error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required="required"/>
+                <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.functionJavascript.$error" ng-show="measurementGoalForm.functionJavascript.$dirty">
+                    <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+                </div>
+            </div>
+        </div>
+        <!-- FORM FIELD: QUERY NOSQL -->
+        <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.queryNoSQL.$dirty && measurementGoalForm.queryNoSQL.$invalid }">
+            <label class="col-md-3 control-label">Query NoSQL:</label>
+            <div class="col-md-9">
+                <input class="form-control" name="queryNoSQL" type="text" role="textbox" placeholder="{{vm.measurementGoalDialog.interpretationModel.queryNoSQL}}" ng-model="vm.queryNoSQL" ng-class="{ 'error': measurementGoalForm.queryNoSQL.$dirty && measurementGoalForm.queryNoSQL.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required="required"/>
+                <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.queryNoSQL.$error" ng-show="measurementGoalForm.queryNoSQL.$dirty">
+                    <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 col-xs-12 control-label">Metrics</label>
+            <div class="col-md-6 col-xs-12">
+                <span 
+                    class="btn btn-info btn-rounded" ng-repeat="tag in vm.measurementGoalDialog.metadata.tags">
+                    {{tag}}
+                    <i ng-click="vm.removeTagFromMeasurementGoal($index)" 
+                        class="glyphicon glyphicon-remove-circle pull-right"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 col-xs-12 control-label">New Tag</label>
+            <div class="col-md-6 col-xs-12">
+                <input type="text" ng-model="vm.newTag">
+                <a ng-click="vm.addTagToMeasurementGoal()"class="btn btn-primary">Add</a>
+            </div>
+        </div>  
+
+        <div class="form-group">
+            <!-- START VERTICAL TABS WITH HEADING -->
+            <div class="panel panel-default nav-tabs-vertical">                   
+                <div class="panel-heading">
+                    <h3 class="panel-title">Metrics</h3>
+                </div>
+                <div class="tabs">
+                    
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" data-target="#metricDialogActive">active</a></li>
+                        <li ng-repeat="metric in vm.metricsDialog.slice(1, vm.metricsDialog.length)"><a data-toggle="tab" data-target="#tab{{$index}}">{{$index}}</a></li>
+                    </ul>                    
+                    <div class="panel-body tab-content">
+                        <div class="tab-pane active" id="metricDialogActive">
+                            <!--BEGIN ACTIVE TAB DETAIL-->
+                             <ul class="list-group border-bottom">
+                                <h4>Has Max</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].hasMax}}</li>
+                                <h4>Has Min</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].hasMin}}</li>
+                                <h4>Has User Defined List</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].hasUserDefinedList}}</li>
+                                <h4>Is Ordered</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].isOrdered}}</li>
+                                <h4>Max</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].max}}</li>
+                                <h4>Min</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].min}}</li>
+                                <h4>Unit</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].unit}}</li>  
+                                <h4>Scale Type</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].scaleType}}</li>  
+                                <h4>Set</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].set}}</li>  
+                                <h4>Tags</h4>
+                                <li class="list-group-item" ng-repeat="tag in vm.metricsDialog[{$index}].tags">{{tag}}</li>  
+                                <h4>State</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].state}}</li>  
+                                <h4>Last Version Date</h4>
+                                <li class="list-group-item">{{vm.metricsDialog[0].lastVersionDate}}</li>  
+                                <h4>Release Note</h4>
+                                <li class="list-group-item">  
+                                    <div class="panel-body scroll" style="height: 30px;">     
+                                        <p>{{vm.metricsDialog[0].releaseNote}}</p>
+                                    </div>                                   
+                                </li>  
+                            </ul> 
+                        </div>
+
+                        <div class="tab-pane" ng-repeat="metric in vm.metricsDialog.slice(1, vm.metricsDialog.length)" id="tab{{$index}}">
+                            <!--BEGIN ACTIVE TAB DETAIL-->
+                             <ul class="list-group border-bottom">
+                                <h4>Has Max</h4>
+                                <li class="list-group-item">{{metric.hasMax}}</li>
+                                <h4>Has Min</h4>
+                                <li class="list-group-item">{{metric.hasMin}}</li>
+                                <h4>Has User Defined List</h4>
+                                <li class="list-group-item">{{metric.hasUserDefinedList}}</li>
+                                <h4>Is Ordered</h4>
+                                <li class="list-group-item">{{metric.isOrdered}}</li>
+                                <h4>Max</h4>
+                                <li class="list-group-item">{{metric.max}}</li>
+                                <h4>Min</h4>
+                                <li class="list-group-item">{{metric.min}}</li>
+                                <h4>Unit</h4>
+                                <li class="list-group-item">{{metric.unit}}</li>  
+                                <h4>Scale Type</h4>
+                                <li class="list-group-item">{{metric.scaleType}}</li>  
+                                <h4>Set</h4>
+                                <li class="list-group-item">{{metric.set}}</li>  
+                                <h4>Tags</h4>
+                                <li class="list-group-item" ng-repeat="tag in metric.tags">{{tag}}</li>  
+                                <h4>State</h4>
+                                <li class="list-group-item">{{metric.state}}</li>  
+                                <h4>Last Version Date</h4>
+                                <li class="list-group-item">{{metric.lastVersionDate}}</li>  
+                                <h4>Release Note</h4>
+                                <li class="list-group-item">  
+                                    <div class="panel-body scroll" style="height: 30px;">     
+                                        <p>{{metric.releaseNote}}</p>
+                                    </div>                                   
+                                </li>  
+                            </ul> 
+                        </div>
+                                              
+                    </div>
+                </div>
+            </div>                        
+            <!-- END VERTICAL TABS WITH HEADING -->                  
+        </div>
+
+
         <!-- FORM ACTIONS: SUBMIT, CANCEL -->
         <div class="form-actions">
             <button class="btn btn-primary" type="submit" ng-disabled="measurementGoalForm.$invalid || vm.loading">Submit MeasurementGoal</button>
@@ -74,8 +208,8 @@
                     <li class="list-group-item">{{vm.organizationalGoalDialog.priority}}</li>
                     <br>
                     <h4>OrganizationalGoalState</h4>
-                    <li class="list-group-item">{{vm.organizationalGoalDialog.organizationalGoalState}}</li>       
-            </ul>              
+                    <li class="list-group-item">{{vm.organizationalGoalDialog.organizationalGoalState}}</li>  
+            </ul>    
         </div>
     </div>
 </div>
