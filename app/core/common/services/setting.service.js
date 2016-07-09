@@ -44,6 +44,7 @@ function SettingService($http, $cookies, $q, REST_SERVICE, DB_SETTINGS) {
                     reject({errmsg: 'Settings not found for user: ' + username});
                 }
             }, 500);
+        });
     }
 
 
@@ -102,6 +103,7 @@ function SettingService($http, $cookies, $q, REST_SERVICE, DB_SETTINGS) {
                     reject({errmsg: 'Settings not found for user: ' + username});
                 }
             }, 500);
+        });
     }
 
 }

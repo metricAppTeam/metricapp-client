@@ -41,7 +41,7 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var users = [];
-                for (user in DB_USERS) {
+                for (var user in DB_USERS) {
                     users.push(DB_USERS[user]);
                 }
                 resolve({users: users});
@@ -110,7 +110,7 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
             setTimeout(function() {
                 var users = [];
                 var numusers =  Object.keys(DB_USERS).length;
-                var end = (usrN == -1) ? numusers : Math.min(usrStart + usrN, numusers);
+                var end = (usrN === -1) ? numusers : Math.min(usrStart + usrN, numusers);
                 for (var i = usrStart; i < end; i++ ) {
                     users.push(DB_USERS[i]);
                 }

@@ -101,7 +101,7 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
                     var NOTIFICATIONS = INBOX.notifications;
                     var notifications = [];
                     var toread = 0;
-                    var end = (ntfN == -1) ? NOTIFICATIONS.length : Math.min(ntfStart + ntfN, NOTIFICATIONS.length);
+                    var end = (ntfN === -1) ? NOTIFICATIONS.length : Math.min(ntfStart + ntfN, NOTIFICATIONS.length);
                     for (var i = ntfStart; i < end; i++) {
                       notifications.push(NOTIFICATIONS[i]);
                       if (!NOTIFICATIONS[i].read) {

@@ -38,7 +38,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var tasks = [];
-                for (task in DB_TASKS) {
+                for (var task in DB_TASKS) {
                     tasks.push(DB_TASKS[task]);
                 }
                 resolve({tasks: tasks});
@@ -63,7 +63,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
                     resolve({task: TASK});
                 } else {
                     reject({errmsg: 'Task ' + taskid + ' not found'});
-                }                
+                }
             }, 500);
         });
     }
@@ -89,6 +89,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
                 });
                 resolve({tasks:tasks});
             }, 500);
+        });
     }
 
     /********************************************************************************
@@ -105,7 +106,7 @@ function TaskService($http, $q, REST_SERVICE, DB_TASKS) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var tasks = [];
-                var end = (tskN == -1) ? DB_TASKS.length : Math.min(tskStart + tskN, DB_TASKS.length);
+                var end = (tskN === -1) ? DB_TASKS.length : Math.min(tskStart + tskN, DB_TASKS.length);
                 for (var i = tskStart; i < end; i++ ) {
                     tasks.push(DB_TASKS[i]);
                 }

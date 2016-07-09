@@ -4,7 +4,9 @@
 * @ngdoc controller
 * @name OrganizationController
 * @module metricapp
+* @requires $scope
 * @requires $location
+* @requires $filter
 * @requires UserService
 *
 * @description
@@ -15,9 +17,9 @@ angular.module('metricapp')
 
 .controller('OrganizationController', OrganizationController);
 
-OrganizationController.$inject = ['$location', 'UserService'];
+OrganizationController.$inject = ['$scope', '$location', '$filter', 'UserService'];
 
-function OrganizationController($location, UserService) {
+function OrganizationController($scope, $location, $filter, UserService) {
 
     var vm = this;
 

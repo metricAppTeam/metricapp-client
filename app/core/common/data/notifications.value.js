@@ -23,7 +23,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'metricator',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 13, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 13, 30, 45, 500),
                 read: true
             },
             {
@@ -33,7 +33,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'questioner',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 14, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 14, 30, 45, 500),
                 read: true
             },
             {
@@ -43,7 +43,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'metricator',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 15, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 15, 30, 45, 500),
                 read: true
             },
             {
@@ -53,7 +53,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'questioner',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 16, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 16, 30, 45, 500),
                 read: false
             },
             {
@@ -63,7 +63,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'metricator',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 17, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 17, 30, 45, 500),
                 read: false
             },
             {
@@ -73,7 +73,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'questioner',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 18, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 18, 30, 45, 500),
                 read: false
             }
         ]
@@ -89,7 +89,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'metricator',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 13, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 13, 30, 45, 500),
                 read: true
             },
             {
@@ -99,7 +99,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'questioner',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 14, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 14, 30, 45, 500),
                 read: true
             },
             {
@@ -109,7 +109,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'metricator',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 15, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 15, 30, 45, 500),
                 read: true
             },
             {
@@ -119,7 +119,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'questioner',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 16, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 16, 30, 45, 500),
                 read: false
             },
             {
@@ -129,7 +129,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'metricator',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 17, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 17, 30, 45, 500),
                 read: false
             },
             {
@@ -139,7 +139,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'questioner',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 18, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 18, 30, 45, 500),
                 read: false
             }
         ]
@@ -155,7 +155,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'metricator',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 13, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 13, 30, 45, 500),
                 read: true
             },
             {
@@ -165,7 +165,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'questioner',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 14, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 14, 30, 45, 500),
                 read: true
             },
             {
@@ -175,7 +175,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'metricator',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 15, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 15, 30, 45, 500),
                 read: true
             },
             {
@@ -185,7 +185,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'questioner',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 16, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 16, 30, 45, 500),
                 read: false
             },
             {
@@ -195,7 +195,7 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'metricator',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 17, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 17, 30, 45, 500),
                 read: false
             },
             {
@@ -205,12 +205,12 @@ angular.module('metricapp')
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 author:  'questioner',
                 href: '#',
-                ts_create: new Date(2016, 01, 15, 18, 30, 45, 500),
+                ts_create: new Date(2016, 1, 15, 18, 30, 45, 500),
                 read: false
             }
         ]
     }
 
-]);
+});
 
 })();

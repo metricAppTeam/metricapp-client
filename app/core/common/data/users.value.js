@@ -20,7 +20,7 @@ angular.module('metricapp')
         firstname:  'Giacomo',
         lastname:   'Marciani',
         gender:     'MALE',
-        birthday:   new Date(1990,06, 27),
+        birthday:   new Date(1990,6, 27),
         email:      'giacomo.marciani@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/user-picture-1.svg',
@@ -34,7 +34,7 @@ angular.module('metricapp')
         firstname: 'Andrea',
         lastname: 'Gennusa',
         gender:     'MALE',
-        birthday:   new Date(1990,06, 27),
+        birthday:   new Date(1990,6, 27),
         email:      'andrea.gennusa@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/user-picture-2.svg',
@@ -48,13 +48,13 @@ angular.module('metricapp')
         firstname: 'Marco',
         lastname: 'Piu',
         gender:     'MALE',
-        birthday:   new Date(1990,06, 27),
+        birthday:   new Date(1990,6, 27),
         email:      'marco.piu@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/user-picture-3.svg',
         online: false
     }
 
-]);
+});
 
 })();

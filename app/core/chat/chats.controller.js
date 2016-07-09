@@ -4,9 +4,10 @@
 * @ngdoc controller
 * @name ChatsController
 * @module metricapp
-* @requires $rootScope
+* @requires $scope
 * @requires $location
 * @requires $routeParams
+* @requires $filter
 * @requires MessageService
 * @requires UserService
 *
@@ -18,13 +19,23 @@ angular.module('metricapp')
 
 .controller('ChatsController', ChatsController);
 
-ChatsController.$inject = ['$rootScope', '$location', '$routeParams', 'MessageService', 'UserService'];
+ChatsController.$inject = ['$scope', '$location', '$routeParams', '$filter', 'MessageService', 'UserService'];
 
-function ChatsController($rootScope, $location, $routeParams, MessageService, UserService) {
+function ChatsController($scope, $location, $routeParams, $filter, MessageService, UserService) {
 
     var vm = this;
 
+    vm.loadMore = loadMore;
+
     _init();
+
+    function loadMore() {
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.conversations = vm.conversations.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
+    }
 
     function _loadAllConversations() {
         vm.loading = true;
@@ -40,11 +51,14 @@ function ChatsController($rootScope, $location, $routeParams, MessageService, Us
                 return UserService.getInArray(recipients).then(
                     function(resolve) {
                         var users = resolve.users;
-                        conversations.forEach(fuction(conversation) {
+                        for (var i = 0; i < conversations.length; i++) {
+                            var conversation = conversations[i];
                             var recipient = conversation.recipient;
                             conversation.recipient = angular.copy(users[recipient]);
-                            if (conversation.recipient) vm.data.push(conversation);
-                        });
+                            if (conversation.recipient) {
+                                vm.data.push(conversation);
+                            }
+                        }
                         vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                         vm.success = true;
                     },

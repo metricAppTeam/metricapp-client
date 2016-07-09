@@ -4,7 +4,9 @@
 * @ngdoc controller
 * @name NotificationsController
 * @module metricapp
+* @requires $scope
 * @requires $location
+* @requires $filter
 * @requires NotificationService
 * @requires UserService
 *
@@ -16,9 +18,9 @@ angular.module('metricapp')
 
 .controller('NotificationsController', NotificationsController);
 
-NotificationsController.$inject = ['$location', 'NotificationService', 'UserService'];
+NotificationsController.$inject = ['$scope', '$location', '$filter', 'NotificationService', 'UserService'];
 
-function NotificationsController($location, NotificationService, UserService) {
+function NotificationsController($scope, $location, $filter, NotificationService, UserService) {
 
     var vm = this;
 
@@ -55,7 +57,9 @@ function NotificationsController($location, NotificationService, UserService) {
                         notifications.forEach(function(notification) {
                             var author = notification.author;
                             notification.author = angular.copy(users[author]);
-                            if (notification.author) vm.data.push(notification);
+                            if (notification.author) {
+                                vm.data.push(notification);
+                            }
                         });
                         vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                         vm.success = true;

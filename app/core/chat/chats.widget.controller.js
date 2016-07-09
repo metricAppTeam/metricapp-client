@@ -38,11 +38,14 @@ function ChatsWidgetController($location, MessageService, UserService) {
                 return UserService.getInArray(recipients).then(
                     function(resolve) {
                         var users = resolve.users;
-                        conversations.forEach(fuction(conversation) {
+                        for (var i = 0; i < conversations.length; i++) {
+                            var conversation = conversations[i];
                             var recipient = conversation.recipient;
                             conversation.recipient = angular.copy(users[recipient]);
-                            if (conversation.recipient) vm.conversations.push(conversation);
-                        });
+                            if (conversation.recipient) {
+                                vm.conversations.push(conversation);
+                            }
+                        }
                         vm.success = true;
                     },
                     function(reject) {

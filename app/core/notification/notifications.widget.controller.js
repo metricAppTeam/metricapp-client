@@ -42,7 +42,9 @@ function NotificationsWidgetController($location, NotificationService, UserServi
                         notifications.forEach(function(notification) {
                             var author = notification.author;
                             notification.author = angular.copy(users[author]);
-                            if (notification.author) vm.notifications.push(notification);
+                            if (notification.author) {
+                                vm.notifications.push(notification);
+                            }
                         });
                         vm.success = true;
                     },

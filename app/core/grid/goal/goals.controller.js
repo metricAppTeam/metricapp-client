@@ -6,6 +6,7 @@
 * @module metricapp
 * @requires $scope
 * @requires $location
+* @requires $filter
 * @requires GoalService
 *
 * @description
@@ -16,9 +17,9 @@ angular.module('metricapp')
 
 .controller('GoalsController', GoalsController);
 
-GoalsController.$inject = ['$scope', '$location', 'GoalService'];
+GoalsController.$inject = ['$scope', '$location', '$filter', 'GoalService'];
 
-function GoalsController($scope, $location, GoalService) {
+function GoalsController($scope, $location, $filter, GoalService) {
 
     var vm = this;
 
@@ -43,7 +44,7 @@ function GoalsController($scope, $location, GoalService) {
         vm.loading = true;
         vm.success = false;
         GoalService.getGoals(goaStart, goaN).then(
-            function(response) {
+            function(resolve) {
                 vm.loading = false;
                 vm.success = true;
             }

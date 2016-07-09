@@ -6,6 +6,7 @@
 * @module metricapp
 * @requires $scope
 * @requires $location
+* @requires $filter
 * @requires GridService
 *
 * @description
@@ -16,9 +17,9 @@ angular.module('metricapp')
 
 .controller('GridsController', GridsController);
 
-GridsController.$inject = ['$scope', '$location', 'GridService'];
+GridsController.$inject = ['$scope', '$location', '$filter', 'GridService'];
 
-function GridsController($scope, $location, GridService) {
+function GridsController($scope, $location, $filter, GridService) {
 
     var vm = this;
 

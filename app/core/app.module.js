@@ -16,8 +16,7 @@ angular.module('metricapp',[
     'ngRoute',
     'ngCookies',
     'ngMessages',
-    'ngFlash',
-    'ngMockE2E'
+    'ngFlash'
 ]);
 
 })();

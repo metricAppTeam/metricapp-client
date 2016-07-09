@@ -5,8 +5,8 @@
 * @name TasksController
 * @module metricapp
 * @requires $scope
-* @requires $filter
 * @requires $location
+* @requires $filter
 * @requires TaskService
 * @requires UserService
 *
@@ -18,9 +18,9 @@ angular.module('metricapp')
 
 .controller('TasksController', TasksController);
 
-TasksController.$inject = ['$scope', '$filter', '$location', 'TaskService', 'UserService'];
+TasksController.$inject = ['$scope', '$location', '$filter', 'TaskService', 'UserService'];
 
-function TasksController($scope, $filter, $location, TaskService, UserService) {
+function TasksController($scope, $location, $filter, TaskService, UserService) {
 
     var vm = this;
 
@@ -57,7 +57,9 @@ function TasksController($scope, $filter, $location, TaskService, UserService) {
                         tasks.forEach(function(task) {
                             var assignee = task.assignee;
                             task.assignee = angular.copy(users[assignee]);
-                            if (task.assignee) vm.data.push(task);
+                            if (task.assignee) {
+                                vm.data.push(task);
+                            }
                         });
                         vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                         vm.success = true;

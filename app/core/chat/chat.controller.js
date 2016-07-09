@@ -4,10 +4,10 @@
 * @ngdoc controller
 * @name ChatController
 * @module metricapp
-* @requires $rootScope
 * @requires $scope
 * @requires $location
 * @requires $routeParams
+* @requires $filter
 * @requires MessageService
 * @requires UserService
 *
@@ -19,13 +19,13 @@ angular.module('metricapp')
 
 .controller('ChatController', ChatController);
 
-ChatController.$inject = ['$rootScope', '$scope', '$location', '$routeParams', 'MessageService', 'UserService'];
+ChatController.$inject = ['$scope', '$location', '$routeParams', '$filter', 'MessageService', 'UserService'];
 
-function ChatController($rootScope, $scope, $location, $routeParams, MessageService, UserService) {
+function ChatController($scope, $location, $routeParams, $filter, MessageService, UserService) {
 
     var vm = this;
 
-    vm.loadMore = loadMore
+    vm.loadMore = loadMore;
     vm.sendMessage = sendMessage;
 
     _init();
@@ -84,24 +84,8 @@ function ChatController($rootScope, $scope, $location, $routeParams, MessageServ
         }
         vm.currConversation = {
             recipient: {username: $routeParams.username}
-        }
-        /*
-        vm.data = [];
-        vm.buffer = [];
-        vm.currConversation[messages] = [];
-        vm.idx = 0;
-        vm.step = 10;
-        vm.orderBy = 'ts_create';
-        */
+        };
         _loadConversation(vm.currConversation.recipient.username);
-        /*
-        $scope.$watch('vm.buffer', function() {
-            vm.idx = 0;
-            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.currConversation.messages = vm.buffer.slice(vm.idx, e);
-            vm.idx = e;
-        });
-        */
     }
 
 }

@@ -38,11 +38,11 @@ function GridService($http, $q, REST_SERVICE, DB_GRIDS) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var grids = [];
-                for (gridid in DB_GRIDS) {
+                for (var gridid in DB_GRIDS) {
                     var GRID = DB_GRIDS[gridid];
                     if (GRID.expert === username) {
                         grids.push(DB_TASKS[task]);
-                    }                    
+                    }
                 }
                 resolve({grids: grids});
             }, 500);

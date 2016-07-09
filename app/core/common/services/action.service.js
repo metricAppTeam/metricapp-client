@@ -33,7 +33,7 @@ function ActionService(USER_ACTIONS, EXPERT_ACTIONS, METRICATOR_ACTIONS, QUESTIO
     service.getActionsForRole = getActionsForRole;
 
     function getActionsForRole(role) {
-        var userActions = service.ACTIONS['USER'];
+        var userActions = service.ACTIONS.USER;
         var roleActions = service.ACTIONS[role];
         var actions = userActions.concat(roleActions);
         return actions;
