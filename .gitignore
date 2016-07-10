@@ -9,12 +9,8 @@
 # Ignore anyway
 #==============================================================================#
 _ignore
-dist/*
-!dist/views/
-dist/views/*
-!dist/views/metricator/
-dist/views/metricator/*
-!dist/views/metricator/modal/
+dist
+!dist/views/metricator/modal
 builds
 docs
 uploads
