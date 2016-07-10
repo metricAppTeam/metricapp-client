@@ -14,39 +14,111 @@ var LIPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ei
 angular.module('metricapp')
 
 .value('DB_MGOALS', {
+
     101: {
         id: 101,
         name: 'MGoal-101',
         description: LIPSUM,
-        expert: 'expert',
-        questioner: 'questioner',
-        metricator: 'metricator',
-        progress: 30,
-        ts_create: new Date(2016, 1, 15, 13, 30, 45, 500),
-        ts_update: new Date(2016, 1, 20, 13, 30, 45, 500)
+        expert: 'expert-gm',
+        questioner: 'questioner-mp',
+        metricator: 'metricator-ag',
+        status: 'MGOAL_APPROVED',
+        progress: 100,
+        ts_create: new Date(2016, 1, 16, 10, 10, 45, 500),
+        ts_update: new Date(2016, 1, 17, 10, 10, 45, 500)
     },
+
     102: {
         id: 102,
         name: 'MGoal-102',
         description: LIPSUM,
-        expert: 'expert',
-        questioner: 'questioner',
-        metricator: 'metricator',
-        progress: 30,
-        ts_create: new Date(2016, 1, 15, 14, 30, 45, 500),
-        ts_update: new Date(2016, 1, 20, 14, 30, 45, 500)
+        expert: 'expert-gm',
+        questioner: 'questioner-mp',
+        metricator: 'metricator-af',
+        status: 'MGOAL_RUNNING',
+        progress: 75,
+        ts_create: new Date(2016, 1, 16, 10, 20, 45, 500),
+        ts_update: new Date(2016, 1, 17, 10, 20, 45, 500)
     },
+
     103: {
         id: 103,
         name: 'MGoal-103',
         description: LIPSUM,
-        expert: 'expert',
-        questioner: 'questioner',
-        metricator: 'metricator',
-        progress: 60,
-        ts_create: new Date(2016, 1, 15, 15, 30, 45, 500),
-        ts_update: new Date(2016, 1, 20, 15, 30, 45, 500)
+        expert: 'expert-gm',
+        questioner: 'questioner-dn',
+        metricator: 'metricator-ag',
+        status: 'MGOAL_RUNNING',
+        progress: 50,
+        ts_create: new Date(2016, 1, 16, 10, 30, 45, 500),
+        ts_update: new Date(2016, 1, 17, 10, 30, 45, 500)
+    },
+
+    104: {
+        id: 104,
+        name: 'MGoal-104',
+        description: LIPSUM,
+        expert: 'expert-gm',
+        questioner: 'questioner-dn',
+        metricator: 'metricator-af',
+        status: 'MGOAL_RUNNING',
+        progress: 25,
+        ts_create: new Date(2016, 1, 16, 10, 40, 45, 500),
+        ts_update: new Date(2016, 1, 17, 10, 40, 45, 500)
+    },
+
+    105: {
+        id: 105,
+        name: 'MGoal-105',
+        description: LIPSUM,
+        expert: 'expert-mp',
+        questioner: 'questioner-mp',
+        metricator: 'metricator-ag',
+        status: 'MGOAL_APPROVED',
+        progress: 100,
+        ts_create: new Date(2016, 1, 16, 10, 50, 45, 500),
+        ts_update: new Date(2016, 1, 17, 10, 50, 45, 500)
+    },
+
+    106: {
+        id: 106,
+        name: 'MGoal-106',
+        description: LIPSUM,
+        expert: 'expert-mp',
+        questioner: 'questioner-mp',
+        metricator: 'metricator-af',
+        status: 'MGOAL_RUNNING',
+        progress: 75,
+        ts_create: new Date(2016, 1, 16, 11, 0,  45, 500),
+        ts_update: new Date(2016, 1, 17, 11, 0,  45, 500)
+    },
+
+    107: {
+        id: 107,
+        name: 'MGoal-107',
+        description: LIPSUM,
+        expert: 'expert-mp',
+        questioner: 'questioner-dn',
+        metricator: 'metricator-ag',
+        status: 'MGOAL_RUNNING',
+        progress: 50,
+        ts_create: new Date(2016, 1, 16, 11, 10, 45, 500),
+        ts_update: new Date(2016, 1, 17, 11, 10, 45, 500)
+    },
+
+    108: {
+        id: 108,
+        name: 'MGoal-108',
+        description: LIPSUM,
+        expert: 'expert-mp',
+        questioner: 'questioner-dn',
+        metricator: 'metricator-af',
+        status: 'MGOAL_RUNNING',
+        progress: 25,
+        ts_create: new Date(2016, 1, 16, 11, 20, 45, 500),
+        ts_update: new Date(2016, 1, 17, 11, 20, 45, 500)
     }
+
 });
 
 })();
