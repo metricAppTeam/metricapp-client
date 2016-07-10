@@ -122,7 +122,9 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
     //$httpBackend.whenGET('http://localhost:8080/metricapp-server/').passThrough();
     //$httpBackend.whenGET('http://localhost:8080/metricapp-server/metric?userid=metricator').passThrough();
 
-    // Passthrough everything
+    /********************************************************************************
+    * GET OTHERWISE
+    *********************************************************************************/
     $httpBackend.whenGET(/[\s\S]*/).passThrough();
 
     /********************************************************************************
