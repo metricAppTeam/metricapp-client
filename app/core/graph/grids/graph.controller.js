@@ -14,9 +14,9 @@ angular.module('metricapp')
 
 .controller('GraphController', GraphController);
 
-GraphController.$inject = ['$scope', '$location','$http'];
+GraphController.$inject = ['$scope', '$location'];
 
-function GraphController($scope, $location,$http) {
+function GraphController($scope, $location) {
 
     var vm = this;
 
@@ -29,129 +29,164 @@ function GraphController($scope, $location,$http) {
     vm.num_questions = 10;
     vm.num_metrics = 20;
 
+
+    /* VIEW TEAM */
+
+    //M.ators
+    vm.metricators =
+    [
+        {firstname: 'Andrea', lastname: 'Gennusa', role: 'M.ator', email:'gennusa@gmail.com', online: true, },
+        {firstname: 'Alessandro', lastname: 'Fazio', role: 'M.ator', email:'fazio@gmail.com', online: false},
+    ];
+
+    //Q.er
+    vm.questioners =
+    [
+        {firstname: 'Marco', lastname: 'Piu', role: 'Q.er', email:'piu@gmail.com', online: true},
+        {firstname: 'Davide', lastname: 'Nanni', role: 'Q.er', email:'nanni@gmail.com', online: false},
+    ];
+
     vm.chart = {};
-    
-    //vm.chart.bind(vm.data_2);
+       
+      
+    vm.click = function() {
+        vm.chart.bind(vm.graph);
+    };
 
-    vm.data_2 =
+    vm.graph =
     {
-        "name": "Root node",
-        "children": [{
-            "name": "analytics",
-            "children": [{
-                "name": "cluster",
-                "children": [{
-                    "name": "Merge Edge",
-                    "size": 700
-                }]
-            }, {
-                "name": "graph",
-                "children": [{
-                    "name": "Betweenness Centrality",
-                    "size": 3534
-                }, {
-                    "name": "Spanning Tree",
-                    "size": 5416
-                }]
-            }]
-        }]
-    }
-
-    /*var color = d3.scale.category20();
-
-    
-    /*vm.options = {
-        chart: {
-            type: 'forceDirectedGraph',
-            height: (function(){ return nv.utils.windowSize().height -200})(),
-            radius: 12,
-            linkStrength: -0.03,
-            width: (function(){ return nv.utils.windowSize().width -800})(),
-            margin:{top: 10, right: 10, bottom: 10, left: 10},
-            color: function(d){
-                return color(d.group)
-            },
-            nodeExtras: function(node) {
-                node && node
-                  .append("text")
-                  .attr("dx", 15)
-                  .attr("dy", ".6em")
-                  .text(function(d) { return d.name })
-                  .style('font-size', '20px');
-            }
-        }
-    };
-    
-    vm.data = {
-        "nodes":[
-            {"name":"A","group":1},
-            {"name":"B","group":2},
-            {"name":"C","group":3},
-            {"name":"D","group":4},
-            {"name":"E","group":5},
-            {"name":"F","group":6},
-            {"name":"G","group":7}
-        ],
-        "links":[
-            {"source":1,"target":0,"value":1},
-            {"source":4,"target":0,"value":2},
-            {"source":2,"target":0,"value":1},
-            {"source":3,"target":0,"value":2},
-            {"source":4,"target":0,"value":5},
-            {"source":5,"target":0,"value":6},
-        ]
-    };
-
-
-    vm.graph_data = 
-    {
-        "name": "Prova",
-        "children": [
-            {"name": "Figlio1", "size": 3938},
-            {"name": "Figlio2", "size": 3812}
-        ]
-    };
-
-    vm.data2 = {
-        name: 'ROOT',
-        id: 'root',
-        children: [
+        "name": "GQM GRAPH",
+        "size": 20000,
+        "children": 
+        [
             {
-                name: 'A',
-                id: 'A',
-                description: 'This is a tooltip with a long multi line text in it',
-                children: [
+                "name": "OG1",
+                "size": 12000,
+                "children": 
+                [
                     {
-                        name: 'AA',
-                        id: 'AA',
-                        description: 'This is a tooltip'
+                        "name": "M.G. 1",
+                        "size": 5000,
+                        "children": 
+                        [
+                            {
+                                "name": 'Q. 1',
+                                "size":1500,
+                                "children": 
+                                [
+                                    {"name": 'M. 1',"size": 500},
+                                    {"name": 'M. 2',"size": 500},
+                                    {"name": 'M. 3',"size": 500}
+                               ]
+                            }, 
+                            {
+                                
+                                "name": 'Q. 2',
+                                "size":1500,
+                                "children": 
+                                [
+                                    {"name": 'M. 4',"size": 500},
+                                    {"name": 'M. 5',"size": 500},
+                                    {"name": 'M. 6',"size": 500}
+                               ]
+                            }
+                        ]
                     },
                     {
-                        name: 'BB',
-                        id: 'BB'
+                        "name": "M.G. 1",
+                        "size": 5000,
+                        "children": 
+                        [
+                            {
+                                "name": 'Q. 1',
+                                "size":1500,
+                                "children": 
+                                [
+                                    {"name": 'M. 1',"size": 500},
+                                    {"name": 'M. 2',"size": 500},
+                                    {"name": 'M. 3',"size": 500}
+                               ]
+                            }, 
+                            {
+                                
+                                "name": 'Q. 2',
+                                "size":1500,
+                                "children": 
+                                [
+                                    {"name": 'M. 4',"size": 500},
+                                    {"name": 'M. 5',"size": 500},
+                                    {"name": 'M. 6',"size": 500}
+                               ]
+                            }
+                        ]
                     }
                 ]
             },
             {
-                name: 'B',
-                id: 'B',
-                children: [
+                "name": "OG1",
+                "size": 12000,
+                "children": 
+                [
                     {
-                        name: 'AA',
-                        id: 'AA'
+                        "name": "M.G. 1",
+                        "size": 5000,
+                        "children": 
+                        [
+                            {
+                                "name": 'Q. 1',
+                                "size":1500,
+                                "children": 
+                                [
+                                    {"name": 'M. 1',"size": 500},
+                                    {"name": 'M. 2',"size": 500},
+                                    {"name": 'M. 3',"size": 500}
+                               ]
+                            }, 
+                            {
+                                
+                                "name": 'Q. 2',
+                                "size":1500,
+                                "children": 
+                                [
+                                    {"name": 'M. 4',"size": 500},
+                                    {"name": 'M. 5',"size": 500},
+                                    {"name": 'M. 6',"size": 500}
+                               ]
+                            }
+                        ]
                     },
                     {
-                        name: 'BB',
-                        id: 'BB'
-                    },
-                    {
-                        name: 'CC',
-                        id: 'CC'
+                        "name": "M.G. 1",
+                        "size": 5000,
+                        "children": 
+                        [
+                            {
+                                "name": 'Q. 1',
+                                "size":1500,
+                                "children": 
+                                [
+                                    {"name": 'M. 1',"size": 500},
+                                    {"name": 'M. 2',"size": 500},
+                                    {"name": 'M. 3',"size": 500}
+                               ]
+                            }, 
+                            {
+                                
+                                "name": 'Q. 2',
+                                "size":1500,
+                                "children": 
+                                [
+                                    {"name": 'M. 4',"size": 500},
+                                    {"name": 'M. 5',"size": 500},
+                                    {"name": 'M. 6',"size": 500}
+                               ]
+                            }
+                        ]
                     }
                 ]
             }
-        ]
-    };*/
+        ]        
+    };
 
     /********************************************************************************
     * @ngdoc method
@@ -164,8 +199,7 @@ function GraphController($scope, $location,$http) {
     * @param {type} c Insert here param description.
     * @returns {type} Insert here return description.
     ********************************************************************************/
-    function foo(a, b, c) {
-
+    function _init() {
     }
 
     /********************************************************************************

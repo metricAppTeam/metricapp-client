@@ -6,94 +6,86 @@
     <!-- END PANEL DEFAULT -->
     <div class="page-content-wrap">
         <div class="row">
-
             <!-- ANALYTICS -->
-            <div class="col-md-5">
+            <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title-box">
-                            <h3>GQM Graph for {{vm.name}}</h3>
-                            <span>Details</span>
+                            <h3>GQM Grid {{vm.name}} details: </h3>
                         </div>
                     </div>
                     <!-- START HORIZONTAL FORM SAMPLE -->
                     <div class="block"> 
                         <form class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Name:</label>
-                                <div class="col-md-10">
-                                    <p class="form-control-static">{{vm.name}}</p>
-                                </div>
-                            
-                                <label class="col-sm-2 control-label">Description:</label>
-                                <div class="col-md-10">
-                                    <p class="form-control-static ">{{vm.description}}</p>
-                                </div>
-                            
-                                <label class="col-sm-2 control-label">Creation:</label>
-                                <div class="col-md-10">
-                                    <p class="form-control-static">{{vm.ts_creation}}</p>
-                                </div>
-                            
-                                <label class="col-sm-2 control-label">Update:</label>
-                                <div class="col-md-10">
-                                    <p class="form-control-static">{{vm.ts_update}}</p>
-                                </div>
-                            
-                                <label class="col-sm-2 control-label">#MGs:</label>
-                                <div class="col-md-10">
-                                    <p class="form-control-static">{{vm.num_mgs}}</p>
-                                </div>
-                            
-                                <label class="col-sm-2 control-label">#Questions:</label>
-                                <div class="col-md-10">
-                                    <p class="form-control-static">{{vm.num_questions}}</p>
-                                </div>
-                            
-                                <label class="col-sm-2 control-label">#Metrics:</label>
-                                <div class="col-md-10">
-                                    <p class="form-control-static">{{vm.num_metrics}}</p>
-                                </div>
-                            </div>
+
+                                <h5><span class="fa fa-caret-down"></span> Name:</h5>
+                                <p class="col-md-12">{{vm.name}}</p>
+
+                                <h5><span class="fa fa-caret-down"></span> Description:</h5>
+                                <p class="col-md-12 text-justify">{{vm.description}}</p>
+
+                                <h5><span class="fa fa-caret-down"></span> Creation:</h5>
+                                <p class="col-md-12">{{vm.ts_creation}}</p>
+
+                                <h5><span class="fa fa-caret-down"></span> Update:</h5>
+                                <p class="col-md-12">{{vm.ts_update}}</p>
+
+                                <h5># Measurement Goals: <span>{{vm.num_mgs}}</span></h5>
+
+                                <h5># Questions: <span>{{vm.num_metrics}}</span></h5>
+
+                                <h5># Metrics: <span>{{vm.num_questions}}</span></h5>
                         </form>
                     </div>
-                    <!-- END HORIZONTAL FORM SAMPLE --> 
-                    <div class="panel-footer"></div>  
                 </div>
-                
                 <!-- DIALOGS -->
                 <button class="btn btn-info btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-team"><span class="fa fa-group"></span> View Team</button>
                 <!-- DIALOGS -->
                 <button class="btn btn-success btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-analytics"><span class="fa fa-bar-chart-o"></span> View Analytics</button>
                 <!-- DIALOGS -->
                 <button class="btn btn-danger btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-createmgs"><span class="fa fa-edit"></span> Create Measurement Goal</button>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
 
             </div>
-
-            <!-- GRAFO -->
-            <!--<div class="panel-body padding-0">
-                <nvd3 options="vm.options" data="vm.data" class="with-3d-shadow with-transitions"></nvd3>
-            </div>-->
-
-            <!--<reingold-tilford-tree data="graph_data" width="550" height="500"></reingold-tilford-tree>-->
-
-            <!--<tree-multi-parent data="vm.data2" width="300" height="300"></tree-multi-parent>-->
-
-            <bubbletree 
-                id="testChart"                  
-                control="vm.chart"                 
-                link-distance='100'             
-                fill-style='solid'              
-                parent-color='steelblue'        
-                child-color='lightgray'         
-                collapsed-color='#ffdd99'       
-                link-color='#9ecae1'            
-                enable-tooltip="true"           
-                text-x="1.45em"                 
-                text-y="3.45em"                 
-                scale-score="10">         
-            </bubbletree>
-
+            
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3>GQM {{vm.name}} graph</h3>
+                        </div>
+                    </div>
+                    <div class="svg-container">
+                        <button type="button" class="btn" ng-click="vm.click()">Load</button>
+                        <bubbletree id="testChart" 
+                            control="vm.chart"  
+                            width="800"
+                            height="600"
+                            link-distance='30' 
+                            fill-style='solid' 
+                            parent-color='steelblue'
+                            child-color='lightgray'
+                            collapsed-color='#ffdd99'
+                            link-color='#9ecae1'
+                            enable-tooltip="false" 
+                            text-x="1.45em"
+                            text-y="2.45em"
+                            scale-score="8">
+                        </bubbletree>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+            <br>
+            <br>
+            <br>
         </div>
     </div>
 </div>
