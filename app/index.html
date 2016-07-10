@@ -114,12 +114,6 @@
                         </li>
                         <!-- END: SIGN OUT -->
 
-                        <!-- START: SETTINGS -->
-                        <li class="xn-icon-button pull-right">
-                            <a ng-href="#/settings" class="mb-control"><span class="fa fa-cog"></span></a>
-                        </li>
-                        <!-- END: SETTINGS -->
-
                         <!-- START: MESSAGES -->
                         <li class="xn-icon-button pull-right" ng-controller="ChatsWidgetController as vm">
                             <a href="#"><span class="fa fa-comments"></span></a>
@@ -147,7 +141,7 @@
                                             <div class="list-group-status"
                                             ng-class="{'status-online': conversation.recipient.online,
                                             'status-offline': !conversation.recipient.online}"></div>
-                                            <img ng-src="{{conversation.recipient.picture}}" class="pull-left" alt="{{conversation.recipient.username}}"/>
+                                            <img ng-src="{{conversation.recipient.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{conversation.recipient.username}}"/>
                                             <span class="contacts-title">
                                                 {{conversation.recipient.firstname}} {{conversation.recipient.lastname}}
                                                 <small>
@@ -193,7 +187,7 @@
                                         ng-class="{'status-read': notification.read,
                                         'status-unread': !notification.read}"
                                         ng-href="#/notifications/{{notification.id}}">
-                                            <img ng-src="{{notification.author.picture}}" class="pull-left" alt="{{notification.author.username}}"/>
+                                            <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
                                             <span class="contacts-title">
                                                 {{notification.author.firstname}} {{notification.author.lastname}} /
                                                 {{notification.name}} / {{notification.scope}}
