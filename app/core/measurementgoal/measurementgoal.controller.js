@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 23:10:30
+* @Last Modified time: 2016-07-10 23:26:47
 */
 (function () { 'use strict';
 
@@ -58,12 +58,12 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     ********************************************************************************/
     function submitMeasurementGoal() {
         
-        var objectSubmit = (vm.object !== null) ? vm.object :  vm.measurementGoalDialog.object;
-        var purposeSubmit = (vm.purpose !== null) ? vm.purpose :  vm.measurementGoalDialog.purpose;
-        var viewPointSubmit = (vm.viewPoint !== null) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
-        var focusSubmit = (vm.focus !== null) ? vm.focus :  vm.measurementGoalDialog.focus;
-        var functionJavascriptSubmit = (vm.functionJavascript !== null) ? vm.functionJavascript :  vm.measurementGoalDialog.functionJavascript;
-        var queryNoSQLSubmit = (vm.queryNoSQL !== null) ? vm.queryNoSQL :  vm.measurementGoalDialog.queryNoSQL;
+        var objectSubmit = (vm.object !== undefined) ? vm.object :  vm.measurementGoalDialog.object;
+        var purposeSubmit = (vm.purpose !== undefined) ? vm.purpose :  vm.measurementGoalDialog.purpose;
+        var viewPointSubmit = (vm.viewPoint !== undefined) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
+        var focusSubmit = (vm.focus !== undefined) ? vm.focus :  vm.measurementGoalDialog.focus;
+        var functionJavascriptSubmit = (vm.functionJavascript !== undefined) ? vm.functionJavascript :  vm.measurementGoalDialog.functionJavascript;
+        var queryNoSQLSubmit = (vm.queryNoSQL !== undefined) ? vm.queryNoSQL :  vm.measurementGoalDialog.queryNoSQL;
 
 
 
@@ -71,10 +71,10 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         var measurementGoal = {
             userid : vm.measurementGoalDialog.userid,
         	name : vm.name,
-        	object : vm.object,
-            viewPoint : vm.viewPoint,
-            focus : vm.focus,
-        	purpose : vm.purpose,
+        	object : objectSubmit,
+            viewPoint : viewPointSubmit,
+            focus : focusSubmit,
+        	purpose : purposeSubmit,
             OrganizationalGoalId : vm.measurementGoalDialog.OrganizationalGoalId,
             metrics : vm.measurementGoalDialog.metrics,
             questions : vm.measurementGoalDialog.questions,
@@ -83,8 +83,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             contextFactors : vm.measurementGoalDialog.contextFactors,
             assumptions : vm.measurementGoalDialog.assumptions,
             interpretationModel : {
-                functionJavascript : vm.functionJavascript,
-                queryNoSQL : vm.queryNoSQL
+                functionJavascript : functionJavascriptSubmit,
+                queryNoSQL : queryNoSQLSubmit
             },
             metadata : {
                 id : vm.measurementGoalDialog.metadata.id,
