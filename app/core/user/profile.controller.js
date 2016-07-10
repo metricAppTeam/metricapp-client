@@ -7,6 +7,7 @@
 * @requires $location
 * @requires $routeParams
 * @requires UserService
+* @requires AuthService
 *
 * @description
 * Realizes the control layer for `profile.view`.
@@ -16,9 +17,9 @@ angular.module('metricapp')
 
 .controller('ProfileController', ProfileController);
 
-ProfileController.$inject = ['$location', '$routeParams', 'UserService'];
+ProfileController.$inject = ['$location', '$routeParams', 'UserService', 'AuthService'];
 
-function ProfileController($location, $routeParams, UserService) {
+function ProfileController($location, $routeParams, UserService, AuthService) {
 
     var vm = this;
 
@@ -34,6 +35,7 @@ function ProfileController($location, $routeParams, UserService) {
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
+                alert(vm.errmsg);
                 vm.success = false;
             }
         ).finally(function() {
@@ -45,6 +47,15 @@ function ProfileController($location, $routeParams, UserService) {
         vm.loading = true;
         vm.success = false;
         vm.errmsg = null;
+        if (!$routeParams.username) {
+            var authuser = AuthService.getUser();
+            if (authuser) {
+                $location.path('/profile/' + authuser.username);
+            } else {
+                $location.path('/');
+            }
+            return;
+        }
         vm.currUser = {
             username: $routeParams.username
         };

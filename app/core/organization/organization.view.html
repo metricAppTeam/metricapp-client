@@ -1,7 +1,7 @@
 <!-- START: ORGANIZATION -->
 <div ng-controller="OrganizationController as vm">
     <div class="page-title">
-        <h2><span class="fa fa-book"></span> Organization <small ng-if="!vm.loading && vm.success">{{vm.numusers}} people</small></h2>
+        <h2><span class="fa fa-book"></span> Organization <small ng-if="!vm.loading && vm.success">{{vm.buffer.length}} people</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row">
@@ -17,11 +17,10 @@
                                         </div>
                                         <input type="text" class="form-control" placeholder="Who are you looking for?"
                                         ng-model="vm.query"
-                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
-                                        ng-required="true"/>
+                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
                                         <div class="input-group-btn">
                                             <button class="btn btn-primary"
-                                            ng-disabled="searchForm.$invalid | vm.loading"
+                                            ng-disabled="!vm.query || vm.loading"
                                             ng-click="vm.search(vm.query)">Search</button>
                                         </div>
                                     </div>
@@ -46,7 +45,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body profile">
                                 <div class="profile-image">
-                                    <img src="{{user.picture}}" alt="{{user.username}}"/>
+                                    <img ng-src="{{user.picture}}" alt="{{user.username}}"/>
                                 </div>
                                 <div class="profile-data">
                                     <div class="profile-data-name">{{user.firstname}} {{user.lastname}}</div>

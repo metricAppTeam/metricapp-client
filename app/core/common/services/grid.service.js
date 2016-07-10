@@ -16,9 +16,9 @@ angular.module('metricapp')
 
 .service('GridService', GridService);
 
-GridService.$inject = ['$http', '$q', 'REST_SERVICE', 'DB_GRIDS'];
+GridService.$inject = ['$http', '$q', '$cookies', 'REST_SERVICE', 'DB_GRIDS'];
 
-function GridService($http, $q, REST_SERVICE, DB_GRIDS) {
+function GridService($http, $q, $cookies, REST_SERVICE, DB_GRIDS) {
 
     var service = this;
 
@@ -55,7 +55,7 @@ function GridService($http, $q, REST_SERVICE, DB_GRIDS) {
                 for (var gridid in DB_GRIDS) {
                     var GRID = DB_GRIDS[gridid];
                     if (GRID.expert === username) {
-                        grids.push(DB_TASKS[task]);
+                        grids.push(DB_GRIDS[gridid]);
                     }
                 }
                 resolve({grids: grids});

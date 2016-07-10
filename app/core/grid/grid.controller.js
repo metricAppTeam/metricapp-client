@@ -29,7 +29,7 @@ function GridController($scope, $location, $routeParams, GridService) {
         vm.loading = true;
         vm.success = false;
         GridService.getById(gridid).then(
-            function(response) {
+            function(resolve) {
                 vm.currGrid = angular.copy(resolve.grid);
                 vm.success = true;
             },

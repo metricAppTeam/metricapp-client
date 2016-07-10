@@ -37,7 +37,7 @@ function OrganizationController($scope, $location, $filter, UserService) {
     }
 
     function search(query) {
-        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);     
     }
 
     function _loadAllUsers() {
@@ -68,7 +68,7 @@ function OrganizationController($scope, $location, $filter, UserService) {
         vm.idx = 0;
         vm.step = 5;
         vm.query = '';
-        vm.orderBy = 'name';
+        vm.orderBy = 'firstname';
         _loadAllUsers();
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;

@@ -31,6 +31,9 @@ function routes($routeProvider, $locationProvider) {
     .when('/home', {
         templateUrl: 'dist/views/home/home.view.html'
     })
+    .when('/profile', {
+        templateUrl: 'dist/views/user/profile.view.html'
+    })
     .when('/profile/:username', {
         templateUrl: 'dist/views/user/profile.view.html'
     })
@@ -40,8 +43,11 @@ function routes($routeProvider, $locationProvider) {
     .when('/organization', {
         templateUrl: 'dist/views/organization/organization.view.html'
     })
+    .when('/messages', {
+        templateUrl: 'dist/views/chat/messages.view.html'
+    })
     .when('/messages/:username', {
-        templateUrl: 'dist/views/message/messages.view.html'
+        templateUrl: 'dist/views/chat/messages.view.html'
     })
     .when('/notifications', {
         templateUrl: 'dist/views/notification/notifications.view.html'

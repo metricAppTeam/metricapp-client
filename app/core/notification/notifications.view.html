@@ -17,11 +17,10 @@
                                         </div>
                                         <input type="text" class="form-control" placeholder="Who are you looking for?"
                                         ng-model="vm.query"
-                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
-                                        ng-required="true"/>
+                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
                                         <div class="input-group-btn">
                                             <button class="btn btn-primary"
-                                            ng-disabled="searchForm.$invalid | vm.loading"
+                                            ng-disabled="!vm.query || vm.loading"
                                             ng-click="vm.search(vm.query)">Search</button>
                                         </div>
                                     </div>

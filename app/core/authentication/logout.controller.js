@@ -39,12 +39,15 @@ function LogoutController($rootScope, $location, AuthService, AUTH_EVENTS) {
                 AuthService.clearUser();
                 $rootScope.$broadcast(AUTH_EVENTS.LOGOUT_SUCCESS);
                 $location.path('/');
+                vm.success = true;
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
                 alert(vm.errmsg);
                 vm.success = false;
+                AuthService.clearUser();
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILURE);
+                $location.path('/');
             }
         ).finally(function() {
             vm.loading = false;

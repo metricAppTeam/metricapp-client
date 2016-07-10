@@ -62,13 +62,13 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
             function(resolve) {
                 var msg = resolve.msg;
                 vm.success = true;
-                FlashService.success(msg);
+                //FlashService.success(msg);
                 $location.path('/');
             },
             function(reject) {
                 var errmsg = reject.errmsg;
                 vm.success = false;
-                FlashService.danger(errmsg);
+                //FlashService.danger(errmsg);
             }
         ).finally(function() {
             vm.loading = false
