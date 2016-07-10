@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-08 17:51:01
+* @Last Modified time: 2016-07-10 16:14:25
 */
 (function() { 'use strict';
 
@@ -29,7 +29,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     var service = this;
 
-    service.measurementGoalToUpdate;
+    service.measurementGoalToUpdate = {};
     service.submitMeasurementGoal = submitMeasurementGoal;
     service.getMeasurementGoals = getMeasurementGoals;
     service.getMeasurementGoalsBy = getMeasurementGoalsBy;
@@ -95,7 +95,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     
     function getMeasurementGoals() {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');

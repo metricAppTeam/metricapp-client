@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-09 13:26:56
+* @Last Modified time: 2016-07-10 15:26:03
 */
 (function() { 'use strict';
 
@@ -33,21 +33,47 @@ function MetricService($http, $window) {
     var service = this;
 
     service.getMetrics = getMetrics;
+    service.getApprovedMetrics = getApprovedMetrics;
 
     /********************************************************************************
     * @ngdoc method
     * @name getMetrics
     * @description
-    * Submits a MeasurementGoal.
-    * @param {Metric} Metric to get.
+    * Get Metric by user.
     ********************************************************************************/
 
     function getMetrics() {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=3').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getApprovedMetrics
+    * @description
+    * Get approved metric by state.
+    ********************************************************************************/
+
+    function getApprovedMetrics() {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?state=Approved').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS BY APPROVED VERSION');
                 console.log(message);
                 return message;
             },

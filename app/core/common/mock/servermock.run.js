@@ -107,19 +107,22 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
      /********************************************************************************
     * GET MEASUREMENT GOALS
     *********************************************************************************/
-    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').passThrough();
+    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=metricator').passThrough();
     
     /********************************************************************************
     * GET ORGANIZATIONAL GOALS
     *********************************************************************************/
     $httpBackend.whenGET('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').passThrough();
  
-
+     /********************************************************************************
+    * GET APPROVED METRICS
+    *********************************************************************************/
+    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/metric?state=Approved').passThrough();
 
      /********************************************************************************
     * GET METRICS
     *********************************************************************************/
-    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/metric?userid=3').passThrough();
+    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/metric?userid=metricator').passThrough();
 
     /********************************************************************************
     * AUTHENTICATION: SIGN-UP

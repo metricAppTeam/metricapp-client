@@ -1003,7 +1003,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-08 17:51:01
+* @Last Modified time: 2016-07-10 16:14:25
 */
 (function() { 'use strict';
 
@@ -1030,7 +1030,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     var service = this;
 
-    service.measurementGoalToUpdate;
+    service.measurementGoalToUpdate = {};
     service.submitMeasurementGoal = submitMeasurementGoal;
     service.getMeasurementGoals = getMeasurementGoals;
     service.getMeasurementGoalsBy = getMeasurementGoalsBy;
@@ -1096,7 +1096,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     
     function getMeasurementGoals() {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -1198,7 +1198,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-09 13:26:56
+* @Last Modified time: 2016-07-10 15:26:03
 */
 (function() { 'use strict';
 
@@ -1229,21 +1229,47 @@ function MetricService($http, $window) {
     var service = this;
 
     service.getMetrics = getMetrics;
+    service.getApprovedMetrics = getApprovedMetrics;
 
     /********************************************************************************
     * @ngdoc method
     * @name getMetrics
     * @description
-    * Submits a MeasurementGoal.
-    * @param {Metric} Metric to get.
+    * Get Metric by user.
     ********************************************************************************/
 
     function getMetrics() {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=3').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getApprovedMetrics
+    * @description
+    * Get approved metric by state.
+    ********************************************************************************/
+
+    function getApprovedMetrics() {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?state=Approved').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS BY APPROVED VERSION');
                 console.log(message);
                 return message;
             },
@@ -2232,7 +2258,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-09 13:29:37
+* @Last Modified time: 2016-07-10 16:58:45
 */
 (function () { 'use strict';
 
@@ -2261,6 +2287,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.measurementGoalDialog = MeasurementGoalService.getUpdateMeasurementGoal();
     vm.organizationalGoalDialog = {};
     vm.metricsDialog = [];
+    vm.externalMetricDialog = [];
     vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.cancelSubmit = cancelSubmit;
     vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
@@ -2272,6 +2299,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.addTagToMeasurementGoal = addTagToMeasurementGoal;
     vm.removeTagFromMeasurementGoal = removeTagFromMeasurementGoal;
     vm.getMetricsByMeasurementGoal = getMetricsByMeasurementGoal;
+    vm.getApprovedMetrics = getApprovedMetrics;
+    vm.addMetricToMeasurementGoal = addMetricToMeasurementGoal;
 
     initOrganizationalGoalDialog();
     getMetricsByMeasurementGoal();
@@ -2345,7 +2374,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 alert('Error retriving Measurement Goals');
             }
         );
-    };
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -2356,7 +2385,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     function getMetricsByMeasurementGoal(){
          MetricService.getMetrics().then(
             function(data) {
-                console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL')
+                console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
                 console.log(data.metricsDTO);
                 vm.metricsDialog = data.metricsDTO;
             },
@@ -2364,7 +2393,27 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 alert('Error retriving Metrics');
             }
         );
-    };
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getApprovedMetrics
+    * @description
+    * Get approved metrics.
+    ********************************************************************************/
+    function getApprovedMetrics(){
+         MetricService.getApprovedMetrics().then(
+            function(data) {
+                console.log('SUCCESS GET APPROVED METRICS');
+                console.log(data.metricsDTO);
+                vm.externalMetricDialog = data.metricsDTO;
+
+            },
+            function(data) {
+                alert('Error retriving Metrics');
+            }
+        );
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -2382,7 +2431,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 alert('Error retriving Measurement Goals');
             }
         );
-    };
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -2402,7 +2451,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 alert('Error retriving Measurement Goals by state');
             }
         );
-    };
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -2450,7 +2499,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     ********************************************************************************/
     function addTagToMeasurementGoal(){
          vm.measurementGoalDialog.metadata.tags.push(vm.newTag);
-    };
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -2460,8 +2509,23 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     ********************************************************************************/
     function removeTagFromMeasurementGoal(index){
         vm.measurementGoalDialog.metadata.tags.splice(index, 1);
-    };
+    }
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name addMetricToMeasurementGoal
+    * @description
+    * Add metric to measurement goal.
+    ********************************************************************************/
+    function addMetricToMeasurementGoal(index){
+
+        for(var i=0; i<vm.metricsDialog.length; i++){
+            if(vm.externalMetricDialog[index].metadata.id == vm.metricsDialog[i].metadata.id){
+                $window.alert('You cannot add a metric twice!');
+            }
+        }
+        $window.alert('Item added');
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -3441,19 +3505,22 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
      /********************************************************************************
     * GET MEASUREMENT GOALS
     *********************************************************************************/
-    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').passThrough();
+    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=metricator').passThrough();
     
     /********************************************************************************
     * GET ORGANIZATIONAL GOALS
     *********************************************************************************/
     $httpBackend.whenGET('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').passThrough();
  
-
+     /********************************************************************************
+    * GET APPROVED METRICS
+    *********************************************************************************/
+    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/metric?state=Approved').passThrough();
 
      /********************************************************************************
     * GET METRICS
     *********************************************************************************/
-    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/metric?userid=3').passThrough();
+    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/metric?userid=metricator').passThrough();
 
     /********************************************************************************
     * AUTHENTICATION: SIGN-UP
