@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 18:56:29
+* @Last Modified time: 2016-07-10 23:10:30
 */
 (function () { 'use strict';
 
@@ -57,27 +57,46 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Submits a MeasurementGoal.
     ********************************************************************************/
     function submitMeasurementGoal() {
+        
+        var objectSubmit = (vm.object !== null) ? vm.object :  vm.measurementGoalDialog.object;
+        var purposeSubmit = (vm.purpose !== null) ? vm.purpose :  vm.measurementGoalDialog.purpose;
+        var viewPointSubmit = (vm.viewPoint !== null) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
+        var focusSubmit = (vm.focus !== null) ? vm.focus :  vm.measurementGoalDialog.focus;
+        var functionJavascriptSubmit = (vm.functionJavascript !== null) ? vm.functionJavascript :  vm.measurementGoalDialog.functionJavascript;
+        var queryNoSQLSubmit = (vm.queryNoSQL !== null) ? vm.queryNoSQL :  vm.measurementGoalDialog.queryNoSQL;
+
+
+
+
         var measurementGoal = {
             userid : vm.measurementGoalDialog.userid,
         	name : vm.name,
         	object : vm.object,
+            viewPoint : vm.viewPoint,
+            focus : vm.focus,
         	purpose : vm.purpose,
-        	viewPoint : vm.viewPoint,
-        	focus : vm.focus,
             OrganizationalGoalId : vm.measurementGoalDialog.OrganizationalGoalId,
-            metricIdList : vm.measurementGoalDialog.metricIdList,
-            questionIdList : vm.measurementGoalDialog.questionIdList,
+            metrics : vm.measurementGoalDialog.metrics,
+            questions : vm.measurementGoalDialog.questions,
             metricatorId : vm.measurementGoalDialog.metricatorId,
-            contextFactorIdList : vm.measurementGoalDialog.contextFactorIdList,
-            assumptionIdList : vm.measurementGoalDialog.assumptionIdList,
+            questionersId : vm.measurementGoalDialog.questionersId,
+            contextFactors : vm.measurementGoalDialog.contextFactors,
+            assumptions : vm.measurementGoalDialog.assumptions,
             interpretationModel : {
                 functionJavascript : vm.functionJavascript,
                 queryNoSQL : vm.queryNoSQL
             },
             metadata : {
+                id : vm.measurementGoalDialog.metadata.id,
+                version : vm.measurementGoalDialog.metadata.version,
                 tags : vm.measurementGoalDialog.metadata.tags,
+                creatorId : vm.measurementGoalDialog.metadata.creatorId,
                 state : vm.measurementGoalDialog.metadata.state,
-                releaseNote : vm.measurementGoalDialog.metadata.releaseNote
+                releaseNote : vm.measurementGoalDialog.metadata.releaseNote,
+                entityType : vm.measurementGoalDialog.metadata.entityType,
+                versionBus : vm.measurementGoalDialog.metadata.versionBus,
+                creationDate : vm.measurementGoalDialog.metadata.creationDate,
+                lastVersionDate : vm.measurementGoalDialog.metadata.lastVersionDate
             }
         };
         MeasurementGoalService.submitMeasurementGoal(measurementGoal).then(
@@ -271,7 +290,17 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 return true;
             }
         }
+
+        var pointerBus = {
+           objIdLocalToPhase : "",
+           typeObj : "Metric",
+           instance : vm.externalMetricDialog[index].metadata.id,
+           tags: []
+        };
+        vm.measurementGoalDialog.metrics.push(pointerBus);
+        vm.metricsDialog.push(vm.externalMetricDialog[index]);
         $window.alert('Item added');
+        console.log(vm.measurementGoalDialog);
         return false;
     }
 

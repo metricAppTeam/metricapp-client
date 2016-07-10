@@ -1003,7 +1003,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 16:14:25
+* @Last Modified time: 2016-07-10 22:41:13
 */
 (function() { 'use strict';
 
@@ -1053,7 +1053,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         'viewPoint=' + measurementGoal.viewPoint + ' & ' +
         'focus=' + measurementGoal.focus);
 
-        var metadata = {
+        /*var metadata = {
         	tags:['saassad','sadsadsad','sadsadsad'],
   			creatorId:'3',
       		state:'Created',
@@ -1067,11 +1067,13 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         	purpose: measurementGoal.purpose,
         	viewPoint: measurementGoal.viewPoint,
         	focus: measurementGoal.focus,
-        	metadata: metadata};
+        	metadata: metadata};*/
                 
         $window.alert(JSON.stringify(submit));
+        //$http.post
+        //submit).then(
 
-        return $http.post('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', submit).then(
+        return $http.put('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', measurementGoal).then(
             function(response) {
                 var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
@@ -2285,7 +2287,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 18:56:29
+* @Last Modified time: 2016-07-10 22:33:09
 */
 (function () { 'use strict';
 
@@ -2340,27 +2342,36 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Submits a MeasurementGoal.
     ********************************************************************************/
     function submitMeasurementGoal() {
+        
         var measurementGoal = {
             userid : vm.measurementGoalDialog.userid,
         	name : vm.name,
         	object : vm.object,
+            viewPoint : vm.viewPoint,
+            focus : vm.focus,
         	purpose : vm.purpose,
-        	viewPoint : vm.viewPoint,
-        	focus : vm.focus,
             OrganizationalGoalId : vm.measurementGoalDialog.OrganizationalGoalId,
-            metricIdList : vm.measurementGoalDialog.metricIdList,
-            questionIdList : vm.measurementGoalDialog.questionIdList,
+            metrics : vm.measurementGoalDialog.metrics,
+            questions : vm.measurementGoalDialog.questions,
             metricatorId : vm.measurementGoalDialog.metricatorId,
-            contextFactorIdList : vm.measurementGoalDialog.contextFactorIdList,
-            assumptionIdList : vm.measurementGoalDialog.assumptionIdList,
+            questionersId : vm.measurementGoalDialog.questionersId,
+            contextFactors : vm.measurementGoalDialog.contextFactors,
+            assumptions : vm.measurementGoalDialog.assumptions,
             interpretationModel : {
                 functionJavascript : vm.functionJavascript,
                 queryNoSQL : vm.queryNoSQL
             },
             metadata : {
+                id : vm.measurementGoalDialog.metadata.id,
+                version : vm.measurementGoalDialog.metadata.version,
                 tags : vm.measurementGoalDialog.metadata.tags,
+                creatorId : vm.measurementGoalDialog.metadata.creatorId,
                 state : vm.measurementGoalDialog.metadata.state,
-                releaseNote : vm.measurementGoalDialog.metadata.releaseNote
+                releaseNote : vm.measurementGoalDialog.metadata.releaseNote,
+                entityType : vm.measurementGoalDialog.metadata.entityType,
+                versionBus : vm.measurementGoalDialog.metadata.versionBus,
+                creationDate : vm.measurementGoalDialog.metadata.creationDate,
+                lastVersionDate : vm.measurementGoalDialog.metadata.lastVersionDate
             }
         };
         MeasurementGoalService.submitMeasurementGoal(measurementGoal).then(
@@ -2554,7 +2565,17 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 return true;
             }
         }
+
+        var pointerBus = {
+           objIdLocalToPhase : "",
+           typeObj : "Metric",
+           instance : vm.externalMetricDialog[index].metadata.id,
+           tags: []
+        };
+        vm.measurementGoalDialog.metrics.push(pointerBus);
+        vm.metricsDialog.push(vm.externalMetricDialog[index]);
         $window.alert('Item added');
+        console.log(vm.measurementGoalDialog);
         return false;
     }
 

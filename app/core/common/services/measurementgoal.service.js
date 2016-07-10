@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 16:14:25
+* @Last Modified time: 2016-07-10 22:41:13
 */
 (function() { 'use strict';
 
@@ -52,7 +52,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         'viewPoint=' + measurementGoal.viewPoint + ' & ' +
         'focus=' + measurementGoal.focus);
 
-        var metadata = {
+        /*var metadata = {
         	tags:['saassad','sadsadsad','sadsadsad'],
   			creatorId:'3',
       		state:'Created',
@@ -66,11 +66,13 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         	purpose: measurementGoal.purpose,
         	viewPoint: measurementGoal.viewPoint,
         	focus: measurementGoal.focus,
-        	metadata: metadata};
+        	metadata: metadata};*/
                 
         $window.alert(JSON.stringify(submit));
+        //$http.post
+        //submit).then(
 
-        return $http.post('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', submit).then(
+        return $http.put('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', measurementGoal).then(
             function(response) {
                 var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
