@@ -95,7 +95,6 @@
                     <h3 class="panel-title">
                     <a data-toggle="collapse" data-target="#accOneColOne">Metrics</a>
                     </h3>
-                    <button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMetricDialog($parent.$index,$index)">
                     <!--<ul class="panel-controls">
                         <li><a class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
                         <li class="dropdown">
@@ -124,6 +123,8 @@
                                 <li class="list-group-item">{{vm.metricsDialog[0].hasMin}}</li>
                                 <h4>Has User Defined List</h4>
                                 <li class="list-group-item">{{vm.metricsDialog[0].hasUserDefinedList}}</li>
+                                <span ng-show="vm.metricsDialog[0].hasUserDefinedList === 'True'"><h4>User Defined List</h4>
+                                <li ng-repeat="listItem in vm.metricsDialog[0].userDefinedList">{{listItem}}</li></span>
                                 <h4>Is Ordered</h4>
                                 <li class="list-group-item">{{vm.metricsDialog[0].isOrdered}}</li>
                                 <h4>Max</h4>
@@ -139,13 +140,13 @@
                                 <h4>Tags</h4>
                                 <li class="list-group-item" ng-repeat="tag in vm.metricsDialog[{$index}].tags">{{tag}}</li>  
                                 <h4>State</h4>
-                                <li class="list-group-item">{{vm.metricsDialog[0].state}}</li>  
+                                <li class="list-group-item">{{vm.metricsDialog[0].metadata.state}}</li>  
                                 <h4>Last Version Date</h4>
-                                <li class="list-group-item">{{vm.metricsDialog[0].lastVersionDate}}</li>  
+                                <li class="list-group-item">{{vm.metricsDialog[0].metadata.lastVersionDate}}</li>  
                                 <h4>Release Note</h4>
                                 <li class="list-group-item">  
                                     <div class="panel-body scroll" style="height: 30px;">     
-                                        <p>{{vm.metricsDialog[0].releaseNote}}</p>
+                                        <p>{{vm.metricsDialog[0].metadata.releaseNote}}</p>
                                     </div>                                   
                                 </li>  
                             </ul> 
@@ -153,13 +154,15 @@
 
                         <div class="tab-pane" ng-repeat="metric in vm.metricsDialog.slice(1, vm.metricsDialog.length)" id="tab{{$index}}">
                             <!--BEGIN ACTIVE TAB DETAIL-->
-                             <ul class="list-group border-bottom">
+                            <ul class="list-group border-bottom">
                                 <h4>Has Max</h4>
                                 <li class="list-group-item">{{metric.hasMax}}</li>
                                 <h4>Has Min</h4>
                                 <li class="list-group-item">{{metric.hasMin}}</li>
                                 <h4>Has User Defined List</h4>
                                 <li class="list-group-item">{{metric.hasUserDefinedList}}</li>
+                                <span ng-show="metric.hasUserDefinedList === 'True'"><h4>User Defined List</h4>
+                                <li ng-repeat="listItem in metric.userDefinedList">{{listItem}}</li></span>
                                 <h4>Is Ordered</h4>
                                 <li class="list-group-item">{{metric.isOrdered}}</li>
                                 <h4>Max</h4>
@@ -169,22 +172,22 @@
                                 <h4>Unit</h4>
                                 <li class="list-group-item">{{metric.unit}}</li>  
                                 <h4>Scale Type</h4>
-                                <li class="list-group-item">{{metric.scaleType}}</li>  
+                                <li class="list-group-item">{{metric.scaleType}}</li>
                                 <h4>Set</h4>
                                 <li class="list-group-item">{{metric.set}}</li>  
                                 <h4>Tags</h4>
                                 <li class="list-group-item" ng-repeat="tag in metric.tags">{{tag}}</li>  
                                 <h4>State</h4>
-                                <li class="list-group-item">{{metric.state}}</li>  
+                                <li class="list-group-item">{{metric.metadata.state}}</li>  
                                 <h4>Last Version Date</h4>
-                                <li class="list-group-item">{{metric.lastVersionDate}}</li>  
+                                <li class="list-group-item">{{metric.metadata.lastVersionDate}}</li>  
                                 <h4>Release Note</h4>
                                 <li class="list-group-item">  
-                                    <div class="panel-body scroll" style="height: 30px;">     
-                                        <p>{{metric.releaseNote}}</p>
+                                    <div class="panel-body scroll" style="height: 30px;">    
+                                        <p>{{metric.metadata.releaseNote}}</p>
                                     </div>                                   
                                 </li>  
-                            </ul> 
+                            </ul>           
                         </div>
                                               
                     </div>

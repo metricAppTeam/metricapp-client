@@ -12,8 +12,8 @@
                     <li class="list-group-item">{{vm.metricDialog.hasMin}}</li>
                     <h4>Has User Defined List</h4>
                     <li class="list-group-item">{{vm.metricDialog.hasUserDefinedList}}</li>
-                    <h4>User Defined List</h4>
-                    <li ng-repeat="listItem in vm.metricDialog.userDefinedList">{{listItem}}</li>
+                    <span ng-show="vm.metricDialog.hasUserDefinedList === 'True'"><h4>User Defined List</h4>
+                    <li ng-repeat="listItem in vm.metricDialog.userDefinedList">{{listItem}}</li></span>
                     <h4>Is Ordered</h4>
                     <li class="list-group-item">{{vm.metricDialog.isOrdered}}</li>
                     <h4>Max</h4>
