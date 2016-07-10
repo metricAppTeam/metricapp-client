@@ -38,10 +38,8 @@
     "angular-touch": "^1.5.7",
     "angular-animate": "^1.5.7",
     "angular-bootstrap": "^1.3.3",
-    "angular-nvd3": "1.0.7",
     "angular-morris-chart":"1.2.0",
     "angular-svg-round-progressbar":"0.3.6",
-    "ng-d3tree":"0.1.0",
     "angular-bubbletree":"0.1.0"
   },
   "private": true
