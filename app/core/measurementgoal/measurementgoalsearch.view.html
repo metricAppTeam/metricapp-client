@@ -1,0 +1,88 @@
+<div class="page-title">                    
+    <h2><span class="fa fa-arrow-circle-o-left"></span> Search For MeasurementGoal</h2>
+</div>
+
+ <div class="page-content-wrap" ng-controller="MeasurementGoalController as mtc">
+
+    <div class="block">
+        <div class="panel panel-default pull-left">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-10>                                    
+                        <label class="col-md-2 control-label">
+                            <input type="Text" class="form-control" ng-model="mtc.keyword" required/> 
+                            Search For:
+                         </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4">                                    
+                        <label class="check">
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="mtc.field" value="focus" /> 
+                            Focus
+                        </label>
+                    </div>
+                    <div class="col-md-4">                                    
+                        <label class="check">
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="mtc.field" value="subject" /> 
+                            Subject
+                        </label>
+                    </div>
+                    <div class="col-md-4">                                    
+                        <label class="check">
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="mtc.field" value="creatorId" /> 
+                            Metricator
+                        </label>
+                    </div>
+                    <div class="col-md-4">                                    
+                        <label class="check">
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="mtc.field" value="tag" /> 
+                            Tag
+                        </label>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="panel-footer">
+                <button ng-click="mtc.getMeasurementGoalBy(mtc.keyword, mtc.field)" class="btn btn-primary pull-right">Search</button>
+            </div>
+        
+
+            <div class="panel-body">
+                <table class="table datatable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>CreationDate</th>
+                            <th>LastVersionDate</th>
+                            <th>ReleaseNote</th>
+                            <th>State</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="measurementGoal in mtc.measurementGoals">
+                            <td>
+                                <button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="mtc.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
+                            </td>
+                            
+                            <td>{{measurementGoal.metadata.entityType}}</td>
+                            <td>{{measurementGoal.metadata.creationDate}}</td>
+                            <td>{{measurementGoal.metadata.lastVersionDate}}</td>
+                            <td>{{measurementGoal.metadata.releaseNote}}</td>
+                            <td>{{measurementGoal.metadata.state}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>   
+
+    </div>
+
+    <div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div ng-include="'dist/views/metricator/modal.measurementgoal.html'"></div>    
+    </div>
+    </div>
+</div>
+

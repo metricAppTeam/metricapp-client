@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-06-14 17:07:12
+* @Last Modified time: 2016-07-08 17:51:01
 */
 (function() { 'use strict';
 
@@ -29,7 +29,13 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     var service = this;
 
+    service.measurementGoalToUpdate;
     service.submitMeasurementGoal = submitMeasurementGoal;
+    service.getMeasurementGoals = getMeasurementGoals;
+    service.getMeasurementGoalsBy = getMeasurementGoalsBy;
+    service.toUpdateMeasurementGoal = toUpdateMeasurementGoal;
+    service.getUpdateMeasurementGoal = getUpdateMeasurementGoal;
+    service.getOrganizationalGoalById = getOrganizationalGoalById;
 
     /********************************************************************************
     * @ngdoc method
@@ -40,7 +46,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     ********************************************************************************/
     function submitMeasurementGoal(measurementGoal) {
         console.log('SUBMIT measurementGoal WITH ' +
-        'name= '  + measurementGoal.name + ' & ' +	
+        'name= '  + measurementGoal.name + ' & ' +
         'object=' + measurementGoal.object + ' & ' +
         'purpose=' + measurementGoal.purpose + ' & ' +
         'viewPoint=' + measurementGoal.viewPoint + ' & ' +
@@ -61,23 +67,129 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         	viewPoint: measurementGoal.viewPoint,
         	focus: measurementGoal.focus,
         	metadata: metadata};
-                
+
         $window.alert(JSON.stringify(submit));
 
-        return $http.post('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', submit).then(
+        return $http.post('http://localhost:8080/metricapp-server/measurementgoal/', submit).then(
             function(response) {
                 var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
-                console.log('SUCCESS SUBMIT measurementGoal');
+                console.log('SUCCESS GET measurementGoal');
                 return message;
             },
             function(response) {
                 var message = response.data;
-                console.log('FAILURE SUBMIT measurementGoal');
+                console.log('FAILURE GET measurementGoal');
                 return message;
             }
         );
 
     }
+
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get measurement goals.
+    ********************************************************************************/
+
+    function getMeasurementGoals() {
+
+        return $http.get('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get measurement goals.
+    ********************************************************************************/
+
+    function getOrganizationalGoalById(organizationalGoalId) {
+
+        //return $http.get('http://localhost:8080/metricapp-server-gitlab/external/organizationalgoal?id='+organizationalGoalId).then(
+
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET ORGANIZATIONAL GOAL');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET ORGANIZATIONAL GOAL');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get a measurement goal
+    * @param {MeasurementGoal} field key.
+    * @param {MeasurementGoal} field value .
+    ********************************************************************************/
+
+    function getMeasurementGoalsBy(keyword,field) {
+
+        return $http.get("http://localhost:8080/metricapp-server/measurementgoal?" + field + "=" + keyword).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Update a measurement goal, when a controller asks for it to show a form
+    * @param {MeasurementGoal} measurement goal to update.
+    ********************************************************************************/
+    function toUpdateMeasurementGoal(toUpdate){
+        service.measurementGoalToUpdate = toUpdate;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get measurement goal to update
+    ********************************************************************************/
+    function getUpdateMeasurementGoal(){
+        return service.measurementGoalToUpdate;
+    }
+
 }
 
 })();

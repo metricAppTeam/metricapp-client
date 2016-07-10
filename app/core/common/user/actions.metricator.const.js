@@ -14,10 +14,12 @@
 angular.module('metricapp')
 
 .constant('METRICATOR_ACTIONS', [
-    {name: 'Profile', 				href: '#/profile',				icon: 'user'},
-    {name: 'METRICATOR_ACTION_2', 	href: '#/metricator_action_2'				},
-    {name: 'Metrics', 				href: '#/metric'							},
-    {name: 'Settings', 				href: '#/settings', 			icon: 'cog'}
+
+    {name: 'Profile', 				href: '#/profile',				icon: 'user'   },
+    {name: 'Dashboard', 			href: '#/metricator'						         },
+    {name: 'Metrics', 				href: '#/metric'							         },
+    {name: 'Search MG', 			href: '#/measurementgoalsearch'			     	},
+    {name: 'Settings', 				href: '#/settings', 			    icon: 'cog'  	}
 ]);
 
 })();
