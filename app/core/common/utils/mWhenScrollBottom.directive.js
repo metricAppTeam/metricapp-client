@@ -7,7 +7,7 @@
 * @restrict A
 *
 * @description
-* Executes the specified callback when a scrollable element reaches its bottom.-
+* Executes the specified callback when a scrollable element reaches its bottom.
 *
 * @example
 *   <div style="width:400px;heigth:100px;overflow-y:scroll;"
