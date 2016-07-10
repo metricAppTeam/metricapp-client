@@ -2,23 +2,21 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name GridController
+* @name GraphController
 * @module metricapp
 * @requires $scope
 * @requires $location
 *
 * @description
-* Manages the Grid.
-* Realizes the control layer for `grid.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('GridController', GridController);
+.controller('GraphController', GraphController);
 
-GridController.$inject = ['$scope', '$location'];
+GraphController.$inject = ['$scope', '$location'];
 
-function GridController($scope, $location) {
+function GraphController($scope, $location) {
 
     var vm = this;
 
