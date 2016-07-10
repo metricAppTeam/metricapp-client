@@ -1,0 +1,67 @@
+<!-- METRICATOR'S HOME-->
+<!-- PAGE TITLE -->
+<div class="page-title">                    
+	<h2><span class="fa fa-arrow-circle-o-left"></span> Metricator's Dashboard</h2>
+</div>
+<!-- END PAGE TITLE -->                
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">                
+
+<div class="row">
+<div class="col-md-12">
+
+<!-- START DEFAULT DATATABLE -->
+<div class="panel panel-default">
+    <div class="panel-heading">                                
+        <h3 class="panel-title">Active Measurement Goals</h3>
+        <ul class="panel-controls">
+            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+            <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+            <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+        </ul>                                
+    </div>
+    <div class="panel-body">
+        <div ng-controller="MetricatorController as mtc">
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>>
+                        <th>CreationDate</th>
+                        <th>LastVersionDate</th>
+                        <th>ReleaseNote</th>
+                        <th>State</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  ng-repeat="measurementGoal in mtc.measurementGoals">
+                        <th>{{measurementGoal.metadata.id}}</th>
+                        <td>{{measurementGoal.metadata.entityType}}</td>
+                        <td>{{measurementGoal.metadata.creationDate}}</td>
+                        <td>{{measurementGoal.metadata.lastVersionDate}}</td>
+                        <td>{{measurementGoal.metadata.releaseNote}}</td>
+                        <td>{{measurementGoal.metadata.state}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>{{mtc.variableexample}}</p>
+        </div>
+    </div>
+</div>
+<!-- END DEFAULT DATATABLE -->
+</div>
+</div>                                
+
+</div>
+<!-- PAGE CONTENT WRAPPER --> 
+
+    <script type='text/javascript' src='vendors/joli-admin/joli/js/plugins/icheck/icheck.min.js'></script>
+
+<!-- THIS PAGE PLUGINS -->
+    <script type='text/javascript' src='vendors/joli-admin/joli/js/plugins/icheck/icheck.min.js'></script>
+    <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+
+    <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/datatables/jquery.dataTables.min.js"></script>    
+<!-- END PAGE PLUGINS -->
