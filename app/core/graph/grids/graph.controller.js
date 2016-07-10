@@ -14,15 +14,53 @@ angular.module('metricapp')
 
 .controller('GraphController', GraphController);
 
-GraphController.$inject = ['$scope', '$location'];
+GraphController.$inject = ['$scope', '$location','$http'];
 
-function GraphController($scope, $location) {
+function GraphController($scope, $location,$http) {
 
     var vm = this;
 
-    var color = d3.scale.category20();
+    vm.name = 'grid name';
+    vm.description = 'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.';
+    vm.ts_creation = '01/01/2016 - 15:03:01';
+    vm.ts_update = '01/06/2016 - 15:03:01';
 
-    vm.options = {
+    vm.num_mgs = 2;
+    vm.num_questions = 10;
+    vm.num_metrics = 20;
+
+    vm.chart = {};
+    
+    //vm.chart.bind(vm.data_2);
+
+    vm.data_2 =
+    {
+        "name": "Root node",
+        "children": [{
+            "name": "analytics",
+            "children": [{
+                "name": "cluster",
+                "children": [{
+                    "name": "Merge Edge",
+                    "size": 700
+                }]
+            }, {
+                "name": "graph",
+                "children": [{
+                    "name": "Betweenness Centrality",
+                    "size": 3534
+                }, {
+                    "name": "Spanning Tree",
+                    "size": 5416
+                }]
+            }]
+        }]
+    }
+
+    /*var color = d3.scale.category20();
+
+    
+    /*vm.options = {
         chart: {
             type: 'forceDirectedGraph',
             height: (function(){ return nv.utils.windowSize().height -200})(),
@@ -63,6 +101,57 @@ function GraphController($scope, $location) {
             {"source":5,"target":0,"value":6},
         ]
     };
+
+
+    vm.graph_data = 
+    {
+        "name": "Prova",
+        "children": [
+            {"name": "Figlio1", "size": 3938},
+            {"name": "Figlio2", "size": 3812}
+        ]
+    };
+
+    vm.data2 = {
+        name: 'ROOT',
+        id: 'root',
+        children: [
+            {
+                name: 'A',
+                id: 'A',
+                description: 'This is a tooltip with a long multi line text in it',
+                children: [
+                    {
+                        name: 'AA',
+                        id: 'AA',
+                        description: 'This is a tooltip'
+                    },
+                    {
+                        name: 'BB',
+                        id: 'BB'
+                    }
+                ]
+            },
+            {
+                name: 'B',
+                id: 'B',
+                children: [
+                    {
+                        name: 'AA',
+                        id: 'AA'
+                    },
+                    {
+                        name: 'BB',
+                        id: 'BB'
+                    },
+                    {
+                        name: 'CC',
+                        id: 'CC'
+                    }
+                ]
+            }
+        ]
+    };*/
 
     /********************************************************************************
     * @ngdoc method

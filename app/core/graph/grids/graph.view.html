@@ -6,39 +6,103 @@
     <!-- END PANEL DEFAULT -->
     <div class="page-content-wrap">
         <div class="row">
+
+            <!-- ANALYTICS -->
             <div class="col-md-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title-box">
-                            <h3>GQM Graph</h3>
-                            <span>qualcosa da scrivere qui???</span>
+                            <h3>GQM Graph for {{vm.name}}</h3>
+                            <span>Details</span>
                         </div>
                     </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br><br>
-                    <br>
-                    <br>
-                    <br>
-                    <br><br>
-                    <br>
-                    <br>
-                    <br>
-                    <br><br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    
-
+                    <!-- START HORIZONTAL FORM SAMPLE -->
+                    <div class="block"> 
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Name:</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static">{{vm.name}}</p>
+                                </div>
+                            
+                                <label class="col-sm-2 control-label">Description:</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static ">{{vm.description}}</p>
+                                </div>
+                            
+                                <label class="col-sm-2 control-label">Creation:</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static">{{vm.ts_creation}}</p>
+                                </div>
+                            
+                                <label class="col-sm-2 control-label">Update:</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static">{{vm.ts_update}}</p>
+                                </div>
+                            
+                                <label class="col-sm-2 control-label">#MGs:</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static">{{vm.num_mgs}}</p>
+                                </div>
+                            
+                                <label class="col-sm-2 control-label">#Questions:</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static">{{vm.num_questions}}</p>
+                                </div>
+                            
+                                <label class="col-sm-2 control-label">#Metrics:</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static">{{vm.num_metrics}}</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END HORIZONTAL FORM SAMPLE --> 
+                    <div class="panel-footer"></div>  
                 </div>
+                
+                <!-- DIALOGS -->
+                <button class="btn btn-info btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-team"><span class="fa fa-group"></span> View Team</button>
+                <!-- DIALOGS -->
+                <button class="btn btn-success btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-analytics"><span class="fa fa-bar-chart-o"></span> View Analytics</button>
+                <!-- DIALOGS -->
+                <button class="btn btn-danger btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-createmgs"><span class="fa fa-edit"></span> Create Measurement Goal</button>
+
             </div>
-            <div class="panel-body padding-0">
+
+            <!-- GRAFO -->
+            <!--<div class="panel-body padding-0">
                 <nvd3 options="vm.options" data="vm.data" class="with-3d-shadow with-transitions"></nvd3>
-            </div>
+            </div>-->
+
+            <!--<reingold-tilford-tree data="graph_data" width="550" height="500"></reingold-tilford-tree>-->
+
+            <!--<tree-multi-parent data="vm.data2" width="300" height="300"></tree-multi-parent>-->
+
+            <bubbletree 
+                id="testChart"                  
+                control="vm.chart"                 
+                link-distance='100'             
+                fill-style='solid'              
+                parent-color='steelblue'        
+                child-color='lightgray'         
+                collapsed-color='#ffdd99'       
+                link-color='#9ecae1'            
+                enable-tooltip="true"           
+                text-x="1.45em"                 
+                text-y="3.45em"                 
+                scale-score="10">         
+            </bubbletree>
+
         </div>
     </div>
 </div>
 <!-- NG CONTROLLER -->
+
+<!-- START MODAL: TEAM -->
+<div ng-include="'dist/views/graph/dialogs/team.dialog.view.html'"></div>
+<!-- END MODAL: TEAM -->
+
+<!-- START MODAL: TEAM -->
+<div ng-include="'dist/views/graph/dialogs/createmgs.dialog.view.html'"></div>
+<!-- END MODAL: TEAM -->

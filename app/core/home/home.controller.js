@@ -70,17 +70,6 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
         { y: "Q2/16", questioners: 78,  metricators: 80 }
     ];
 
-    //Productivity Trend Chart
-    vm.teams_productivity_trend = [
-        { y: "01/11", questions: 10, metrics: 12 },
-        { y: "02/16", questions: 8,  metrics: 3 },
-        { y: "03/16", questions: 9,  metrics: 11 },
-        { y: "04/16", questions: 12,  metrics: 12 },
-        { y: "05/16", questions: 14,  metrics: 13 },
-        { y: "06/16", questions: 11,  metrics: 9 },
-        { y: "07/16", questions: 5, metrics: 6 }
-    ]
-
     //Projects Box
     vm.projects = [
         {name: "ISSR Project",status: "active",progress: 30},
