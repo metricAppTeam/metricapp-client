@@ -6,12 +6,12 @@
             <div class="login-body">
                 <div class="login-title"><strong>Log In</strong> to your account</div>
                 <!-- FORM: LOGIN -->
-                <form name="loginForm" role="form" class="form-horizontal" ng-submit="vm.login()" novalidate="novalidate">
+                <form name="loginForm" role="form" class="form-horizontal" ng-submit="vm.login(vm.credentials)" novalidate="novalidate">
                     <!-- FORM FIELD: USERNAME -->
                     <div class="form-group" ng-class="{ 'hash-error': loginForm.username.$dirty && loginForm.username.$invalid }">
                         <div class="col-md-12">
                             <input class="form-control" name="username" type="text" role="textbox" placeholder="Username" required="required"
-                            ng-model="vm.username"
+                            ng-model="vm.credentials.username"
                             ng-model-options="{ updateOn: 'default' }"
                             ng-class="{ 'error': loginForm.username.$dirty && loginForm.username.$invalid }"/>
                             <div class="form-group-helper" role="alert" ng-messages="loginForm.username.$error" ng-show="loginForm.username.$dirty">
@@ -23,7 +23,7 @@
                     <div class="form-group" ng-class="{ 'hash-error': login.password.$dirty && login.password.$invalid }">
                         <div class="col-md-12">
                             <input class="form-control" name="password" type="password" role="textbox" placeholder="Password" required="required"
-                            ng-model="vm.password"
+                            ng-model="vm.credentials.password"
                             ng-model-options="{ updateOn: 'default' }"
                             ng-class="{ 'error': loginForm.password.$dirty && loginForm.password.$invalid }"/>
                             <div class="form-group-helper" role="alert" ng-messages="loginForm.password.$error" ng-show="loginForm.password.$dirty">

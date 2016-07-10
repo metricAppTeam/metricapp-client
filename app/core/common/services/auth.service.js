@@ -96,7 +96,7 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
         if (globals) {
             var user = globals.user;
             if (user) {
-                return user
+                return user;
             }
         }
         return null;

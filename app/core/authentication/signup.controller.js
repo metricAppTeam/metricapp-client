@@ -71,7 +71,7 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
                 //FlashService.danger(errmsg);
             }
         ).finally(function() {
-            vm.loading = false
+            vm.loading = false;
         });
     }
 

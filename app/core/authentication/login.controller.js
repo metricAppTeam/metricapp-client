@@ -30,13 +30,9 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
     * @description
     * Authenticates the user, by its username and password.
     ********************************************************************************/
-    function login() {
+    function login(credentials) {
         vm.loading = true;
-
-        var credentials = {
-            username: vm.username,
-            password: vm.password
-        };
+        vm.success = false;
 
         AuthService.login(credentials).then(
             function(resolve) {
@@ -61,6 +57,10 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
         vm.loading = false;
         vm.success = false;
         vm.errmsg = null;
+        vm.credentials = {
+            username: null,
+            password: null
+        };
     }
 
 }

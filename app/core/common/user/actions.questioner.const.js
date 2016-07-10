@@ -12,7 +12,7 @@
 angular.module('metricapp')
 
 .constant('QUESTIONER_ACTIONS', [
-    {name: 'Action',    href: '#/questioner_action', icon: 'cog'}
+    {name: 'Action', href: '#/questioner_action', icon: 'cog'}
 ]);
 
 })();
