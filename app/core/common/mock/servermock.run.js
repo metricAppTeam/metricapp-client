@@ -110,9 +110,9 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
     //$httpBackend.whenGET('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').passThrough();
 
     /********************************************************************************
-    * GET ORGANIZATIONAL GOALS
+    * GET FROM DEPLOYED SERVER
     *********************************************************************************/
-    //$httpBackend.whenGET('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').passThrough();
+    $httpBackend.whenRoute('GET','http://qips.sweng.uniroma2.it/metricapp-server').passThrough();
 
 
 
@@ -123,9 +123,9 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
     //$httpBackend.whenGET('http://localhost:8080/metricapp-server/metric?userid=metricator').passThrough();
 
     /********************************************************************************
-    * GET OTHERWISE
+    * GET FROM LOCAL SERVER
     *********************************************************************************/
-    $httpBackend.whenGET(/[\s\S]*/).passThrough();
+    $httpBackend.whenRoute('GET','http://localhost:8080/metricapp-server').passThrough();
 
     /********************************************************************************
     * AUTHENTICATION: SIGN-UP
