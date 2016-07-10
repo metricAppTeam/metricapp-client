@@ -232,6 +232,10 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
     */
 
     $httpBackend.whenGET(/^dist\//).passThrough();
+    $httpBackend.whenGET(/.*/).passThrough();
+    $httpBackend.whenPOST(/.*/).passThrough();
+    $httpBackend.whenPUT(/.*/).passThrough();
+    $httpBackend.whenDELETE(/.*/).passThrough();
 }
 
 })();

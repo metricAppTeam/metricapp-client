@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 15:26:03
+* @Last Modified time: 2016-07-10 18:46:38
 */
 (function() { 'use strict';
 
@@ -34,6 +34,7 @@ function MetricService($http, $window) {
 
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
+    service.getMetricsById = getMetricsById;
 
     /********************************************************************************
     * @ngdoc method
@@ -45,6 +46,32 @@ function MetricService($http, $window) {
     function getMetrics() {
         
         return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=metricator').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMetrics
+    * @description
+    * Get Metric by user.
+    ********************************************************************************/
+
+    function getMetricsById(metricId) {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?id='+metricId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');

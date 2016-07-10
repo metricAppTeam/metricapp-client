@@ -1198,7 +1198,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 15:26:03
+* @Last Modified time: 2016-07-10 18:46:38
 */
 (function() { 'use strict';
 
@@ -1230,6 +1230,7 @@ function MetricService($http, $window) {
 
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
+    service.getMetricsById = getMetricsById;
 
     /********************************************************************************
     * @ngdoc method
@@ -1241,6 +1242,32 @@ function MetricService($http, $window) {
     function getMetrics() {
         
         return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=metricator').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMetrics
+    * @description
+    * Get Metric by user.
+    ********************************************************************************/
+
+    function getMetricsById(metricId) {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?id='+metricId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -2258,7 +2285,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 16:58:45
+* @Last Modified time: 2016-07-10 18:56:29
 */
 (function () { 'use strict';
 
@@ -2383,16 +2410,19 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Get approved metrics by measurement goal.
     ********************************************************************************/
     function getMetricsByMeasurementGoal(){
-         MetricService.getMetrics().then(
-            function(data) {
-                console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
-                console.log(data.metricsDTO);
-                vm.metricsDialog = data.metricsDTO;
-            },
-            function(data) {
-                alert('Error retriving Metrics');
-            }
-        );
+
+        for(var i=0; i<vm.measurementGoalDialog.metrics.length;i++){ 
+            MetricService.getMetricsById(vm.measurementGoalDialog.metrics[i].instance).then(
+                function(data) {
+                    console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
+                    console.log(data.metricsDTO);
+                    vm.metricsDialog = data.metricsDTO;
+                },
+                function(data) {
+                    alert('Error retriving Metrics');
+                }
+            );
+        }
     }
 
     /********************************************************************************
@@ -2518,13 +2548,14 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Add metric to measurement goal.
     ********************************************************************************/
     function addMetricToMeasurementGoal(index){
-
         for(var i=0; i<vm.metricsDialog.length; i++){
             if(vm.externalMetricDialog[index].metadata.id == vm.metricsDialog[i].metadata.id){
                 $window.alert('You cannot add a metric twice!');
+                return true;
             }
         }
         $window.alert('Item added');
+        return false;
     }
 
     /********************************************************************************
@@ -3630,6 +3661,10 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
     */
 
     $httpBackend.whenGET(/^dist\//).passThrough();
+    $httpBackend.whenGET(/.*/).passThrough();
+    $httpBackend.whenPOST(/.*/).passThrough();
+    $httpBackend.whenPUT(/.*/).passThrough();
+    $httpBackend.whenDELETE(/.*/).passThrough();
 }
 
 })();
