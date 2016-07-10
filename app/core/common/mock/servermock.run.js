@@ -97,7 +97,7 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
      /********************************************************************************
     * SUBMIT MEASUREMENT GOAL
     *********************************************************************************/
-    $httpBackend.whenPOST('http://localhost:8080/metricapp-server/measurementgoal/').passThrough();/*
+    $httpBackend.whenPOST('http://localhost:8080/metricapp-server/measurementgoal').passThrough();/*
     .respond(function(method, url, data, headers, params) {
         var registration = angular.fromJson(data);
         var message = 'Submit Success!';
@@ -107,19 +107,23 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
      /********************************************************************************
     * GET MEASUREMENT GOALS
     *********************************************************************************/
-    $httpBackend.whenGET('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').passThrough();
+    //$httpBackend.whenGET('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').passThrough();
 
     /********************************************************************************
     * GET ORGANIZATIONAL GOALS
     *********************************************************************************/
-    $httpBackend.whenGET('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').passThrough();
+    //$httpBackend.whenGET('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').passThrough();
 
 
 
      /********************************************************************************
     * GET METRICS
     *********************************************************************************/
-    $httpBackend.whenGET('http://localhost:8080/metricapp-server/metric?userid=metricator').passThrough();
+    //$httpBackend.whenGET('http://localhost:8080/metricapp-server/').passThrough();
+    //$httpBackend.whenGET('http://localhost:8080/metricapp-server/metric?userid=metricator').passThrough();
+
+    // Passthrough everything
+    $httpBackend.whenGET(/[\s\S]*/).passThrough();
 
     /********************************************************************************
     * AUTHENTICATION: SIGN-UP

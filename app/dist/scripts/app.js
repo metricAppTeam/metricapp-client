@@ -225,10 +225,12 @@ angular.module('metricapp')
 angular.module('metricapp')
 
 .constant('METRICATOR_ACTIONS', [
-    {name: 'Profile', href: '#/profile'},
-    {name: 'Dashboard', href: '#/metricator'},
-    {name: 'Settings', href: '#/settings'},
-    {name: 'Search MG', href: '#/measurementgoalsearch'}
+
+    {name: 'Profile', 				href: '#/profile',				icon: 'user'   },
+    {name: 'Dashboard', 			href: '#/metricator'						         },
+    {name: 'Metrics', 				href: '#/metric'							         },
+    {name: 'Search MG', 			href: '#/measurementgoalsearch'			     	},
+    {name: 'Settings', 				href: '#/settings', 			    icon: 'cog'  	}
 ]);
 
 })();
@@ -337,8 +339,8 @@ angular.module('metricapp')
         firstname: 'Andrea',
         lastname: 'Gennusa',
         gender:     'MALE',
-        birthday:   '27/06/1990',
-        email:      'andrea.gennusa@domain.com',
+        birthday:   '06/05/1993',
+        email:      'andrea.gennusa@gmail.com',
         picture:    'uploads/profile-picture.png'
     }
 ]);
@@ -492,6 +494,9 @@ function routes($routeProvider, $locationProvider) {
     })
     .when('/team', {
         templateUrl: 'dist/views/team/team.view.html'
+    })
+    .when('/metric', {
+        templateUrl: 'dist/views/metricator/metric.view.html'
     })
     .when('/401', {
         templateUrl: 'dist/views/error/error401.view.html'
@@ -1047,7 +1052,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     ********************************************************************************/
     function submitMeasurementGoal(measurementGoal) {
         console.log('SUBMIT measurementGoal WITH ' +
-        'name= '  + measurementGoal.name + ' & ' +	
+        'name= '  + measurementGoal.name + ' & ' +
         'object=' + measurementGoal.object + ' & ' +
         'purpose=' + measurementGoal.purpose + ' & ' +
         'viewPoint=' + measurementGoal.viewPoint + ' & ' +
@@ -1068,10 +1073,10 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         	viewPoint: measurementGoal.viewPoint,
         	focus: measurementGoal.focus,
         	metadata: metadata};
-                
+
         $window.alert(JSON.stringify(submit));
 
-        return $http.post('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', submit).then(
+        return $http.post('http://localhost:8080/metricapp-server/measurementgoal/', submit).then(
             function(response) {
                 var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
@@ -1093,10 +1098,10 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     * @description
     * Get measurement goals.
     ********************************************************************************/
-    
+
     function getMeasurementGoals() {
-        
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').then(
+
+        return $http.get('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -1119,11 +1124,11 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     * @description
     * Get measurement goals.
     ********************************************************************************/
-    
+
     function getOrganizationalGoalById(organizationalGoalId) {
-        
+
         //return $http.get('http://localhost:8080/metricapp-server-gitlab/external/organizationalgoal?id='+organizationalGoalId).then(
-        
+
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').then(
             function(response) {
                 var message = angular.fromJson(response.data);
@@ -1150,10 +1155,10 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     * @param {MeasurementGoal} field key.
     * @param {MeasurementGoal} field value .
     ********************************************************************************/
-    
+
     function getMeasurementGoalsBy(keyword,field) {
-        
-        return $http.get("http://localhost:8080/metricapp-server-gitlab/measurementgoal?" + field + "=" + keyword).then(
+
+        return $http.get("http://localhost:8080/metricapp-server/measurementgoal?" + field + "=" + keyword).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -1194,6 +1199,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 }
 
 })();
+
 /*
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
@@ -1222,7 +1228,7 @@ angular.module('metricapp')
 //    '$http', '$rootScope', '$cookies', '$window'];
 
 MetricService.$inject = ['$http', '$window'];
-             
+
 //function MetricatorService($http, $rootScope, $cookies, $window) {
 function MetricService($http, $window) {
 
@@ -1239,8 +1245,8 @@ function MetricService($http, $window) {
     ********************************************************************************/
 
     function getMetrics() {
-        
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=3').then(
+
+        return $http.get('http://localhost:8080/metricapp-server/metric?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -1260,6 +1266,7 @@ function MetricService($http, $window) {
 }
 
 })();
+
 (function() { 'use strict';
 
 /************************************************************************************
@@ -1546,6 +1553,20 @@ function UserService($http, REST_SERVICE) {
   function metricator() {
     return {
       restrict: 'E',
+      templateUrl: 'dist/views/metricator/metric.view.html'
+    };
+  }
+
+})();
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('metricator', metricator);
+
+  function metricator() {
+    return {
+      restrict: 'E',
       templateUrl: 'dist/views/metricator/metricator.view.html'
     };
   }
@@ -1735,6 +1756,66 @@ function topbar() {
       controller: 'TopbarController as vm',
       templateUrl: 'dist/views/navigation/topbar/topbar.view.html'
     };
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name CommentController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the comment-based conversation between users.
+* Realizes the control layer for `comment.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('CommentController', CommentController);
+
+CommentController.$inject = ['$scope', '$location'];
+
+function CommentController($scope, $location) {
+
+    var vm = this;
+
+    vm.foo = foo;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @returns {type} Insert here return description.
+    ********************************************************************************/
+    function foo(a, b, c) {
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name _foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @returns {type} Insert here return description.
+    ********************************************************************************/
+    function _foo(a, b, c) {
+
+    }
+
 }
 
 })();
@@ -1951,66 +2032,6 @@ function SignupController($scope, $location, SignupService, FlashService, ROLES,
     ********************************************************************************/
     function _init() {
         vm.loading = false;
-    }
-
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name CommentController
-* @module metricapp
-* @requires $scope
-* @requires $location
-*
-* @description
-* Manages the comment-based conversation between users.
-* Realizes the control layer for `comment.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('CommentController', CommentController);
-
-CommentController.$inject = ['$scope', '$location'];
-
-function CommentController($scope, $location) {
-
-    var vm = this;
-
-    vm.foo = foo;
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function foo(a, b, c) {
-
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name _foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function _foo(a, b, c) {
-
     }
 
 }
@@ -2532,6 +2553,63 @@ function MessageController($scope, $location, MESSAGE_STATE) {
         ];
     }
 
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name MetricController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('MetricController', MetricController);
+
+MetricController.$inject = ['$scope', '$location', 'AuthService'];
+
+function MetricController($scope, $location, AuthService) {
+
+    var vm = this;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @returns {type} Insert here return description.
+    ********************************************************************************/
+    function foo(a, b, c) {
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name _foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @returns {type} Insert here return description.
+    ********************************************************************************/
+    function _foo(a, b, c) {
+
+    }
 }
 
 })();
@@ -3427,33 +3505,37 @@ function servermock($httpBackend, $filter, DbMockService, REST_SERVICE) {
         return [401, credentials.username, {}];
     });
 
-    
+
      /********************************************************************************
     * SUBMIT MEASUREMENT GOAL
     *********************************************************************************/
-    $httpBackend.whenPOST('http://localhost:8080/metricapp-server-gitlab/measurementgoal/').passThrough();/*
+    $httpBackend.whenPOST('http://localhost:8080/metricapp-server/measurementgoal').passThrough();/*
     .respond(function(method, url, data, headers, params) {
         var registration = angular.fromJson(data);
         var message = 'Submit Success!';
         return [200, message, {}];
     });*/
-    
+
      /********************************************************************************
     * GET MEASUREMENT GOALS
     *********************************************************************************/
-    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=1').passThrough();
-    
+    //$httpBackend.whenGET('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').passThrough();
+
     /********************************************************************************
     * GET ORGANIZATIONAL GOALS
     *********************************************************************************/
-    $httpBackend.whenGET('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').passThrough();
- 
+    //$httpBackend.whenGET('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').passThrough();
+
 
 
      /********************************************************************************
     * GET METRICS
     *********************************************************************************/
-    $httpBackend.whenGET('http://localhost:8080/metricapp-server-gitlab/metric?userid=3').passThrough();
+    //$httpBackend.whenGET('http://localhost:8080/metricapp-server/').passThrough();
+    //$httpBackend.whenGET('http://localhost:8080/metricapp-server/metric?userid=metricator').passThrough();
+
+    // Passthrough everything
+    $httpBackend.whenGET(/[\s\S]*/).passThrough();
 
     /********************************************************************************
     * AUTHENTICATION: SIGN-UP
