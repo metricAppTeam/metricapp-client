@@ -45,7 +45,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body profile">
                                 <div class="profile-image">
-                                    <img ng-src="{{user.picture}}" alt="{{user.username}}"/>
+                                    <img ng-src="{{user.picture}}" m-fallback-src="dist/images/users/user-picture.svg" alt="{{user.username}}"/>
                                 </div>
                                 <div class="profile-data">
                                     <div class="profile-data-name">{{user.firstname}} {{user.lastname}}</div>
