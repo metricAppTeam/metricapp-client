@@ -16,11 +16,13 @@
 angular.module('metricapp')
 
 .constant('AUTH_EVENTS', {
-    LOGIN_SUCCESS:  'auth.login.success',
-    LOGIN_FAILURE:  'auth.login.failure',
-    LOGOUT_SUCCESS: 'auth.logout.success',
-    LOGOUT_FAILURE: 'auth.logout.failure',
-    NOT_AUTHORIZED: 'auth.not.authorized',
+    LOGIN_SUCCESS:          'auth.login.success',
+    LOGIN_FAILURE:          'auth.login.failure',
+    LOGOUT_SUCCESS:         'auth.logout.success',
+    LOGOUT_FAILURE:         'auth.logout.failure',
+    PASSWORD_EDIT_SUCCESS:  'auth.password.edit.success',
+    PASSWORD_EDIT_FAILURE:  'auth.password.edit.failure',
+    NOT_AUTHORIZED:         'auth.not.authorized'
 });
 
 })();
