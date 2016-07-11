@@ -117,7 +117,7 @@ function MetricService($http, $window) {
 
     function getMetricsByStateAndUser(state,user) {
 
-        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?id='+user+'&state='+state).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+user+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS BY State and User VERSION');
