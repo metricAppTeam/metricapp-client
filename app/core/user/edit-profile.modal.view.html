@@ -1,0 +1,123 @@
+<!-- START: MODAL EDIT PROFILE -->
+<div class="modal" id="modal-edit-profile" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true"
+ng-controller="EditProfileController as vm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="defModalHead">Edit Profile <small>{{vm.currUser.firstname}} {{vm.currUser.lastname}}</small></h4>
+            </div>
+            <div class="modal-body">
+                <!-- FORM: EDIT PROFILE -->
+                <form name="editProfileForm" role="form" class="form-horizontal" novalidate="novalidate">
+                    <!-- FORM FIELD: FIRSTNAME -->
+                    <div class="form-group" ng-class="{ 'hash-error': editProfileForm.firstname.$dirty && editProfileForm.firstname.$invalid }">
+                        <label class="col-md-3 control-label">Firstname:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="firstname" type="text" role="textbox" placeholder="Firstname" required="required"
+                            ng-model="vm.updtUser.firstname"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': editProfileForm.firstname.$dirty && editProfileForm.firstname.$invalid }"
+                            ng-minlength="3" ng-maxlength="20"/>
+                            <div class="form-group-helper" role="alert" ng-messages="editProfileForm.firstname.$error" ng-show="editProfileForm.firstname.$dirty">
+                                <div ng-messages-include="dist/views/user/edit-profile.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: LASTNAME -->
+                    <div class="form-group" ng-class="{ 'hash-error': editProfileForm.lastname.$dirty && editProfileForm.lastname.$invalid }">
+                        <label class="col-md-3 control-label">Lastname:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="lastname" type="text" role="textbox" placeholder="Lastname" required="required"
+                            ng-model="vm.updtUser.lastname"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': editProfileForm.lastname.$dirty && editProfileForm.lastname.$invalid }"
+                            ng-minlength="3" ng-maxlength="20"/>
+                            <div class="form-group-helper" role="alert" ng-messages="editProfileForm.lastname.$error" ng-show="editProfileForm.lastname.$dirty">
+                                <div ng-messages-include="dist/views/user/edit-profile.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: GENDER -->
+                    <div class="form-group" ng-class="{ 'hash-error': editProfileForm.gender.$dirty && editProfileForm.gender.$invalid }">
+                        <label class="col-md-3 control-label">Gender:</label>
+                        <div class="col-md-9">
+                            <select class="form-control" name="gender" role="combobox" required="required"
+                            ng-model="vm.updtUser.gender"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': editProfileForm.gender.$dirty && editProfileForm.gender.$invalid }">
+                                <option value="" disabled="disabled" selected="selected">Choose an option</option>
+                                <option ng-repeat="(gender_key,gender_name) in vm.GENDERS" ng-value="gender_name">{{gender_name}}</option>
+                            </select>
+                            <div class="form-group-helper" role="alert" ng-messages="editProfileForm.gender.$error" ng-show="editProfileForm.gender.$dirty">
+                                <div ng-messages-include="dist/views/user/edit-profile.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: BIRTHDAY -->
+                    <div class="form-group" ng-class="{ 'hash-error': editProfileForm.birthday.$dirty && editProfileForm.birthday.$invalid }">
+                        <label class="col-md-3 control-label">Birthday:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="birthday" type="date" required="required"
+                            ng-model="vm.updtUser.birthday"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': editProfileForm.birthday.$dirty && editProfileForm.birthday.$invalid }"
+                            min="01-01-1900" max="01-01-2016" date/>
+                            <div class="form-group-helper" role="alert" ng-messages="editProfileForm.birthday.$error" ng-show="editProfileForm.birthday.$dirty">
+                                <div ng-messages-include="dist/views/user/edit-profile.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: EMAIL -->
+                    <div class="form-group" ng-class="{ 'hash-error': editProfileForm.email.$dirty && editProfileForm.email.$invalid }">
+                        <label class="col-md-3 control-label">Email:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="email" type="email" role="textbox" placeholder="Email" required="required"
+                            ng-model="vm.updtUser.email"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                            ng-class="{ 'error': editProfileForm.email.$dirty && editProfileForm.email.$invalid }"/>
+                            <div class="form-group-helper" role="alert" ng-messages="editProfileForm.email.$error" ng-show="editProfileForm.email.$dirty">
+                                <div ng-messages-include="dist/views/user/edit-profile.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: MOBILE -->
+                    <div class="form-group" ng-class="{ 'hash-error': editProfileForm.mobile.$dirty && editProfileForm.mobile.$invalid }">
+                        <label class="col-md-3 control-label">Mobile:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="mobile" type="text" role="textbox" placeholder="Mobile" required="required"
+                            ng-model="vm.updtUser.mobile"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                            ng-class="{ 'error': editProfileForm.mobile.$dirty && editProfileForm.mobile.$invalid }"
+                            ng-minlength="3" ng-maxlength="30"/>
+                            <div class="form-group-helper" role="alert" ng-messages="editProfileForm.mobile.$error" ng-show="editProfileForm.mobile.$dirty">
+                                <div ng-messages-include="dist/views/user/edit-profile.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: PROFILE PICTURE -->
+                    <div class="form-group" ng-class="{ 'hash-error': editProfileForm.picture.$dirty && editProfileForm.picture.$invalid }">
+                        <label class="col-md-3 control-label">Picture:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="picture" type="text" role="textbox" placeholder="Picture" required="required"
+                            ng-model="vm.updtUser.picture"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': editProfileForm.picture.$dirty && editProfileForm.picture.$invalid }"/>
+                            <div class="form-group-helper" role="alert" ng-messages="editProfileForm.picture.$error" ng-show="editProfileForm.picture.$dirty">
+                                <div ng-messages-include="dist/views/user/edit-profile.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary"
+                ng-disabled="editProfileForm.$invalid || vm.loading"
+                ng-click="vm.editProfile(vm.updtUser)"
+                data-dismiss="modal">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: MODAL EDIT PROFILE -->

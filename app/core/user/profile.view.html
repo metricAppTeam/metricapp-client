@@ -8,8 +8,17 @@
             <div class="col-md-12">
                 <p ng-switch-when="true">Loading user {{vm.currUser.username}} ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
-                    <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-if="globals.user.username == vm.currUser.username">Edit</a>
-                    <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-href="#/profile/{{vm.currUser.username}}/analytics">View Analytics</a>
+                    <a type="button" role="button" class="btn btn-default"
+                    data-toggle="modal" data-target="#modal-edit-profile"
+                    ng-switch-when="true"
+                    ng-if="globals.user.username == vm.currUser.username">Edit Profile</a>
+                    <a type="button" role="button" class="btn btn-default"
+                    data-toggle="modal" data-target="#modal-edit-password"
+                    ng-switch-when="true"
+                    ng-if="globals.user.username == vm.currUser.username">Change Password</a>
+                    <a type="button" role="button" class="btn btn-default"
+                    ng-switch-when="true"
+                    ng-href="#/profile/{{vm.currUser.username}}/analytics">View Analytics</a>
                     <ul ng-switch-when="true">
                         <li ng-repeat="(key, value) in vm.currUser">{{key}} = {{value}}</li>
                     </ul>
@@ -17,6 +26,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 </div>
+<!-- START: MODAL EDIT PROFILE -->
+<div ng-include="'dist/views/user/edit-profile.modal.view.html'"></div>
+<!-- END: MODAL EDIT PROFILE -->
+<!-- START: MODAL EDIT PASSWORD -->
+<div ng-include="'dist/views/user/edit-password.modal.view.html'"></div>
+<!-- END: MODAL EDIT PASSWORD -->
 <!-- END: PROFILE -->
