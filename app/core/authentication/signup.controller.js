@@ -12,7 +12,6 @@
 * @requires GENDERS
 *
 * @description
-* Manages the user registration.
 * Realizes the control layer for `signup.view`.
 ************************************************************************************/
 
@@ -41,32 +40,21 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
     * @description
     * Registers a new user.
     ********************************************************************************/
-    function signup() {
+    function signup(user) {
         vm.loading = true;
-
-        var user = {
-            username: vm.username,
-            password: vm.password,
-            role: vm.role,
-            firstname: vm.firstname,
-            lastname: vm.lastname,
-            gender: vm.gender,
-            birthday: vm.birthday,
-            email: vm.email,
-            mobile: vm.mobile,
-            picture: vm.picture
-
-        };
+        vm.success = false;
 
         UserService.create(user).then(
             function(resolve) {
                 var msg = resolve.msg;
                 vm.success = true;
+                alert(msg);
                 //FlashService.success(msg);
                 $location.path('/');
             },
             function(reject) {
                 var errmsg = reject.errmsg;
+                alert(errmsg);
                 vm.success = false;
                 //FlashService.danger(errmsg);
             }
@@ -95,7 +83,20 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
         vm.loading = false;
         vm.success = false;
         vm.errmsg = null;
-        vm.user = {};
+        /*vm.user = {
+            username: null,
+            password: null,
+            role: null,
+            firstname: null,
+            lastname: null,
+            gender: null,
+            birthday: new Date(),
+            email: null,
+            mobile: null,
+            picture: null
+
+        };
+        */
     }
 
 }

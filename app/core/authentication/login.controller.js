@@ -44,7 +44,7 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
-                alert(errmsg);
+                alert(vm.errmsg);
                 vm.success = false;
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILURE);
             }

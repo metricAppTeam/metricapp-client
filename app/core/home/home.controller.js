@@ -17,9 +17,9 @@ angular.module('metricapp')
 
 .controller('HomeController', HomeController);
 
-HomeController.$inject = ['$rootScope', '$scope', '$location', 'AuthService'];
+HomeController.$inject = ['$rootScope', '$scope', '$location', '$timeout', 'AuthService'];
 
-function HomeController($rootScope, $scope, $location, AuthService) {
+function HomeController($rootScope, $scope, $location, $timeout, AuthService) {
 
     var vm = this;
 
@@ -28,10 +28,8 @@ function HomeController($rootScope, $scope, $location, AuthService) {
     function _loadHome() {
         vm.loading = true;
         vm.success = false;
-        setTimeout(function() {
-            vm.success = true;
-            vm.loading = false;
-        }, 750);
+        vm.success = true;
+        vm.loading = false;
     }
 
     function _init() {
