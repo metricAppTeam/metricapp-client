@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 22:40:27
+* @Last Modified time: 2016-07-11 23:55:28
 */
 (function () { 'use strict';
 
@@ -201,6 +201,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 console.log('SUCCESS GET APPROVED METRICS');
                 console.log(data.metricsDTO);
                 vm.externalMetricDialog = data.metricsDTO;
+                $("#modal_large_external_metric").modal("show");
 
             },
             function(data) {
@@ -312,8 +313,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Add metric to measurement goal.
     ********************************************************************************/
     function addMetricToMeasurementGoal(index){
-        for(var i=0; i<vm.metricsDialog.length; i++){
-            if(vm.externalMetricDialog[index].metadata.id == vm.metricsDialog[i].metadata.id){
+        for(var i=0; i<vm.metrics.length; i++){
+            if(vm.externalMetricDialog[index].metadata.id == vm.metrics[i].metadata.id){
                 $window.alert('You cannot add a metric twice!');
                 return true;
             }
@@ -327,7 +328,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
            tags: []
         };
         vm.measurementGoalDialog.metrics.push(pointerBus);
-        vm.metricsDialog.push(vm.externalMetricDialog[index]);
+        vm.metrics.push(vm.externalMetricDialog[index]);
         $window.alert('Item added');
         console.log(vm.measurementGoalDialog);
         return false;
@@ -341,7 +342,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     ********************************************************************************/
     function removeMetricFromMeasurementGoal(index){
         vm.measurementGoalDialog.metrics.splice(index, 1);
-        vm.metricsDialog.splice(index, 1);
+        vm.metrics.splice(index, 1);
         $window.alert('Item removed');
         console.log(vm.measurementGoalDialog);
     }
