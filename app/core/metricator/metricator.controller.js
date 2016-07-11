@@ -52,7 +52,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         };*/
 
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
-    
+
     vm.getMeasurementGoals();
     vm.getMetrics();
     _init();
@@ -103,7 +103,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         vm.measurementGoalDialog.viewPoint = measurementGoalToAssign.viewPoint;
         vm.measurementGoalDialog.focus = measurementGoalToAssign.focus;
     };*/
-    
+
     function setMeasurementGoalDialog(modalId,measurementGoalToAssignId){
         switch (modalId) {
             case 0:
@@ -138,18 +138,18 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
 
     /*
     function getMeasurementGoals() {
-        
+
         /*var measurementGoal = {
             id: mtc.id,
         	name : mtc.name,
         	creationDate : mtc.creationDate,
         	lastVersionDate : mtc.lastVersionDate,
         	releaseNote : mtc.releaseNote,
-        	state : mtc.state 		
+        	state : mtc.state
         };
         MetricatorService.getMeasurementGoals().then(
             function(data) {
-            
+
                 measurementGoal.id = data.id;
                 measurementGoal.name = data.name;
                 measurementGoal.creationDate = data.creationDate;
@@ -157,16 +157,16 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 measurementGoal.releaseNote = data.releaseNote;
                 measurementGoal.state = data.state;
                 $location.path('/measurementgoal');
-                
+
                 return data.measurementGoals;
-                
-                
+
+
             },
             function(message) {
                 alert('Error retriving Measurement Goals');
             }
         );*/
-        
+
     }
 
 
@@ -186,7 +186,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 alert('Error retriving Measurement Goals');
             }
         );*/
-    
+
         //mtc.getMeasurementGoals();
     }
 

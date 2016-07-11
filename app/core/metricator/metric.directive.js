@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('metricapp')
-      .directive('metricator', metricator);
+      .directive('metric', metricator);
 
   function metricator() {
     return {

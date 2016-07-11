@@ -20,14 +20,15 @@ MetricController.$inject = ['$scope', '$location','MetricService','$window'];
 function MetricController($scope, $location, MetricService, $window) {
 
     var vm = this;
-
-    vm.getMetrics = getMetrics;
-    vm.goToUpdateMetric = goToUpdateMetric;
-
     vm.results = {
         metrics : []
     };
 
+    vm.getMetrics = getMetrics;
+    vm.goToUpdateMetric = goToUpdateMetric;
+
+
+    console.log('prova');
     vm.getMetrics();
 
     vm.modal = 'metric';
@@ -43,6 +44,7 @@ function MetricController($scope, $location, MetricService, $window) {
     * Get active metrics for a metricator.
     ********************************************************************************/
     function getMetrics(){
+
          MetricService.getMetrics().then(
             function(data) {
                 console.log(data.metricsDTO);
