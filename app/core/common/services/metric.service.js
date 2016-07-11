@@ -35,6 +35,7 @@ function MetricService($http, $window) {
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
     service.getMetricsById = getMetricsById;
+    service.getMetricsByStateAndUser = getMetricsByStateAndUser;
 
     /********************************************************************************
     * @ngdoc method
@@ -97,10 +98,29 @@ function MetricService($http, $window) {
 
     function getApprovedMetrics() {
 
-        return $http.get('http://localhost:8080/metricapp-server/metric?state=Approved').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?state=Approved').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS BY APPROVED VERSION');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    function getMetricsByStateAndUser(state,user) {
+
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?id='+user+'&state='+state).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS BY State and User VERSION');
                 console.log(message);
                 return message;
             },

@@ -48,6 +48,44 @@
             </table>
         </div>
     </div>
+	 <div class="panel panel-default">
+	     <div class="panel-heading">
+	         <h3 class="panel-title">OnUpdate Metrics</h3>
+	         <ul class="panel-controls">
+	             <li><a ng-click="vm.getMetrics()" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+	         </ul>
+	     </div>
+	 <div class="panel-body">
+			   <table class="table datatable">
+					 <thead>
+						  <tr>
+								<th>Id</th>
+								<th>Name</th>
+								<th>CreationDate</th>
+								<th>LastVersionDate</th>
+								<th>ReleaseNote</th>
+								<th>State</th>
+						  </tr>
+					 </thead>
+					 <tbody>
+						  <tr ng-repeat="metric in result.metricsOnUpdate">
+								<td>
+								<!--#modal_large vm.setModal($parent.$index) id="modal_button"-->
+						  <button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMetricDialog($parent.$index,$index)">{{metric.metadata.id}}</button>
+								</td>
+								<td>{{metric.metadata.entityType}}</td>
+								<td>{{metric.metadata.creationDate}}</td>
+								<td>{{metric.metadata.lastVersionDate}}</td>
+								<td>{{metric.metadata.releaseNote}}</td>
+								<td>{{metric.metadata.state}}</td>
+						  </tr>
+					 </tbody>
+			   </table>
+		  </div>
+	 </div>
+
+
+
 
     <!-- BEGIN METRIC MODAL DIALOG -->
 

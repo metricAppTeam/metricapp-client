@@ -21,15 +21,18 @@ function MetricController($scope, $location, MetricService, $window) {
 
     var vm = this;
     vm.results = {
-        metrics : []
+        metrics : [],
+        metricsOnUpdate : []
     };
 
     vm.getMetrics = getMetrics;
+    vm.getMetricsOnUpdate = getMetricsOnUpdate;
     vm.goToUpdateMetric = goToUpdateMetric;
 
 
     console.log('prova');
     vm.getMetrics();
+    vm.getMetricsOnUpdate();
 
     vm.modal = 'metric';
     vm.metricDialog = vm.results.metrics;
@@ -39,7 +42,7 @@ function MetricController($scope, $location, MetricService, $window) {
 
     /********************************************************************************
     * @ngdoc method
-    * @name submitMeasurementGoal
+    * @name submit
     * @description
     * Get active metrics for a metricator.
     ********************************************************************************/
@@ -55,6 +58,26 @@ function MetricController($scope, $location, MetricService, $window) {
             }
         );
     };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submit
+    * @description
+    * Get active metrics for a metricator.
+    ********************************************************************************/
+    function getMetricsOnUpdate(){
+
+         MetricService.getMetricsByStateAndUser('OnUpdate','metricator').then(
+            function(data) {
+                console.log(data.metricsDTO);
+                vm.results.metricsOnUpdate = data.metricsDTO;
+            },
+            function(data) {
+                alert('Error retriving Metrics');
+            }
+        );
+    };
+
 
     /*
     function setMeasurementGoalDialog(measurementGoalToAssign){

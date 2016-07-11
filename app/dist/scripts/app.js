@@ -1246,6 +1246,7 @@ function MetricService($http, $window) {
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
     service.getMetricsById = getMetricsById;
+    service.getMetricsByStateAndUser = getMetricsByStateAndUser;
 
     /********************************************************************************
     * @ngdoc method
@@ -1308,10 +1309,29 @@ function MetricService($http, $window) {
 
     function getApprovedMetrics() {
 
-        return $http.get('http://localhost:8080/metricapp-server/metric?state=Approved').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?state=Approved').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS BY APPROVED VERSION');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    function getMetricsByStateAndUser(state,user) {
+
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?id='+user+'&state='+state).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS BY State and User VERSION');
                 console.log(message);
                 return message;
             },
@@ -2714,15 +2734,18 @@ function MetricController($scope, $location, MetricService, $window) {
 
     var vm = this;
     vm.results = {
-        metrics : []
+        metrics : [],
+        metricsOnUpdate : []
     };
 
     vm.getMetrics = getMetrics;
+    vm.getMetricsOnUpdate = getMetricsOnUpdate;
     vm.goToUpdateMetric = goToUpdateMetric;
 
 
     console.log('prova');
     vm.getMetrics();
+    vm.getMetricsOnUpdate();
 
     vm.modal = 'metric';
     vm.metricDialog = vm.results.metrics;
@@ -2732,7 +2755,7 @@ function MetricController($scope, $location, MetricService, $window) {
 
     /********************************************************************************
     * @ngdoc method
-    * @name submitMeasurementGoal
+    * @name submit
     * @description
     * Get active metrics for a metricator.
     ********************************************************************************/
@@ -2748,6 +2771,26 @@ function MetricController($scope, $location, MetricService, $window) {
             }
         );
     };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submit
+    * @description
+    * Get active metrics for a metricator.
+    ********************************************************************************/
+    function getMetricsOnUpdate(){
+
+         MetricService.getMetricsByStateAndUser('OnUpdate','metricator').then(
+            function(data) {
+                console.log(data.metricsDTO);
+                vm.results.metricsOnUpdate = data.metricsDTO;
+            },
+            function(data) {
+                alert('Error retriving Metrics');
+            }
+        );
+    };
+
 
     /*
     function setMeasurementGoalDialog(measurementGoalToAssign){
