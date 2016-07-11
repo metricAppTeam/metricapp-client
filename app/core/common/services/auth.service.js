@@ -32,6 +32,8 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
     service.setUser = setUser;
     service.clearUser = clearUser;
 
+    service.editPassword = editPassword;
+
     /********************************************************************************
     * @ngdoc method
     * @name login
@@ -76,9 +78,43 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
                 var USER = DB_USERS[username];
                 if (USER) {
                     USER.online = false;
+                    clearUser();
                     resolve({username: username});
                 } else {
                     reject({errmsg: 'Wrong username for: ' + username});
+                }
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name editPassword
+    * @description
+    * Changes the password for authuser and deauthenticates it.
+    * @param {String} oldPassword The user old password.
+    * @param {String} newPassword The user new password.
+    * @returns {String|Error} On success, the username for the authuser and a success
+    * message;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function editPassword(oldPassword, newPassword) {
+        var username = $cookies.getObject('globals').user.username;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var USER = DB_USERS[username];
+                if (USER) {
+                    if (USER.password === oldPassword) {
+                        USER.password = newPassword;
+                        // other deauthentication actions.
+                        resolve({username: username, msg:'Successfully changed password for user ' + username});
+                    } else {
+                        reject({errmsg: 'Wrong old password for user ' + username});
+                    }
+                    USER.online = false;
+                    resolve({username: username});
+                } else {
+                    reject({errmsg: 'User ' + username + ' not found'});
                 }
             }, 500);
         });
@@ -112,7 +148,7 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
     ********************************************************************************/
     function setUser(authuser) {
         var authdata = authuser.username + ':' + authuser.password + ':' + authuser.role;
-
+        /*
         $rootScope.globals = {
             user: {
                 username: authuser.username,
@@ -120,6 +156,14 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
                 authdata: authdata
             }
         };
+        */
+        $rootScope.globals = {
+            user: {}
+        };
+        $rootScope.globals.user = angular.copy(authuser);
+        $rootScope.globals.user.authdata = authdata;
+
+
 
         $cookies.putObject('globals', $rootScope.globals);
 

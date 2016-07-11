@@ -28,6 +28,7 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     service.getNFrom = getNFrom;
 
     service.create = create;
+    service.update = update;
 
     /********************************************************************************
     * @ngdoc method
@@ -125,7 +126,9 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     * @description
     * Creates a new user.
     * @param {User} user The user to create.
-    * @returns {JSON} Insert description here.
+    * @returns {JSON|Error} On success, the username of the successfully created user
+    * and a success message;
+    * an error message, otherwise.
     ********************************************************************************/
     function create(user) {
         return $q(function(resolve, reject) {
@@ -137,6 +140,31 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
                     DB_USERS[username] = angular.copy(user);
                     DB_USERS[username].online = false;
                     resolve({username: username, msg: 'Thank you for signing up ' + username});
+                }
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name update
+    * @description
+    * Updates the authuser profile.
+    * @param {User} userAttrs The user attributes to update.
+    * @returns {JSON} Insert description here.
+    ********************************************************************************/
+    function update(userAttrs) {
+        return $q(function(resolve, reject) {
+            var username = userAttrs.username;
+            setTimeout(function() {
+                var USER = DB_USERS[username];
+                if (USER) {
+                    for (var attr in userAttrs) {
+                        USER[attr] = userAttrs[attr];
+                    }
+                    resolve({user: USER});
+                } else {
+                    reject({errmsg: 'User ' + username + ' not found'});
                 }
             }, 500);
         });

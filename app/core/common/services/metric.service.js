@@ -21,38 +21,149 @@ function MetricService($http, $q, REST_SERVICE, DB_METRICS) {
 
     var service = this;
 
-    service.getGrid = getGrid;
-    service.getGrids = getGrids;
+    service.getAll = getAll;
+    service.getById = getById;
+    service.getInArray = getInArray;
+    service.getNFrom = getNFrom;
+
+    service.create = create;
+    service.update = update;
 
     /********************************************************************************
     * @ngdoc method
-    * @name getGrid
+    * @name getAll
     * @description
-    * Retrieves the specified grid.
-    * @param {Int} gridid The grid id.
-    * @returns {Grid|Error} On success, the grid; an error, otherwise.
+    * Retrieves all the metrics.
+    * @returns {[Metric]|Error} On success, the metrics;
+    * an error message, otherwise.
     ********************************************************************************/
-    function getGrid(gridid) {
+    function getAll() {
         return $q(function(resolve, reject) {
             setTimeout(function() {
-                reject('Grid not found: ' + gridid);
+                var metrics = [];
+                for (var metric in DB_METRICS) {
+                    metrics.push(DB_METRICS[metric]);
+                }
+                resolve({metrics: metrics});
             }, 500);
         });
     }
 
     /********************************************************************************
     * @ngdoc method
-    * @name getGrids
+    * @name getById
     * @description
-    * Retrieves the specified grids.
-    * @param {Int} grdStart First grid index.
-    * @param {Int} grdN Number of grids.
-    * @returns {[Grid]|Error} On success, the list of grids; an error, otherwise.
+    * Retrieves the specified metric.
+    * @param {String} metricid The metricid of the metric to retrieve.
+    * @returns {Metric|Error} On success, the metric;
+    * an error message, otherwise.
     ********************************************************************************/
-    function getGrids(grdStart, grdN) {
+    function getById(metricid) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
-                resolve({grids: []});
+                var METRIC = DB_METRICS[metricid];
+                if (METRIC) {
+                    resolve({metric: METRIC});
+                } else {
+                    reject({errmsg: 'Metric ' + metricid + ' not found'});
+                }
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getInArray
+    * @description
+    * Retrieves the specified metrics.
+    * @param {[String]} metricids Usernames of metrics to retrieve.
+    * @returns {{metricid:Metric}|Error} On success, the list of metrics;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function getInArray(metricids) {
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var metrics = {};
+                metricids.forEach(function(metricid) {
+                    var METRIC = DB_METRICS[metricid];
+                    if (METRIC) {
+                        metrics[metricid] = METRIC;
+                    }
+                });
+                resolve({metrics: metrics});
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getNFrom
+    * @description
+    * Retrieves the specified metrics.
+    * @param {Int} mtrStart First metric index.
+    * @param {Int} mtrN Number of metrics.
+    * @returns {[Metric]|Error} On success, the list of metrics;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function getNFrom(mtrStart, mtrN) {
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var metrics = [];
+                var nummetrics =  Object.keys(DB_METRICS).length;
+                var end = (mtrN === -1) ? nummetrics : Math.min(mtrStart + mtrN, nummetrics);
+                for (var i = mtrStart; i < end; i++ ) {
+                    metrics.push(DB_METRICS[i]);
+                }
+                resolve({metrics: metrics, nummetrics: nummetrics});
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name create
+    * @description
+    * Creates a new metric.
+    * @param {Metric} metric The metric to create.
+    * @returns {JSON|Error} On success, the metricid of the successfully created metric
+    * and a success message;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function create(metric) {
+        return $q(function(resolve, reject) {
+            var metricid = metric.metricid;
+            setTimeout(function() {
+                if (DB_METRICS[metricid]) {
+                    reject({errmsg: 'Metric ' + metricid + ' already registered'});
+                } else {
+                    DB_METRICS[metricid] = angular.copy(metric);
+                    resolve({metricid: metricid, msg: 'Thank you for creating ' + metricid});
+                }
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name update
+    * @description
+    * Updates the authuser profile.
+    * @param {Metric} metricAttrs The metric attributes to update.
+    * @returns {JSON} Insert description here.
+    ********************************************************************************/
+    function update(metricAttrs) {
+        return $q(function(resolve, reject) {
+            var metricid = metricAttrs.metricid;
+            setTimeout(function() {
+                var METRIC = DB_METRICS[metricid];
+                if (METRIC) {
+                    for (var attr in metricAttrs) {
+                        METRIC[attr] = metricAttrs[attr];
+                    }
+                    resolve({metric: METRIC});
+                } else {
+                    reject({errmsg: 'Metric ' + metricid + ' not found'});
+                }
             }, 500);
         });
     }
