@@ -163,8 +163,6 @@ gulp.task('live', ['connect'], function() {
     gulp.watch([paths.core.scripts], ['build-scripts']);
 
     gulp.watch([paths.assets.styles.every], ['build-styles']);
-
-    gulp.watch([paths.assets.images.every], ['build-images']);
 });
 
 gulp.task('connect', function() {
