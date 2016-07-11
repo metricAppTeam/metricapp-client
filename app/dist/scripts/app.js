@@ -1003,7 +1003,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 15:42:49
+* @Last Modified time: 2016-07-11 21:32:56
 */
 (function() { 'use strict';
 
@@ -1037,6 +1037,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     service.toUpdateMeasurementGoal = toUpdateMeasurementGoal;
     service.getUpdateMeasurementGoal = getUpdateMeasurementGoal;
     service.getOrganizationalGoalById = getOrganizationalGoalById;
+    service.getMeasurementGoalExternals = getMeasurementGoalExternals;
 
     /********************************************************************************
     * @ngdoc method
@@ -1070,7 +1071,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         	metadata: metadata};*/
                 
         console.log(JSON.stringify(measurementGoal));
-    
+
         //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
@@ -1102,6 +1103,32 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     function getMeasurementGoals() {
         
         return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=metricator').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMeasurementGoalExternals
+    * @description
+    * Get measurement goal externals.
+    ********************************************************************************/
+    
+    function getMeasurementGoalExternals(measurementGoalId) {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -1203,7 +1230,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 18:46:38
+* @Last Modified time: 2016-07-11 16:09:39
 */
 (function() { 'use strict';
 
@@ -1288,6 +1315,33 @@ function MetricService($http, $window) {
         );
 
     }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMetricsByMeasurementGoalId
+    * @description
+    * Get Metric by measurement goal.
+    ********************************************************************************/
+
+    function getMetricsByMeasurementGoalId(measurementGoalId) {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
 
     /********************************************************************************
     * @ngdoc method
@@ -2290,7 +2344,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 16:02:20
+* @Last Modified time: 2016-07-11 16:13:34
 */
 (function () { 'use strict';
 
@@ -2438,7 +2492,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     ********************************************************************************/
     function getMetricsByMeasurementGoal(){
 
-        var metricsGetter = [];
+        /*var metricsGetter = [];
         for(var i=0; i<vm.measurementGoalDialog.metrics.length;i++){ 
             MetricService.getMetricsById(vm.measurementGoalDialog.metrics[i].instance).then(
                 function(data) {
@@ -2452,7 +2506,19 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             );
         }
 
-        vm.metricsDialog = metricsGetter;
+        vm.metricsDialog = metricsGetter;*/
+
+        MetricService.getMetricsByMeasurementGoalId(vm.measurementGoalDialog.metadata.id).then(
+                function(data) {
+                    console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
+                    console.log(data.metrics);
+                    vm.metricsDialog = data.metrics;
+                },
+                function(data) {
+                    alert('Error retriving Metrics');
+                }
+        );        
+
     }
 
     /********************************************************************************
@@ -2689,7 +2755,7 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-07 22:46:59
+* @Last Modified time: 2016-07-11 21:45:41
 */
 (function () { 'use strict';
 
@@ -2717,15 +2783,22 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     vm.getMeasurementGoals = getMeasurementGoals;
     vm.getMetrics = getMetrics;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
+    vm.getMeasurementGoalExternals = getMeasurementGoalExternals;
 
-    vm.results = {
-        measurementGoals : [],
-        metrics : [],
-        questions : []
-    };
+    //vm.results = {
+    //    measurementGoals : [],
+    //    metrics : [],
+    //    questions : []
+    //};
+    vm.measurementGoals = [];
+    vm.metrics = [];
+    vm.contextFactors = [];
+    vm.assumptions = [];
+    vm.organizationalGoal = {};
+    vm.instanceProject = {};
 
     vm.measurementGoalDialog = null;
-    vm.metricDialog = null;
+    //vm.metricDialog = null;
 
     vm.modal = "";
 
@@ -2741,7 +2814,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
     
     vm.getMeasurementGoals();
-    vm.getMetrics();
+    //vm.getMetrics();
     _init();
 
     /********************************************************************************
@@ -2756,7 +2829,8 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
          MeasurementGoalService.getMeasurementGoals().then(
             function(data) {
                 console.log(data.measurementGoals);
-                vm.results.measurementGoals = data.measurementGoals;
+                //vm.results.measurementGoals = data.measurementGoals;
+                vm.measurementGoals = data.measurementGoals;
             },
             function(data) {
                 alert('Error retriving Measurement Goals');
@@ -2782,6 +2856,29 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         );
     };
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMeasurementGoalExternals
+    * @description
+    * Get measurement goals externals.
+    ********************************************************************************/
+    function getMeasurementGoalExternals(externalId){
+         MeasurementGoalService.getMeasurementGoalExternals(externalId).then(
+            function(data) {
+                //console.log(data.measurementGoals);
+                vm.metrics = data.metrics;
+                vm.contextFactors = data.contextFactors;
+                vm.assumptions = data.assumptions;
+                vm.organizationalGoal = data.organizationalGoal;
+                vm.instanceProject = data.instanceProject;
+                $("#modal_large").modal("show");
+            },
+            function(data) {
+                alert('Error retriving Metrics');
+            }
+        );
+    };
+
     /*
     function setMeasurementGoalDialog(measurementGoalToAssign){
         vm.measurementGoalDialog.name = measurementGoalToAssign.name;
@@ -2791,7 +2888,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         vm.measurementGoalDialog.focus = measurementGoalToAssign.focus;
     };*/
     
-    function setMeasurementGoalDialog(modalId,measurementGoalToAssignId){
+    /*function setMeasurementGoalDialog(modalId,measurementGoalToAssignId){
         switch (modalId) {
             case 0:
                 //$('#modal_button').attr('data-target','#modal_measurementGoal');
@@ -2813,6 +2910,11 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 vm.measurementGoalDialog = vm.results.measurementGoals[measurementGoalToAssignId];
                 break;
         }
+    };*/
+
+    function setMeasurementGoalDialog(measurementGoalToAssignId){
+        vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
+        getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
     };
 
     function goToUpdateMeasurementGoal(){

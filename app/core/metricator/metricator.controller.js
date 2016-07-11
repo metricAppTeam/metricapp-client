@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 20:03:06
+* @Last Modified time: 2016-07-11 22:34:50
 */
 (function () { 'use strict';
 
@@ -43,8 +43,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     vm.assumptions = [];
     vm.organizationalGoal = {};
     vm.instanceProject = {};
-
-    vm.measurementGoalDialog = null;
+    vm.measurementGoalDialog = {};
     //vm.metricDialog = null;
 
     vm.modal = "";
@@ -109,15 +108,17 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * @description
     * Get measurement goals externals.
     ********************************************************************************/
-    function getMeasurementGoalExternals(){
-         MetricService.getMeasurementGoalExternals().then(
+    function getMeasurementGoalExternals(externalId){
+         MeasurementGoalService.getMeasurementGoalExternals(externalId).then(
             function(data) {
                 //console.log(data.measurementGoals);
+                //TODO add check if variable is undefined
                 vm.metrics = data.metrics;
                 vm.contextFactors = data.contextFactors;
                 vm.assumptions = data.assumptions;
                 vm.organizationalGoal = data.organizationalGoal;
                 vm.instanceProject = data.instanceProject;
+                $("#modal_large").modal("show");
             },
             function(data) {
                 alert('Error retriving Metrics');
@@ -160,11 +161,21 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
 
     function setMeasurementGoalDialog(measurementGoalToAssignId){
         vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
-        getMeasurementGoalExternals(measurementGoalToAssignId);
+        getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
     };
 
     function goToUpdateMeasurementGoal(){
-        MeasurementGoalService.toUpdateMeasurementGoal(vm.measurementGoalDialog);
+
+        var toUpdate = {
+            measurementGoal : vm.measurementGoalDialog,
+            metrics : vm.metrics,
+            contextFactors : vm.contextFactors,
+            assumptions : vm.assumptions,
+            organizationalGoal : vm.organizationalGoal,
+            instanceProject : vm.instanceProject
+        };
+
+        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
         console.log("Going to Update Measurement Goal");
         $location.path('/measurementgoal');
         console.log($location.path('/measurementgoal'));

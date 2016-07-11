@@ -23,7 +23,8 @@
         </ul>                                
     </div>
     <div class="panel-body">
-            <table ng-repeat="result in vm.results" class="table datatable">
+            <!--<table ng-repeat="result in vm.results" class="table datatable">-->
+            <table class="table datatable">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -35,10 +36,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="measurementGoal in result">
+                    <!--<tr ng-repeat="measurementGoal in result">-->
+                    <tr ng-repeat="measurementGoal in vm.measurementGoals">
                         <td>
                         <!--#modal_large vm.setModal($parent.$index) id="modal_button"-->
-                    <button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMeasurementGoalDialog($parent.$index,$index)">{{measurementGoal.metadata.id}}</button>
+                    <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMeasurementGoalDialog($parent.$index,$index)">{{measurementGoal.metadata.id}}</button>-->
+                    <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.getMeasurementGoalExternals($index)">{{vm.measurementGoalDialog.metadata.id}}</button>-->
+                    <button class="btn btn-default btn-rounded" ng-click="vm.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
                         </td>
                         <td>{{measurementGoal.metadata.entityType}}</td>
                         <td>{{measurementGoal.metadata.creationDate}}</td>
@@ -55,6 +59,12 @@
 
     <div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
             <div class="modal-dialog modal-lg">
+                <div ng-include="'dist/views/metricator/modal/modal.measurementgoal.html'"></div>
+            </div>
+    </div>
+
+    <!--<div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
                 <div ng-switch="vm.modal">
                     <div ng-switch-when="measurementGoal">
                         <div ng-include="'dist/views/metricator/modal/modal.measurementgoal.html'"></div>
@@ -70,7 +80,7 @@
                     </div>
                 </div>
             </div>
-    </div>
+    </div>-->
     <!-- END MEASUREMENT GOAL MODAL DIALOG -->
 
      <!-- BEGIN METRIC MODAL DIALOG 

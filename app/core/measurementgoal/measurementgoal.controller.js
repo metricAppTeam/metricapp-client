@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 16:13:34
+* @Last Modified time: 2016-07-11 22:40:27
 */
 (function () { 'use strict';
 
@@ -28,10 +28,20 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     var vm = this;
 
     vm.measurementGoals = [];
-    vm.measurementGoalDialog = MeasurementGoalService.getUpdateMeasurementGoal();
-    vm.organizationalGoalDialog = {};
-    vm.metricsDialog = [];
+
+    //Initialize some transition variables
+    vm.measurementGoalDialog = MeasurementGoalService.getUpdateMeasurementGoal().measurementGoal;
+    vm.metrics = MeasurementGoalService.getUpdateMeasurementGoal().metrics;
+    vm.contextFactors = MeasurementGoalService.getUpdateMeasurementGoal().contextFactors;
+    vm.assumptions = MeasurementGoalService.getUpdateMeasurementGoal().assumptions;
+    vm.organizationalGoal = MeasurementGoalService.getUpdateMeasurementGoal().organizationalGoal;
+    vm.instanceProject = MeasurementGoalService.getUpdateMeasurementGoal().instanceProject;
+
+    //vm.organizationalGoalDialog = {};
+    //vm.metricsDialog = [];
     vm.externalMetricDialog = [];
+
+
     vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.cancelSubmit = cancelSubmit;
     vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
@@ -47,8 +57,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.addMetricToMeasurementGoal = addMetricToMeasurementGoal;
     vm.removeMetricFromMeasurementGoal = removeMetricFromMeasurementGoal;
 
-    initOrganizationalGoalDialog();
-    getMetricsByMeasurementGoal();
+    //initOrganizationalGoalDialog();
+    //getMetricsByMeasurementGoal();
     _init();
 
     /********************************************************************************

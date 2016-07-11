@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 17:25:46
+* @Last Modified time: 2016-07-11 21:32:56
 */
 (function() { 'use strict';
 
@@ -36,6 +36,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     service.toUpdateMeasurementGoal = toUpdateMeasurementGoal;
     service.getUpdateMeasurementGoal = getUpdateMeasurementGoal;
     service.getOrganizationalGoalById = getOrganizationalGoalById;
+    service.getMeasurementGoalExternals = getMeasurementGoalExternals;
 
     /********************************************************************************
     * @ngdoc method

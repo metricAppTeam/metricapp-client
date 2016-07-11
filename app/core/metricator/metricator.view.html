@@ -23,7 +23,8 @@
         </ul>                                
     </div>
     <div class="panel-body">
-            <table ng-repeat="result in vm.results" class="table datatable">
+            <!--<table ng-repeat="result in vm.results" class="table datatable">-->
+            <table class="table datatable">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -36,18 +37,18 @@
                 </thead>
                 <tbody>
                     <!--<tr ng-repeat="measurementGoal in result">-->
-                    <tr>
+                    <tr ng-repeat="measurementGoal in vm.measurementGoals">
                         <td>
                         <!--#modal_large vm.setModal($parent.$index) id="modal_button"-->
                     <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMeasurementGoalDialog($parent.$index,$index)">{{measurementGoal.metadata.id}}</button>-->
                     <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.getMeasurementGoalExternals($index)">{{vm.measurementGoalDialog.metadata.id}}</button>-->
-                    <button class="btn btn-default btn-rounded" ng-click="vm.setMeasurementGoalDialog($index)">{{vm.measurementGoals.metadata.id}}</button>
+                    <button class="btn btn-default btn-rounded" ng-click="vm.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
                         </td>
-                        <td>{{vm.measurementGoals.metadata.entityType}}</td>
-                        <td>{{vm.measurementGoals.metadata.creationDate}}</td>
-                        <td>{{vm.measurementGoals.metadata.lastVersionDate}}</td>
-                        <td>{{vm.measurementGoals.metadata.releaseNote}}</td>
-                        <td>{{vm.measurementGoals.metadata.state}}</td>
+                        <td>{{measurementGoal.metadata.entityType}}</td>
+                        <td>{{measurementGoal.metadata.creationDate}}</td>
+                        <td>{{measurementGoal.metadata.lastVersionDate}}</td>
+                        <td>{{measurementGoal.metadata.releaseNote}}</td>
+                        <td>{{measurementGoal.metadata.state}}</td>
                     </tr>
                 </tbody>
             </table>
