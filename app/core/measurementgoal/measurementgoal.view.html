@@ -111,9 +111,10 @@
                 <div class="tabs collapse" id="accOneColOne">
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" data-target="#metricDialogActive">active</a></li>
-                        <li ng-repeat="metric in vm.metricsDialog.slice(1, vm.metricsDialog.length)"><a data-toggle="tab" data-target="#tab{{$index}}">{{$index}}</a></li>
-                    </ul>                    
+                        <li class="active"><a data-toggle="tab" data-target="#metricDialogActive">active</a><i class="btn btn-default btn-block" ng-click="vm.removeMetricFromMeasurementGoal(0)">Remove</i></li>
+                        <li ng-repeat="metric in vm.metricsDialog.slice(1, vm.metricsDialog.length)"><a data-toggle="tab" data-target="#tab{{$index}}">{{$index}}</a>
+                        <i class="btn btn-default btn-block" ng-click="vm.removeMetricFromMeasurementGoal($index+1)">Remove</i></li>
+                    </ul>          
                     <div class="panel-body tab-content">
                         <div class="tab-pane active" id="metricDialogActive">
                             <!--BEGIN ACTIVE TAB DETAIL-->
@@ -235,6 +236,13 @@
     <div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div ng-include="'dist/views/metricator/modal/modal.external.metric.html'">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal_large_measurementgoal" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div ng-include="'dist/views/metricator/modal/modal.measurementgoal.html'">
             </div>
         </div>
     </div>

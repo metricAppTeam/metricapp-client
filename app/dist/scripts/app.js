@@ -1003,7 +1003,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 23:18:46
+* @Last Modified time: 2016-07-11 15:42:49
 */
 (function() { 'use strict';
 
@@ -1070,17 +1070,16 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         	metadata: metadata};*/
                 
         console.log(JSON.stringify(measurementGoal));
-
-        return false;
-
+    
         //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
 
         return $http.put('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', measurementGoal).then(
             function(response) {
-                var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
+                //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
+                var message = response.data;
                 return message;
             },
             function(response) {
@@ -2291,7 +2290,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 23:26:47
+* @Last Modified time: 2016-07-11 16:02:20
 */
 (function () { 'use strict';
 
@@ -2334,6 +2333,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.getMetricsByMeasurementGoal = getMetricsByMeasurementGoal;
     vm.getApprovedMetrics = getApprovedMetrics;
     vm.addMetricToMeasurementGoal = addMetricToMeasurementGoal;
+    vm.removeMetricFromMeasurementGoal = removeMetricFromMeasurementGoal;
 
     initOrganizationalGoalDialog();
     getMetricsByMeasurementGoal();
@@ -2351,8 +2351,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         var purposeSubmit = (vm.purpose !== undefined) ? vm.purpose :  vm.measurementGoalDialog.purpose;
         var viewPointSubmit = (vm.viewPoint !== undefined) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
         var focusSubmit = (vm.focus !== undefined) ? vm.focus :  vm.measurementGoalDialog.focus;
-        var functionJavascriptSubmit = (vm.functionJavascript !== undefined) ? vm.functionJavascript :  vm.measurementGoalDialog.functionJavascript;
-        var queryNoSQLSubmit = (vm.queryNoSQL !== undefined) ? vm.queryNoSQL :  vm.measurementGoalDialog.queryNoSQL;
+        var functionJavascriptSubmit = (vm.functionJavascript !== undefined) ? vm.functionJavascript :  vm.measurementGoalDialog.interpretationModel.functionJavascript;
+        var queryNoSQLSubmit = (vm.queryNoSQL !== undefined) ? vm.queryNoSQL :  vm.measurementGoalDialog.interpretationModel.queryNoSQL;
 
 
 
@@ -2390,7 +2390,9 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         };
         MeasurementGoalService.submitMeasurementGoal(measurementGoal).then(
             function(message) {
-                alert(message);
+                //alert(message);
+                vm.measurementGoalDialog = message.measurementGoals[0];
+                $("#modal_large_measurementgoal").modal("show");
                 //$location.path('/measurementgoal');
             },
             function(message) {
@@ -2436,18 +2438,21 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     ********************************************************************************/
     function getMetricsByMeasurementGoal(){
 
+        var metricsGetter = [];
         for(var i=0; i<vm.measurementGoalDialog.metrics.length;i++){ 
             MetricService.getMetricsById(vm.measurementGoalDialog.metrics[i].instance).then(
                 function(data) {
                     console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
                     console.log(data.metricsDTO);
-                    vm.metricsDialog = data.metricsDTO;
+                    metricsGetter.push(data.metricsDTO);
                 },
                 function(data) {
                     alert('Error retriving Metrics');
                 }
             );
         }
+
+        vm.metricsDialog = metricsGetter;
     }
 
     /********************************************************************************
@@ -2584,6 +2589,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
            objIdLocalToPhase : "",
            typeObj : "Metric",
            instance : vm.externalMetricDialog[index].metadata.id,
+           busVersion : "",
            tags: []
         };
         vm.measurementGoalDialog.metrics.push(pointerBus);
@@ -2591,6 +2597,19 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         $window.alert('Item added');
         console.log(vm.measurementGoalDialog);
         return false;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name removeMetricFromMeasurementGoal
+    * @description
+    * Remove metric from measurement goal.
+    ********************************************************************************/
+    function removeMetricFromMeasurementGoal(index){
+        vm.measurementGoalDialog.metrics.splice(index, 1);
+        vm.metricsDialog.splice(index, 1);
+        $window.alert('Item removed');
+        console.log(vm.measurementGoalDialog);
     }
 
     /********************************************************************************

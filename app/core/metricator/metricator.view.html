@@ -35,16 +35,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="measurementGoal in result">
+                    <!--<tr ng-repeat="measurementGoal in result">-->
+                    <tr>
                         <td>
                         <!--#modal_large vm.setModal($parent.$index) id="modal_button"-->
-                    <button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMeasurementGoalDialog($parent.$index,$index)">{{measurementGoal.metadata.id}}</button>
+                    <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMeasurementGoalDialog($parent.$index,$index)">{{measurementGoal.metadata.id}}</button>-->
+                    <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.getMeasurementGoalExternals($index)">{{vm.measurementGoalDialog.metadata.id}}</button>-->
+                    <button class="btn btn-default btn-rounded" ng-click="vm.setMeasurementGoalDialog($index)">{{vm.measurementGoals.metadata.id}}</button>
                         </td>
-                        <td>{{measurementGoal.metadata.entityType}}</td>
-                        <td>{{measurementGoal.metadata.creationDate}}</td>
-                        <td>{{measurementGoal.metadata.lastVersionDate}}</td>
-                        <td>{{measurementGoal.metadata.releaseNote}}</td>
-                        <td>{{measurementGoal.metadata.state}}</td>
+                        <td>{{vm.measurementGoals.metadata.entityType}}</td>
+                        <td>{{vm.measurementGoals.metadata.creationDate}}</td>
+                        <td>{{vm.measurementGoals.metadata.lastVersionDate}}</td>
+                        <td>{{vm.measurementGoals.metadata.releaseNote}}</td>
+                        <td>{{vm.measurementGoals.metadata.state}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -54,6 +57,12 @@
     <!-- BEGIN MEASUREMENT GOAL MODAL DIALOG -->
 
     <div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div ng-include="'dist/views/metricator/modal/modal.measurementgoal.html'"></div>
+            </div>
+    </div>
+
+    <!--<div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div ng-switch="vm.modal">
                     <div ng-switch-when="measurementGoal">
@@ -70,7 +79,7 @@
                     </div>
                 </div>
             </div>
-    </div>
+    </div>-->
     <!-- END MEASUREMENT GOAL MODAL DIALOG -->
 
      <!-- BEGIN METRIC MODAL DIALOG 

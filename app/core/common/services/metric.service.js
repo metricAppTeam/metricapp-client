@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 18:46:38
+* @Last Modified time: 2016-07-11 16:09:39
 */
 (function() { 'use strict';
 
@@ -87,6 +87,33 @@ function MetricService($http, $window) {
         );
 
     }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMetricsByMeasurementGoalId
+    * @description
+    * Get Metric by measurement goal.
+    ********************************************************************************/
+
+    function getMetricsByMeasurementGoalId(measurementGoalId) {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
 
     /********************************************************************************
     * @ngdoc method
