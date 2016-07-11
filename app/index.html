@@ -149,7 +149,7 @@
                                             <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 50 : 45)}}...</p>
                                         </a>
                                         <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
-                                            <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-(</span>
+                                            <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -193,7 +193,7 @@
                                             <p>{{notification.description.toString().substring(0, (notification.read) ? 50 : 45)}}...</p>
                                         </a>
                                         <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
-                                            <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-(</span>
+                                            <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
                                             <small class="text-success" ng-if="task.progress == 100"> Done</small>
                                         </a>
                                         <a ng-switch-when="false" class="list-group-item list-group-item-task" href="#">
-                                            <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-(</span>
+                                            <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>
                                         </a>
                                     </div>
                                 </div>
