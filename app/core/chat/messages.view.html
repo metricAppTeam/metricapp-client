@@ -58,9 +58,7 @@
                         <div class="heading">
                             <a ng-switch-when="globals.user.username" g-href="#/profile/{{globals.user.username}}">{{globals.user.firstname}} {{globals.user.lastname}}</a>
                             <a ng-switch-when="conversation.recipient.username" g-href="#/profile/{{conversation.recipient.username}}">{{conversation.recipient.firstname}} {{conversation.recipient.lastname}}</a>
-                            <span class="date">
-                                on {{message.ts_create.toLocaleDateString()}}
-                                at {{message.ts_create.toLocaleTimeString()}}</span>
+                            <span class="date">{{message.ts_create | datetimeFilter:'normal'}}</span>
                         </div>
                         {{message.content}}
                     </div>

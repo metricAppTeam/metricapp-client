@@ -62,7 +62,7 @@
         <!-- START: PAGE CONTAINER -->
         <div class="page-container">
             <!-- START: SIDEBAR -->
-            <div class="page-sidebar" ng-controller="SidebarController as vm" ng-show="globals.user">
+            <div class="page-sidebar page-sidebar-fixed" ng-controller="SidebarController as vm" ng-show="globals.user">
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
@@ -144,10 +144,7 @@
                                             <img ng-src="{{conversation.recipient.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{conversation.recipient.username}}"/>
                                             <span class="contacts-title">
                                                 {{conversation.recipient.firstname}} {{conversation.recipient.lastname}}
-                                                <small>
-                                                    on {{conversation.messages[conversation.messages.length - 1].ts_create.toLocaleDateString()}}
-                                                    at {{conversation.messages[conversation.messages.length - 1].ts_create.toLocaleTimeString()}}
-                                                </small>
+                                                <small>{{conversation.messages[conversation.messages.length - 1].ts_create | datetimeFilter:'ago'}}</small>
                                             </span>
                                             <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 50 : 45)}}...</p>
                                         </a>
@@ -191,10 +188,7 @@
                                             <span class="contacts-title">
                                                 {{notification.author.firstname}} {{notification.author.lastname}} /
                                                 {{notification.name}} / {{notification.scope}}
-                                                <small>
-                                                    on {{notification.ts_create.toLocaleDateString()}}
-                                                    at {{notification.ts_create.toLocaleTimeString()}}
-                                                </small>
+                                                <small>{{notification.ts_create | datetimeFilter:'ago'}}</small>
                                             </span>
                                             <p>{{notification.description.toString().substring(0, (notification.read) ? 50 : 45)}}...</p>
                                         </a>
@@ -236,8 +230,7 @@
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="{{task.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">{{task.progress}}%</div>
                                             </div>
                                             <small class="text-muted">
-                                                {{task.assignee.firstname}} {{task.assignee.lastname}},
-                                                {{task.ts_update.toLocaleDateString()}} /
+                                                {{task.assignee.firstname}} {{task.assignee.lastname}}, {{task.ts_update | datetimeFilter:'ago'}}
                                             </small>
                                             <small class="text-success" ng-if="task.progress == 100"> Done</small>
                                         </a>
