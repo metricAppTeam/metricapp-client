@@ -2,24 +2,25 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name GridAnalyticsController
+* @name EditGridController
 * @module metricapp
 * @requires $scope
 * @requires $location
 * @requires $routeParams
 * @requires GridService
+* @requires UserService
 *
 * @description
-* Realizes the control layer for `grid.analytics.view`.
+* Realizes the control layer for `edit-grid.modal.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('GridAnalyticsController', GridAnalyticsController);
+.controller('EditGridController', EditGridController);
 
-GridAnalyticsController.$inject = ['$scope', '$location', '$routeParams', 'GridService'];
+EditGridController.$inject = ['$scope', '$location', '$routeParams', 'GridService', 'UserService'];
 
-function GridAnalyticsController($scope, $location, $routeParams, GridService) {
+function EditGridController($scope, $location, $routeParams, GridService, UserService) {
 
     var vm = this;
 

@@ -8,8 +8,8 @@
             <div class="col-md-12">
                 <p ng-switch-when="true">Loading analytics for grid {{vm.currGrid.id}} ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
-                    <ul ng-switch-when="true">
-                        <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-href="#/grids/{{vm.currGrid.id}}">Overview</a>
+                    <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-href="#/grids/{{vm.currGrid.id}}">Overview</a>
+                    <ul ng-switch-when="true">                        
                         <li ng-repeat="(key, value) in vm.currGrid">{{key}}: {{value}}</li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
