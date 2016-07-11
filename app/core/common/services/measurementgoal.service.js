@@ -71,17 +71,14 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
 =======
         	metadata: metadata};*/
-                
->>>>>>> 6b0ce4bf8b822ede89b2058f2f75839d5a47f20b
+
+
         $window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
 
-<<<<<<< HEAD
+
         return $http.post('http://localhost:8080/metricapp-server/measurementgoal/', submit).then(
-=======
-        return $http.put('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', measurementGoal).then(
->>>>>>> 6b0ce4bf8b822ede89b2058f2f75839d5a47f20b
             function(response) {
                 var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
@@ -105,13 +102,9 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     ********************************************************************************/
 
     function getMeasurementGoals() {
-<<<<<<< HEAD
+
 
         return $http.get('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').then(
-=======
-        
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=metricator').then(
->>>>>>> 6b0ce4bf8b822ede89b2058f2f75839d5a47f20b
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');

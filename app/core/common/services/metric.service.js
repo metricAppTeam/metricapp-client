@@ -44,13 +44,8 @@ function MetricService($http, $window) {
     ********************************************************************************/
 
     function getMetrics() {
-<<<<<<< HEAD
 
-        return $http.get('http://localhost:8080/metricapp-server/metric?userid=metricator').then(
-=======
-        
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=metricator').then(
->>>>>>> 6b0ce4bf8b822ede89b2058f2f75839d5a47f20b
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -75,8 +70,8 @@ function MetricService($http, $window) {
     ********************************************************************************/
 
     function getMetricsById(metricId) {
-        
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?id='+metricId).then(
+
+        return $http.get('http://localhost:8080/metricapp-server/metric?id='+metricId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -101,8 +96,8 @@ function MetricService($http, $window) {
     ********************************************************************************/
 
     function getApprovedMetrics() {
-        
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?state=Approved').then(
+
+        return $http.get('http://localhost:8080/metricapp-server/metric?state=Approved').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS BY APPROVED VERSION');
