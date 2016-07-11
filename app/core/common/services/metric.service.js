@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-09 13:26:56
+* @Last Modified time: 2016-07-10 18:46:38
 */
 (function() { 'use strict';
 
@@ -33,21 +33,79 @@ function MetricService($http, $window) {
     var service = this;
 
     service.getMetrics = getMetrics;
+    service.getApprovedMetrics = getApprovedMetrics;
+    service.getMetricsById = getMetricsById;
 
     /********************************************************************************
     * @ngdoc method
     * @name getMetrics
     * @description
-    * Submits a MeasurementGoal.
-    * @param {Metric} Metric to get.
+    * Get Metric by user.
     ********************************************************************************/
 
     function getMetrics() {
+<<<<<<< HEAD
 
         return $http.get('http://localhost:8080/metricapp-server/metric?userid=metricator').then(
+=======
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=metricator').then(
+>>>>>>> 6b0ce4bf8b822ede89b2058f2f75839d5a47f20b
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMetrics
+    * @description
+    * Get Metric by user.
+    ********************************************************************************/
+
+    function getMetricsById(metricId) {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?id='+metricId).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getApprovedMetrics
+    * @description
+    * Get approved metric by state.
+    ********************************************************************************/
+
+    function getApprovedMetrics() {
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?state=Approved').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS BY APPROVED VERSION');
                 console.log(message);
                 return message;
             },

@@ -94,6 +94,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">
                     <a data-toggle="collapse" data-target="#accOneColOne">Metrics</a>
+                    <i class="btn btn-default btn-rounded pull-right" ng-click="vm.getApprovedMetrics()" data-toggle="modal" data-target="#modal_large"">Add Metric</i>
                     </h3>
                     <!--<ul class="panel-controls">
                         <li><a class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
@@ -108,7 +109,7 @@
                     </ul>-->
                 </div>
                 <div class="tabs collapse" id="accOneColOne">
-                    
+
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" data-target="#metricDialogActive">active</a></li>
                         <li ng-repeat="metric in vm.metricsDialog.slice(1, vm.metricsDialog.length)"><a data-toggle="tab" data-target="#tab{{$index}}">{{$index}}</a></li>
@@ -228,6 +229,13 @@
                     <h4>OrganizationalGoalState</h4>
                     <li class="list-group-item">{{vm.organizationalGoalDialog.organizationalGoalState}}</li>  
             </ul>    
+        </div>
+    </div>
+
+    <div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div ng-include="'dist/views/metricator/modal/modal.external.metric.html'">
+            </div>
         </div>
     </div>
 </div>

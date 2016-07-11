@@ -10,7 +10,7 @@
 #==============================================================================#
 _ignore
 dist
-!dist/views/metricator/modal
+dist/views/metricator/modal
 builds
 docs
 uploads

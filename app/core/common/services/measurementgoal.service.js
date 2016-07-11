@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-08 17:51:01
+* @Last Modified time: 2016-07-10 22:41:13
 */
 (function() { 'use strict';
 
@@ -29,7 +29,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     var service = this;
 
-    service.measurementGoalToUpdate;
+    service.measurementGoalToUpdate = {};
     service.submitMeasurementGoal = submitMeasurementGoal;
     service.getMeasurementGoals = getMeasurementGoals;
     service.getMeasurementGoalsBy = getMeasurementGoalsBy;
@@ -52,7 +52,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         'viewPoint=' + measurementGoal.viewPoint + ' & ' +
         'focus=' + measurementGoal.focus);
 
-        var metadata = {
+        /*var metadata = {
         	tags:['saassad','sadsadsad','sadsadsad'],
   			creatorId:'3',
       		state:'Created',
@@ -66,11 +66,22 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         	purpose: measurementGoal.purpose,
         	viewPoint: measurementGoal.viewPoint,
         	focus: measurementGoal.focus,
+<<<<<<< HEAD
         	metadata: metadata};
 
+=======
+        	metadata: metadata};*/
+                
+>>>>>>> 6b0ce4bf8b822ede89b2058f2f75839d5a47f20b
         $window.alert(JSON.stringify(submit));
+        //$http.post
+        //submit).then(
 
+<<<<<<< HEAD
         return $http.post('http://localhost:8080/metricapp-server/measurementgoal/', submit).then(
+=======
+        return $http.put('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', measurementGoal).then(
+>>>>>>> 6b0ce4bf8b822ede89b2058f2f75839d5a47f20b
             function(response) {
                 var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
@@ -94,8 +105,13 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     ********************************************************************************/
 
     function getMeasurementGoals() {
+<<<<<<< HEAD
 
         return $http.get('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').then(
+=======
+        
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=metricator').then(
+>>>>>>> 6b0ce4bf8b822ede89b2058f2f75839d5a47f20b
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
