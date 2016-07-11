@@ -35,15 +35,15 @@ function GraphController($scope, $location) {
     //M.ators
     vm.metricators =
     [
-        {firstname: 'Andrea', lastname: 'Gennusa', role: 'M.ator', email:'gennusa@gmail.com', online: true, },
-        {firstname: 'Alessandro', lastname: 'Fazio', role: 'M.ator', email:'fazio@gmail.com', online: false},
+        {firstname: 'Andrea', lastname: 'Gennusa', role: 'Metricator', email:'gennusa@gmail.com', online: true, },
+        {firstname: 'Alessandro', lastname: 'Fazio', role: 'Metricator', email:'fazio@gmail.com', online: false},
     ];
 
     //Q.er
     vm.questioners =
     [
-        {firstname: 'Marco', lastname: 'Piu', role: 'Q.er', email:'piu@gmail.com', online: true},
-        {firstname: 'Davide', lastname: 'Nanni', role: 'Q.er', email:'nanni@gmail.com', online: false},
+        {firstname: 'Marco', lastname: 'Piu', role: 'Questioner', email:'piu@gmail.com', online: true},
+        {firstname: 'Davide', lastname: 'Nanni', role: 'Questioner', email:'nanni@gmail.com', online: false},
     ];
 
     vm.chart = {};

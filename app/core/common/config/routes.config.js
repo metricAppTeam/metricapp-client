@@ -37,7 +37,7 @@ function routes($routeProvider, $locationProvider) {
     .when('/messages', {
         templateUrl: 'dist/views/message/messages.view.html'
     })
-    .when('/profile', {
+    .when('/personalprofile', {
         templateUrl: 'dist/views/people/profile.view.html'
     })
     .when('/profile_pop_up', {
@@ -54,6 +54,9 @@ function routes($routeProvider, $locationProvider) {
     })
     .when('/graph_draft', {
         templateUrl: 'dist/views/graph/draft/draft.view.html'
+    })
+    .when('/analytics', {
+        templateUrl: 'dist/views/graph/analytics/analytics.view.html'
     })
     .when('/team', {
         templateUrl: 'dist/views/team/team.view.html'

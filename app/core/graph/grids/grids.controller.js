@@ -22,7 +22,7 @@ function GridsController($scope, $location) {
 
     var vm = this;
 
-    //list of projects for view user project
+    //list of grids
     vm.grids = [
         {id: "1", name: "GRID 1",progress: 30, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
         {id: "2", name: "GRID 2",progress: 40, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},

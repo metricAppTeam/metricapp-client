@@ -1,12 +1,11 @@
 <!-- COMPONENT VIEW GRID -->
 <div ng-controller="GraphController as vm">
     <div class="page-title">                    
-        <h2><span class="fa fa-arrow-circle-o-left"></span>View Grid</h2>
+        <h2><a href= "#/grids"><span class="fa fa-arrow-circle-o-left"></span></a> View Grid</h2>
     </div>
     <!-- END PANEL DEFAULT -->
     <div class="page-content-wrap">
         <div class="row">
-            <!-- ANALYTICS -->
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -41,7 +40,9 @@
                 <!-- DIALOGS -->
                 <button class="btn btn-info btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-team"><span class="fa fa-group"></span> View Team</button>
                 <!-- DIALOGS -->
-                <button class="btn btn-success btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-analytics"><span class="fa fa-bar-chart-o"></span> View Analytics</button>
+                <a href="#/analytics">
+                <button class="btn btn-success btn-lg btn-block"><span class="fa fa-bar-chart-o"></span> View Analytics</button>
+                </a>
                 <!-- DIALOGS -->
                 <button class="btn btn-danger btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-createmgs"><span class="fa fa-edit"></span> Create Measurement Goal</button>
                 <br>
@@ -50,7 +51,6 @@
                 <br>
                 <br>
                 <br>
-
             </div>
             
             <div class="col-md-9">
@@ -65,8 +65,8 @@
                         <bubbletree id="testChart" 
                             control="vm.chart"  
                             width="800"
-                            height="600"
-                            link-distance='30' 
+                            height="550"
+                            link-distance='20' 
                             fill-style='solid' 
                             parent-color='steelblue'
                             child-color='lightgray'

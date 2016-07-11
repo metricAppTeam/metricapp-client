@@ -9,47 +9,30 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3">                        
-                        <a href="#" class="tile tile-danger">254
-                            <p>Tackled Projects</p>
+                        <a class="tile tile-danger">
+                        {{vm.num_tasks_completed}}
+                            <p>Completed Tasks</p>
                         </a>                        
                     </div>
                     <div class="col-md-3">                        
-                        <a href="#" class="tile tile-primary">
-                            6,432
-                            <p>Visitors Today</p>
-                            <div class="informer informer-warning"><span class="fa fa-caret-down"></span></div>
+                        <a class="tile tile-default">
+                            {{vm.num_tasks_active}}
+                            <p>Active Tasks</p>
                         </a>
                     </div>
                     <div class="col-md-3">                        
-                        <a href="#" class="tile tile-success tile-valign">9.5gb
-                            <div class="informer informer-default dir-tr"><span class="fa fa-cloud"></span></div>
-                            <div class="informer informer-default dir-bl">Free Disk Space</div>
+                        <a class="tile tile-danger">{{vm.percentage_tasks_completed}}%
+                            <div class="informer informer-default dir-bl">Completed Tasks on Total Tasks</div>
                         </a>                                                    
                     </div>
-                    <div class="col-md-3">                        
-                        <a href="#" class="tile tile-info tile-valign">
-                            1,153
-                            <div class="informer informer-default">Registred Users</div>
-                            <div class="informer informer-default dir-br"><span class="fa fa-users"></span></div>
-                        </a>                            
-                    </div>
                 </div>    
-                
                 <div
-                line-chart
-                line-data='[
-                    { y: "2006", a: 100, b: 90 },
-                    { y: "2007", a: 75,  b: 65 },
-                    { y: "2008", a: 50,  b: 40 },
-                    { y: "2009", a: 75,  b: 65 },
-                    { y: "2010", a: 50,  b: 40 },
-                    { y: "2011", a: 75,  b: 65 },
-                    { y: "2012", a: 100, b: 90 }
+                donut-chart
+                donut-data= '[
+                    {label: "% User Completed Tasks", value: 10},
+                    {label: "% User Active Tasks", value: 20 },
                 ]'
-                line-xkey='y'
-                line-ykeys='["a", "b"]'
-                line-labels='["Serie A", "Serie B"]'
-                line-colors='["#31C0BE", "#c7254e"]'>
+                donut-colors='["#31C0BE","#c7254e","#98a0d3"]'>
                 </div>
             </div>
             <!-- END PANEL -->

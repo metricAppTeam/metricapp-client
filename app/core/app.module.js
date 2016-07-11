@@ -21,7 +21,8 @@ angular.module('metricapp',[
     'nvd3',
     'angular.morris-chart',
     'angular-svg-round-progress',
-    'angular-bubbletree'
+    'angular-bubbletree',
+    'angularChart'
 ]);
 
 })();
