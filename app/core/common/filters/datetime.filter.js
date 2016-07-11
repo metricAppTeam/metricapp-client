@@ -82,21 +82,18 @@ function datetimeFilter() {
             if (dateObj.getHours() === now.getHours()) {
                 var minutesAgo = now.getMinutes() - dateObj.getMinutes();
                 if (minutesAgo === 0) {
-                    var str = 'now';
+                    return 'now';
                 } else {
-                    var str = minutesAgo + 'm' + ((minutesAgo > 1)?'s':'');
+                    return minutesAgo + 'm' + ((minutesAgo > 1)?'s':'');
                 }
-                return str;
             } else {
                 var hoursAgo = now.getHours() - dateObj.getHours();
-                var str = hoursAgo + 'h' + ((hoursAgo > 1)?'s':'');
-                return str;
+                return hoursAgo + 'h' + ((hoursAgo > 1)?'s':'');
             }
         } else if (dateObj.getDate() === new Date(now - 86400000)) {
             var hours = dateObj.getHours();
             var minutes = dateObj.getMinutes();
-            var str = 'Yesterday at ' + [hours,minutes].join(':');
-            return str;
+            return 'Yesterday at ' + [hours,minutes].join(':');
         } else {
             return _normal(dateObj);
         }
