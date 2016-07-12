@@ -78,7 +78,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
    ********************************************************************************/
    function isMine(){
       if (vm.metricDialog.metricatorId == vm.userId){
-         console.log(vm.metricDialog.metricatorId + ","+ vm.userId);
+         console.log(vm.userId+ " has rights to update metric of "+ vm.metricDialog.metricatorId );
          return true;
       }else{
          return false;

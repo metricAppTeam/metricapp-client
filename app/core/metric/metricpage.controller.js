@@ -13,19 +13,38 @@
 
 angular.module('metricapp')
 
-.controller('MetricController', MetricController);
+.controller('MetricPageController', MetricPageController);
 
-MetricController.$inject = ['$scope', '$location','MetricService','$window'];
+MetricPageController.$inject = ['$scope','$routeParams', '$location','MetricService','$window'];
 
-function MetricController($scope, $location, MetricService, $window) {
-
+function MetricPageController($scope,$routeParams, $location, MetricService, $window) {
+    console.log("start of metricPageController");
     var vm = this;
+    vm.metricId = MetricService.getToUpdate();
+    _selectMetricToView();
 
 
 
-    initOrganizationalGoalDialog();
-    getMetricsByMeasurementGoal();
-    _init();
+
+
+    function _selectMetricToView(){
+      if(angular.isUndefined($routeParams.id)){
+         vm.metricId = MetricService.getToUpdate();
+      }else{
+         vm.metricId = $routeParams.id;
+      }
+      console.log("id of metric is: "+ vm.metricId);
+    }
+
+
+
+
+
+
+
+
+
+
 
     /********************************************************************************
     * @ngdoc method

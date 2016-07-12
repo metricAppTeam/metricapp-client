@@ -31,7 +31,7 @@ MetricService.$inject = ['$http', '$window', 'AuthService'];
 function MetricService($http, $window, AuthService) {
 
     var service = this;
-    service.toUpdate;
+    service.metricToUpdate;
 
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
@@ -40,6 +40,7 @@ function MetricService($http, $window, AuthService) {
     service.getMetricsByUser = getMetricsByUser;
     service.getMetricsByState = getMetricsByState;
     service.toUpdateMetric = toUpdateMetric;
+    service.getToUpdate = getToUpdate;
 
 
     /********************************************************************************
@@ -217,6 +218,10 @@ function MetricService($http, $window, AuthService) {
        if(toUpdate.metricatorId == AuthService.getUser().username){
           service.metricToUpdate = toUpdate;
        }
+   }
+
+   function getToUpdate(){
+      return service.metricToUpdate;
    }
 
 

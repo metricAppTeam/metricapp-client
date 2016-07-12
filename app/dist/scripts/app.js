@@ -523,7 +523,7 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
     })
     .when('/metric', {
-      templateUrl: 'dist/views/metric/metric.view.html'
+      templateUrl: 'dist/views/metric/metricpage.view.html'
     })
     .when('/measurementgoalsearch', {
         templateUrl: 'dist/views/measurementgoal/measurementgoalsearch.view.html'
@@ -1296,7 +1296,7 @@ MetricService.$inject = ['$http', '$window', 'AuthService'];
 function MetricService($http, $window, AuthService) {
 
     var service = this;
-    service.toUpdate;
+    service.metricToUpdate;
 
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
@@ -1305,6 +1305,7 @@ function MetricService($http, $window, AuthService) {
     service.getMetricsByUser = getMetricsByUser;
     service.getMetricsByState = getMetricsByState;
     service.toUpdateMetric = toUpdateMetric;
+    service.getToUpdate = getToUpdate;
 
 
     /********************************************************************************
@@ -1482,6 +1483,10 @@ function MetricService($http, $window, AuthService) {
        if(toUpdate.metricatorId == AuthService.getUser().username){
           service.metricToUpdate = toUpdate;
        }
+   }
+
+   function getToUpdate(){
+      return service.metricToUpdate;
    }
 
 
@@ -1784,12 +1789,12 @@ function UserService($http, REST_SERVICE) {
   'use strict';
 
   angular.module('metricapp')
-      .directive('metric', metricator);
+      .directive('metricPage', metricator);
 
   function metricator() {
     return {
       restrict: 'E',
-      templateUrl: 'dist/views/metric/metric.view.html'
+      templateUrl: 'dist/views/metric/metricpage.view.html'
     };
   }
 
@@ -3168,19 +3173,38 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 
 angular.module('metricapp')
 
-.controller('MetricController', MetricController);
+.controller('MetricPageController', MetricPageController);
 
-MetricController.$inject = ['$scope', '$location','MetricService','$window'];
+MetricPageController.$inject = ['$scope','$routeParams', '$location','MetricService','$window'];
 
-function MetricController($scope, $location, MetricService, $window) {
-
+function MetricPageController($scope,$routeParams, $location, MetricService, $window) {
+    console.log("start of metricPageController");
     var vm = this;
+    vm.metricId = MetricService.getToUpdate();
+    _selectMetricToView();
 
 
 
-    initOrganizationalGoalDialog();
-    getMetricsByMeasurementGoal();
-    _init();
+
+
+    function _selectMetricToView(){
+      if(angular.isUndefined($routeParams.id)){
+         vm.metricId = MetricService.getToUpdate();
+      }else{
+         vm.metricId = $routeParams.id;
+      }
+      console.log("id of metric is: "+ vm.metricId);
+    }
+
+
+
+
+
+
+
+
+
+
 
     /********************************************************************************
     * @ngdoc method
@@ -3530,7 +3554,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
    ********************************************************************************/
    function isMine(){
       if (vm.metricDialog.metricatorId == vm.userId){
-         console.log(vm.metricDialog.metricatorId + ","+ vm.userId);
+         console.log(vm.userId+ " has rights to update metric of "+ vm.metricDialog.metricatorId );
          return true;
       }else{
          return false;

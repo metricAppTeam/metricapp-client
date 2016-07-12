@@ -71,7 +71,7 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
     })
     .when('/metric', {
-      templateUrl: 'dist/views/metric/metric.view.html'
+      templateUrl: 'dist/views/metric/metricpage.view.html'
     })
     .when('/measurementgoalsearch', {
         templateUrl: 'dist/views/measurementgoal/measurementgoalsearch.view.html'

@@ -2,12 +2,12 @@
   'use strict';
 
   angular.module('metricapp')
-      .directive('metric', metricator);
+      .directive('metricPage', metricator);
 
   function metricator() {
     return {
       restrict: 'E',
-      templateUrl: 'dist/views/metric/metric.view.html'
+      templateUrl: 'dist/views/metric/metricpage.view.html'
     };
   }
 
