@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 23:55:28
+* @Last Modified time: 2016-07-12 14:32:07
 */
 (function () { 'use strict';
 
@@ -72,7 +72,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         var objectSubmit = (vm.object !== undefined) ? vm.object :  vm.measurementGoalDialog.object;
         var purposeSubmit = (vm.purpose !== undefined) ? vm.purpose :  vm.measurementGoalDialog.purpose;
         var viewPointSubmit = (vm.viewPoint !== undefined) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
-        var focusSubmit = (vm.focus !== undefined) ? vm.focus :  vm.measurementGoalDialog.focus;
+        var qualityFocusSubmit = (vm.qualityFocus !== undefined) ? vm.qualityFocus :  vm.measurementGoalDialog.qualityFocus;
         var functionJavascriptSubmit = (vm.functionJavascript !== undefined) ? vm.functionJavascript :  vm.measurementGoalDialog.interpretationModel.functionJavascript;
         var queryNoSQLSubmit = (vm.queryNoSQL !== undefined) ? vm.queryNoSQL :  vm.measurementGoalDialog.interpretationModel.queryNoSQL;
 
@@ -84,7 +84,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         	name : vm.name,
         	object : objectSubmit,
             viewPoint : viewPointSubmit,
-            focus : focusSubmit,
+            qualityFocus : qualityFocusSubmit,
         	purpose : purposeSubmit,
             OrganizationalGoalId : vm.measurementGoalDialog.OrganizationalGoalId,
             metrics : vm.measurementGoalDialog.metrics,
@@ -206,24 +206,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             },
             function(data) {
                 alert('Error retriving Metrics');
-            }
-        );
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name submitMeasurementGoal
-    * @description
-    * Get active measurement goals for a metricator by some field.
-    ********************************************************************************/
-    function getMeasurementGoalsBy(keyword,field){
-         MeasurementGoalService.getMeasurementGoalsBy(keyword,field).then(
-            function(data) {
-                console.log(data.measurementGoals);
-                vm.measurementGoals = data.measurementGoals;
-            },
-            function(data) {
-                alert('Error retriving Measurement Goals');
             }
         );
     }

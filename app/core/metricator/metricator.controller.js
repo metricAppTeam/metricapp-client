@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 22:34:50
+* @Last Modified time: 2016-07-12 12:21:28
 */
 (function () { 'use strict';
 
@@ -162,6 +162,12 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     function setMeasurementGoalDialog(measurementGoalToAssignId){
         vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
         getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
+        //var goalid = $routeParams.goalid;
+        //vm.currMGoal = {
+        //    id: goalid;
+        //}
+        //;
+        //_loadMGoal(vm.currMGoal.id);
     };
 
     function goToUpdateMeasurementGoal(){
