@@ -28,15 +28,15 @@ function MetricDashboardController($scope, $location, MetricService, $window) {
       'All My Metrics',
       'Metrics OnUpdate',
       'Rejected Metrics'
-   ]
+   ];
 
     vm.getMetrics = getMetrics;
-    vm.getMetricsOnUpdate = getMetricsOnUpdate;
+    vm.getMetricsByState = getMetricsByState;
     vm.goToUpdateMetric = goToUpdateMetric;
     vm.setMetricDialog = setMetricDialog;
+    vm.update=update;
 
-    vm.getMetrics();
-    vm.getMetricsOnUpdate();
+    vm.update();
 
     vm.modal = 'metric';
     vm.metricDialog = vm.results.metrics;
@@ -55,7 +55,7 @@ function MetricDashboardController($scope, $location, MetricService, $window) {
          MetricService.getMetrics().then(
             function(data) {
                 console.log(data.metricsDTO);
-                vm.results.metrics = data.metricsDTO;
+                vm.results.metrics= data.metricsDTO;
             },
             function(data) {
                 alert('Error retriving Metrics');
@@ -69,18 +69,32 @@ function MetricDashboardController($scope, $location, MetricService, $window) {
     * @description
     * Get active metrics for a metricator.
     ********************************************************************************/
-    function getMetricsOnUpdate(){
+    function getMetricsByState(state){
 
-         MetricService.getMetricsByStateAndUser('OnUpdate','metricator').then(
+         MetricService.getMetricsByState(state).then(
             function(data) {
-                console.log(data.metricsDTO);
-                vm.results.metricsOnUpdate = data.metricsDTO;
+                console.log('getbystate: '+data.metricsDTO);
+                switch (state){
+                case 'OnUpdate': vm.results.metricsOnUpdate=data.metricsDTO;
+                break;
+                case 'Rejected': vm.results.metricsRejected=data.metricsDTO;
+                break;
+             }
+
             },
             function(data) {
                 alert('Error retriving Metrics');
             }
         );
     };
+
+    function update(){
+      vm.getMetrics();
+      vm.getMetricsByState('OnUpdate');
+      vm.getMetricsByState('Rejected');
+      console.log('ablablab'+vm.results.metrics[0]);
+
+   };
 
 
     /*
