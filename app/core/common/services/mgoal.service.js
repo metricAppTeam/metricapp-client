@@ -6,6 +6,7 @@
 * @module metricapp
 * @requires $http
 * @requires REST_SERVICE
+* @requires AuthService
 *
 * @description
 * Provides measurement goal management services.
@@ -15,9 +16,9 @@ angular.module('metricapp')
 
 .service('MGoalService', MGoalService);
 
-MGoalService.$inject = ['$http', '$q', 'REST_SERVICE', 'DB_MGOALS'];
+MGoalService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_MGOALS'];
 
-function MGoalService($http, $q, REST_SERVICE, DB_MGOALS) {
+function MGoalService($http, $q, REST_SERVICE, AuthService, DB_MGOALS) {
 
     var service = this;
 

@@ -6,8 +6,8 @@
 * @module metricapp
 * @requires $http
 * @requires $cookies
-* @requires UserService
 * @requires REST_SERVICE
+* @requires AuthService
 *
 * @description
 * Provides authentication services.
@@ -17,26 +17,15 @@ angular.module('metricapp')
 
 .service('NotificationService', NotificationService);
 
-NotificationService.$inject = ['$http', '$cookies', '$q', 'REST_SERVICE', 'DB_NOTIFICATIONS'];
+NotificationService.$inject = ['$http', '$cookies', '$q', 'REST_SERVICE', 'AuthService', 'DB_NOTIFICATIONS'];
 
-function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS) {
+function NotificationService($http, $cookies, $q, REST_SERVICE, AuthService, DB_NOTIFICATIONS) {
 
     var service = this;
 
     service.getAll = getAll;
     service.getById = getById;
     service.getNFrom = getNFrom;
-
-    function _getAuthUsername() {
-        var globals = $cookies.getObject('globals');
-        if (globals) {
-            var user = globals.user;
-            if (user) {
-                return user.username;
-            }
-        }
-        return null;
-    }
 
     /********************************************************************************
     * @ngdoc method
@@ -48,17 +37,17 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
-            var username = _getAuthUsername();
-            if (!username) {
+            var authusername = AuthService.getUsername();
+            if (!authusername) {
                 reject({errmsg: 'User not logged'});
             }
             setTimeout(function() {
-                var INBOX = DB_NOTIFICATIONS[username];
+                var INBOX = DB_NOTIFICATIONS[authusername];
                 if (INBOX) {
                     var NOTIFICATIONS = INBOX.notifications;
                     resolve({notifications: NOTIFICATIONS});
                 } else {
-                    reject({errmsg: 'Notifications not found for user ' + username});
+                    reject({errmsg: 'Notifications not found for user ' + authusername});
                 }
             }, 500);
         });
@@ -75,12 +64,12 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
     ********************************************************************************/
     function getById(notificationid) {
         return $q(function(resolve, reject) {
-            var username = _getAuthUsername();
-            if (!username) {
+            var authusername = AuthService.getUsername();
+            if (!authusername) {
                 reject({errmsg: 'User not logged'});
             }
             setTimeout(function() {
-                var INBOX = DB_NOTIFICATIONS[username];
+                var INBOX = DB_NOTIFICATIONS[authusername];
                 if (INBOX) {
                     var NOTIFICATIONS = INBOX.notifications;
                     NOTIFICATIONS.forEach(function(NOTIFICATION) {
@@ -89,9 +78,9 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
                             return;
                         }
                     });
-                    reject({errmsg: 'Notification ' + notificationid + ' not found for user ' + username});
+                    reject({errmsg: 'Notification ' + notificationid + ' not found for user ' + authusername});
                 } else {
-                    reject({errmsg: 'Notifications not found for user ' + username});
+                    reject({errmsg: 'Notifications not found for user ' + authusername});
                 }
             }, 500);
         });
@@ -109,12 +98,12 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
     ***************************************************************************/
     function getNFrom(ntfStart, ntfN) {
         return $q(function(resolve, reject) {
-            var username = _getAuthUsername();
-            if (!username) {
+            var authusername = AuthService.getUsername();
+            if (!authusername) {
                 reject({errmsg: 'User not logged'});
             }
             setTimeout(function() {
-                var INBOX = DB_NOTIFICATIONS[username];
+                var INBOX = DB_NOTIFICATIONS[authusername];
                 if (INBOX) {
                     var news = INBOX.news;
                     var NOTIFICATIONS = INBOX.notifications;
@@ -129,7 +118,7 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, DB_NOTIFICATIONS
                     }
                     resolve({notifications: notifications, news: news, toread: toread});
                 } else {
-                    reject({errmsg: 'Notifications not found for user ' + username});
+                    reject({errmsg: 'Notifications not found for user ' + authusername});
                 }
             }, 500);
         });

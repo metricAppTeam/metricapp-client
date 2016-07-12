@@ -6,6 +6,7 @@
 * @module metricapp
 * @requires $http
 * @requires REST_SERVICE
+* @requires AuthService
 *
 * @description
 * Provides metric management services.
@@ -15,9 +16,9 @@ angular.module('metricapp')
 
 .service('MetricService', MetricService);
 
-MetricService.$inject = ['$http', '$q', 'REST_SERVICE', 'DB_METRICS'];
+MetricService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_METRICS'];
 
-function MetricService($http, $q, REST_SERVICE, DB_METRICS) {
+function MetricService($http, $q, REST_SERVICE, AuthService, DB_METRICS) {
 
     var service = this;
 

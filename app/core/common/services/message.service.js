@@ -8,6 +8,7 @@
 * @requires $cookies
 * @requires $filter
 * @requires REST_SERVICE
+* @requires AuthService
 *
 * @description
 * Provides authentication services.
@@ -17,9 +18,9 @@ angular.module('metricapp')
 
 .service('MessageService', MessageService);
 
-MessageService.$inject = ['$http', '$q', '$cookies', '$filter', 'REST_SERVICE', 'DB_CONVERSATIONS'];
+MessageService.$inject = ['$http', '$q', '$cookies', '$filter', 'REST_SERVICE', 'AuthService', 'DB_CONVERSATIONS'];
 
-function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSATIONS) {
+function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService, DB_CONVERSATIONS) {
 
     var service = this;
 
@@ -28,17 +29,6 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
     service.getNFrom = getNFrom;
 
     service.getLastRecipient = getLastRecipient;
-
-    function _getAuthUsername() {
-        var globals = $cookies.getObject('globals');
-        if (globals) {
-            var user = globals.user;
-            if (user) {
-                return user.username;
-            }
-        }
-        return null;
-    }
 
     /********************************************************************************
     * @ngdoc method
@@ -50,14 +40,14 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
-            var username = _getAuthUsername();
-            if (!username) {
+            var authusername = AuthService.getUsername();
+            if (!authusername) {
                 reject({errmsg: 'User not logged'});
             }
             setTimeout(function() {
                 var conversations = [];
                 var toread = 0;
-                var INBOX = DB_CONVERSATIONS[username];
+                var INBOX = DB_CONVERSATIONS[authusername];
                 if (INBOX) {
                     for (var recipient in INBOX) {
                         var CONVERSATION = INBOX[recipient];
@@ -66,7 +56,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
                     }
                     resolve({conversations: conversations, toread: toread});
                 } else {
-                    reject({errmsg: 'Conversations not found for user ' + username});
+                    reject({errmsg: 'Conversations not found for user ' + authusername});
                 }
             }, 500);
         });
@@ -85,12 +75,12 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
     ********************************************************************************/
     function getById(recipient, nmessages) {
         return $q(function(resolve,reject) {
-            var username = _getAuthUsername();
-            if (!username) {
+            var authusername = AuthService.getUsername();
+            if (!authusername) {
                 reject({errmsg: 'User not logged'});
             }
             setTimeout(function() {
-                var INBOX = DB_CONVERSATIONS[username];
+                var INBOX = DB_CONVERSATIONS[authusername];
                 if (INBOX) {
                     var CONVERSATION = INBOX[recipient];
                     if (CONVERSATION) {
@@ -109,10 +99,10 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
                             resolve({conversation: conversation});
                         }
                     } else {
-                        reject({errmsg: 'Conversation not found for user ' + username + ' with recipient ' + recipient});
+                        reject({errmsg: 'Conversation not found for user ' + authusername + ' with recipient ' + recipient});
                     }
                 } else {
-                    reject({errmsg: 'Conversations not found for user ' + username});
+                    reject({errmsg: 'Conversations not found for user ' + authusername});
                 }
             }, 500);
         });
@@ -130,12 +120,12 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
     ***************************************************************************/
     function getNFrom(cnvStart, cnvN) {
         return $q(function(resolve, reject) {
-            var username = _getAuthUsername();
-            if (!username) {
+            var authusername = AuthService.getUsername();
+            if (!authusername) {
                 reject({errmsg: 'User not logged'});
             }
             setTimeout(function() {
-                var INBOX = DB_CONVERSATIONS[username];
+                var INBOX = DB_CONVERSATIONS[authusername];
                 if (INBOX) {
                     var CONVERSATIONS = [];
                     var toread = 0;
@@ -148,7 +138,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
                     var conversations = S_CONVERSATIONS.slice(cnvStart, cnvN);
                     resolve({conversations: conversations, toread: toread});
                 } else {
-                    reject({errmsg: 'Conversations not found for user ' + username});
+                    reject({errmsg: 'Conversations not found for user ' + authusername});
                 }
             }, 500);
         });
@@ -164,12 +154,12 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
     ***************************************************************************/
     function getLastRecipient() {
         return $q(function(resolve, reject) {
-            var username = _getAuthUsername();
-            if (!username) {
+            var authusername = AuthService.getUsername();
+            if (!authusername) {
                 reject({errmsg: 'User not logged'});
             }
             setTimeout(function() {
-                var INBOX = DB_CONVERSATIONS[username];
+                var INBOX = DB_CONVERSATIONS[authusername];
                 if (INBOX) {
                     var lastRecipient;
                     var ts_update = new Date(0);
@@ -181,7 +171,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, DB_CONVERSAT
                     }
                     resolve({lastRecipient: lastRecipient});
                 } else {
-                    reject({errmsg: 'Conversations not found for user ' + username});
+                    reject({errmsg: 'Conversations not found for user ' + authusername});
                 }
             }, 500);
         });

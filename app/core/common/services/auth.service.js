@@ -31,6 +31,7 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
     service.getUser = getUser;
     service.setUser = setUser;
     service.clearUser = clearUser;
+    service.getUsername = getUsername;
 
     service.editPassword = editPassword;
 
@@ -89,6 +90,79 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
 
     /********************************************************************************
     * @ngdoc method
+    * @name getUser
+    * @description
+    * Retrieves user stored into the cookie.
+    * @returns {User} THe authuser stored into the cookie.
+    ********************************************************************************/
+    function getUser() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name setUser
+    * @description
+    * Stores the current user into a cookie.
+    * @param {User} user Insert description here.
+    * @returns {String} Insert description here.
+    ********************************************************************************/
+    function setUser(authuser) {
+        var authdata = authuser.username + ':' + authuser.password + ':' + authuser.role;
+
+        $rootScope.globals = {
+            user: {}
+        };
+        $rootScope.globals.user = angular.copy(authuser);
+        $rootScope.globals.user.authdata = authdata;
+
+
+
+        $cookies.putObject('globals', $rootScope.globals);
+
+        $http.defaults.headers.common.Authorization = 'Basic ' + authdata;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name clearUser
+    * @description
+    * Removes the user stored ito the cookie.
+    ********************************************************************************/
+    function clearUser() {
+        $rootScope.globals = {};
+        $cookies.remove('globals');
+        $http.defaults.headers.common.Authorization = 'Basic';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getUsername
+    * @description
+    * Retrieves the username of authuser, stored into the cookie.
+    * @returns {String} The username of the authuser, if exists;
+    * null, otherwise.
+    ********************************************************************************/
+    function getUsername() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return user.username;
+            }
+        }
+        return null;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
     * @name editPassword
     * @description
     * Changes the password for authuser and deauthenticates it.
@@ -118,68 +192,6 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
                 }
             }, 500);
         });
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name getUser
-    * @description
-    * Retrieves user stored into the cookie.
-    * @returns {User} THe authuser stored into the cookie.
-    ********************************************************************************/
-    function getUser() {
-        var globals = $cookies.getObject('globals');
-        if (globals) {
-            var user = globals.user;
-            if (user) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name setUser
-    * @description
-    * Stores the current user into a cookie.
-    * @param {User} user Insert description here.
-    * @returns {String} Insert description here.
-    ********************************************************************************/
-    function setUser(authuser) {
-        var authdata = authuser.username + ':' + authuser.password + ':' + authuser.role;
-        /*
-        $rootScope.globals = {
-            user: {
-                username: authuser.username,
-                role: authuser.role,
-                authdata: authdata
-            }
-        };
-        */
-        $rootScope.globals = {
-            user: {}
-        };
-        $rootScope.globals.user = angular.copy(authuser);
-        $rootScope.globals.user.authdata = authdata;
-
-
-
-        $cookies.putObject('globals', $rootScope.globals);
-
-        $http.defaults.headers.common.Authorization = 'Basic ' + authdata;
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name clearUser
-    * @description
-    * Removes the user stored ito the cookie.
-    ********************************************************************************/
-    function clearUser() {
-        $rootScope.globals = {};
-        $cookies.remove('globals');
-        $http.defaults.headers.common.Authorization = 'Basic';
     }
 
 }

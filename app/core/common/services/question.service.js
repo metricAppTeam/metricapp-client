@@ -6,6 +6,7 @@
 * @module metricapp
 * @requires $http
 * @requires REST_SERVICE
+* @requires AuthService
 *
 * @description
 * Provides question management services.
@@ -15,9 +16,9 @@ angular.module('metricapp')
 
 .service('QuestionService', QuestionService);
 
-QuestionService.$inject = ['$http', '$q', 'REST_SERVICE', 'DB_QUESTIONS'];
+QuestionService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_QUESTIONS'];
 
-function QuestionService($http, $q, REST_SERVICE, DB_QUESTIONS) {
+function QuestionService($http, $q, REST_SERVICE, AuthService, DB_QUESTIONS) {
 
     var service = this;
 
