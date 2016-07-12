@@ -23,7 +23,7 @@
                     <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="#">
                         <span class="contacts-title">No conversations yet</span>
                     </a>
-                    <div ng-switch-when="true" style="overflow-y:scroll;" m-when-scroll-bottom="vm.loadMore()">
+                    <div ng-switch-when="true">
                         <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy: '-ts_update' track by conversation.recipient.username"
                         ng-href="#/messages/{{conversation.recipient}}" class="list-group-item list-group-item-message"
                         ng-class="{'active': conversation.recipient.username === vm.currConversation.recipient.username,
@@ -38,6 +38,11 @@
                             </div>
                             <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 30 : 28)}}...</p>
                         </a>
+                        <div class="row">
+                            <div class="col-lg-1 col-centered">
+                                <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                            </div>
+                        </div>
                     </div>
                     <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
                         <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-(</span>

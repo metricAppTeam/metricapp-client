@@ -88,7 +88,7 @@ function routes($routeProvider, $locationProvider) {
     })
 
     // QUESTIONS
-    .when('/mgoals', {
+    .when('/questions', {
         templateUrl: 'dist/views/question/questions.view.html'
     })
     .when('/mgoals/:questionid', {
@@ -101,14 +101,6 @@ function routes($routeProvider, $locationProvider) {
     })
     .when('/metrics/:metricid', {
         templateUrl: 'dist/views/metric/metric.view.html'
-    })
-
-    // TASKS
-    .when('/tasks', {
-        templateUrl: 'dist/views/task/tasks.view.html'
-    })
-    .when('/tasks/:taskid', {
-        templateUrl: 'dist/views/task/task.view.html'
     })
 
     // ERRORS

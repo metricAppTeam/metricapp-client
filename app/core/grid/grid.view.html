@@ -16,7 +16,7 @@
                     <a type="button" role="button" class="btn btn-default"
                     data-toggle="modal" data-target="#modal-update-grid"
                     ng-switch-when="true"
-                    ng-if="globals.user.username == vm.currGrid.expert">Edit</a>
+                    ng-if="globals.user.username == vm.currGrid.expert.username">Edit</a>
                     <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-href="#/grids/{{vm.currGrid.id}}/analytics">View Analytics</a>
                     <ul ng-switch-when="true">
                         <li ng-repeat="(key, value) in vm.currGrid">{{key}} = {{value}}</li>

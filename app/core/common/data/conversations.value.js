@@ -15,11 +15,11 @@ angular.module('metricapp')
 
 .value('DB_CONVERSATIONS', {
 
-    'expert': {
+    'expert-gm': {
 
-        'metricator': {
-            sender: 'expert',
-            recipient: 'metricator',
+        'metricator-ag': {
+            sender: 'expert-gm',
+            recipient: 'metricator-ag',
             ts_update: new Date(2016, 1, 1, 13, 45, 0, 0),
             toread: 2,
             messages: [
@@ -36,9 +36,9 @@ angular.module('metricapp')
             ]
         },
 
-        'questioner': {
-            sender: 'expert',
-            recipient: 'questioner',
+        'questioner-mp': {
+            sender: 'expert-gm',
+            recipient: 'questioner-mp',
             ts_update: new Date(2016, 1, 1, 14, 45, 0, 0),
             toread: 3,
             messages: [
@@ -57,11 +57,11 @@ angular.module('metricapp')
 
     } ,
 
-    'metricator': {
+    'metricator-ag': {
 
-        'expert': {
-            sender: 'metricator',
-            recipient: 'expert',
+        'expert-gm': {
+            sender: 'metricator-ag',
+            recipient: 'expert-gm',
             ts_update: new Date(2016, 1, 1, 13, 45, 0, 0),
             toread: 0,
             messages: [
@@ -76,19 +76,15 @@ angular.module('metricapp')
                 {ts_create: new Date(2016, 1, 1, 13, 40, 0, 0), author: 'metricator',     content: '8.' + LIPSUM},
                 {ts_create: new Date(2016, 1, 1, 13, 45, 0, 0), author: 'metricator',     content: '9.' + LIPSUM}
             ]
-        },
-
-        'questioner': {
-
         }
 
     },
 
-    'questioner': {
+    'questioner-mp': {
 
-        'expert': {
-            sender: 'questioner',
-            recipient: 'expert',
+        'expert-gm': {
+            sender: 'questioner-mp',
+            recipient: 'expert-gm',
             ts_update: new Date(2016, 1, 1, 14, 45, 0, 0),
             toread: 0,
             messages: [
@@ -103,10 +99,6 @@ angular.module('metricapp')
                 {ts_create: new Date(2016, 1, 1, 14, 40, 0, 0), author: 'questioner',     content: '8.' + LIPSUM},
                 {ts_create: new Date(2016, 1, 1, 14, 45, 0, 0), author: 'questioner',     content: '9.' + LIPSUM}
             ]
-        },
-
-        'metricator': {
-
         }
 
     }

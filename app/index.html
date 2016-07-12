@@ -183,7 +183,7 @@
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': notification.read,
                                         'status-unread': !notification.read}"
-                                        ng-href="#/notifications/{{notification.id}}">
+                                        ng-href="#/{{notification.scope}}/{{notification.objectId}}">
                                             <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
                                             <span class="contacts-title">
                                                 {{notification.author.firstname}} {{notification.author.lastname}} /
@@ -203,48 +203,6 @@
                             </div>
                         </li>
                         <!-- END: NOTIFICATIONS -->
-
-                        <!-- START: TASKS -->
-                        <li class="xn-icon-button pull-right" ng-controller="TasksWidgetController as vm">
-                            <a href="#"><span class="fa fa-tasks"></span></a>
-                            <div class="informer informer-warning" ng-show="vm.toread > 0">{{vm.toread}}</div>
-                            <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><span class="fa fa-tasks"></span> Tasks</h3>
-                                    <div class="pull-right">
-                                        <span class="label label-warning" ng-show="vm.toread > 0">{{vm.toread}}</span>
-                                    </div>
-                                </div>
-                                <div class="panel-body list-group scroll" style="max-height: 200px" ng-switch="vm.loading">
-                                    <a ng-switch-when="true" class="list-group-item list-group-item-task" href="#">
-                                        <span class="contacts-title">Loading tasks ...</span>
-                                    </a>
-                                    <div ng-switch-when="false" ng-switch="vm.success">
-                                        <a ng-switch-when="true" ng-show="vm.tasks.length == 0" class="list-group-item list-group-item-task" href="#">
-                                            <span class="contacts-title">No tasks yet</span>
-                                        </a>
-                                        <a ng-switch-when="true" ng-repeat="task in vm.tasks | orderBy: '-ts_update' track by task.id"
-                                        class="list-group-item" ng-href="#/tasks/{{task.id}}">
-                                            <strong>{{task.name}}</strong>
-                                            <div class="progress progress-small">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="{{task.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">{{task.progress}}%</div>
-                                            </div>
-                                            <small class="text-muted">
-                                                {{task.assignee.firstname}} {{task.assignee.lastname}}, {{task.ts_update | datetimeFilter:'ago'}}
-                                            </small>
-                                            <small class="text-success" ng-if="task.progress == 100"> Done</small>
-                                        </a>
-                                        <a ng-switch-when="false" class="list-group-item list-group-item-task" href="#">
-                                            <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="panel-footer text-center">
-                                    <a href="#/tasks">Show all</a>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- END: TASKS -->
                     </ul>
                     <!-- END: X-NAVIGATION VERTICAL -->
                 </div>

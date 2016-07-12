@@ -4,9 +4,11 @@
 * @ngdoc controller
 * @name ChatsWidgetController
 * @module metricapp
+* @requires $scope
 * @requires $location
 * @requires MessageService
 * @requires UserService
+* @requires AUTH_EVENTS
 *
 * @description
 * Realizes the control layer for `chats.widget.view`.
@@ -16,9 +18,9 @@ angular.module('metricapp')
 
 .controller('ChatsWidgetController', ChatsWidgetController);
 
-ChatsWidgetController.$inject = ['$location', 'MessageService', 'UserService'];
+ChatsWidgetController.$inject = ['$scope', '$location', 'MessageService', 'UserService', 'AUTH_EVENTS'];
 
-function ChatsWidgetController($location, MessageService, UserService) {
+function ChatsWidgetController($scope, $location, MessageService, UserService, AUTH_EVENTS) {
 
     var vm = this;
 
@@ -69,7 +71,10 @@ function ChatsWidgetController($location, MessageService, UserService) {
         vm.errmsg = null;
         vm.conversations = [];
         vm.toread = 0;
-        _loadConversations(0, 5);
+        //_loadConversations(0, 5);
+        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
+            _loadConversations(0, 5);
+        });
     }
 
 }

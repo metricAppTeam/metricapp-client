@@ -20,6 +20,7 @@ angular.module('metricapp')
         name: 'Question-201',
         description: LIPSUM,
         expert: 'expert-gm',
+        grid: 1, // grd di appartenenza
         questioner: 'questioner-mp',
         ts_create: new Date(2016, 1, 18, 10, 10, 45, 500),
         ts_update: new Date(2016, 1, 19, 10, 10, 45, 500)
