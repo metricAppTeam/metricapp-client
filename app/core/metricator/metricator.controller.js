@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-12 12:21:28
+* @Last Modified time: 2016-07-12 22:08:38
 */
 (function () { 'use strict';
 
@@ -118,6 +118,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 vm.assumptions = data.assumptions;
                 vm.organizationalGoal = data.organizationalGoal;
                 vm.instanceProject = data.instanceProject;
+
                 $("#modal_large").modal("show");
             },
             function(data) {
