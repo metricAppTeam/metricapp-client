@@ -65,15 +65,22 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
     * Get active measurement goals for a metricator by some field.
     ********************************************************************************/
     function getMeasurementGoalsBy(keyword,field){
-         MeasurementGoalService.getMeasurementGoalsBy(keyword,field).then(
-            function(data) {
-                console.log(data.measurementGoals);
-                vm.measurementGoals = data.measurementGoals;
-            },
-            function(data) {
-                alert('Error retriving Measurement Goals');
-            }
-        );
+
+        if (keyword != null && field != null){
+            MeasurementGoalService.getMeasurementGoalsBy(keyword,field).then(
+                function(data) {
+                    console.log(data.measurementGoals);
+                    vm.measurementGoals = data.measurementGoals;
+                    if(vm.measurementGoals.length === 0)
+                        $window.alert(data.error);
+                },
+                function(data) {
+                    alert('Error retriving Measurement Goals');
+                }
+            );
+        }
+        else
+            $window.alert("You must enter keyword and field");
     }
 
     /********************************************************************************

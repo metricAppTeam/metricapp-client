@@ -17,7 +17,9 @@ angular.module('metricapp',[
     'ngCookies',
     'ngMessages',
     'ngFlash',
-    'ngMockE2E'
+    'ngMockE2E',
+    'nvd3',
+    'angular.morris-chart'
 ]);
 
 })();
@@ -201,10 +203,12 @@ angular.module('metricapp')
 angular.module('metricapp')
 
 .constant('EXPERT_ACTIONS', [
-    {name: 'Profile',   href: '#/profile',   icon: 'user'},
-    {name: 'Grid',      href: '#/grid',      icon: 'codepen'},
-    {name: 'Team',      href: '#/team',      icon: 'users'},
-    {name: 'Settings',  href: '#/settings',  icon: 'cog'}
+    {name: 'Profile',         href: '#/profile',   	      icon: 'user'},
+    {name: 'Grid',      	  href: '#/grid',      	      icon: 'codepen'},
+    {name: 'Graph draft',	  href: '#/graph_draft',	  icon: 'codepen'},
+    {name: 'Profile Pop-Up',  href: '#/profile_pop_up',   icon: 'user'},
+    {name: 'Team',      	  href: '#/team',             icon: 'users'},
+    {name: 'Settings',  	  href: '#/settings',         icon: 'cog'}
 ]);
 
 })();
@@ -229,6 +233,7 @@ angular.module('metricapp')
     {name: 'Dashboard', href: '#/metricator'},
     {name: 'Settings', href: '#/settings'},
     {name: 'Search MG', href: '#/measurementgoalsearch'}
+
 ]);
 
 })();
@@ -484,11 +489,17 @@ function routes($routeProvider, $locationProvider) {
     .when('/profile', {
         templateUrl: 'dist/views/people/profile.view.html'
     })
+    .when('/profile_pop_up', {
+        templateUrl: 'dist/views/people/profile_pop_up.view.html'
+    })
     .when('/settings', {
         templateUrl: 'dist/views/setting/settings.view.html'
     })
     .when('/grid', {
         templateUrl: 'dist/views/graph/grid/grid.view.html'
+    })
+    .when('/graph_draft', {
+        templateUrl: 'dist/views/graph/draft/draft.view.html'
     })
     .when('/team', {
         templateUrl: 'dist/views/team/team.view.html'
@@ -583,9 +594,14 @@ function Error404Interceptor($q, $location) {
 
         responseError: function(response) {            
             if (response.status === 404) {
-                console.log('Error404Interceptor.responseError');
-                $location.path('/404');
-                return $q.reject(response);
+            	if (response.measurementGoals !== null || response.metrics !==null) {
+	                return response;
+            	}
+            	else {
+            		console.log('Error404Interceptor.responseError');
+	                $location.path('/404');
+	                return $q.reject(response);
+            	}
             }
             return $q.reject(response);
         }
@@ -1624,6 +1640,20 @@ function UserService($http, REST_SERVICE) {
   'use strict';
 
   angular.module('metricapp')
+      .directive('viewexpertdashboard', viewexpertdashboard);
+
+  function viewexpertdashboard() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/home/expertdashboard/expertdashboard.view.html'
+    };
+  }
+
+})();
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
       .directive('measurementgoal', metricator);
 
   function metricator() {
@@ -1810,7 +1840,7 @@ function mUnique($http, $q) {
                     }
                 });
                 return deferred.promise;
-            }
+            };
         }
     };
 }
@@ -2302,15 +2332,94 @@ angular.module('metricapp')
 
 HomeController.$inject = [
     '$rootScope', '$scope', '$location',
-    'AuthService', 'ActionService'];
+    'AuthService', 'ActionService','$filter'];
 
-function HomeController($rootScope, $scope, $location, AuthService, ActionService) {
+function HomeController($rootScope, $scope, $location, AuthService, ActionService,$filter) {
 
     var vm = this;
 
     vm.getActionsForRole = getActionsForRole;
+    /******************************************************
+    *
+    *
+    * EXPERT SECTION ON HOME
+    *
+    *
+    *******************************************************/
+
+    //Active and Inactive Users
+    vm.active_questioners = 10;
+    vm.active_metricators = 15;
+    vm.active_experts = 1;
+    vm.inactive_questioners = 3;
+    vm.inactive_metricators = 2;
+    vm.inactive_experts = 0;
+
+    //Active Tasks
+    vm.active_tasks = 10;
+
+    //Active Teams
+    vm.active_teams = 2;
+
+    //Total Users
+    vm.total_active_users = vm.active_questioners + vm.active_metricators + vm.active_experts;
+    vm.total_inactive_users = vm.inactive_experts + vm.inactive_metricators + vm.inactive_questioners;
+    vm.total_users = vm.total_inactive_users + vm.total_active_users;
+
+    //Active Users chart
+    vm.active_users_chart_data = [ 
+        {label: "Metricators", value: vm.active_questioners},
+        {label: "Questioners", value: vm.active_metricators},
+        {label: "Experts",     value: vm.active_experts}
+    ];
+
+    vm.trend_active_users = [
+        { y: "Q2/15", questioners: 19,  metricators: 29 },
+        { y: "Q3/15", questioners: 30,  metricators: 35 },
+        { y: "Q1/16", questioners: 55,  metricators: 45 },
+        { y: "Q2/16", questioners: 78,  metricators: 80 }
+    ];
+
+    vm.teams_productivity_trend = [
+        { y: "01/11", questions: 10, metrics: 12 },
+        { y: "02/16", questions: 8,  metrics: 3 },
+        { y: "03/16", questions: 9,  metrics: 11 },
+        { y: "04/16", questions: 12,  metrics: 12 },
+        { y: "05/16", questions: 14,  metrics: 13 },
+        { y: "06/16", questions: 11,  metrics: 9 },
+        { y: "07/16", questions: 5, metrics: 6 }
+    ]
+
+    
+    vm.projects = [
+        {grid_name: "ISSR Project",status: "active",progress: 30},
+        {grid_name: "ISSR Project2",status: "active",progress: 70}
+    ];
+
+    //Date
+    vm.date = new Date();
+
+
+    /******************************************************
+    *
+    *
+    * QUESTIONER SECTION ON HOME
+    *
+    *
+    *******************************************************/
+
+
+    /******************************************************
+    *
+    *
+    * METRICATOR SECTION ON HOME
+    *
+    *
+    *******************************************************/
 
     _init();
+
+
 
     /********************************************************************************
     * @ngdoc method
@@ -2752,15 +2861,22 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
     * Get active measurement goals for a metricator by some field.
     ********************************************************************************/
     function getMeasurementGoalsBy(keyword,field){
-         MeasurementGoalService.getMeasurementGoalsBy(keyword,field).then(
-            function(data) {
-                console.log(data.measurementGoals);
-                vm.measurementGoals = data.measurementGoals;
-            },
-            function(data) {
-                alert('Error retriving Measurement Goals');
-            }
-        );
+
+        if (keyword != null && field != null){
+            MeasurementGoalService.getMeasurementGoalsBy(keyword,field).then(
+                function(data) {
+                    console.log(data.measurementGoals);
+                    vm.measurementGoals = data.measurementGoals;
+                    if(vm.measurementGoals.length === 0)
+                        $window.alert(data.error);
+                },
+                function(data) {
+                    alert('Error retriving Measurement Goals');
+                }
+            );
+        }
+        else
+            $window.alert("You must enter keyword and field");
     }
 
     /********************************************************************************
@@ -3291,6 +3407,9 @@ function ProfileController($scope, $location, ProfileService, FlashService, GEND
 
     vm.firstname = 'Maria';
     vm.lastname = 'Bianchi';
+    vm.username = 'maria_bianchi';
+    vm.password = 'password';
+    vm.password_r = 'password';
     vm.email = 'mariabianchi@gmail.com';
     vm.phone = '+39 38376 6284';
     vm.role = 'Metricator';
@@ -3424,6 +3543,105 @@ function TeamController($scope, $location, AuthService) {
 
     var vm = this;
 
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name DraftController
+* @module metricapp
+* @requires $scope
+*
+* @description
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('DraftController', DraftController);
+
+DraftController.$inject = ['$scope', '$location', 'ProfileService','FlashService', 'GENDERS'];
+
+function DraftController($scope, $location, ProfileService, FlashService, GENDERS) 
+{
+
+    var vm = this;
+
+    var color = d3.scale.category20();
+
+    vm.options = {
+        chart: {
+            type: 'forceDirectedGraph',
+            height: 300,
+            radius: 10,
+            linkStrength: 0.1,
+            width: (function(){ return nv.utils.windowSize().width })(),
+            margin:{top: 10, right: 10, bottom: 10, left: 10},
+            color: function(d){
+                return color(d.group)
+            },
+            nodeExtras: function(node) {
+                node && node
+                  .append("text")
+                  .attr("dx", 15)
+                  .attr("dy", ".60em")
+                  .text(function(d) { return d.name })
+                  .style('font-size', '15px');
+            }
+        }
+    };
+    
+    vm.data = {
+        "nodes":[
+            {"name":"Adaadasdasdsadsads","group":1},
+            {"name":"B","group":2,"civico":19},
+            {"name":"C","group":3},
+            {"name":"D","group":4},
+            {"name":"E","group":5},
+            {"name":"F","group":6},
+            {"name":"G","group":7}
+        ],
+        "links":[
+            {"source":1,"target":0,"value":1},
+            {"source":1,"target":0,"value":2},
+            {"source":1,"target":0,"value":3},
+            {"source":3,"target":0,"value":4},
+            {"source":4,"target":0,"value":5},
+            {"source":5,"target":0,"value":6},
+        ]
+    };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @returns {type} Insert here return description.
+    ********************************************************************************/
+    function foo(a, b, c) {
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name _foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @return {type} Insert here return description.
+    ********************************************************************************/
+    function _foo(a, b, c) {
+
+    }
 }
 
 })();
