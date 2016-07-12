@@ -49,8 +49,8 @@ function routes($routeProvider, $locationProvider) {
     .when('/team', {
         templateUrl: 'dist/views/team/team.view.html'
     })
-    .when('/metric', {
-        templateUrl: 'dist/views/metricator/metric.view.html'
+    .when('/metricDashboard', {
+        templateUrl: 'dist/views/metricator/metricDashboard.view.html'
     })
     .when('/401', {
         templateUrl: 'dist/views/error/error401.view.html'

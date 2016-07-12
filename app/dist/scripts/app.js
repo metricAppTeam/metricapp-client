@@ -228,7 +228,7 @@ angular.module('metricapp')
 
     {name: 'Profile', 				href: '#/profile',				icon: 'user'   },
     {name: 'Dashboard', 			href: '#/metricator'						         },
-    {name: 'Metrics', 				href: '#/metric'							         },
+    {name: 'Metrics', 				href: '#/metricDashboard'							         },
     {name: 'Search MG', 			href: '#/measurementgoalsearch'			     	},
     {name: 'Settings', 				href: '#/settings', 			    icon: 'cog'  	}
 ]);
@@ -495,8 +495,8 @@ function routes($routeProvider, $locationProvider) {
     .when('/team', {
         templateUrl: 'dist/views/team/team.view.html'
     })
-    .when('/metric', {
-        templateUrl: 'dist/views/metricator/metric.view.html'
+    .when('/metricDashboard', {
+        templateUrl: 'dist/views/metricator/metricDashboard.view.html'
     })
     .when('/401', {
         templateUrl: 'dist/views/error/error401.view.html'
@@ -1236,10 +1236,10 @@ angular.module('metricapp')
 //MetricatorService.$inject = [
 //    '$http', '$rootScope', '$cookies', '$window'];
 
-MetricService.$inject = ['$http', '$window'];
+MetricService.$inject = ['$http', '$window', 'AuthService'];
 
 //function MetricatorService($http, $rootScope, $cookies, $window) {
-function MetricService($http, $window) {
+function MetricService($http, $window, AuthService) {
 
     var service = this;
 
@@ -1247,6 +1247,7 @@ function MetricService($http, $window) {
     service.getApprovedMetrics = getApprovedMetrics;
     service.getMetricsById = getMetricsById;
     service.getMetricsByStateAndUser = getMetricsByStateAndUser;
+    service.getMetricsByUser = getMetricsByUser;
 
     /********************************************************************************
     * @ngdoc method
@@ -1257,7 +1258,7 @@ function MetricService($http, $window) {
 
     function getMetrics() {
 
-        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid=metricator').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+AuthService.getUser().username).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -1274,11 +1275,39 @@ function MetricService($http, $window) {
 
     }
 
+
+        /********************************************************************************
+        * @ngdoc method
+        * @name getMetrics
+        * @description
+        * Get Metric by user.
+        ********************************************************************************/
+
+        function getMetricsByUser(username) {
+
+            return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+username).then(
+                function(response) {
+                    var message = angular.fromJson(response.data);
+                    console.log('SUCCESS GET METRICS');
+                    console.log(message);
+                    return message;
+                },
+                function(response) {
+                    var message = angular.fromJson(response.data);
+                    console.log('FAILURE GET METRICS');
+                    console.log(message);
+                    return message;
+                }
+            );
+
+        }
+
+
     /********************************************************************************
     * @ngdoc method
     * @name getMetrics
     * @description
-    * Get Metric by user.
+    * Get Metric by id
     ********************************************************************************/
 
     function getMetricsById(metricId) {
@@ -1328,7 +1357,7 @@ function MetricService($http, $window) {
 
     function getMetricsByStateAndUser(state,user) {
 
-        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?id='+user+'&state='+state).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+user+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS BY State and User VERSION');
@@ -1630,12 +1659,12 @@ function UserService($http, REST_SERVICE) {
   'use strict';
 
   angular.module('metricapp')
-      .directive('metric', metricator);
+      .directive('metricDashboard', metricDashboard);
 
-  function metricator() {
+  function metricDashboard() {
     return {
       restrict: 'E',
-      templateUrl: 'dist/views/metricator/metric.view.html'
+      templateUrl: 'dist/views/metricator/metricDashboard.view.html'
     };
   }
 
@@ -1724,6 +1753,40 @@ function UserService($http, REST_SERVICE) {
   }
 
 })();
+(function () { 'use strict';
+
+angular.module('metricapp')
+
+.directive('sidebar', sidebar);
+
+function sidebar() {
+    return {
+      restrict: 'E',
+      scope: false,
+      controller: 'SidebarController as vm',
+      templateUrl: 'dist/views/navigation/sidebar/sidebar.view.html'
+    };
+}
+
+})();
+
+(function () { 'use strict';
+
+angular.module('metricapp')
+
+.directive('topbar', topbar);
+
+function topbar() {
+    return {
+      restrict: 'E',
+      scope: false,
+      controller: 'TopbarController as vm',
+      templateUrl: 'dist/views/navigation/topbar/topbar.view.html'
+    };
+}
+
+})();
+
 (function() { 'use strict';
 
 /************************************************************************************
@@ -1804,40 +1867,6 @@ function mUnique($http, $q) {
                 return deferred.promise;
             }
         }
-    };
-}
-
-})();
-
-(function () { 'use strict';
-
-angular.module('metricapp')
-
-.directive('sidebar', sidebar);
-
-function sidebar() {
-    return {
-      restrict: 'E',
-      scope: false,
-      controller: 'SidebarController as vm',
-      templateUrl: 'dist/views/navigation/sidebar/sidebar.view.html'
-    };
-}
-
-})();
-
-(function () { 'use strict';
-
-angular.module('metricapp')
-
-.directive('topbar', topbar);
-
-function topbar() {
-    return {
-      restrict: 'E',
-      scope: false,
-      controller: 'TopbarController as vm',
-      templateUrl: 'dist/views/navigation/topbar/topbar.view.html'
     };
 }
 
@@ -2726,24 +2755,28 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 
 angular.module('metricapp')
 
-.controller('MetricController', MetricController);
+.controller('MetricDashboardController', MetricDashboardController);
 
-MetricController.$inject = ['$scope', '$location','MetricService','$window'];
+MetricDashboardController.$inject = ['$scope', '$location','MetricService','$window'];
 
-function MetricController($scope, $location, MetricService, $window) {
-
+function MetricDashboardController($scope, $location, MetricService, $window) {
     var vm = this;
     vm.results = {
         metrics : [],
-        metricsOnUpdate : []
+        metricsOnUpdate : [],
+        metricsRejected : []
     };
+    vm.resultsName = [
+      'All My Metrics',
+      'Metrics OnUpdate',
+      'Rejected Metrics'
+   ]
 
     vm.getMetrics = getMetrics;
     vm.getMetricsOnUpdate = getMetricsOnUpdate;
     vm.goToUpdateMetric = goToUpdateMetric;
+    vm.setMetricDialog = setMetricDialog;
 
-
-    console.log('prova');
     vm.getMetrics();
     vm.getMetricsOnUpdate();
 
@@ -2810,6 +2843,23 @@ function MetricController($scope, $location, MetricService, $window) {
 
     };
 
+
+    function setMetricDialog(modalId,metricToAssignId){
+      switch (modalId) {
+          case 0:
+             vm.metricDialog = vm.results.metrics[metricToAssignId];
+             break;
+          case 1:
+             vm.metricDialog = vm.results.metricsOnUpdate[metricToAssignId];
+             break;
+          case 2:
+             vm.metricDialog = vm.results.metricsRejected[metricToAssignId];
+             break;
+          default:
+             vm.metricDialog = vm.results.metrics[measurementGoalToAssignId];
+             break;
+      }
+   };
     /*
     function getMeasurementGoals() {
 

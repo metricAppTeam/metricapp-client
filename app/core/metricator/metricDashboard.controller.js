@@ -13,24 +13,28 @@
 
 angular.module('metricapp')
 
-.controller('MetricController', MetricController);
+.controller('MetricDashboardController', MetricDashboardController);
 
-MetricController.$inject = ['$scope', '$location','MetricService','$window'];
+MetricDashboardController.$inject = ['$scope', '$location','MetricService','$window'];
 
-function MetricController($scope, $location, MetricService, $window) {
-
+function MetricDashboardController($scope, $location, MetricService, $window) {
     var vm = this;
     vm.results = {
         metrics : [],
-        metricsOnUpdate : []
+        metricsOnUpdate : [],
+        metricsRejected : []
     };
+    vm.resultsName = [
+      'All My Metrics',
+      'Metrics OnUpdate',
+      'Rejected Metrics'
+   ]
 
     vm.getMetrics = getMetrics;
     vm.getMetricsOnUpdate = getMetricsOnUpdate;
     vm.goToUpdateMetric = goToUpdateMetric;
+    vm.setMetricDialog = setMetricDialog;
 
-
-    console.log('prova');
     vm.getMetrics();
     vm.getMetricsOnUpdate();
 
@@ -97,6 +101,23 @@ function MetricController($scope, $location, MetricService, $window) {
 
     };
 
+
+    function setMetricDialog(modalId,metricToAssignId){
+      switch (modalId) {
+          case 0:
+             vm.metricDialog = vm.results.metrics[metricToAssignId];
+             break;
+          case 1:
+             vm.metricDialog = vm.results.metricsOnUpdate[metricToAssignId];
+             break;
+          case 2:
+             vm.metricDialog = vm.results.metricsRejected[metricToAssignId];
+             break;
+          default:
+             vm.metricDialog = vm.results.metrics[measurementGoalToAssignId];
+             break;
+      }
+   };
     /*
     function getMeasurementGoals() {
 

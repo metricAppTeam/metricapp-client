@@ -17,7 +17,7 @@ angular.module('metricapp')
 
     {name: 'Profile', 				href: '#/profile',				icon: 'user'   },
     {name: 'Dashboard', 			href: '#/metricator'						         },
-    {name: 'Metrics', 				href: '#/metric'							         },
+    {name: 'Metrics', 				href: '#/metricDashboard'							         },
     {name: 'Search MG', 			href: '#/measurementgoalsearch'			     	},
     {name: 'Settings', 				href: '#/settings', 			    icon: 'cog'  	}
 ]);

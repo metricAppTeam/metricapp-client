@@ -25,10 +25,10 @@ angular.module('metricapp')
 //MetricatorService.$inject = [
 //    '$http', '$rootScope', '$cookies', '$window'];
 
-MetricService.$inject = ['$http', '$window'];
+MetricService.$inject = ['$http', '$window', 'AuthService'];
 
 //function MetricatorService($http, $rootScope, $cookies, $window) {
-function MetricService($http, $window) {
+function MetricService($http, $window, AuthService) {
 
     var service = this;
 
@@ -36,6 +36,7 @@ function MetricService($http, $window) {
     service.getApprovedMetrics = getApprovedMetrics;
     service.getMetricsById = getMetricsById;
     service.getMetricsByStateAndUser = getMetricsByStateAndUser;
+    service.getMetricsByUser = getMetricsByUser;
 
     /********************************************************************************
     * @ngdoc method
@@ -46,7 +47,7 @@ function MetricService($http, $window) {
 
     function getMetrics() {
 
-        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid=metricator').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+AuthService.getUser().username).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -63,11 +64,39 @@ function MetricService($http, $window) {
 
     }
 
+
+        /********************************************************************************
+        * @ngdoc method
+        * @name getMetrics
+        * @description
+        * Get Metric by user.
+        ********************************************************************************/
+
+        function getMetricsByUser(username) {
+
+            return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+username).then(
+                function(response) {
+                    var message = angular.fromJson(response.data);
+                    console.log('SUCCESS GET METRICS');
+                    console.log(message);
+                    return message;
+                },
+                function(response) {
+                    var message = angular.fromJson(response.data);
+                    console.log('FAILURE GET METRICS');
+                    console.log(message);
+                    return message;
+                }
+            );
+
+        }
+
+
     /********************************************************************************
     * @ngdoc method
     * @name getMetrics
     * @description
-    * Get Metric by user.
+    * Get Metric by id
     ********************************************************************************/
 
     function getMetricsById(metricId) {
