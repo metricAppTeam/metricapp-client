@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-07 22:46:59
+* @Last Modified time: 2016-07-12 12:21:28
 */
 (function () { 'use strict';
 
@@ -30,15 +30,21 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     vm.getMeasurementGoals = getMeasurementGoals;
     vm.getMetrics = getMetrics;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
+    vm.getMeasurementGoalExternals = getMeasurementGoalExternals;
 
-    vm.results = {
-        measurementGoals : [],
-        metrics : [],
-        questions : []
-    };
-
-    vm.measurementGoalDialog = null;
-    vm.metricDialog = null;
+    //vm.results = {
+    //    measurementGoals : [],
+    //    metrics : [],
+    //    questions : []
+    //};
+    vm.measurementGoals = [];
+    vm.metrics = [];
+    vm.contextFactors = [];
+    vm.assumptions = [];
+    vm.organizationalGoal = {};
+    vm.instanceProject = {};
+    vm.measurementGoalDialog = {};
+    //vm.metricDialog = null;
 
     vm.modal = "";
 
@@ -54,7 +60,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
 
     vm.getMeasurementGoals();
-    vm.getMetrics();
+    //vm.getMetrics();
     _init();
 
     /********************************************************************************
@@ -69,7 +75,8 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
          MeasurementGoalService.getMeasurementGoals().then(
             function(data) {
                 console.log(data.measurementGoals);
-                vm.results.measurementGoals = data.measurementGoals;
+                //vm.results.measurementGoals = data.measurementGoals;
+                vm.measurementGoals = data.measurementGoals;
             },
             function(data) {
                 alert('Error retriving Measurement Goals');
@@ -95,6 +102,30 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         );
     };
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMeasurementGoalExternals
+    * @description
+    * Get measurement goals externals.
+    ********************************************************************************/
+    function getMeasurementGoalExternals(externalId){
+         MeasurementGoalService.getMeasurementGoalExternals(externalId).then(
+            function(data) {
+                //console.log(data.measurementGoals);
+                //TODO add check if variable is undefined
+                vm.metrics = data.metrics;
+                vm.contextFactors = data.contextFactors;
+                vm.assumptions = data.assumptions;
+                vm.organizationalGoal = data.organizationalGoal;
+                vm.instanceProject = data.instanceProject;
+                $("#modal_large").modal("show");
+            },
+            function(data) {
+                alert('Error retriving Metrics');
+            }
+        );
+    };
+
     /*
     function setMeasurementGoalDialog(measurementGoalToAssign){
         vm.measurementGoalDialog.name = measurementGoalToAssign.name;
@@ -104,7 +135,12 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         vm.measurementGoalDialog.focus = measurementGoalToAssign.focus;
     };*/
 
-    function setMeasurementGoalDialog(modalId,measurementGoalToAssignId){
+
+
+
+
+    /*function setMeasurementGoalDialog(modalId,measurementGoalToAssignId){
+>>>>>>> 969a90ef06ae9c9616fd28feb6d68b4d7d180c78
         switch (modalId) {
             case 0:
                 //$('#modal_button').attr('data-target','#modal_measurementGoal');
@@ -126,10 +162,31 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 vm.measurementGoalDialog = vm.results.measurementGoals[measurementGoalToAssignId];
                 break;
         }
+    };*/
+
+    function setMeasurementGoalDialog(measurementGoalToAssignId){
+        vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
+        getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
+        //var goalid = $routeParams.goalid;
+        //vm.currMGoal = {
+        //    id: goalid;
+        //}
+        //;
+        //_loadMGoal(vm.currMGoal.id);
     };
 
     function goToUpdateMeasurementGoal(){
-        MeasurementGoalService.toUpdateMeasurementGoal(vm.measurementGoalDialog);
+
+        var toUpdate = {
+            measurementGoal : vm.measurementGoalDialog,
+            metrics : vm.metrics,
+            contextFactors : vm.contextFactors,
+            assumptions : vm.assumptions,
+            organizationalGoal : vm.organizationalGoal,
+            instanceProject : vm.instanceProject
+        };
+
+        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
         console.log("Going to Update Measurement Goal");
         $location.path('/measurementgoal');
         console.log($location.path('/measurementgoal'));

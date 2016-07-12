@@ -18,7 +18,9 @@ angular.module('metricapp',[
     'ngMessages',
     'ngFlash',
     'ngMockE2E',
-    'smart-table'
+    'smart-table',
+    'nvd3',
+    'angular.morris-chart'
 ]);
 
 })();

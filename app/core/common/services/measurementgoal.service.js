@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-10 22:41:13
+* @Last Modified time: 2016-07-11 21:32:56
 */
 (function() { 'use strict';
 
@@ -36,6 +36,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     service.toUpdateMeasurementGoal = toUpdateMeasurementGoal;
     service.getUpdateMeasurementGoal = getUpdateMeasurementGoal;
     service.getOrganizationalGoalById = getOrganizationalGoalById;
+    service.getMeasurementGoalExternals = getMeasurementGoalExternals;
 
     /********************************************************************************
     * @ngdoc method
@@ -73,15 +74,22 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         	metadata: metadata};*/
 
 
+
         $window.alert(JSON.stringify(submit));
+
+
+        console.log(JSON.stringify(measurementGoal));
+
+        //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
 
 
         return $http.post('http://localhost:8080/metricapp-server/measurementgoal/', submit).then(
             function(response) {
-                var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
+                //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
+                var message = response.data;
                 return message;
             },
             function(response) {
@@ -105,6 +113,32 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
 
         return $http.get('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMeasurementGoalExternals
+    * @description
+    * Get measurement goal externals.
+    ********************************************************************************/
+
+    function getMeasurementGoalExternals(measurementGoalId) {
+
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');

@@ -20,6 +20,7 @@ angular.module('metricapp')
     {name: 'Metrics', 				href: '#/metricDashboard'							         },
     {name: 'Search MG', 			href: '#/measurementgoalsearch'			     	},
     {name: 'Settings', 				href: '#/settings', 			    icon: 'cog'  	}
+
 ]);
 
 })();

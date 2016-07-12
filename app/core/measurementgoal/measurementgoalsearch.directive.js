@@ -7,7 +7,7 @@
   function metricator() {
     return {
       restrict: 'E',
-      templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
+      templateUrl: 'dist/views/measurementgoal/measurementgoalsearch.view.html'
     };
   }
 

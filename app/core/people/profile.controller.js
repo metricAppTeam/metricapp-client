@@ -38,6 +38,9 @@ function ProfileController($scope, $location, ProfileService, FlashService, GEND
 
     vm.firstname = 'Maria';
     vm.lastname = 'Bianchi';
+    vm.username = 'maria_bianchi';
+    vm.password = 'password';
+    vm.password_r = 'password';
     vm.email = 'mariabianchi@gmail.com';
     vm.phone = '+39 38376 6284';
     vm.role = 'Metricator';
