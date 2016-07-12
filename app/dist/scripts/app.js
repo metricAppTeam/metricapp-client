@@ -2707,11 +2707,6 @@ MeasurementGoalSearchController.$inject = ['$scope', '$location','MetricService'
 function MeasurementGoalSearchController($scope, $location, MetricService, MeasurementGoalService, $window) {
 
     var vm = this;
-
-    vm.getMeasurementGoals = getMeasurementGoals;
-    vm.getMetrics = getMetrics;
-    vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
-    vm.getMeasurementGoalExternals = getMeasurementGoalExternals;
     vm.measurementGoals = [];
     vm.metrics = [];
     vm.contextFactors = [];
@@ -2720,7 +2715,13 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
     vm.instanceProject = {};
     vm.measurementGoalDialog = {};
     vm.modal = "";
+    
+    vm.getMeasurementGoals = getMeasurementGoals;
+    vm.getMetrics = getMetrics;
+    vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
+    vm.getMeasurementGoalExternals = getMeasurementGoalExternals;
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
+    vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
     
     _init();
 

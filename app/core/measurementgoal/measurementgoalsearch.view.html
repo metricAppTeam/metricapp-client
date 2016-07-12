@@ -16,20 +16,26 @@
                 <div class="form-group">
                     <div class="col-md-4">                                    
                         <label class="check">
-                            <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="focus" /> 
-                            Focus
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="qualityFocus" /> 
+                            QualityFocus
                         </label>
                     </div>
                     <div class="col-md-4">                                    
                         <label class="check">
-                            <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="subject" /> 
-                            Subject
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="object" /> 
+                            Object
                         </label>
                     </div>
                     <div class="col-md-4">                                    
                         <label class="check">
-                            <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="creatorId" /> 
-                            Metricator
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="purpose" /> 
+                            Purpose
+                        </label>
+                    </div>
+                    <div class="col-md-4">                                    
+                        <label class="check">
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="viewPoint" /> 
+                            ViewPoint
                         </label>
                     </div>
                     <div class="col-md-4">                                    
@@ -41,7 +47,7 @@
                 </div>
             </div>  
             <div class="panel-footer">
-                <button ng-click="vm.getMeasurementGoalBy(vm.keyword, vm.field)" class="btn btn-primary pull-right">Search</button>
+                <button ng-click="vm.getMeasurementGoalsBy(vm.keyword, vm.field)" class="btn btn-primary pull-right">Search</button>
             </div>
             <div class="panel-body">
                 <table class="table datatable">
