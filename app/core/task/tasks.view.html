@@ -14,7 +14,7 @@
                     <div class="panel-body">
                         <form name="searchForm" class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <span class="fa fa-search"></span>
@@ -29,6 +29,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-success btn-block" data-toggle="modal" data-target="#modal-create-task"
+                                    ng-if="globals.user.role == vm.ROLES.EXPERT"><span class="fa fa-plus"></span> Add task</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -41,7 +45,7 @@
                 <p ng-switch-when="true">Loading tasks ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.buffer.length == 0">No tasks yet.</p>
-                    <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
+                    <div ng-switch-when="true">
                         <ul>
                             <li ng-repeat="task in vm.tasks | filter:vm.query | orderBy:vm.orderBy track by task.id">
                                 <a ng-href="#/tasks/{{task.id}}">{{task.name}}</a>
@@ -50,11 +54,20 @@
                                 <ul>
                             </li>
                         </ul>
+                        <div class="row">
+                            <div class="col-lg-1 col-centered">
+                                <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                            </div>
+                        </div>
                     </div>
-                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+<!-- START: MODAL CREATE TASK -->
+<div ng-include="'dist/views/task/create-task.modal.view.html'"></div>
+<!-- END: MODAL CREATE TASK -->
 <!-- END: TASKS -->
