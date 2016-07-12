@@ -40,8 +40,8 @@
                 <div ng-switch-when="true" ng-if="vm.numusers == 0" class="col-md-12">
                     <p>No contacts yet</p>
                 </div>
-                <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
-                    <div class="col-md-3" ng-repeat="user in vm.users | filter:vm.query | orderBy:vm.orderBy track by user.username">
+                <div ng-switch-when="true">
+                    <div class="col-md-3" ng-repeat="user in vm.users | userFilterByName:vm.query | orderBy:vm.orderBy track by user.username">
                         <div class="panel panel-default">
                             <div class="panel-body profile">
                                 <div class="profile-image">
@@ -62,6 +62,11 @@
                                     <p><small>Email</small><br/>{{user.email}}</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-centered">
+                            <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
                         </div>
                     </div>
                 </div>

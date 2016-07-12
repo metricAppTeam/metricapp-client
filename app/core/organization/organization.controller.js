@@ -66,7 +66,7 @@ function OrganizationController($scope, $location, $filter, UserService) {
         vm.buffer = [];
         vm.users = [];
         vm.idx = 0;
-        vm.step = 10;
+        vm.step = 4;
         vm.query = '';
         vm.orderBy = 'firstname';
         _loadAllUsers();
