@@ -5,6 +5,7 @@
 * @name GridController
 * @module metricapp
 * @requires $scope
+* @requires $rootScope
 * @requires $location
 * @requires $routeParams
 * @requires $q
@@ -13,6 +14,8 @@
 * @requires QuestionService
 * @requires MetricService
 * @requires UserService
+* @requires ROLES
+* @requires GRID_EVENTS
 *
 * @description
 * Realizes the control layer for `grid.view`.
@@ -22,20 +25,47 @@ angular.module('metricapp')
 
 .controller('GridController', GridController);
 
-GridController.$inject = ['$scope', '$location', '$routeParams', '$q',
-'GridService', 'MGoalService', 'QuestionService', 'MetricService', 'UserService'];
+GridController.$inject = ['$scope', '$rootScope', '$location', '$routeParams', '$q',
+'GridService', 'MGoalService', 'QuestionService', 'MetricService', 'UserService', 'ROLES', 'GRID_EVENTS'];
 
-function GridController($scope, $location, $routeParams, $q,
-    GridService, MGoalService, QuestionService, MetricService, UserService) {
+function GridController($scope, $rootScope, $location, $routeParams, $q,
+    GridService, MGoalService, QuestionService, MetricService, UserService, ROLES, GRID_EVENTS) {
 
     var vm = this;
 
     vm.updateGrid = updateGrid;
+    vm.removeMember = removeMember;
 
     _init();
 
     function updateGrid(grid) {
+        vm.loading = true;
+        vm.success = false;
+        GridService.update(grid).then(
+            function(resolve) {
+                vm.currGrid = angular.copy(resolve.grid);
+                var gridid = resolve.grid.gridid;
+                vm.success = true;
+                $location.path('/grids/' + gridid);
+                $rootScope.$broadcast(GRID_EVENTS.UPDATE_SUCCESS);
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+                $rootScope.$broadcast(GRID_EVENTS.UPDATE_FAILURE);
+            }
+        )
+        .finally(function(){
+            vm.loading = false;
+        });
+    }
 
+    function removeMember(username, role) {
+        if (role === ROLES.QUESTIONER) {
+            delete vm.updtGrid.questioners[username];
+        } else if (role === ROLES.METRICATOR) {
+            delete vm.updtGrid.metricator[username];
+        }
     }
 
     function _loadGrid(gridid) {
@@ -60,7 +90,7 @@ function GridController($scope, $location, $routeParams, $q,
                         vm.currGrid.mgoals=angular.copy(resolve.mgoals.mgoals);
                         vm.currGrid.questions=angular.copy(resolve.questions.questions);
                         vm.currGrid.metrics=angular.copy(resolve.metrics.metrics);
-                        vm.updGrid = angular.copy(vm.currGrid);
+                        vm.updtGrid = angular.copy(vm.currGrid);
                         vm.success=true;
                     },
                     function(reject){

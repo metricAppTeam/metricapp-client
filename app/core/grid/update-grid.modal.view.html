@@ -7,42 +7,93 @@
                 <h4 class="modal-title" id="defModalHead">Edit Grid</h4>
             </div>
             <div class="modal-body">
-                <!-- FORM: UPDATE GRID -->
-                <form name="updateGridForm" role="form" class="form-horizontal" novalidate="novalidate">
-                    <!-- FORM FIELD: NAME -->
-                    <div class="form-group" ng-class="{ 'hash-error': updateGridForm.name.$dirty && updateGridForm.name.$invalid }">
-                        <label class="col-md-3 control-label">Name:</label>
-                        <div class="col-md-9">
-                            <input class="form-control" name="name" type="text" role="textbox" placeholder="Name" required="required"
-                            ng-model="vm.updGrid.name"
-                            ng-model-options="{ updateOn: 'default' }"
-                            ng-class="{ 'error': updateGridForm.name.$dirty && updateGridForm.name.$invalid }"
-                            ng-minlength="3" ng-maxlength="20"/>
-                            <div class="form-group-helper" role="alert" ng-messages="updateGridForm.name.$error" ng-show="updateGridForm.name.$dirty">
-                                <div ng-messages-include="dist/views/grid/messages/update-grid.message.html"></div>
+                <div class="row">
+                    <!-- FORM: UPDATE GRID -->
+                    <form name="updateGridForm" role="form" class="form-horizontal" novalidate="novalidate">
+                        <!-- FORM FIELD: NAME -->
+                        <div class="form-group" ng-class="{ 'hash-error': updateGridForm.name.$dirty && updateGridForm.name.$invalid }">
+                            <label class="col-md-3 control-label">Name:</label>
+                            <div class="col-md-9">
+                                <input class="form-control" name="name" type="text" role="textbox" placeholder="Name" required="required"
+                                ng-model="vm.updGrid.name"
+                                ng-model-options="{ updateOn: 'default' }"
+                                ng-class="{ 'error': updateGridForm.name.$dirty && updateGridForm.name.$invalid }"
+                                ng-minlength="3" ng-maxlength="20"/>
+                                <div class="form-group-helper" role="alert" ng-messages="updateGridForm.name.$error" ng-show="updateGridForm.name.$dirty">
+                                    <div ng-messages-include="dist/views/grid/messages/update-grid.message.html"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FORM FIELD: DESCRIPTION -->
+                        <div class="form-group" ng-class="{ 'hash-error': updateGridForm.description.$dirty && updateGridForm.description.$invalid }">
+                            <label class="col-md-3 control-label">Description:</label>
+                            <div class="col-md-9">
+                                <input class="form-control" name="description" type="text" role="textbox" placeholder="Description" required="required"
+                                ng-model="vm.updtGrid.description"
+                                ng-model-options="{ updateOn: 'default' }"
+                                ng-class="{ 'error': updateGridForm.description.$dirty && updateGridForm.description.$invalid }"
+                                ng-minlength="3" ng-maxlength="300"/>
+                                <div class="form-group-helper" role="alert" ng-messages="updateGridForm.description.$error" ng-show="updateGridForm.description.$dirty">
+                                    <div ng-messages-include="dist/views/grid/messages/update-grid.message.html"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <!-- START VERTICAL TABS WITH HEADING -->
+                    <div class="panel panel-default nav-tabs-vertical">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Team</h3>
+                            <ul class="panel-controls">
+                                <li><a href="#"><span class="fa fa-plus"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab-questioners" data-toggle="tab">Questioners</a></li>
+                                <li><a href="#tab-metricators" data-toggle="tab">Metricators</a></li>
+                            </ul>
+                            <div class="panel-body tab-content">
+                                <div class="tab-pane active" id="tab-questioners">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body list-group list-group-contacts">
+                                            <a href="#" class="list-group-item" ng-repeat="questioner in vm.updtGrid.questioners track by questioner.username">
+                                                <img ng-src="{{questioner.picture}}" m-fallback-src="dist/images/users/user-picture.svg" alt="{{questioner.username}}" class="pull-left"/>
+                                                <span class="contacts-title">{{questioner.firstname}} {{questioner.lastname}}</span>
+                                                <div class="list-group-controls">
+                                                    <button class="btn btn-primary btn-rounded" ng-click="vm.removeMember({{questioner.username}},{{questioner.role}})"><span class="fa fa-pencil"></span></button>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab-metricators">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body list-group list-group-contacts">
+                                            <a href="#" class="list-group-item" ng-repeat="metricator in vm.updtGrid.metricators track by metricator.username">
+                                                <img ng-src="{{metricator.picture}}" m-fallback-src="dist/images/users/user-picture.svg" alt="{{metricator.username}}" class="pull-left"/>
+                                                <span class="contacts-title">{{metricator.firstname}} {{metricator.lastname}}</span>
+                                                <div class="list-group-controls">
+                                                    <button class="btn btn-primary btn-rounded" ng-click="vm.removeMember({{metricator.username}},{{metricator.role}})"><span class="fa fa-pencil"></span></button>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- FORM FIELD: DESCRIPTION -->
-                    <div class="form-group" ng-class="{ 'hash-error': updateGridForm.description.$dirty && updateGridForm.description.$invalid }">
-                        <label class="col-md-3 control-label">Description:</label>
-                        <div class="col-md-9">
-                            <input class="form-control" name="description" type="text" role="textbox" placeholder="Description" required="required"
-                            ng-model="vm.updtGrid.description"
-                            ng-model-options="{ updateOn: 'default' }"
-                            ng-class="{ 'error': updateGridForm.description.$dirty && updateGridForm.description.$invalid }"
-                            ng-minlength="3" ng-maxlength="300"/>
-                            <div class="form-group-helper" role="alert" ng-messages="updateGridForm.description.$error" ng-show="updateGridForm.description.$dirty">
-                                <div ng-messages-include="dist/views/grid/messages/update-grid.message.html"></div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                    <!-- END VERTICAL TABS WITH HEADING -->
+                    <!-- CONTACTS WITH CONTROLS -->
+
+                    <!-- END CONTACTS WITH CONTROLS -->
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary"
                 ng-disabled="updateGridForm.$invalid || vm.loading"
-                ng-click="vm.updateGrid(vm.uptGrid)"
+                ng-click="vm.updateGrid(vm.updtGrid)"
                 data-dismiss="modal">Update</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
