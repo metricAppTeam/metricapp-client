@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-12 22:08:38
+* @Last Modified time: 2016-07-12 22:56:54
 */
 (function () { 'use strict';
 
@@ -188,6 +188,70 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         console.log($location.path('/measurementgoal'));
 
     }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Submits a MeasurementGoal.
+    ********************************************************************************/
+    function submitMeasurementGoal() {
+
+        //getLatestVersion
+
+        var measurementGoal = {
+            userid : vm.measurementGoalDialog.userid,
+            name : vm.name,
+            object : vm.measurementGoalDialog.object,
+            viewPoint : vm.measurementGoalDialog.viewPoint,
+            qualityFocus : vm.measurementGoalDialog.qualityFocus,
+            purpose : vm.measurementGoalDialog.purpose,
+            OrganizationalGoalId : vm.measurementGoalDialog.OrganizationalGoalId,
+            metrics : vm.measurementGoalDialog.metrics,
+            questions : vm.measurementGoalDialog.questions,
+            metricatorId : vm.measurementGoalDialog.metricatorId,
+            questionersId : vm.measurementGoalDialog.questionersId,
+            contextFactors : vm.measurementGoalDialog.contextFactors,
+            assumptions : vm.measurementGoalDialog.assumptions,
+            interpretationModel : {
+                functionJavascript : vm.measurementGoalDialog.interpretationModel.functionJavascript,
+                queryNoSQL : vm.measurementGoalDialog.interpretationModel.queryNoSQL
+            },
+            metadata : {
+                id : vm.measurementGoalDialog.metadata.id,
+                version : vm.measurementGoalDialog.metadata.version,
+                tags : vm.measurementGoalDialog.metadata.tags,
+                creatorId : vm.measurementGoalDialog.metadata.creatorId,
+                state : vm.measurementGoalDialog.metadata.state,
+                releaseNote : vm.sendMessage,
+                entityType : vm.measurementGoalDialog.metadata.entityType,
+                versionBus : vm.measurementGoalDialog.metadata.versionBus,
+                creationDate : vm.measurementGoalDialog.metadata.creationDate,
+                lastVersionDate : vm.measurementGoalDialog.metadata.lastVersionDate
+            }
+        };
+        MeasurementGoalService.submitMeasurementGoal(measurementGoal).then(
+            function(message) {
+                //alert(message);
+                vm.measurementGoalDialog = message.measurementGoals[0];
+                $("#modal_large_measurementgoal").modal("show");
+                //$location.path('/measurementgoal');
+            },
+            function(message) {
+                alert(message);
+            }
+        );
+        /*
+        AuthService.signup(user, profile).then(
+            function(message) {
+                alert(message);
+                $location.path('/');
+            },
+            function(message) {
+                alert(message);
+            });*/
+    }
+
 
     /*
     function getMeasurementGoals() {
