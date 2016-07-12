@@ -44,6 +44,7 @@ function TeamService($http, $q, $cookies, REST_SERVICE, AuthService, DB_TEAMS) {
             var authusername = AuthService.getUsername();
             if (!authusername) {
                 reject({errmsg: 'User not logged'});
+                return;
             }
             setTimeout(function() {
                 var teams = [];

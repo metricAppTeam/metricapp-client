@@ -49,6 +49,7 @@ function GridService($http, $q, $cookies, REST_SERVICE, AuthService, DB_GRIDS) {
             var username = AuthService.getUsername();
             if (!username) {
                 reject({errmsg: 'User not logged'});
+                return;
             }
             setTimeout(function() {
                 var grids = [];
@@ -81,6 +82,7 @@ function GridService($http, $q, $cookies, REST_SERVICE, AuthService, DB_GRIDS) {
             var username = AuthService.getUsername();
             if (!username) {
                 reject({errmsg: 'User not logged'});
+                return;
             }
             setTimeout(function() {
                 var GRID = DB_GRIDS[gridid];
