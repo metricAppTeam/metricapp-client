@@ -7,6 +7,7 @@
 * @requires $http
 * @requires $cookies
 * @requires REST_SERVICE
+* @requires AuthService
 *
 * @description
 * Provides grid management services.
@@ -16,9 +17,9 @@ angular.module('metricapp')
 
 .service('GridService', GridService);
 
-GridService.$inject = ['$http', '$q', '$cookies', 'REST_SERVICE', 'DB_GRIDS'];
+GridService.$inject = ['$http', '$q', '$cookies', 'REST_SERVICE', 'AuthService', 'DB_GRIDS'];
 
-function GridService($http, $q, $cookies, REST_SERVICE, DB_GRIDS) {
+function GridService($http, $q, $cookies, REST_SERVICE, AuthService, DB_GRIDS) {
 
     var service = this;
 
@@ -27,17 +28,6 @@ function GridService($http, $q, $cookies, REST_SERVICE, DB_GRIDS) {
 
     service.create = create;
     service.update = update;
-
-    function _getAuthUsername() {
-        var globals = $cookies.getObject('globals');
-        if (globals) {
-            var user = globals.user;
-            if (user) {
-                return user.username;
-            }
-        }
-        return null;
-    }
 
     function _getNextId() {
         var lastId = Object.keys(DB_GRIDS).reduce(function(a, b) {
@@ -56,7 +46,7 @@ function GridService($http, $q, $cookies, REST_SERVICE, DB_GRIDS) {
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
-            var username = _getAuthUsername();
+            var username = AuthService.getUsername();
             if (!username) {
                 reject({errmsg: 'User not logged'});
             }
@@ -65,7 +55,11 @@ function GridService($http, $q, $cookies, REST_SERVICE, DB_GRIDS) {
                 for (var gridid in DB_GRIDS) {
                     var GRID = DB_GRIDS[gridid];
                     if (GRID.expert === username) {
-                        grids.push(DB_GRIDS[gridid]);
+                        // start computes progress
+                        var progress = Math.floor((Math.random() * 100) + 0);
+                        // end compute progress
+                        GRID.progress = progress;
+                        grids.push(GRID);
                     }
                 }
                 resolve({grids: grids});
@@ -84,7 +78,7 @@ function GridService($http, $q, $cookies, REST_SERVICE, DB_GRIDS) {
     ********************************************************************************/
     function getById(gridid) {
         return $q(function(resolve, reject) {
-            var username = _getAuthUsername();
+            var username = AuthService.getUsername();
             if (!username) {
                 reject({errmsg: 'User not logged'});
             }
@@ -92,6 +86,10 @@ function GridService($http, $q, $cookies, REST_SERVICE, DB_GRIDS) {
                 var GRID = DB_GRIDS[gridid];
                 if (GRID) {
                     if (GRID.expert === username) {
+                        // start computes progress
+                        var progress = Math.floor((Math.random() * 100) + 0);
+                        // end compute progress
+                        GRID.progress = progress;
                         resolve({grid: GRID});
                     } else {
                         reject({errmsg: 'Grid ' + gridid + ' not readable for user ' + username});
@@ -143,6 +141,10 @@ function GridService($http, $q, $cookies, REST_SERVICE, DB_GRIDS) {
                     for (var attr in gridAttrs) {
                         GRID[attr] = angular.copy(gridAttrs[attr]);
                     }
+                    // start computes progress
+                    var progress = Math.floor((Math.random() * 100) + 0);
+                    // end compute progress
+                    GRID.progress = progress;
                     resolve({grid: GRID});
                 } else {
                     reject({errmsg: 'Grid ' + gridid + ' not found'});
