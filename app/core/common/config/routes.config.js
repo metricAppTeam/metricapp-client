@@ -79,26 +79,28 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/grid/analytics.view.html'
     })
 
-    // TEAMS
-    .when('/teams', {
-        templateUrl: 'dist/views/team/teams.view.html'
+    // MEASUREMENT GOALS
+    .when('/mgoals', {
+        templateUrl: 'dist/views/mgoal/mgoals.view.html'
     })
-    .when('/teams/:teamid', {
-        templateUrl: 'dist/views/team/team.view.html'
-    })
-    .when('/teams/:teamid/analytics', {
-        templateUrl: 'dist/views/team/analytics.view.html'
+    .when('/mgoals/:goalid', {
+        templateUrl: 'dist/views/mgoal/mgoal.view.html'
     })
 
-    // MEASUREMENT GOALS
-    .when('/goals', {
-        templateUrl: 'dist/views/grid/goal/goals.view.html'
+    // QUESTIONS
+    .when('/mgoals', {
+        templateUrl: 'dist/views/question/questions.view.html'
     })
-    .when('/goals/:goalid', {
-        templateUrl: 'dist/views/grid/goal/goal.view.html'
+    .when('/mgoals/:questionid', {
+        templateUrl: 'dist/views/question/question.view.html'
     })
-    .when('/goals/:goalid/analytics', {
-        templateUrl: 'dist/views/grid/goal/goal.analytics.view.html'
+
+    // METRICS
+    .when('/metrics', {
+        templateUrl: 'dist/views/metric/metrics.view.html'
+    })
+    .when('/metrics/:metricid', {
+        templateUrl: 'dist/views/metric/metric.view.html'
     })
 
     // TASKS
