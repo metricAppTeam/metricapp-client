@@ -7,28 +7,28 @@
 * @description
 * Defines constants related to teams analytics.
 * - GQM_SCORE:
-* - ACCEPTANCE_RATE:
-* - TASKS_PROGRESS:
-* - TASKS_RECORD:
+* - GRIDS_TOT:
 * - ARTIFACTS_TOT:
+* - ACCEPTANCE_RATIO:
 * - ARTIFACTS_MGOAL:
 * - ARTIFACTS_RATE:
-* - GRIDS_TOT:
 * - WORKTIME_RATIO:
+* - TASKS_PROGRESS:
+* - TASKS_RECORD:
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .constant('TEAM_ANALYTICS', {
     GQM_SCORE:          'team.analytics.gqm.score',
-    ACCEPTANCE_RATE:    'team.analytics.acceptance.rate',
-    TASKS_PROGRESS:     'team.analytics.tasks.progress',
-    TASKS_RECORD:       'team.analytics.tasks.record',
+    GRIDS_TOT:          'team.analytics.grids.tot',
     ARTIFACTS_TOT:      'team.analytics.artifacts.tot',
+    ACCEPTANCE_RATIO:   'team.analytics.acceptance.ratio',
     ARTIFACTS_MGOAL:    'team.analytics.artifacts.mgoal',
     ARTIFACTS_RATE:     'team.analytics.artifacts.rate',
-    GRIDS_TOT:          'team.analytics.grids.tot',
-    WORKTIME_RATIO:     'team.analytics.worktime.ratio'
+    WORKTIME_RATIO:     'team.analytics.worktime.ratio',
+    TASKS_PROGRESS:     'team.analytics.tasks.progress',
+    TASKS_RECORD:       'team.analytics.tasks.record'
 });
 
 })();
