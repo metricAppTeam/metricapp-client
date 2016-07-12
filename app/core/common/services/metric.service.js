@@ -106,7 +106,7 @@ function MetricService($http, $window, AuthService) {
 
     function getMetricsById(metricId) {
 
-        return $http.get('http://localhost:8080/metricapp-server/metric?id='+metricId).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?id='+metricId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -132,7 +132,7 @@ function MetricService($http, $window, AuthService) {
 
     function getMetricsByMeasurementGoalId(measurementGoalId) {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/measurementgoal?id='+measurementGoalId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');

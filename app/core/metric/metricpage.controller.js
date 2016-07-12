@@ -31,7 +31,7 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
       if(angular.isUndefined($routeParams.id)){
          vm.metricId = MetricService.getToUpdate();
       }else{
-         vm.metricId = $routeParams.id;
+         vm.metricId = MetricService.getMetricsById($routeParams.id);
       }
       console.log("id of metric is: "+ vm.metricId);
     }
