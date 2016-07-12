@@ -20,18 +20,11 @@ MetricDashboardController.$inject = ['$scope', '$location','MetricService','$win
 function MetricDashboardController($scope, $location, MetricService, $window) {
     var vm = this;
     vm.results = {
-        metrics : [],
-        metricsOnUpdate : [],
-        metricsRejected : []
+        metrics : []
     };
-    vm.resultsName = [
-      'All My Metrics',
-      'Metrics OnUpdate',
-      'Rejected Metrics'
-   ];
+
 
     vm.getMetrics = getMetrics;
-    vm.getMetricsByState = getMetricsByState;
     vm.goToUpdateMetric = goToUpdateMetric;
     vm.setMetricDialog = setMetricDialog;
     vm.update=update;
@@ -69,24 +62,7 @@ function MetricDashboardController($scope, $location, MetricService, $window) {
     * @description
     * Get active metrics for a metricator.
     ********************************************************************************/
-    function getMetricsByState(state){
 
-         MetricService.getMetricsByState(state).then(
-            function(data) {
-                console.log('getbystate: '+data.metricsDTO);
-                switch (state){
-                case 'OnUpdate': vm.results.metricsOnUpdate=data.metricsDTO;
-                break;
-                case 'Rejected': vm.results.metricsRejected=data.metricsDTO;
-                break;
-             }
-
-            },
-            function(data) {
-                alert('Error retriving Metrics');
-            }
-        );
-    };
 
     function update(){
       vm.getMetrics();
@@ -113,21 +89,9 @@ function MetricDashboardController($scope, $location, MetricService, $window) {
     };
 
 
-    function setMetricDialog(modalId,metricToAssignId){
-      switch (modalId) {
-          case 0:
-             vm.metricDialog = vm.results.metrics[metricToAssignId];
-             break;
-          case 1:
-             vm.metricDialog = vm.results.metricsOnUpdate[metricToAssignId];
-             break;
-          case 2:
-             vm.metricDialog = vm.results.metricsRejected[metricToAssignId];
-             break;
-          default:
-             vm.metricDialog = vm.results.metrics[measurementGoalToAssignId];
-             break;
-      }
+    function setMetricDialog(metricToAssignId){
+       vm.metricDialog = vm.results.metrics[metricToAssignId];
+      
    };
     /*
     function getMeasurementGoals() {

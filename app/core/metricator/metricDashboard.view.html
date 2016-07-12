@@ -41,7 +41,7 @@
 								<tr ng-repeat="metric in displayedCollection">
 									<td>
 										<!--#modal_large vm.setModal($parent.$index) id="modal_button"-->
-										<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMetricDialog($parent.$index,$index)">{{metric.metadata.id}}</button>
+										<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMetricDialog($index)">{{metric.metadata.id}}</button>
 									</td>
 									<td>{{metric.metadata.entityType}}</td>
 									<td>{{metric.metadata.creationDate}}</td>
