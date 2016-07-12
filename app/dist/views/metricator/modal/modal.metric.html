@@ -21,25 +21,26 @@
                     <h4>Min</h4>
                     <li class="list-group-item">{{vm.metricDialog.min}}</li>
                     <h4>Unit</h4>
-                    <li class="list-group-item">{{vm.metricDialog.unit}}</li>  
+                    <li class="list-group-item">{{vm.metricDialog.unit}}</li>
                     <h4>Scale Type</h4>
-                    <li class="list-group-item">{{vm.metricDialog.scaleType}}</li>  
+                    <li class="list-group-item">{{vm.metricDialog.scaleType}}</li>
                     <h4>Set</h4>
-                    <li class="list-group-item">{{vm.metricDialog.set}}</li>  
+                    <li class="list-group-item">{{vm.metricDialog.set}}</li>
                     <h4>Tags</h4>
-                    <li class="list-group-item" ng-repeat="tag in vm.metricDialog.tags">{{tag}}</li>  
+                    <li class="list-group-item" ng-repeat="tag in vm.metricDialog.tags">{{tag}}</li>
                     <h4>State</h4>
-                    <li class="list-group-item">{{vm.metricDialog.metadata.state}}</li>  
+                    <li class="list-group-item">{{vm.metricDialog.metadata.state}}</li>
                     <h4>Last Version Date</h4>
-                    <li class="list-group-item">{{vm.metricDialog.metadata.lastVersionDate}}</li>  
+                    <li class="list-group-item">{{vm.metricDialog.metadata.lastVersionDate}}</li>
                     <h4>Release Note</h4>
-                    <li class="list-group-item">  
-                        <div class="panel-body scroll" style="height: 30px;">         
+                    <li class="list-group-item">
+                        <div class="panel-body scroll" style="height: 30px;">
                             <p>{{vm.metricDialog.metadata.releaseNote}}</p>
-                        </div>                                   
-                    </li>  
-            </ul>                           
+                        </div>
+                    </li>
+            </ul>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-default" href="#/metric?id=1" ng-show="vm.isMine()">Update</button>    
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>       </div>
         </div>

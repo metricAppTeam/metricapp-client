@@ -3144,19 +3144,21 @@ angular.module('metricapp')
 
 .controller('MetricDashboardController', MetricDashboardController);
 
-MetricDashboardController.$inject = ['$scope', '$location','MetricService','$window'];
+MetricDashboardController.$inject = ['$scope', '$location','MetricService','AuthService','$window'];
 
-function MetricDashboardController($scope, $location, MetricService, $window) {
+function MetricDashboardController($scope, $location, MetricService,AuthService, $window) {
     var vm = this;
     vm.results = {
         metrics : []
     };
 
+    vm.userId = AuthService.getUser().username;
 
     vm.getMetrics = getMetrics;
     vm.goToUpdateMetric = goToUpdateMetric;
     vm.setMetricDialog = setMetricDialog;
     vm.update=update;
+    vm.isMine=isMine;
 
     vm.update();
 
@@ -3195,7 +3197,15 @@ function MetricDashboardController($scope, $location, MetricService, $window) {
 
     function update(){
       vm.getMetrics();
+   };
 
+   function isMine(){
+      if (vm.metricDialog.metricatorId == vm.userId){
+         console.log(vm.metricDialog.metricatorId + ","+ vm.userId);
+         return true;
+      }else{
+         return false;
+      }
    };
 
 
@@ -3220,7 +3230,7 @@ function MetricDashboardController($scope, $location, MetricService, $window) {
 
     function setMetricDialog(metricToAssignId){
        vm.metricDialog = vm.results.metrics[metricToAssignId];
-      
+
    };
     /*
     function getMeasurementGoals() {
