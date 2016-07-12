@@ -5,7 +5,7 @@
         <li class="active"><a ng-href="#/notifications">Notifications</a></li>
     </ul>
     <div class="page-title">
-        <h2><span class="fa fa-globe"></span> Notifications <small ng-if="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}} to read</small></h2>
+        <h2><span class="fa fa-globe"></span> Notifications <small ng-if="!vm.loading && vm.success && vm.toread > 0">{{vm.news}} new / {{vm.toread}} to read</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row">
@@ -41,17 +41,17 @@
                 <p ng-switch-when="true">Loading notifications ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.notifications.length == 0">No notifications yet.</p>
-                    <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
+                    <div ng-switch-when="true">
                         <ul>
                             <li ng-repeat="notification in vm.notifications | filter:vm.query | orderBy:vm.orderBy track by notification.id">
-                                <a ng-href="#/notifications/{{notification.id}}">{{notification.name}}</a>
+                                <a ng-href="#/{{notification.scope}}/{{notification.artifact_id}}">{{notification.name}}</a>
                                 <ul>
                                     <li ng-repeat="(key, value) in notification">{{key}} = {{value}}</li>
                                 <ul>
                             </li>
                         </ul>
                     </div>
-                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@
 * @requires $location
 * @requires NotificationService
 * @requires UserService
+* @requires AuthService
 * @requires AUTH_EVENTS
 *
 * @description
@@ -18,9 +19,9 @@ angular.module('metricapp')
 
 .controller('NotificationsWidgetController', NotificationsWidgetController);
 
-NotificationsWidgetController.$inject = ['$scope', '$location', 'NotificationService', 'UserService', 'AUTH_EVENTS'];
+NotificationsWidgetController.$inject = ['$scope', '$location', 'NotificationService', 'UserService', 'AuthService', 'AUTH_EVENTS'];
 
-function NotificationsWidgetController($scope, $location, NotificationService, UserService, AUTH_EVENTS) {
+function NotificationsWidgetController($scope, $location, NotificationService, UserService, AuthService, AUTH_EVENTS) {
 
     var vm = this;
 
@@ -72,7 +73,9 @@ function NotificationsWidgetController($scope, $location, NotificationService, U
         vm.notifications = [];
         vm.news = 0;
         vm.toread = 0;
-        //_loadNotifications(0, 5);
+        if (AuthService.isLogged()) {
+            _loadNotifications(0, 5);
+        }
         $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
             _loadNotifications(0, 5);
         });

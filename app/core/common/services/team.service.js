@@ -41,20 +41,20 @@ function TeamService($http, $q, $cookies, REST_SERVICE, AuthService, DB_TEAMS) {
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
-            var authusername = AuthService.getUsername();
-            if (!authusername) {
-                reject({errmsg: 'User not logged'});
-                return;
-            }
             setTimeout(function() {
-                var teams = [];
-                for (var teamid in DB_TEAMS) {
-                    var TEAM = DB_TEAMS[teamid];
-                    if (TEAM.expert === authusername) {
-                        teams.push(TEAM);
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var teams = [];
+                    for (var teamid in DB_TEAMS) {
+                        var TEAM = DB_TEAMS[teamid];
+                        if (TEAM.expert === authusername) {
+                            teams.push(TEAM);
+                        }
                     }
+                    resolve({teams: teams});
+                } else {
+                    reject({errmsg: 'User not logged'});
                 }
-                resolve({teams: teams});
             }, 500);
         });
     }
@@ -164,24 +164,27 @@ function TeamService($http, $q, $cookies, REST_SERVICE, AuthService, DB_TEAMS) {
     ********************************************************************************/
     function update(teamAttrs) {
         return $q(function(resolve, reject) {
-            var authusername = AuthService.getUsername();
-            var teamid = teamAttrs.teamid;
             setTimeout(function() {
-                var TEAM = DB_TEAMS[teamid];
-                if (TEAM) {
-                    if (TEAM.expert === authusername) {
-                        for (var attr in teamAttrs) {
-                            TEAM[attr] = angular.copy(teamAttrs[attr]);
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var teamid = teamAttrs.teamid;
+                    var TEAM = DB_TEAMS[teamid];
+                    if (TEAM) {
+                        if (TEAM.expert === authusername) {
+                            for (var attr in teamAttrs) {
+                                TEAM[attr] = angular.copy(teamAttrs[attr]);
+                            }
+                            resolve({team: TEAM});
+                        } else {
+                            reject({errmsg: 'The current user ' + authusername + ' cannot update team ' + teamid});
                         }
-                        resolve({team: TEAM});
+
                     } else {
-                        reject({errmsg: 'The current user ' + authusername + ' cannot update team ' + teamid});
+                        reject({errmsg: 'Team ' + teamid + ' not found'});
                     }
-
                 } else {
-                    reject({errmsg: 'Team ' + teamid + ' not found'});
-                }
-
+                    reject({errmsg: 'User not logged'});
+                }   
             }, 500);
         });
     }

@@ -32,22 +32,24 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, AuthService, DB_
     * @name getAll
     * @description
     * Retrieves all the notifications for authuser;
-    * @returns {[Task]|Error} On success, the tasks;
+    * @returns {[Notification]|Error} On success, the notifications;
     * an error message, otherwise.
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
-            var authusername = AuthService.getUsername();
-            if (!authusername) {
-                reject({errmsg: 'User not logged'});
-            }
             setTimeout(function() {
-                var INBOX = DB_NOTIFICATIONS[authusername];
-                if (INBOX) {
-                    var NOTIFICATIONS = INBOX.notifications;
-                    resolve({notifications: NOTIFICATIONS});
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var INBOX = DB_NOTIFICATIONS[authusername];
+                    if (INBOX) {
+                        var NOTIFICATIONS = INBOX.notifications;
+                        var NEWS = INBOX.news;
+                        resolve({notifications: NOTIFICATIONS, news: NEWS});
+                    } else {
+                        reject({errmsg: 'Notifications not found for user ' + authusername});
+                    }
                 } else {
-                    reject({errmsg: 'Notifications not found for user ' + authusername});
+                    reject({errmsg: 'User not logged'});
                 }
             }, 500);
         });
@@ -64,23 +66,25 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, AuthService, DB_
     ********************************************************************************/
     function getById(notificationid) {
         return $q(function(resolve, reject) {
-            var authusername = AuthService.getUsername();
-            if (!authusername) {
-                reject({errmsg: 'User not logged'});
-            }
             setTimeout(function() {
-                var INBOX = DB_NOTIFICATIONS[authusername];
-                if (INBOX) {
-                    var NOTIFICATIONS = INBOX.notifications;
-                    NOTIFICATIONS.forEach(function(NOTIFICATION) {
-                        if (NOTIFICATION.id === notificationid) {
-                            resolve({notification: NOTIFICATION});
-                            return;
-                        }
-                    });
-                    reject({errmsg: 'Notification ' + notificationid + ' not found for user ' + authusername});
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var INBOX = DB_NOTIFICATIONS[authusername];
+                    if (INBOX) {
+                        var NOTIFICATIONS = INBOX.notifications;
+                        var NEWS = INBOX.news;
+                        NOTIFICATIONS.forEach(function(NOTIFICATION) {
+                            if (NOTIFICATION.id === notificationid) {
+                                resolve({notification: NOTIFICATION, new: NEWS});
+                                return;
+                            }
+                        });
+                        reject({errmsg: 'Notification ' + notificationid + ' not found for user ' + authusername});
+                    } else {
+                        reject({errmsg: 'Notifications not found for user ' + authusername});
+                    }
                 } else {
-                    reject({errmsg: 'Notifications not found for user ' + authusername});
+                    reject({errmsg: 'User not logged'});
                 }
             }, 500);
         });
@@ -98,27 +102,28 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, AuthService, DB_
     ***************************************************************************/
     function getNFrom(ntfStart, ntfN) {
         return $q(function(resolve, reject) {
-            var authusername = AuthService.getUsername();
-            if (!authusername) {
-                reject({errmsg: 'User not logged'});
-            }
             setTimeout(function() {
-                var INBOX = DB_NOTIFICATIONS[authusername];
-                if (INBOX) {
-                    var news = INBOX.news;
-                    var NOTIFICATIONS = INBOX.notifications;
-                    var notifications = [];
-                    var toread = 0;
-                    var end = (ntfN === -1) ? NOTIFICATIONS.length : Math.min(ntfStart + ntfN, NOTIFICATIONS.length);
-                    for (var i = ntfStart; i < end; i++) {
-                      notifications.push(NOTIFICATIONS[i]);
-                      if (!NOTIFICATIONS[i].read) {
-                          toread++;
-                      }
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var INBOX = DB_NOTIFICATIONS[authusername];
+                    if (INBOX) {
+                        var news = INBOX.news;
+                        var NOTIFICATIONS = INBOX.notifications;
+                        var notifications = [];
+                        var toread = 0;
+                        var end = (ntfN === -1) ? NOTIFICATIONS.length : Math.min(ntfStart + ntfN, NOTIFICATIONS.length);
+                        for (var i = ntfStart; i < end; i++) {
+                          notifications.push(NOTIFICATIONS[i]);
+                          if (!NOTIFICATIONS[i].read) {
+                              toread++;
+                          }
+                        }
+                        resolve({notifications: notifications, news: news, toread: toread});
+                    } else {
+                        reject({errmsg: 'Notifications not found for user ' + authusername});
                     }
-                    resolve({notifications: notifications, news: news, toread: toread});
                 } else {
-                    reject({errmsg: 'Notifications not found for user ' + authusername});
+                    reject({errmsg: 'User not logged'});
                 }
             }, 500);
         });

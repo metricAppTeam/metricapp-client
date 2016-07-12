@@ -158,22 +158,26 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
     ********************************************************************************/
     function update(userAttrs) {
         return $q(function(resolve, reject) {
-            var authusername = AuthService.getUsername();
-            var username = userAttrs.username;
             setTimeout(function() {
-                if (authusername === username) {
-                    var USER = DB_USERS[username];
-                    if (USER) {
-                        for (var attr in userAttrs) {
-                            USER[attr] = angular.copy(userAttrs[attr]);
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var username = userAttrs.username;
+                    if (authusername === username) {
+                        var USER = DB_USERS[username];
+                        if (USER) {
+                            for (var attr in userAttrs) {
+                                USER[attr] = angular.copy(userAttrs[attr]);
+                            }
+                            resolve({user: USER});
+                        } else {
+                            reject({errmsg: 'User ' + username + ' not found'});
                         }
-                        resolve({user: USER});
                     } else {
-                        reject({errmsg: 'User ' + username + ' not found'});
+                        reject({errmsg: 'The current user ' + authusername + ' cannot update user ' + username});
                     }
                 } else {
-                    reject({errmsg: 'The current user ' + authusername + ' cannot update user ' + username});
-                }
+                    reject({errmsg: 'User not logged'});
+                }                
             }, 500);
         });
     }

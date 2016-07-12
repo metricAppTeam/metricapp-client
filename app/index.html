@@ -190,7 +190,6 @@
                                                 {{notification.name}} / {{notification.scope}}
                                                 <small>{{notification.ts_create | datetimeFilter:'ago'}}</small>
                                             </span>
-                                            <p>{{notification.description.toString().substring(0, (notification.read) ? 50 : 45)}}...</p>
                                         </a>
                                         <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
                                             <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>

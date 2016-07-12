@@ -16,66 +16,42 @@ angular.module('metricapp')
 .value('DB_NOTIFICATIONS', {
 
     'expert-gm': {
-        news: 3,
+        news: 4,
         notifications: [
             {
                 id: 1,
-                scope: 'Scope-1', // ogoal, grid, mgoal, question, metrics,
-                objectId: '1', // id a cui puntare per creare href
-                name: 'Event-1',
-                description: LIPSUM,
-                author:  'metricator',
+                scope: 'grids',
+                artifact_id: 1,
+                name: 'Created new organizational goal',
+                author:  'expert-gc',
                 ts_create: new Date(2016, 1, 15, 13, 30, 45, 500),
-                read: true
+                read: false
             },
             {
                 id: 2,
-                scope: 'Scope-2',
-                name: 'Event-2',
-                description: LIPSUM,
-                author:  'questioner',
-                href: '#',
+                scope: 'mgoals',
+                artifact_id: 101,
+                name: 'Created new measurement goal',
+                author:  'expert-gc',
                 ts_create: new Date(2016, 1, 15, 14, 30, 45, 500),
-                read: true
+                read: false
             },
             {
                 id: 3,
-                scope: 'Scope-1',
-                name: 'Event-3',
-                description: LIPSUM,
-                author:  'metricator',
-                href: '#',
+                scope: 'questions',
+                artifact_id: 201,
+                name: 'Created new question',
+                author:  'questioner-mp',
                 ts_create: new Date(2016, 1, 15, 15, 30, 45, 500),
-                read: true
+                read: false
             },
             {
                 id: 4,
-                scope: 'Scope-2',
-                name: 'Event-4',
-                description: LIPSUM,
-                author:  'questioner',
-                href: '#',
+                scope: 'metrics',
+                artifact_id: 301,
+                name: 'Created new metric',
+                author:  'metricator-ag',
                 ts_create: new Date(2016, 1, 15, 16, 30, 45, 500),
-                read: false
-            },
-            {
-                id: 5,
-                scope: 'Scope-1',
-                name: 'Event-5',
-                description: LIPSUM,
-                author:  'metricator',
-                href: '#',
-                ts_create: new Date(2016, 1, 15, 17, 30, 45, 500),
-                read: false
-            },
-            {
-                id: 6,
-                scope: 'Scope-2',
-                name: 'Event-6',
-                description: LIPSUM,
-                author:  'questioner',
-                href: '#',
-                ts_create: new Date(2016, 1, 15, 18, 30, 45, 500),
                 read: false
             }
         ]

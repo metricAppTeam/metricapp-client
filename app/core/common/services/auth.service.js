@@ -32,6 +32,7 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
     service.setUser = setUser;
     service.clearUser = clearUser;
     service.getUsername = getUsername;
+    service.isLogged = isLogged;
 
     service.editPassword = editPassword;
 
@@ -159,6 +160,25 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
             }
         }
         return null;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isLogged
+    * @description
+    * Check if the user is logged.
+    * @returns {Boolean} True, if the user is logged;
+    * false, otherwise.
+    ********************************************************************************/
+    function isLogged() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /********************************************************************************

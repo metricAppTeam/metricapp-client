@@ -46,24 +46,24 @@ function GridService($http, $q, $cookies, REST_SERVICE, AuthService, DB_GRIDS) {
     ********************************************************************************/
     function getAll() {
         return $q(function(resolve, reject) {
-            var username = AuthService.getUsername();
-            if (!username) {
-                reject({errmsg: 'User not logged'});
-                return;
-            }
             setTimeout(function() {
-                var grids = [];
-                for (var gridid in DB_GRIDS) {
-                    var GRID = DB_GRIDS[gridid];
-                    if (GRID.expert === username) {
-                        // start computes progress
-                        var progress = Math.floor((Math.random() * 100) + 0);
-                        // end compute progress
-                        GRID.progress = progress;
-                        grids.push(GRID);
+                var username = AuthService.getUsername();
+                if (username) {
+                    var grids = [];
+                    for (var gridid in DB_GRIDS) {
+                        var GRID = DB_GRIDS[gridid];
+                        if (GRID.expert === username) {
+                            // start computes progress
+                            var progress = Math.floor((Math.random() * 100) + 0);
+                            // end compute progress
+                            GRID.progress = progress;
+                            grids.push(GRID);
+                        }
                     }
+                    resolve({grids: grids});
+                } else {
+                    reject({errmsg: 'User not logged'});
                 }
-                resolve({grids: grids});
             }, 500);
         });
     }
@@ -79,26 +79,26 @@ function GridService($http, $q, $cookies, REST_SERVICE, AuthService, DB_GRIDS) {
     ********************************************************************************/
     function getById(gridid) {
         return $q(function(resolve, reject) {
-            var username = AuthService.getUsername();
-            if (!username) {
-                reject({errmsg: 'User not logged'});
-                return;
-            }
             setTimeout(function() {
-                var GRID = DB_GRIDS[gridid];
-                if (GRID) {
-                    if (GRID.expert === username) {
-                        // start computes progress
-                        var progress = Math.floor((Math.random() * 100) + 0);
-                        // end compute progress
-                        GRID.progress = progress;
-                        resolve({grid: GRID});
+                var username = AuthService.getUsername();
+                if (username) {
+                    var GRID = DB_GRIDS[gridid];
+                    if (GRID) {
+                        if (GRID.expert === username) {
+                            // start computes progress
+                            var progress = Math.floor((Math.random() * 100) + 0);
+                            // end compute progress
+                            GRID.progress = progress;
+                            resolve({grid: GRID});
+                        } else {
+                            reject({errmsg: 'Grid ' + gridid + ' not readable for user ' + username});
+                        }
                     } else {
-                        reject({errmsg: 'Grid ' + gridid + ' not readable for user ' + username});
+                        reject({errmsg: 'Grid ' + gridid + ' not found'});
                     }
                 } else {
-                    reject({errmsg: 'Grid ' + gridid + ' not found'});
-                }
+                    reject({errmsg: 'User not logged'});
+                }                
             }, 500);
         });
     }

@@ -33,7 +33,7 @@
                             ng-class="{'status-online': conversation.recipient.online,
                             'status-offline': !conversation.recipient.online}"></div>
                             <img ng-src="{{conversation.recipient.picture}}" class="pull-left" alt="{{conversation.recipient.username}}">
-                            <div class="contacts-title">{{conversation.recipient.firstname}} {{conversation.recipient.lastname}}
+                            <div class="contacts-title">{{conversation.recipient | userFullname}}
                                 <span ng-show="conversation.toread > 0" class="label label-danger">{{conversation.toread}}</span>
                             </div>
                             <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 30 : 28)}}...</p>

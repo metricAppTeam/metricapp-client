@@ -8,6 +8,7 @@
 * @requires $location
 * @requires MessageService
 * @requires UserService
+* @requires AuthService
 * @requires AUTH_EVENTS
 *
 * @description
@@ -18,9 +19,9 @@ angular.module('metricapp')
 
 .controller('ChatsWidgetController', ChatsWidgetController);
 
-ChatsWidgetController.$inject = ['$scope', '$location', 'MessageService', 'UserService', 'AUTH_EVENTS'];
+ChatsWidgetController.$inject = ['$scope', '$location', 'MessageService', 'UserService', 'AuthService', 'AUTH_EVENTS'];
 
-function ChatsWidgetController($scope, $location, MessageService, UserService, AUTH_EVENTS) {
+function ChatsWidgetController($scope, $location, MessageService, UserService, AuthService, AUTH_EVENTS) {
 
     var vm = this;
 
@@ -71,7 +72,9 @@ function ChatsWidgetController($scope, $location, MessageService, UserService, A
         vm.errmsg = null;
         vm.conversations = [];
         vm.toread = 0;
-        //_loadConversations(0, 5);
+        if (AuthService.isLogged()) {
+            _loadConversations(0, 5);
+        }
         $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
             _loadConversations(0, 5);
         });
