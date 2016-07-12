@@ -64,9 +64,6 @@ function routes($routeProvider, $locationProvider) {
     .when('/notifications', {
         templateUrl: 'dist/views/notification/notifications.view.html'
     })
-    .when('/notifications/:notificationid', {
-        templateUrl: 'dist/views/notification/notification.view.html'
-    })
 
     // GRIDS
     .when('/grids', {
