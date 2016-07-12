@@ -158,7 +158,7 @@ function MetricService($http, $q, REST_SERVICE, DB_METRICS) {
                 var METRIC = DB_METRICS[metricid];
                 if (METRIC) {
                     for (var attr in metricAttrs) {
-                        METRIC[attr] = metricAttrs[attr];
+                        METRIC[attr] = angular.copy(metricAttrs[attr]);
                     }
                     resolve({metric: METRIC});
                 } else {

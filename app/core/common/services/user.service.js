@@ -175,7 +175,7 @@ function UserService($http, $q, $cookies, REST_SERVICE, ROLES, DB_USERS) {
                     var USER = DB_USERS[username];
                     if (USER) {
                         for (var attr in userAttrs) {
-                            USER[attr] = userAttrs[attr];
+                            USER[attr] = angular.copy(userAttrs[attr]);
                         }
                         resolve({user: USER});
                     } else {

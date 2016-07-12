@@ -158,7 +158,7 @@ function QuestionService($http, $q, REST_SERVICE, DB_QUESTIONS) {
                 var QUESTION = DB_QUESTIONS[questionid];
                 if (QUESTION) {
                     for (var attr in questionAttrs) {
-                        QUESTION[attr] = questionAttrs[attr];
+                        QUESTION[attr] = angular.copy(questionAttrs[attr]);
                     }
                     resolve({question: QUESTION});
                 } else {

@@ -158,7 +158,7 @@ function MGoalService($http, $q, REST_SERVICE, DB_MGOALS) {
                 var MGOAL = DB_MGOALS[goalid];
                 if (MGOAL) {
                     for (var attr in mgoalAttrs) {
-                        MGOAL[attr] = mgoalAttrs[attr];
+                        MGOAL[attr] = angular.copy(mgoalAttrs[attr]);
                     }
                     resolve({mgoal: MGOAL});
                 } else {

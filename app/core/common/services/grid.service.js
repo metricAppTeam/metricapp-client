@@ -141,7 +141,7 @@ function GridService($http, $q, $cookies, REST_SERVICE, DB_GRIDS) {
                 var GRID = DB_GRIDS[gridid];
                 if (GRID) {
                     for (var attr in gridAttrs) {
-                        GRID[attr] = gridAttrs[attr];
+                        GRID[attr] = angular.copy(gridAttrs[attr]);
                     }
                     resolve({grid: GRID});
                 } else {
