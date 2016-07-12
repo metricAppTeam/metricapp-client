@@ -5,18 +5,28 @@
 * @name METRIC_EVENTS
 * @module metricapp
 * @description
-* Defines events related to metrics.
-* - METRIC_EVENT_A:
-* - METRIC_EVENT_B:
-* - METRIC_EVENT_C:
+* Defines events related to metrics management.
+* - CREATE_SUCCESS:
+* - CREATE_FAILURE:
+* - READ_SUCCESS:
+* - READ_FAILURE:
+* - UPDATE_SUCCESS:
+* - UPDATE_FAILURE:
+* - DELETE_SUCCESS:
+* - DELETE_FAILURE:
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .constant('METRIC_EVENTS', {
-    METRIC_EVENT_A: 'metric.event.a',
-    METRIC_EVENT_B: 'metric.event.b',
-    METRIC_EVENT_C: 'metric.event.c'
+    CREATE_SUCCESS: 'metric.create.success',
+    CREATE_FAILURE: 'metric.create.failure',
+    READ_SUCCESS:   'metric.read.success',
+    READ_FAILURE:   'metric.read.failure',
+    UPDATE_SUCCESS: 'metric.update.success',
+    UPDATE_FAILURE: 'metric.update.failure',
+    DELETE_SUCCESS: 'metric.delete.success',
+    DELETE_FAILURE: 'metric.delete.failure'
 });
 
 })();
