@@ -1,4 +1,6 @@
-$dark-grey: #1b1e24;
+.page-container {
+    background: url($bg-url) left top repeat $light-grey;
+}
 
 .body-full {
 
@@ -6,7 +8,7 @@ $dark-grey: #1b1e24;
         background: inherit;
 
         .page-content {
-            background: url('../images/backgrounds/bg.png') left top repeat $dark-grey;
+            background: url($bg-url) left top repeat $dark-grey;
             margin: 0;
         }
 
