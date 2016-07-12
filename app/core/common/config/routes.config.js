@@ -79,6 +79,17 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/grid/analytics.view.html'
     })
 
+    // TEAMS
+    .when('/teams', {
+        templateUrl: 'dist/views/team/teams.view.html'
+    })
+    .when('/teams/:teamid', {
+        templateUrl: 'dist/views/team/team.view.html'
+    })
+    .when('/teams/:teamid/analytics', {
+        templateUrl: 'dist/views/team/analytics.view.html'
+    })
+
     // MEASUREMENT GOALS
     .when('/mgoals', {
         templateUrl: 'dist/views/mgoal/mgoals.view.html'
