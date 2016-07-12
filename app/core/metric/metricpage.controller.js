@@ -18,10 +18,11 @@ angular.module('metricapp')
 MetricPageController.$inject = ['$scope','$routeParams', '$location','MetricService','$window'];
 
 function MetricPageController($scope,$routeParams, $location, MetricService, $window) {
-    console.log("start of metricPageController");
     var vm = this;
-    vm.metricId = MetricService.getToUpdate();
-    _selectMetricToView();
+    vm.metric = _selectMetricToView();
+    console.log("id of metric is: "+ vm.metric.metadata.id);
+    vm.empty = true;
+
 
 
 
@@ -29,11 +30,10 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
     function _selectMetricToView(){
       if(angular.isUndefined($routeParams.id)){
-         vm.metricId = MetricService.getToUpdate();
+         return MetricService.getToUpdate();
       }else{
-         vm.metricId = MetricService.getMetricsById($routeParams.id);
+         return MetricService.getMetricsById($routeParams.id);
       }
-      console.log("id of metric is: "+ vm.metricId);
     }
 
 

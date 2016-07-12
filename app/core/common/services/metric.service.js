@@ -109,13 +109,13 @@ function MetricService($http, $window, AuthService) {
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?id='+metricId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
-                console.log('SUCCESS GET METRICS');
+                console.log('SUCCESS GET METRIC BY ID');
                 console.log(message);
                 return message;
             },
             function(response) {
                 var message = angular.fromJson(response.data);
-                console.log('FAILURE GET METRICS');
+                console.log('FAILURE GET METRICS BY ID');
                 console.log(message);
                 return message;
             }
