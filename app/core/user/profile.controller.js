@@ -44,12 +44,12 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
                 var username = resolve.user.username;
                 vm.success = true;
                 $location.path('/profile/' + username);
-                $rootScope.$broadcast(USER_EVENTS.EDIT_PROFILE_SUCCESS, vm.currUser);
+                $rootScope.$broadcast(USER_EVENTS.UPDATE_SUCCESS, vm.currUser);
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
                 vm.success = false;
-                $rootScope.$broadcast(USER_EVENTS.EDIT_PROFILE_FAILURE);
+                $rootScope.$broadcast(USER_EVENTS.UPDATE_FAILURE);
             }
         )
         .finally(function(){
@@ -62,7 +62,7 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
         vm.success = false;
         AuthService.editPassword(oldPassword, newPassword).then(
             function(resolve) {
-                $rootScope.$broadcast(AUTH_EVENTS.PASSWORD_EDIT_SUCCESS);
+                $rootScope.$broadcast(AUTH_EVENTS.PASSWORD_UPDATE_SUCCESS);
                 return AuthService.logout().then(
                     function(resolve) {
                         vm.success = true;
@@ -80,7 +80,7 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
             function(reject) {
                 vm.errmsg = reject.errmsg;
                 alert(vm.errmsg);
-                $rootScope.$broadcast(AUTH_EVENTS.PASSWORD_EDIT_FAILURE);
+                $rootScope.$broadcast(AUTH_EVENTS.PASSWORD_UPDATE_FAILURE);
                 vm.success = false;
             }
         ).finally(function() {
@@ -124,12 +124,12 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
             username: $routeParams.username
         };
         _loadUser(vm.currUser.username);
-        $scope.$on(USER_EVENTS.PROFILE_EDIT_SUCCESS, function(event, user) {
-            alert('ProfileController:USER_EVENTS.PROFILE_EDIT_SUCCESS');
+        $scope.$on(USER_EVENTS.UPDATE_SUCCESS, function(event, user) {
+            alert('ProfileController:USER_EVENTS.UPDATE_SUCCESS');
             vm.currUser = angular.copy(user);
         });
-        $scope.$on(USER_EVENTS.PROFILE_EDIT_FAILURE, function(event) {
-            alert('ProfileController:USER_EVENTS.PROFILE_EDIT_FAILURE');
+        $scope.$on(USER_EVENTS.UPDATE_FAILURE, function(event) {
+            alert('ProfileController:USER_EVENTS.UPDATE_FAILURE');
             _loadUser(vm.currUser.username);
         });
     }

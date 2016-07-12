@@ -7,7 +7,7 @@
         <li class="active"><a ng-href="#/profile/{{vm.currUser.id}}/analytics">Analytics</a></li>
     </ul>
     <div class="page-title">
-        <h2><span class="fa fa-user"></span> User Analytics </h2>
+        <h2><span class="fa fa-user"></span> User Analytics <small ng-show="!vm.loading && vm.success">{{vm.currUser | userFullname}}</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">
@@ -16,9 +16,9 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-href="#/profile/{{vm.currUser.username}}">Profile</a>
                     <ul ng-switch-when="true">
-                        <li ng-repeat="(key, value) in vm.currUser">{{key}} = {{value}}</li>
+                        <li ng-repeat="(key, value) in vm.currUser.analytics">{{key}} = {{value}}</li>
                     </ul>
-                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
                 </div>
             </div>
         </div>
