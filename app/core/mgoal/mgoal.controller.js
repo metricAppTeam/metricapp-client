@@ -49,6 +49,7 @@ function MGoalService($scope, $location, $routeParams, MGoalService) {
         vm.errmsg = null;
         if (!$routeParams.goalid) {
             $location.path('/mgoals');
+            return;
         }
         vm.currMGoal = {
             id: $routeParams.goalid
