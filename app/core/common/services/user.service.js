@@ -5,6 +5,7 @@
 * @name UserService
 * @module metricapp
 * @requires $http
+* @requires $cookies
 * @requires REST_SERVICE
 * @requires ROLES
 *
@@ -16,9 +17,9 @@ angular.module('metricapp')
 
 .service('UserService', UserService);
 
-UserService.$inject = ['$http', '$q', 'REST_SERVICE', 'ROLES', 'DB_USERS'];
+UserService.$inject = ['$http', '$q', '$cookies', 'REST_SERVICE', 'ROLES', 'DB_USERS'];
 
-function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
+function UserService($http, $q, $cookies, REST_SERVICE, ROLES, DB_USERS) {
 
     var service = this;
 
@@ -29,6 +30,17 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
 
     service.create = create;
     service.update = update;
+
+    function _getAuthUsername() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return user.username;
+            }
+        }
+        return null;
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -150,21 +162,27 @@ function UserService($http, $q, REST_SERVICE, ROLES, DB_USERS) {
     * @name update
     * @description
     * Updates the authuser profile.
-    * @param {User} userAttrs The user attributes to update.
-    * @returns {JSON} Insert description here.
+    * @param {UserAttrs} userAttrs The user attributes to update.
+    * @returns {String|Error} On success, the username of the updated user;
+    * an error message, otherwise.
     ********************************************************************************/
     function update(userAttrs) {
         return $q(function(resolve, reject) {
+            var authusername = _getAuthUsername();
             var username = userAttrs.username;
             setTimeout(function() {
-                var USER = DB_USERS[username];
-                if (USER) {
-                    for (var attr in userAttrs) {
-                        USER[attr] = userAttrs[attr];
+                if (authusername === username) {
+                    var USER = DB_USERS[username];
+                    if (USER) {
+                        for (var attr in userAttrs) {
+                            USER[attr] = userAttrs[attr];
+                        }
+                        resolve({user: USER});
+                    } else {
+                        reject({errmsg: 'User ' + username + ' not found'});
                     }
-                    resolve({user: USER});
                 } else {
-                    reject({errmsg: 'User ' + username + ' not found'});
+                    reject({errmsg: 'The current user ' + authusername + ' cannot update user ' + username});
                 }
             }, 500);
         });

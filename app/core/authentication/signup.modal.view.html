@@ -20,7 +20,7 @@ ng-controller="SignupController as vm">
                             ng-class="{ 'error': signupForm.firstname.$dirty && signupForm.firstname.$invalid }"
                             ng-minlength="3" ng-maxlength="20"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.firstname.$error" ng-show="signupForm.firstname.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@ ng-controller="SignupController as vm">
                             ng-class="{ 'error': signupForm.lastname.$dirty && signupForm.lastname.$invalid }"
                             ng-minlength="3" ng-maxlength="20"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.lastname.$error" ng-show="signupForm.lastname.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@ ng-controller="SignupController as vm">
                                 <option ng-repeat="(gender_key,gender_name) in vm.GENDERS" ng-value="gender_name">{{gender_name}}</option>
                             </select>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.gender.$error" ng-show="signupForm.gender.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@ ng-controller="SignupController as vm">
                             ng-class="{ 'error': signupForm.birthday.$dirty && signupForm.birthday.$invalid }"
                             min="01-01-1900" max="01-01-2016" date/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.birthday.$error" ng-show="signupForm.birthday.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -77,7 +77,7 @@ ng-controller="SignupController as vm">
                             ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                             ng-class="{ 'error': signupForm.email.$dirty && signupForm.email.$invalid }"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.email.$error" ng-show="signupForm.email.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@ ng-controller="SignupController as vm">
                             ng-class="{ 'error': signupForm.mobile.$dirty && signupForm.mobile.$invalid }"
                             ng-minlength="3" ng-maxlength="30"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.mobile.$error" ng-show="signupForm.mobile.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -104,7 +104,7 @@ ng-controller="SignupController as vm">
                             ng-model-options="{ updateOn: 'default' }"
                             ng-class="{ 'error': signupForm.picture.$dirty && signupForm.picture.$invalid }"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.picture.$error" ng-show="signupForm.picture.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@ ng-controller="SignupController as vm">
                                 <option ng-repeat="(role_key,role_name) in vm.ROLES" ng-value="role_name">{{role_name}}</option>
                             </select>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.role.$error" ng-show="signupForm.role.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -134,7 +134,7 @@ ng-controller="SignupController as vm">
                             ng-class="{ 'error': signupForm.username.$dirty && signupForm.username.$invalid }"
                             ng-minlength="3" ng-maxlength="20"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.username.$error" ng-show="signupForm.username.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -148,7 +148,7 @@ ng-controller="SignupController as vm">
                             ng-class="{ 'error': signupForm.password.$dirty && signupForm.password.$invalid }"
                             ng-minlength="3" ng-maxlength="20"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.password.$error" ng-show="signupForm.password.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -162,7 +162,7 @@ ng-controller="SignupController as vm">
                             ng-class="{ 'error': signupForm.password_r.$dirty && signupForm.password_r.$invalid }"
                             m-match="{{vm.user.password}}"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.password_r.$error" ng-show="signupForm.password_r.$dirty">
-                                <div ng-messages-include="dist/views/authentication/signup.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
                         </div>
                     </div>

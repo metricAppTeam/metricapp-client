@@ -15,7 +15,7 @@
                             ng-model-options="{ updateOn: 'default' }"
                             ng-class="{ 'error': loginForm.username.$dirty && loginForm.username.$invalid }"/>
                             <div class="form-group-helper" role="alert" ng-messages="loginForm.username.$error" ng-show="loginForm.username.$dirty">
-                                <div ng-messages-include="dist/views/authentication/login.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/login.message.html"></div>
                             </div>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                             ng-model-options="{ updateOn: 'default' }"
                             ng-class="{ 'error': loginForm.password.$dirty && loginForm.password.$invalid }"/>
                             <div class="form-group-helper" role="alert" ng-messages="loginForm.password.$error" ng-show="loginForm.password.$dirty">
-                                <div ng-messages-include="dist/views/authentication/login.message.html"></div>
+                                <div ng-messages-include="dist/views/authentication/messages/login.message.html"></div>
                             </div>
                         </div>
                     </div>
