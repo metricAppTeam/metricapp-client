@@ -143,7 +143,7 @@
                                             'status-offline': !conversation.recipient.online}"></div>
                                             <img ng-src="{{conversation.recipient.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{conversation.recipient.username}}"/>
                                             <span class="contacts-title">
-                                                {{conversation.recipient.firstname}} {{conversation.recipient.lastname}}
+                                                {{conversation.recipient | userFullname}}
                                                 <small>{{conversation.messages[conversation.messages.length - 1].ts_create | datetimeFilter:'ago'}}</small>
                                             </span>
                                             <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 50 : 45)}}...</p>
@@ -186,7 +186,7 @@
                                         ng-href="#/{{notification.scope}}/{{notification.objectId}}">
                                             <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
                                             <span class="contacts-title">
-                                                {{notification.author.firstname}} {{notification.author.lastname}} /
+                                                {{notification.author | userFullname}} /
                                                 {{notification.name}} / {{notification.scope}}
                                                 <small>{{notification.ts_create | datetimeFilter:'ago'}}</small>
                                             </span>
