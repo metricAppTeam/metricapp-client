@@ -1,5 +1,9 @@
 <!-- START: TASKS -->
 <div ng-controller="TasksController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li class="active"><a ng-href="#/tasks">Tasks</a></li>
+    </ul>
     <div class="page-title">
         <h2><span class="fa fa-tasks"></span> Tasks <small ng-if="!vm.loading && vm.success">{{vm.buffer.length}} tasks</small></h2>
     </div>

@@ -4,9 +4,11 @@
 * @ngdoc controller
 * @name NotificationsWidgetController
 * @module metricapp
+* @requires $scope
 * @requires $location
 * @requires NotificationService
 * @requires UserService
+* @requires AUTH_EVENTS
 *
 * @description
 * Realizes the control layer for `notifications.widget.view`.
@@ -16,9 +18,9 @@ angular.module('metricapp')
 
 .controller('NotificationsWidgetController', NotificationsWidgetController);
 
-NotificationsWidgetController.$inject = ['$location', 'NotificationService', 'UserService'];
+NotificationsWidgetController.$inject = ['$scope', '$location', 'NotificationService', 'UserService', 'AUTH_EVENTS'];
 
-function NotificationsWidgetController($location, NotificationService, UserService) {
+function NotificationsWidgetController($scope, $location, NotificationService, UserService, AUTH_EVENTS) {
 
     var vm = this;
 
@@ -70,7 +72,10 @@ function NotificationsWidgetController($location, NotificationService, UserServi
         vm.notifications = [];
         vm.news = 0;
         vm.toread = 0;
-        _loadNotifications(0, 5);
+        //_loadNotifications(0, 5);
+        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
+            _loadNotifications(0, 5);
+        });
     }
 
 }

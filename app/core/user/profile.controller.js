@@ -12,6 +12,7 @@
 * @requires AuthService
 * @requires GENDERS
 * @requires USER_EVENTS
+* @requires AUTH_EVENTS
 *
 * @description
 * Realizes the control layer for `profile.view` and `update-profile.view`
@@ -21,9 +22,9 @@ angular.module('metricapp')
 
 .controller('ProfileController', ProfileController);
 
-ProfileController.$inject = ['$scope', '$rootScope', '$location', '$routeParams', 'UserService', 'AuthService', 'GENDERS', 'USER_EVENTS'];
+ProfileController.$inject = ['$scope', '$rootScope', '$location', '$routeParams', 'UserService', 'AuthService', 'GENDERS', 'USER_EVENTS', 'AUTH_EVENTS'];
 
-function ProfileController($scope, $rootScope, $location, $routeParams, UserService, AuthService, GENDERS, USER_EVENTS) {
+function ProfileController($scope, $rootScope, $location, $routeParams, UserService, AuthService, GENDERS, USER_EVENTS, AUTH_EVENTS) {
 
     var vm = this;
 

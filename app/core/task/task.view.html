@@ -1,5 +1,10 @@
 <!-- START: TASK -->
 <div ng-controller="TaskController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li><a ng-href="#/tasks">Tasks</a></li>
+        <li class="active"><a ng-href="#/tasks/{{vm.currTask.id}}">Task</a></li>
+    </ul>
     <div class="page-title">
         <h2><span class="fa fa-tasks"></span> Task </h2>
     </div>

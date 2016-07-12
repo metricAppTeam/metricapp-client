@@ -1,5 +1,9 @@
 <!-- START: NOTIFICATIONS -->
 <div ng-controller="NotificationsController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li class="active"><a ng-href="#/notifications">Notifications</a></li>
+    </ul>
     <div class="page-title">
         <h2><span class="fa fa-globe"></span> Notifications <small ng-if="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}} to read</small></h2>
     </div>

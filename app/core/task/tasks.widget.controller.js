@@ -4,9 +4,11 @@
 * @ngdoc controller
 * @name TasksWidgetController
 * @module metricapp
+* @requires $scope
 * @requires $location
 * @requires TaskService
 * @requires UserService
+* @requires AUTH_EVENTS
 *
 * @description
 * Realizes the control layer for `tasks.widget.view`.
@@ -16,9 +18,9 @@ angular.module('metricapp')
 
 .controller('TasksWidgetController', TasksWidgetController);
 
-TasksWidgetController.$inject = ['$location', 'TaskService', 'UserService'];
+TasksWidgetController.$inject = ['$scope', '$location', 'TaskService', 'UserService', 'AUTH_EVENTS'];
 
-function TasksWidgetController($location, TaskService, UserService) {
+function TasksWidgetController($scope, $location, TaskService, UserService, AUTH_EVENTS) {
 
     var vm = this;
 
@@ -66,7 +68,10 @@ function TasksWidgetController($location, TaskService, UserService) {
         vm.success = false;
         vm.errmsg = null;
         vm.tasks = [];
-        _loadTasks(0, 5);
+        //_loadTasks(0, 5);
+        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
+            _loadTasks(0, 5);
+        });
     }
 
 }
