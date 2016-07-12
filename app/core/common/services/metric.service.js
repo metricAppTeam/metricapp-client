@@ -31,6 +31,7 @@ MetricService.$inject = ['$http', '$window', 'AuthService'];
 function MetricService($http, $window, AuthService) {
 
     var service = this;
+    service.toUpdate;
 
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
@@ -38,6 +39,7 @@ function MetricService($http, $window, AuthService) {
     service.getMetricsByStateAndUser = getMetricsByStateAndUser;
     service.getMetricsByUser = getMetricsByUser;
     service.getMetricsByState = getMetricsByState;
+    service.toUpdateMetric = toUpdateMetric;
 
 
     /********************************************************************************
@@ -128,7 +130,7 @@ function MetricService($http, $window, AuthService) {
     ********************************************************************************/
 
     function getMetricsByMeasurementGoalId(measurementGoalId) {
-        
+
         return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
@@ -210,6 +212,12 @@ function MetricService($http, $window, AuthService) {
         );
 
     }
+
+    function toUpdateMetric(toUpdate){
+       if(toUpdate.metricatorId == AuthService.getUser().username){
+          service.metricToUpdate = toUpdate;
+       }
+   }
 
 
 }

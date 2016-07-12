@@ -57,7 +57,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
                 alert('Error retriving Metrics');
             }
         );
-    };
+    }
 
 
 
@@ -68,7 +68,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
     ********************************************************************************/
     function update(){
       vm.getMetrics();
-   };
+   }
 
    /********************************************************************************
    * @ngdoc method
@@ -83,7 +83,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
       }else{
          return false;
       }
-   };
+   }
 
 
    /********************************************************************************
@@ -97,8 +97,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
         console.log("Going to Update Metric");
         $location.path('/metric');
         console.log($location.path('/metric'));
-
-    };
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -111,7 +110,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
     function setMetricDialog(metricToAssignId){
        vm.metricDialog = vm.results.metrics[metricToAssignId];
 
-   };
+   }
 
 }
 
@@ -122,6 +121,6 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
     * Initializes the controller.
     ********************************************************************************/
     function _init(){
-    };
+    }
 
 })();
