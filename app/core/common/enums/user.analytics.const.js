@@ -5,7 +5,7 @@
 * @name USER_ANALYTICS
 * @module metricapp
 * @description
-* Defines constants related to user analytics.
+* Defines constants related to users analytics.
 * - GQM_SCORE:
 * - ACCEPTANCE_RATE:
 * - TASKS_PROGRESS:

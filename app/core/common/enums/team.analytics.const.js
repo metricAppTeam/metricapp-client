@@ -5,7 +5,7 @@
 * @name TEAM_ANALYTICS
 * @module metricapp
 * @description
-* Defines constants related to team analytics.
+* Defines constants related to teams analytics.
 * - GQM_SCORE:
 * - ACCEPTANCE_RATE:
 * - TASKS_PROGRESS:

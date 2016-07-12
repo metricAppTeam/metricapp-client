@@ -5,7 +5,7 @@
 * @name GRID_ANALYTICS
 * @module metricapp
 * @description
-* Defines constants related to grid analytics.
+* Defines constants related to grids analytics.
 * - GQM_SCORE:
 * - ACCEPTANCE_RATE:
 * - TASKS_PROGRESS:
@@ -18,16 +18,16 @@
 
 angular.module('metricapp')
 
-.constant('TEAM_ANALYTICS', {
-    GQM_SCORE:          'team.analytics.gqm.score',
-    ACCEPTANCE_RATE:    'team.analytics.acceptance.rate',
-    TASKS_PROGRESS:     'team.analytics.tasks.progress',
-    TASKS_RECORD:       'team.analytics.tasks.record',
-    ARTIFACTS_TOT:      'team.analytics.artifacts.tot',
-    ARTIFACTS_MGOAL:    'team.analytics.artifacts.mgoal',
-    ARTIFACTS_RATE:     'team.analytics.artifacts.rate',
-    GRIDS_TOT:          'team.analytics.grids.tot',
-    WORKTIME_RATIO:     'team.analytics.worktime.ratio'
+.constant('GRID_ANALYTICS', {
+    GQM_SCORE:          'grid.analytics.gqm.score',
+    ACCEPTANCE_RATE:    'grid.analytics.acceptance.rate',
+    TASKS_PROGRESS:     'grid.analytics.tasks.progress',
+    TASKS_RECORD:       'grid.analytics.tasks.record',
+    ARTIFACTS_TOT:      'grid.analytics.artifacts.tot',
+    ARTIFACTS_MGOAL:    'grid.analytics.artifacts.mgoal',
+    ARTIFACTS_RATE:     'grid.analytics.artifacts.rate',
+    GRIDS_TOT:          'grid.analytics.grids.tot',
+    WORKTIME_RATIO:     'grid.analytics.worktime.ratio'
 });
 
 })();
