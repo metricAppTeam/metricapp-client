@@ -183,7 +183,7 @@
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': notification.read,
                                         'status-unread': !notification.read}"
-                                        ng-href="#/{{notification.scope}}/{{notification.objectId}}">
+                                        ng-href="#/{{notification.scope}}/{{notification.artifact_id}}">
                                             <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
                                             <span class="contacts-title">
                                                 {{notification.author | userFullname}} /
