@@ -1,5 +1,10 @@
 <!-- START: METRIC -->
 <div ng-controller="MetricController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li><a ng-href="#/metrics">Metrics</a></li>
+        <li class="active"><a ng-href="#/metrics/{{vm.currMetric.id}}">Metric</a></li>
+    </ul>
     <div class="page-title">
         <h2><span class="fa fa-tasks"></span> Metric </h2>
     </div>

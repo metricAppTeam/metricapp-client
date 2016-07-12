@@ -1,5 +1,9 @@
 <!-- START: MGOALS -->
 <div ng-controller="MGoalsController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li class="active"><a ng-href="#/mgoals">Measurement Goals</a></li>
+    </ul>
     <div class="page-title">
         <h2><span class="fa fa-bullseye"></span> Goals <small>{{vm.buffer.length}} running</small></h2>
     </div>

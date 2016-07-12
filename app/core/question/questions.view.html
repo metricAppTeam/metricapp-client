@@ -1,5 +1,9 @@
 <!-- START: QUESTIONS -->
 <div ng-controller="QuestionsController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li class="active"><a ng-href="#/questions">Questions</a></li>
+    </ul>
     <div class="page-title">
         <h2><span class="fa fa-bullseye"></span> Questions <small>{{vm.buffer.length}} running</small></h2>
     </div>

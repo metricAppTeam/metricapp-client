@@ -1,5 +1,10 @@
 <!-- START: MEASUREMENT GOAL -->
 <div ng-controller="MGoalController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li><a ng-href="#/mgoals">Measurement Goals</a></li>
+        <li class="active"><a ng-href="#/mgoals/{{vm.currMGoal.id}}">Goal</a></li>
+    </ul>
     <div class="page-title">
         <h2><span class="fa fa-tasks"></span> Measurement Goal </h2>
     </div>
