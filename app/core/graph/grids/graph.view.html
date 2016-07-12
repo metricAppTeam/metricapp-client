@@ -44,7 +44,7 @@
                 <button class="btn btn-success btn-lg btn-block"><span class="fa fa-bar-chart-o"></span> View Analytics</button>
                 </a>
                 <!-- DIALOGS -->
-                <button class="btn btn-danger btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-createmgs"><span class="fa fa-edit"></span> Create Measurement Goal</button>
+                <button class="btn btn-danger btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-assignmgs"><span class="fa fa-edit"></span> Create Measurement Goal</button>
                 <br>
                 <br>
                 <br>
@@ -65,7 +65,7 @@
                         <bubbletree id="testChart" 
                             control="vm.chart"  
                             width="800"
-                            height="550"
+                            height="510"
                             link-distance='20' 
                             fill-style='solid' 
                             parent-color='steelblue'
@@ -96,5 +96,5 @@
 <!-- END MODAL: TEAM -->
 
 <!-- START MODAL: TEAM -->
-<div ng-include="'dist/views/graph/dialogs/createmgs.dialog.view.html'"></div>
+<div ng-include="'dist/views/graph/dialogs/assignmgs.dialog.view.html'"></div>
 <!-- END MODAL: TEAM -->

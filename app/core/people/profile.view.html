@@ -22,12 +22,12 @@
                 <a class="list-group-item" ng-click="vm.show=4"><span class="fa fa-pencil"></span> Edit Profile</a>
                 <a class="list-group-item" ng-click="vm.show=5"><span class="fa fa-gear"></span> Edit Credentials</a>
                 <a class="list-group-item">
-                    <div ng-switch on="{{vm.available}}">
+                    <div ng-switch on="{{vm.online}}">
                         <div ng-switch-when='true'>                    
-                            <button class="btn btn-success btn-rounded btn-block">Available for new task</button>
+                            <button class="btn btn-success btn-rounded btn-block">ONLINE</button>
                         </div>
                         <div ng-switch-when='false'>
-                            <button class="btn btn-danger btn-rounded btn-block">Unavailable for other task</button>
+                            <button class="btn btn-danger btn-rounded btn-block">OFFLINE</button>
                         </div>
                     </div>
                 </a>

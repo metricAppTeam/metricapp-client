@@ -48,7 +48,7 @@ function ProfileController($scope, $location, ProfileService, FlashService, GEND
     vm.gender = 'Female';
     vm.url = 'www.mariabianchi.it';
     vm.biography = 'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-    vm.available = 'true';
+    vm.online = 'false';
     vm.gender = 'FEMALE';
 
     vm.num_tasks_completed = 20;
@@ -56,8 +56,8 @@ function ProfileController($scope, $location, ProfileService, FlashService, GEND
     vm.total_task_for_user = vm.num_tasks_completed + vm.num_tasks_completed;
 
     vm.num_total_tasks_active_on_system = 50;
-    vm.percentage_tasks_completed =(vm.num_tasks_completed/vm.num_total_tasks_for_user)*100;
-    vm.percentage_tasks_active = (vm.num_tasks_active/vm.num_total_tasks_for_user)*100;
+    vm.percentage_tasks_completed = (vm.num_tasks_completed/vm.num_total_tasks_for_user);
+    vm.percentage_tasks_active = (vm.num_tasks_active/vm.num_total_tasks_for_user);
 
     //list of projects for view user project
     vm.projects = [
@@ -67,10 +67,9 @@ function ProfileController($scope, $location, ProfileService, FlashService, GEND
 
     //User completed tasks Vs Total User Tasks
     vm.completed_tasks_vs_active_tasks = [
-        {label: "% User's Completed Tasks", value: vm.percentage_tasks_completed},
-        {label: "% User's Active Tasks", value: vm.percentage_tasks_active}
+        {label: "% User's Completed Tasks", value: 10},
+        {label: "% User's Active Tasks", value: 20}
     ];
-
 
     /********************************************************************************
     * @ngdoc method

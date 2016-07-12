@@ -32,18 +32,26 @@ function GraphController($scope, $location) {
 
     /* VIEW TEAM */
 
-    //M.ators
+    //List of Metricators
     vm.metricators =
     [
         {firstname: 'Andrea', lastname: 'Gennusa', role: 'Metricator', email:'gennusa@gmail.com', online: true, },
         {firstname: 'Alessandro', lastname: 'Fazio', role: 'Metricator', email:'fazio@gmail.com', online: false},
+        
     ];
 
-    //Q.er
+    //List of Questioner
     vm.questioners =
     [
         {firstname: 'Marco', lastname: 'Piu', role: 'Questioner', email:'piu@gmail.com', online: true},
         {firstname: 'Davide', lastname: 'Nanni', role: 'Questioner', email:'nanni@gmail.com', online: false},
+    ];
+
+    //List of MGS on status Created
+    vm.created_mgs = [
+        {id: "1", name: "MGS 1"},
+        {id: "2", name: "MGS 2"},
+        {id: "3", name: "MGS 3"},
     ];
 
     vm.chart = {};
