@@ -30,6 +30,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
     vm.setMetricDialog = setMetricDialog;
     vm.update=update;
     vm.isMine=isMine;
+    vm.goToUpdateMetric = goToUpdateMetric;
 
     vm.update();
 
@@ -58,18 +59,23 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
         );
     };
 
+
+
     /********************************************************************************
     * @ngdoc method
-    * @name submit
     * @description
-    * Get active metrics for a metricator.
+    * update active metrics for the current user id
     ********************************************************************************/
-
-
     function update(){
       vm.getMetrics();
    };
 
+   /********************************************************************************
+   * @ngdoc method
+   * @name submit
+   * @description
+   * Check if the metric in vm.dialog has metricatorId field of the logged user
+   ********************************************************************************/
    function isMine(){
       if (vm.metricDialog.metricatorId == vm.userId){
          console.log(vm.metricDialog.metricatorId + ","+ vm.userId);
@@ -80,16 +86,12 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
    };
 
 
-    /*
-    function setMeasurementGoalDialog(measurementGoalToAssign){
-        vm.measurementGoalDialog.name = measurementGoalToAssign.name;
-        vm.measurementGoalDialog.purpose = measurementGoalToAssign.purpose;
-        vm.measurementGoalDialog.object = measurementGoalToAssign.object;
-        vm.measurementGoalDialog.viewPoint = measurementGoalToAssign.viewPoint;
-        vm.measurementGoalDialog.focus = measurementGoalToAssign.focus;
-    };*/
-
-
+   /********************************************************************************
+   * @ngdoc method
+   * @name submit
+   * @description
+   * This function is needed by modal when a metricator wants to change a metric
+   ********************************************************************************/
     function goToUpdateMetric(){
         MetricService.toUpdateMetric(vm.metricDialog);
         console.log("Going to Update Metric");
@@ -98,42 +100,18 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
 
     };
 
-
+    /********************************************************************************
+    * @ngdoc method
+    * @name submit
+    * @description
+    * This function is called to set the vm.metricDialog. When a model is opened, the metric
+    * displayed is the metric in vm.metricDialog. this method is generally called by ng-click
+    * of the table
+    ********************************************************************************/
     function setMetricDialog(metricToAssignId){
        vm.metricDialog = vm.results.metrics[metricToAssignId];
 
    };
-    /*
-    function getMeasurementGoals() {
-
-        /*var measurementGoal = {
-            id: mtc.id,
-        	name : mtc.name,
-        	creationDate : mtc.creationDate,
-        	lastVersionDate : mtc.lastVersionDate,
-        	releaseNote : mtc.releaseNote,
-        	state : mtc.state
-        };
-        MetricatorService.getMeasurementGoals().then(
-            function(data) {
-
-                measurementGoal.id = data.id;
-                measurementGoal.name = data.name;
-                measurementGoal.creationDate = data.creationDate;
-                measurementGoal.lastVersionDate = data.lastVersionDate;
-                measurementGoal.releaseNote = data.releaseNote;
-                measurementGoal.state = data.state;
-                $location.path('/measurementgoal');
-
-                return data.measurementGoals;
-
-
-            },
-            function(message) {
-                alert('Error retriving Measurement Goals');
-            }
-        );*/
-
 
 }
 
