@@ -18,6 +18,7 @@ angular.module('metricapp')
     {name: 'Dashboard', href: '#/metricator'},
     {name: 'Settings', href: '#/settings'},
     {name: 'Search MG', href: '#/measurementgoalsearch'}
+
 ]);
 
 })();

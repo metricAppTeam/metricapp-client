@@ -27,13 +27,13 @@
                         <a class="list-group-item" ng-click="vm.show=5"><span class="fa fa-gear"></span> Edit Credentials</a>
                     </div>                            
                 </div>
-
             </div>
             
             <div ng-switch on="vm.show">
                 <div ng-switch-when="1"><viewabout></viewabout></div>
                 <div ng-switch-when="2"><viewprojects></viewprojects></div>
                 <div ng-switch-when="3"><viewstatistics></viewstatistics></div>
+                <!-- AGGIUNGERE NG-IF PER DIVIDERE DA PERSONAL PROFILE A USER PROFILE--> 
                 <div ng-switch-when="4"><vieweditprofile></vieweditprofile></div>
                 <div ng-switch-when="5"><vieweditcredentials></vieweditcredentials></div>
             </div>
