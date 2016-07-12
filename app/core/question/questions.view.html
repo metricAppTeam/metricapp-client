@@ -1,0 +1,56 @@
+<!-- START: QUESTIONS -->
+<div ng-controller="QuestionsController as vm">
+    <div class="page-title">
+        <h2><span class="fa fa-bullseye"></span> Questions <small>{{vm.buffer.length}} running</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form name="searchForm" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-search"></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Who are you looking for?"
+                                        ng-model="vm.query"
+                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary"
+                                            ng-disabled="!vm.query || vm.loading"
+                                            ng-click="vm.search(vm.query)">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading questions ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <p ng-switch-when="true" ng-if="vm.questions.length == 0">No questions yet.</p>
+                    <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
+                        <ul >
+                            <li ng-repeat="question in vm.questions | filter:vm.query | orderBy:vm.orderBy track by question.id">
+                                <a ng-href="#/questions/{{question.id}}">{{question.name}}</a>
+                                <ul>
+                                    <li ng-repeat="(key, value) in question">{{key}} = {{value}}</li>
+                                <ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: MGOALS -->
