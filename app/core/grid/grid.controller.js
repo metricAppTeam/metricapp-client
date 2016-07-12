@@ -30,7 +30,13 @@ function GridController($scope, $location, $routeParams, $q,
 
     var vm = this;
 
+    vm.updateGrid = updateGrid;
+
     _init();
+
+    function updateGrid(grid) {
+
+    }
 
     function _loadGrid(gridid) {
         vm.loading = true;
@@ -54,6 +60,7 @@ function GridController($scope, $location, $routeParams, $q,
                         vm.currGrid.mgoals=angular.copy(resolve.mgoals.mgoals);
                         vm.currGrid.questions=angular.copy(resolve.questions.questions);
                         vm.currGrid.metrics=angular.copy(resolve.metrics.metrics);
+                        vm.updGrid = angular.copy(vm.currGrid);
                         vm.success=true;
                     },
                     function(reject){

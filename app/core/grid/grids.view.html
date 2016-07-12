@@ -1,5 +1,9 @@
 <!-- START: GRIDS -->
 <div ng-controller="GridsController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li class="active"><a ng-href="#/grids">Grids</a></li>
+    </ul>
     <div class="page-title">
         <h2><span class="fa fa-codepen"></span> Grids <small>{{vm.buffer.length}} running</small></h2>
     </div>
@@ -10,7 +14,7 @@
                     <div class="panel-body">
                         <form name="searchForm" class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <span class="fa fa-search"></span>
@@ -25,6 +29,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-success btn-block" data-toggle="modal" data-target="#modal-create-grid"
+                                    ng-if="globals.user.role == vm.ROLES.EXPERT"><span class="fa fa-plus"></span> Add new grid</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -37,7 +45,7 @@
                 <p ng-switch-when="true">Loading grids ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.grids.length == 0">No grids yet.</p>
-                    <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
+                    <div ng-switch-when="true">
                         <ul>
                             <li ng-repeat="grid in vm.grids | filter:vm.query | orderBy:vm.orderBy track by grid.id">
                                 <a ng-href="#/grids/{{grid.id}}">{{grid.name}}</a>
@@ -46,11 +54,19 @@
                                 <ul>
                             </li>
                         </ul>
+                        <div class="row">
+                            <div class="col-lg-1 col-centered">
+                                <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                            </div>
+                        </div>
                     </div>
-                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-({{vm.errmsg}}</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- START: MODAL CREATE GRID -->
+<div ng-include="'dist/views/grid/create-grid.modal.view.html'"></div>
+<!-- END: MODAL CREATE GRID -->
 <!-- END: GRIDS -->

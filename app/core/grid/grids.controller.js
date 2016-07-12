@@ -9,6 +9,7 @@
 * @requires $filter
 * @requires GridService
 * @requires UserService
+* @requires ROLES
 *
 * @description
 * Realizes the control layer for `grids.view`.
@@ -18,11 +19,13 @@ angular.module('metricapp')
 
 .controller('GridsController', GridsController);
 
-GridsController.$inject = ['$scope', '$location', '$filter', 'GridService', 'UserService'];
+GridsController.$inject = ['$scope', '$location', '$filter', 'GridService', 'UserService', 'ROLES'];
 
-function GridsController($scope, $location, $filter, GridService, UserService) {
+function GridsController($scope, $location, $filter, GridService, UserService, ROLES) {
 
     var vm = this;
+
+    vm.ROLES = ROLES;
 
     vm.loadMore = loadMore;
     vm.search = search;
@@ -67,7 +70,7 @@ function GridsController($scope, $location, $filter, GridService, UserService) {
         vm.buffer = [];
         vm.grids = [];
         vm.idx = 0;
-        vm.step = 5;
+        vm.step = 1;
         vm.query = '';
         vm.orderBy = 'name';
         _loadAllGrids();
