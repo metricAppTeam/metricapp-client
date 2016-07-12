@@ -6,7 +6,7 @@
 * @module metricapp
 *
 * @description
-* Realizes filters for datetime display.
+* Formats Date object display.
 ************************************************************************************/
 
 angular.module('metricapp')
@@ -99,7 +99,7 @@ function datetimeFilter() {
         }
     }
 
-    return function(dateObj,mode) {
+    return function(dateObj, mode) {
         if (!angular.isDate(dateObj)) {
             return dateObj;
         }

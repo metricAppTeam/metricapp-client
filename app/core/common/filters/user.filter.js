@@ -6,7 +6,7 @@
 * @module metricapp
 *
 * @description
-* Realizes filters for users to use inside ng-repeat.
+* Realizes filters for users to use inside ng-repeat and composite attributes.
 ************************************************************************************/
 
 angular.module('metricapp')
@@ -26,6 +26,20 @@ function userFilterByName() {
             }
         });
         return result;
+    };
+}
+
+angular.module('metricapp')
+
+.filter('userFullname', userFullname);
+
+function userFullname() {
+    return function(user) {
+        if (!user) {
+            return user;
+        }
+        var fullname = [user.firstname, user.lastname].join(' ');
+        return fullname;
     };
 }
 
