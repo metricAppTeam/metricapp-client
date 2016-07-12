@@ -13,28 +13,32 @@
 
 			<div ng-controller="MetricDashboardController as vm">
 				<!-- START DEFAULT DATATABLE -->
-				<div class="panel panel-default" ng-repeat="result in vm.results">
+				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">{{vm.resultsName[$index]}}</h3>
+						<h3 class="panel-title">My Metrics</h3>
 						<ul class="panel-controls">
 							<li><a ng-click="vm.update()" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
 						</ul>
 					</div>
 
 					<div class="panel-body" >
-						<table  class="table datatable">
+						<!--<table  class="table datatable">-->
+						<table st-table="displayedCollection" st-safe-src="vm.results.metrics" class="table table-striped">
 							<thead>
 								<tr>
-									<th>Id</th>
-									<th>Name</th>
-									<th>CreationDate</th>
-									<th>LastVersionDate</th>
-									<th>ReleaseNote</th>
-									<th>State</th>
+									<th st-sort="id">Id</th>
+									<th st-sort="name">Name</th>
+									<th st-sort="creationDate">CreationDate</th>
+									<th st-sort="lastVersionDate">LastVersionDate</th>
+									<th st-sort="releaseNote">ReleaseNote</th>
+									<th st-sort="state">State</th>
+								</tr>
+								<tr>
+									<th colspan="6"><input st-search="" class="form-control" placeholder="Global search ..." type="text"/></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="metric in result">
+								<tr ng-repeat="metric in displayedCollection">
 									<td>
 										<!--#modal_large vm.setModal($parent.$index) id="modal_button"-->
 										<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMetricDialog($parent.$index,$index)">{{metric.metadata.id}}</button>
@@ -46,6 +50,13 @@
 									<td>{{metric.metadata.state}}</td>
 								</tr>
 							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="5" class="text-center">
+										<div st-pagination="" st-items-by-page="10" st-displayed-pages="7"></div>
+									</td>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>

@@ -90,9 +90,6 @@ function MetricDashboardController($scope, $location, MetricService, $window) {
 
     function update(){
       vm.getMetrics();
-      vm.getMetricsByState('OnUpdate');
-      vm.getMetricsByState('Rejected');
-      console.log('ablablab'+vm.results.metrics[0]);
 
    };
 
