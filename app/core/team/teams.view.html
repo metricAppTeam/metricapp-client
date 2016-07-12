@@ -1,0 +1,65 @@
+<!-- START: TEAMS -->
+<div ng-controller="TeamsController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li class="active"><a ng-href="#/teams">Teams</a></li>
+    </ul>
+    <div class="page-title">
+        <h2><span class="fa fa-codepen"></span> Teams <small>{{vm.buffer.length}} running</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form name="searchForm" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-search"></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Who are you looking for?"
+                                        ng-model="vm.query"
+                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary"
+                                            ng-disabled="!vm.query || vm.loading"
+                                            ng-click="vm.search(vm.query)">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading teams ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <p ng-switch-when="true" ng-if="vm.grids.length == 0">No grids yet.</p>
+                    <div ng-switch-when="true">
+                        <ul>
+                            <li ng-repeat="team in vm.teams | filter:vm.query | orderBy:vm.orderBy track by team.id">
+                                <a ng-href="#/teams/{{team.id}}">{{team.name}}</a>
+                                <ul>
+                                    <li ng-repeat="(key, value) in team">{{key}} = {{value}}</li>
+                                <ul>
+                            </li>
+                        </ul>
+                        <div class="row">
+                            <div class="col-lg-1 col-centered">
+                                <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-({{vm.errmsg}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: TEAMS -->
