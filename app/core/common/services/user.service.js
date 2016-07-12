@@ -7,19 +7,20 @@
 * @requires $http
 * @requires $cookies
 * @requires REST_SERVICE
+* @requires AuthService
 * @requires ROLES
 *
 * @description
-* Realizes a user DAO.
+* Provides users management services.
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .service('UserService', UserService);
 
-UserService.$inject = ['$http', '$q', '$cookies', 'REST_SERVICE', 'ROLES', 'DB_USERS'];
+UserService.$inject = ['$http', '$q', '$cookies', 'REST_SERVICE', 'AuthService', 'ROLES', 'DB_USERS'];
 
-function UserService($http, $q, $cookies, REST_SERVICE, ROLES, DB_USERS) {
+function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_USERS) {
 
     var service = this;
 
@@ -30,17 +31,6 @@ function UserService($http, $q, $cookies, REST_SERVICE, ROLES, DB_USERS) {
 
     service.create = create;
     service.update = update;
-
-    function _getAuthUsername() {
-        var globals = $cookies.getObject('globals');
-        if (globals) {
-            var user = globals.user;
-            if (user) {
-                return user.username;
-            }
-        }
-        return null;
-    }
 
     /********************************************************************************
     * @ngdoc method
@@ -168,7 +158,7 @@ function UserService($http, $q, $cookies, REST_SERVICE, ROLES, DB_USERS) {
     ********************************************************************************/
     function update(userAttrs) {
         return $q(function(resolve, reject) {
-            var authusername = _getAuthUsername();
+            var authusername = AuthService.getUsername();
             var username = userAttrs.username;
             setTimeout(function() {
                 if (authusername === username) {
