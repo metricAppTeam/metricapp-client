@@ -7,46 +7,31 @@
             </div>
             <!-- PANEL BODY -->
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-3">                        
-                        <a class="tile tile-danger">
-                        {{vm.num_tasks_completed}}
-                            <p>Completed Tasks</p>
-                        </a>                        
+                <div class="row"> 
+                    <div class="col-md-4">
+                        <div
+                        donut-chart
+                        donut-data= 'vm.completed_tasks_vs_active_tasks'
+                        donut-colors='["#31C0BE","#c7254e"]'>
+                        </div>
                     </div>
-                    <div class="col-md-3">                        
-                        <a class="tile tile-default">
-                            {{vm.num_tasks_active}}
-                            <p>Active Tasks</p>
-                        </a>
-                    </div>
-                    <div class="col-md-3">                        
-                        <a class="tile tile-danger">{{ (vm.num_tasks_active/vm.num_total_tasks_for_user) * 100| number:1}}%
-                            <div class="informer informer-default dir-bl">Completed Tasks on Total Tasks</div>
-                        </a>                                                    
-                    </div>
-                </div> 
-                <div class="row">
-                    <div
-                    donut-chart
-                    donut-data= 'vm.completed_tasks_vs_active_tasks'
-                    donut-colors='["#31C0BE","#c7254e","#98a0d3"]'>
-                    </div>
-                    <div
-                    area-chart
-                    area-data='[
-                        { y: "2006", a: 100, b: 90 },
-                        { y: "2007", a: 75,  b: 65 },
-                        { y: "2008", a: 50,  b: 40 },
-                        { y: "2009", a: 75,  b: 65 },
-                        { y: "2010", a: 50,  b: 40 },
-                        { y: "2011", a: 75,  b: 65 },
-                        { y: "2012", a: 100, b: 90 }
-                      ]'
-                    area-xkey='y'
-                    area-ykeys='["a", "b"]'
-                    area-labels='["Serie A", "Serie B"]'
-                    line-colors='["#31C0BE", "#c7254e"]'>
+                    <div class="col-md-8">
+                        <div
+                        area-chart
+                        area-data='[
+                            { y: "2006", a: 100, b: 90 },
+                            { y: "2007", a: 75,  b: 65 },
+                            { y: "2008", a: 50,  b: 40 },
+                            { y: "2009", a: 75,  b: 65 },
+                            { y: "2010", a: 50,  b: 40 },
+                            { y: "2011", a: 75,  b: 65 },
+                            { y: "2012", a: 100, b: 90 }
+                          ]'
+                        area-xkey='y'
+                        area-ykeys='["a", "b"]'
+                        area-labels='["Serie A", "Serie B"]'
+                        line-colors='["#31C0BE", "#c7254e"]'>
+                        </div>
                     </div>
                 </div>
             </div>
