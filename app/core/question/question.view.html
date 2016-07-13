@@ -6,7 +6,7 @@
         <li class="active"><a ng-href="#/questions/{{vm.currQuestion.id}}">Question</a></li>
     </ul>
     <div class="page-title">
-        <h2><span class="fa fa-tasks"></span> Question </h2>
+        <h2><span class="fa fa-tasks"></span> Question <small ng-show="!vm.loading && vm.success">{{vm.currQuestion.name}}</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">

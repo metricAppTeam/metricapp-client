@@ -2,7 +2,7 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name MGoalService
+* @name MGoalController
 * @module metricapp
 * @requires $scope
 * @requires $location
@@ -15,11 +15,11 @@
 
 angular.module('metricapp')
 
-.controller('MGoalService', MGoalService);
+.controller('MGoalController', MGoalController);
 
-MGoalService.$inject = ['$scope', '$location', '$routeParams', 'MGoalService'];
+MGoalController.$inject = ['$scope', '$location', '$routeParams', 'MGoalService'];
 
-function MGoalService($scope, $location, $routeParams, MGoalService) {
+function MGoalController($scope, $location, $routeParams, MGoalService) {
 
     var vm = this;
 

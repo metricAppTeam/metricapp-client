@@ -41,15 +41,20 @@
                 <p ng-switch-when="true">Loading mgoals ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.goals.length == 0">No mgoals yet.</p>
-                    <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
-                        <ul >
+                    <div ng-switch-when="true">
+                        <ul>
                             <li ng-repeat="mgoal in vm.mgoals | filter:vm.query | orderBy:vm.orderBy track by mgoal.id">
                                 <a ng-href="#/mgoals/{{mgoal.id}}">{{mgoal.name}}</a>
                                 <ul>
                                     <li ng-repeat="(key, value) in mgoal">{{key}} = {{value}}</li>
-                                <ul>
+                                </ul>
                             </li>
                         </ul>
+                        <div class="row">
+                            <div class="col-lg-1 col-centered">
+                                <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                            </div>
+                        </div>
                     </div>
                     <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
                 </div>

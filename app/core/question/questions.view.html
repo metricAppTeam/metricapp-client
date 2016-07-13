@@ -42,14 +42,19 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.questions.length == 0">No questions yet.</p>
                     <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
-                        <ul >
+                        <ul>
                             <li ng-repeat="question in vm.questions | filter:vm.query | orderBy:vm.orderBy track by question.id">
                                 <a ng-href="#/questions/{{question.id}}">{{question.name}}</a>
                                 <ul>
                                     <li ng-repeat="(key, value) in question">{{key}} = {{value}}</li>
-                                <ul>
+                                </ul>
                             </li>
                         </ul>
+                        <div class="row">
+                            <div class="col-lg-1 col-centered">
+                                <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                            </div>
+                        </div>
                     </div>
                     <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
                 </div>

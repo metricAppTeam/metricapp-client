@@ -6,7 +6,7 @@
         <li class="active"><a ng-href="#/metrics/{{vm.currMetric.id}}">Metric</a></li>
     </ul>
     <div class="page-title">
-        <h2><span class="fa fa-tasks"></span> Metric </h2>
+        <h2><span class="fa fa-tasks"></span> Metric <small ng-show="!vm.loading && vm.success">{{vm.currMetric.name}}</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">

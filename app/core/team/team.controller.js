@@ -43,7 +43,7 @@ function TeamController($scope, $rootScope, $location, $routeParams, $q,
                 vm.currTeam = angular.copy(resolve.team);
                 var teamid = resolve.team.teamid;
                 vm.success = true;
-                $location.path('/grids/' + teamid);
+                $location.path('/teams/' + teamid);
                 $rootScope.$broadcast(TEAM_EVENTS.UPDATE_SUCCESS);
             },
             function(reject) {

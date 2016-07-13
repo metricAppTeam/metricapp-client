@@ -6,7 +6,7 @@
         <li class="active"><a ng-href="#/mgoals/{{vm.currMGoal.id}}">Goal</a></li>
     </ul>
     <div class="page-title">
-        <h2><span class="fa fa-tasks"></span> Measurement Goal </h2>
+        <h2><span class="fa fa-tasks"></span> Measurement Goal <small ng-show="!vm.loading && vm.success">{{vm.currMGoal.name}}</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">
