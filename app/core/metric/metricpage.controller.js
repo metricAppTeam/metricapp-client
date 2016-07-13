@@ -10,7 +10,6 @@
 *
 * Realizes the control layer for `metric.view`.
 ************************************************************************************/
-
 angular.module('metricapp')
 
 .controller('MetricPageController', MetricPageController);
@@ -19,9 +18,10 @@ MetricPageController.$inject = ['$scope','$routeParams', '$location','MetricServ
 
 function MetricPageController($scope,$routeParams, $location, MetricService, $window) {
     var vm = this;
-    vm.metric = _selectMetricToView();
-    console.log("id of metric is: "+ vm.metric.metadata.id);
-    vm.empty = true;
+    vm.listOfSet=['Integers','Reals'];
+    vm.listOfScaleType = [{value:'nominalScale', option:'Nominal Scale'},{value:'ordinalScale',option:'Ordinal Scale'},{value:'intervalScale',option:'Interval Scale'},{value:'ratioScale',option:'Ratio Scale'},{value:'absoluteScale',option:'Absolute Scale'}]
+    vm.metricDialog;
+    _selectMetricToView();
 
 
 
@@ -30,9 +30,16 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
     function _selectMetricToView(){
       if(angular.isUndefined($routeParams.id)){
-         return MetricService.getToUpdate();
+         vm.metricDialog= MetricService.getToUpdate();
       }else{
-         return MetricService.getMetricsById($routeParams.id);
+
+         MetricService.getMetricsById($routeParams.id).then(
+            function(data){
+               vm.metricDialog = data.metricsDTO[0];
+            },function(data){
+               vm.error = true;
+            }
+         );
       }
     }
 

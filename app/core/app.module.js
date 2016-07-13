@@ -19,6 +19,7 @@ angular.module('metricapp',[
     'ngFlash',
     'ngMockE2E',
     'smart-table',
+    'ui.ace',
     'nvd3',
     'angular.morris-chart'
 ]);

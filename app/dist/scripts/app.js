@@ -19,6 +19,7 @@ angular.module('metricapp',[
     'ngFlash',
     'ngMockE2E',
     'smart-table',
+    'ui.ace',
     'nvd3',
     'angular.morris-chart'
 ]);
@@ -3170,7 +3171,6 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 *
 * Realizes the control layer for `metric.view`.
 ************************************************************************************/
-
 angular.module('metricapp')
 
 .controller('MetricPageController', MetricPageController);
@@ -3179,9 +3179,10 @@ MetricPageController.$inject = ['$scope','$routeParams', '$location','MetricServ
 
 function MetricPageController($scope,$routeParams, $location, MetricService, $window) {
     var vm = this;
-    vm.metric = _selectMetricToView();
-    console.log("id of metric is: "+ vm.metric.metadata.id);
-    vm.empty = true;
+    vm.listOfSet=['Integers','Reals'];
+    vm.listOfScaleType = [{value:'nominalScale', option:'Nominal Scale'},{value:'ordinalScale',option:'Ordinal Scale'},{value:'intervalScale',option:'Interval Scale'},{value:'ratioScale',option:'Ratio Scale'},{value:'absoluteScale',option:'Absolute Scale'}]
+    vm.metricDialog;
+    _selectMetricToView();
 
 
 
@@ -3190,9 +3191,16 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
     function _selectMetricToView(){
       if(angular.isUndefined($routeParams.id)){
-         return MetricService.getToUpdate();
+         vm.metricDialog= MetricService.getToUpdate();
       }else{
-         return MetricService.getMetricsById($routeParams.id);
+
+         MetricService.getMetricsById($routeParams.id).then(
+            function(data){
+               vm.metricDialog = data.metricsDTO[0];
+            },function(data){
+               vm.error = true;
+            }
+         );
       }
     }
 
@@ -4291,63 +4299,6 @@ function GoalController($scope, $location) {
 
 /************************************************************************************
 * @ngdoc controller
-* @name GridController
-* @module metricapp
-* @requires $scope
-* @requires $location
-*
-* @description
-* Manages the Grid.
-* Realizes the control layer for `grid.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('GridController', GridController);
-
-GridController.$inject = ['$scope', '$location'];
-
-function GridController($scope, $location) {
-
-    var vm = this;
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function foo(a, b, c) {
-
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name _foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function _foo(a, b, c) {
-
-    }
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
 * @name MetricController
 * @module metricapp
 * @requires $scope
@@ -4422,6 +4373,63 @@ angular.module('metricapp')
 QuestionController.$inject = ['$scope', '$location'];
 
 function QuestionController($scope, $location) {
+
+    var vm = this;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @returns {type} Insert here return description.
+    ********************************************************************************/
+    function foo(a, b, c) {
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name _foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @returns {type} Insert here return description.
+    ********************************************************************************/
+    function _foo(a, b, c) {
+
+    }
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name GridController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the Grid.
+* Realizes the control layer for `grid.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('GridController', GridController);
+
+GridController.$inject = ['$scope', '$location'];
+
+function GridController($scope, $location) {
 
     var vm = this;
 
