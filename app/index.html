@@ -91,7 +91,7 @@
                             </div>
                         </div>
                     </li>
-                    <li ng-repeat="action in vm.actions">
+                    <li ng-repeat="action in vm.actions" ng-cloak>
                         <a ng-href="{{action.href}}"><span class="fa fa-{{action.icon}}"></span><span class="xn-text">{{action.name}}</span></a>
                     </li>
                 </ul>
