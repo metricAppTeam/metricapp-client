@@ -54,10 +54,10 @@ function routes($routeProvider, $locationProvider) {
 
     // MESSAGES
     .when('/messages', {
-        templateUrl: 'dist/views/chat/messages.view.html'
+        templateUrl: 'dist/views/message/messages.view.html'
     })
     .when('/messages/:username', {
-        templateUrl: 'dist/views/chat/messages.view.html'
+        templateUrl: 'dist/views/message/messages.view.html'
     })
 
     // NOTIFICATIONS
