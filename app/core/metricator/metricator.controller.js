@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 17:29:29
+* @Last Modified time: 2016-07-13 20:01:09
 */
 (function () { 'use strict';
 
@@ -21,9 +21,9 @@ angular.module('metricapp')
 
 .controller('MetricatorController', MetricatorController);
 
-MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window',"STATES"];
+MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window','STATES', 'AuthService'];
 
-function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window, STATES) {
+function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window, STATES, AuthService) {
 
     var vm = this;
 
@@ -60,6 +60,8 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         };*/
 
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
+    vm.isModifiable = isModifiable;
+    vm.isSubmittable = isSubmittable;
     
     vm.getMeasurementGoals();
     //vm.getMetrics();
@@ -266,6 +268,30 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 alert(message);
             });*/
     }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isModifiable
+    * @description
+    * Measurement Goal can be updated.
+    ********************************************************************************/
+    function isModifiable(){
+        console.log(vm.measurementGoalDialog.metricatorId);
+        console.log(AuthService.getUser().username);
+        console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
+        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isSubmittable
+    * @description
+    * Measurement Goal can be submitted.
+    ********************************************************************************/ 
+    function isSubmittable(){
+        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
+    }
+
 
 
     /*

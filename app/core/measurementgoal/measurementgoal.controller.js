@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 15:02:04
+* @Last Modified time: 2016-07-13 19:45:30
 */
 (function () { 'use strict';
 
@@ -61,7 +61,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.removeMetricFromMeasurementGoal = removeMetricFromMeasurementGoal;
     vm.addSomethingToMeasurementGoal = addSomethingToMeasurementGoal;
     vm.removeSomethingFromMeasurementGoal = removeSomethingFromMeasurementGoal;
-
+    vm.isModifiable = isModifiable;
 
     //initOrganizationalGoalDialog();
     //getMetricsByMeasurementGoal();
@@ -434,6 +434,18 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         console.log(vm.measurementGoalDialog);
     }
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name isModifiable
+    * @description
+    * Measurement Goal can be updated.
+    ********************************************************************************/
+    function isModifiable(){
+        console.log(vm.measurementGoalDialog.metricatorId);
+        console.log(AuthService.getUser().username);
+        console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
+        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username;
+    }
 
 
     /********************************************************************************
