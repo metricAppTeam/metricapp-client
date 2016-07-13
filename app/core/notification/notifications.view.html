@@ -5,7 +5,11 @@
         <li class="active"><a ng-href="#/notifications">Notifications</a></li>
     </ul>
     <div class="page-title">
-        <h2><span class="fa fa-globe"></span> Notifications <small ng-if="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}} to read</small></h2>
+        <h2><span class="fa fa-globe"></span>
+            Notifications
+            <span class="label label-success" ng-show="!vm.loading && vm.success && vm.toread == 0">Up to date</span>
+            <span class="label label-danger" ng-show="!vm.loading && vm.success && vm.toread != 0">{{vm.toread}} to read</span>
+        </h2>
     </div>
     <div class="page-content-wrap">
         <div class="row">
@@ -30,7 +34,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <button class="btn btn-success btn-block" ng-click="vm.setAllRead()"><span class="fa fa-check"></span> Mark all read</button>
+                                    <button class="btn btn-success btn-block"
+                                    ng-click="vm.setAllRead()"
+                                    ng-disabled="vm.loading || !vm.success || vm.toread == 0"><span class="fa fa-check"></span> Mark all read</button>
                                 </div>
                             </div>
                         </form>

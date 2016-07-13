@@ -168,9 +168,9 @@
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><span class="fa fa-globe"></span> Notifications</h3>
                                     <div class="pull-right">
-                                        <span class="label label-info"
-                                        ng-disabled="!vm.loading || !vm.success || vm.toread == 0"
-                                        ng-click="vm.setAllRead()">Mark all read</span>
+                                        <button class="btn btn-success btn-xs"
+                                        ng-disabled="vm.loading || !vm.success || vm.toread == 0"
+                                        ng-click="vm.setAllRead()">Mark all read</button>
                                         <span class="label label-success"
                                         ng-show="!vm.loading && vm.success && vm.toread == 0">Up to date</span>
                                         <span class="label label-danger"
@@ -196,7 +196,7 @@
                                                 <p>{{notification.name}}</p>
                                             </span>
                                         </a>
-                                        <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered" href="#">
+                                        <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more" href="#">
                                             <button type="button" class="btn btn-default btn-sm" ng-click="vm.loadMore()">Load More</button>
                                         </a>
                                         <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">

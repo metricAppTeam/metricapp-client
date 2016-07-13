@@ -54,6 +54,7 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
             notification.read = true;
         });
         vm.toread = 0;
+        vm.news = 0;
         NotificationService.setAllRead();
         $rootScope.$broadcast(NOTIFICATION_EVENTS.ALL_READ);
     }

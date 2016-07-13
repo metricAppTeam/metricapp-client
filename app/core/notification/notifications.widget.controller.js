@@ -56,6 +56,7 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
             notification.read = true;
         });
         vm.toread = 0;
+        vm.news = 0;
         NotificationService.setAllRead();
         $rootScope.$broadcast(NOTIFICATION_EVENTS.ALL_READ);
     }
@@ -124,7 +125,7 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
         vm.buffer = [];
         vm.notifications = [];
         vm.idx = 0;
-        vm.step = 2;
+        vm.step = 3;
         vm.query = '';
         vm.orderBy = '-ts_create';
         if (AuthService.isLogged()) {
@@ -144,6 +145,7 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
                 notification.read = true;
             });
             vm.toread = 0;
+            vm.news = 0;
         });
         $scope.$on(NOTIFICATION_EVENTS.SET_READ, function(event, notificationid) {
             for (var i = 0; i < vm.buffer.length; i++) {
@@ -157,103 +159,6 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
             }
         });
     }
-    /*
-    var vm = this;
-
-    vm.setRead = setRead;
-    vm.setAllRead = setAllRead;
-
-    _init();
-
-    function setRead(notificationid) {
-        var i = vm.notifications.indexOf(function(notification) {
-            return notification.id === notificationid;
-        });
-        if (i >= 0 && !vm.notifications[i].read) {
-            vm.notifications[i].read = true;
-            vm.toread--;
-        }
-        NotificationService.setReadById(notificationid);
-        $rootScope.$broadcast(NOTIFICATION_EVENTS.SET_READ, notificationid);
-    }
-
-    function setAllRead() {
-        vm.notifications.forEach(function(notification) {
-            notification.read = true;
-        });
-        vm.toread = 0;
-        NotificationService.setAllRead();
-        $rootScope.$broadcast(NOTIFICATION_EVENTS.ALL_READ);
-    }
-
-    function _loadNotifications(ntfStart, ntfN) {
-        vm.loading = true;
-        vm.success = false;
-        NotificationService.getNFrom(ntfStart, ntfN).then(
-            function(resolve) {
-                var notifications = resolve.notifications;
-                vm.news = resolve.news;
-                vm.toread = resolve.toread;
-                var authors = [];
-                notifications.forEach(function(notification) {
-                    authors.push(notification.author);
-                });
-                return UserService.getInArray(authors).then(
-                    function(resolve) {
-                        var users = resolve.users;
-                        notifications.forEach(function(notification) {
-                            var author = notification.author;
-                            notification.author = angular.copy(users[author]);
-                            if (notification.author) {
-                                vm.notifications.push(notification);
-                            }
-                        });
-                        vm.success = true;
-                    },
-                    function(reject) {
-                        vm.errmsg = reject.errmsg;
-                        vm.success = false;
-                    }
-                );
-            },
-            function(reject) {
-                vm.errmsg = reject.errmsg;
-                vm.success = false;
-            }
-        ).finally(function() {
-            vm.loading = false;
-        });
-    }
-
-    function _init() {
-        vm.loading = true;
-        vm.success = false;
-        vm.errmsg = null;
-        vm.notifications = [];
-        vm.news = 0;
-        vm.toread = 0;
-        if (AuthService.isLogged()) {
-            _loadNotifications(0, 5);
-        }
-        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
-            _loadNotifications(0, 5);
-        });
-        $scope.$on(NOTIFICATION_EVENTS.ALL_READ, function() {
-            vm.notifications.forEach(function(notification) {
-                notification.read = true;
-            });
-            vm.toread = 0;
-        });
-        $scope.$on(NOTIFICATION_EVENTS.SET_READ, function(event, notificationid) {
-            var i = vm.notifications.indexOf(function(notification) {
-                return notification.id === notificationid;
-            });
-            if (i >= 0 && !vm.notifications[i].read) {
-                vm.notifications[i].read = true;
-                vm.toread--;
-            }
-        });
-    }*/
 
 }
 
