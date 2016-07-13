@@ -1,7 +1,7 @@
 <div ng-controller="MetricPageController as vm">
 
    <div class="page-title">
-   	<h2><span class="fa fa-arrow-circle-o-left"></span> Metric Update </h2>
+      <h2><span class="fa fa-arrow-circle-o-left"></span> Metric Update </h2>
    </div>
 
 
@@ -33,7 +33,7 @@
             <div class="form-group" ng-class="{ 'hash-error': metricForm.description.$dirty && metricForm.description.$invalid }">
                <label class="col-md-3 control-label">Description:</label>
                <div class="col-md-9">
-                  <input class="form-control" name="description" type="text" role="textbox" placeholder="{{vm.loadedMetric.description}}" ng-model="vm.newMetric.description" ng-class="{ 'error': metricForm.description.$dirty && metricForm.description.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
+                  <textarea class="form-control" name="description" type="text" role="textbox" placeholder="{{vm.loadedMetric.description}}" ng-model="vm.newMetric.description" ng-class="{ 'error': metricForm.description.$dirty && metricForm.description.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
                   <div class="form-group-helper" role="alert" ng-messages="metricForm.description.$error" ng-show="metric.description.$dirty">
                      <div>Error</div>
                   </div>
@@ -50,142 +50,137 @@
                </div>
             </div>
 
-            <!-- FORM FIELD: hasUserDefinedList -->
-            <div class="form-group">
-               <label class="col-md-3 control-label">Has user defined list?:</label>
-               <div class="col-md-9">
-                  <input name="hasUserDefinedList" type="checkbox" placeholder="{{vm.loadedMetric.hasUserDefinedList}}" ng-model="vm.newMetric.hasUserDefinedList"/>
-               </div>
-            </div>
-            <!-- FORM FIELD: isordered -->
-            <div class="form-group" ng-show="vm.hasUserDefinedList">
-               <label class="col-md-3 control-label">Is it ordered?:</label>
-               <div class="col-md-9">
-                  <input name="ordered" type="checkbox" placeholder="{{vm.loadedMetric.ordered}}" ng-model="vm.newMetric.ordered"/>
-               </div>
-            </div>
+                  <!-- FORM FIELD: Set-->
+                  <div class="form-group">
+                     <label class="col-md-3 control-label">Set:</label>
+                     <div class="col-md-9">
+                        <select ng-model="vm.newMetric.set" placeholder="{{vm.loadedMetric.set}}" class="form-control" >
+                           <option selected>{{vm.loadedMetric.set}}</option>
+                           <option ng-repeat="option in vm.listOfSet" ng-value="option">{{option}}</option>
+                        </select>
+                     </div>
+                  </div>
+
+                  <!-- FORM FIELD: scaleType-->
+                  <div class="form-group">
+                     <label class="col-md-3 control-label">Scale Type:</label>
+                     <div class="col-md-9">
+                        <select ng-model="vm.newMetric.scaleType" placeholder="{{vm.loadedMetric.scaleType}}" class="form-control" ngRequired="true" >
+                           <option selected ng-value="{{vm.loadedMetric.scaleType}}">{{vm.loadedMetric.scaleType}}</option>
+                           <option ng-repeat="option in vm.listOfScaleType" ng-value="option.value">{{option.option}}</option>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="block">
+                  <h4>Metric's values</h4>
+                  <div class="panel panel-default">
+                     <div class="panel-body">
+                  <!-- FORM FIELD: hasUserDefinedList -->
+                  <div class="form-group">
+                     <label class="col-md-3 control-label">Has user defined list?:</label>
+                     <div class="col-md-9">
+                        <input name="hasUserDefinedList" type="checkbox" placeholder="{{vm.loadedMetric.hasUserDefinedList}}" ng-model="vm.newMetric.hasUserDefinedList"/>
+                     </div>
+                  </div>
+                  <!-- FORM FIELD: isordered -->
+                  <div class="form-group" ng-show="vm.newMetric.hasUserDefinedList">
+                     <label class="col-md-3 control-label">Is it ordered?:</label>
+                     <div class="col-md-9">
+                        <input name="ordered" type="checkbox" placeholder="{{vm.loadedMetric.ordered}}" ng-model="vm.newMetric.ordered"/>
+                     </div>
+                  </div>
 
 
-            <!-- FORM FIELD: UserDefinedList -->
-            <div class="form-group" ng-show="vm.newMetric.hasUserDefinedList">
-               <label class="col-md-3 control-label">List:</label>
+                  <!-- FORM FIELD: UserDefinedList -->
+                  <div class="form-group" ng-show="vm.newMetric.hasUserDefinedList">
+                     <label class="col-md-3 control-label">List:</label>
 
-               <div class="col-md-9">
-                  <table st-table="displayedCollection" st-safe-src="vm.newMetric.userDefinedList" class="table table-striped" >
-                     <thead>
-                        <tr>
-                           <th st-sort="value">value</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr ng-repeat="value in displayedCollection">
-                           <td>{{value}}</td>
-                        </tr>
-                     </tbody>
-                     <tfoot>
-                        <tr>
-                           <td colspan="1" class="text-center">
-                              <div st-pagination="" st-items-by-page="20" st-displayed-pages="7"></div>
-                           </td>
-                        </tr>
-                     </tfoot>
-                  </table>
-               </div>
-            </div>
-
-
-            <!-- FORM FIELD: hasmax -->
-            <div class="form-group">
-               <label class="col-md-3 control-label">Has max?:</label>
-               <div class="col-md-9">
-                  <input name="hasMax" type="checkbox"  ng-model="vm.newMetric.hasMax"/>
-               </div>
-            </div>
-
-            <!-- FORM FIELD: Max-->
-            <div class="form-group" ng-show="vm.newMetric.hasMax">
-               <label class="col-md-3 control-label">Max:</label>
-               <div class="col-md-9">
-                  <input class="form-control" name="max" type="number" role="textbox" placeholder="{{vm.loadedMetric.max}}" ng-model="vm.newMetric.max"  ng-model-options="{ updateOn: 'blur' }"/>
-               </div>
-            </div>
-
-            <!-- FORM FIELD: hasMin -->
-            <div class="form-group">
-               <label class="col-md-3 control-label">Has min?:</label>
-               <div class="col-md-9">
-                  <input name="hasMin" type="checkbox"  placeholder="{{vm.loadedMetric.hasMin}}" ng-model="vm.newMetric.hasMin"/>
-               </div>
-            </div>
-
-            <!-- FORM FIELD: Min-->
-            <div class="form-group" ng-show="vm.newMetric.hasMin">
-               <label class="col-md-3 control-label">Min:</label>
-               <div class="col-md-9">
-                  <input class="form-control" name="min" type="number" role="textbox" placeholder="{{vm.loadedMetric.min}}" ng-model="vm.newMetric.min"/>
-               </div>
-            </div>
-
-            <!-- FORM FIELD: Set-->
-            <div class="form-group">
-               <label class="col-md-3 control-label">Set:</label>
-               <div class="col-md-9">
-                  <select ng-model="vm.newMetric.set" placeholder="{{vm.loadedMetric.set}}" class="form-control" >
-                     <option selected>{{vm.loadedMetric.set}}</option>
-                     <option ng-repeat="option in vm.listOfSet" ng-value="option">{{option}}</option>
-                  </select>
-               </div>
-            </div>
-
-            <!-- FORM FIELD: scaleType-->
-            <div class="form-group">
-               <label class="col-md-3 control-label">Scale Type:</label>
-               <div class="col-md-9">
-                  <select ng-model="vm.newMetric.scaleType" placeholder="{{vm.loadedMetric.scaleType}}" class="form-control" ngRequired="true" >
-                     <option selected ng-value="{{vm.loadedMetric.scaleType}}">{{vm.loadedMetric.scaleType}}</option>
-                     <option ng-repeat="option in vm.listOfScaleType" ng-value="option.value">{{option.option}}</option>
-                  </select>
-               </div>
-            </div>
-
-
-
-
-
-
-
-            <!-- FORM FIELD: FUNCTION JAVASCRIPT -->
-            <div ui-ace class="form-group" ng-class="{ 'hash-error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }">
-               <label class="col-md-3 control-label">Interpretation Model:</label>
-               <div class="col-md-9">
-                  <input class="form-control" name="functionJavascript" type="checkbox"   ng-model="vm.newMetric.functionJavascript" ng-class="{ 'error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }" ng-model-options="{ updateOn: 'blur' }"/>
-                  <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.functionJavascript.$error" ng-show="measurementGoalForm.functionJavascript.$dirty">
-                     <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+                     <div class="col-md-9">
+                        <table st-table="displayedCollection" st-safe-src="vm.newMetric.userDefinedList" class="table table-striped" >
+                           <thead>
+                              <tr>
+                                 <th st-sort="value">value</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="value in displayedCollection">
+                                 <td>{{value}}</td>
+                              </tr>
+                           </tbody>
+                           <tfoot>
+                              <tr>
+                                 <td colspan="1" class="text-center">
+                                    <div st-pagination="" st-items-by-page="20" st-displayed-pages="7"></div>
+                                 </td>
+                              </tr>
+                           </tfoot>
+                        </table>
+                     </div>
                   </div>
                </div>
             </div>
+                        </div>
 
+                        <div class="block">
+                        <h4>Maximum value</h4>
+            <div class="panel panel-default">
+               <div class="panel-body">
+                  <!-- FORM FIELD: hasmax -->
+                  <div class="form-group">
+                     <label class="col-md-3 control-label">Has max?:</label>
+                     <div class="col-md-9">
+                        <input name="hasMax" type="checkbox"  ng-model="vm.newMetric.hasMax"/>
+                     </div>
+                  </div>
 
-            <!-- FORM FIELD: TAGS -->
-            <div class="form-group">
-               <label class="col-md-3 col-xs-12 control-label">Tags</label>
-               <div class="col-md-6 col-xs-12">
-                  <span
-                  class="btn btn-info btn-rounded" ng-repeat="tag in vm.newMetric.metadata.tags">
-                  {{tag}}
-                  <i ng-click="vm.removeTagFromMeasurementGoal($index)"
-                  class="glyphicon glyphicon-remove-circle pull-right"></i>
-               </span>
+                  <!-- FORM FIELD: Max-->
+                  <div class="form-group" ng-show="vm.newMetric.hasMax">
+                     <label class="col-md-3 control-label">Max:</label>
+                     <div class="col-md-9">
+                        <input class="form-control" name="max" type="number" role="textbox" placeholder="{{vm.loadedMetric.max}}" ng-model="vm.newMetric.max"  ng-model-options="{ updateOn: 'blur' }"/>
+                     </div>
+                  </div>
+               </div>
             </div>
          </div>
-         <!-- FORM FIELD: NEW TAG -->
-         <div class="form-group">
-            <label class="col-md-3 col-xs-12 control-label">New Tag</label>
-            <div class="col-md-6 col-xs-12">
-               <input type="text" ng-model="vm.newTag">
-               <a ng-click="vm.addTagToMeasurementGoal()"class="btn btn-primary">Add</a>
+
+      <div class="block">
+      <h4>Maximum value</h4>
+            <div class="panel panel-default">
+               <div class="panel-body">
+                  <!-- FORM FIELD: hasMin -->
+                  <div class="form-group">
+                     <label class="col-md-3 control-label">Has min?:</label>
+                     <div class="col-md-9">
+                        <input name="hasMin" type="checkbox"  placeholder="{{vm.loadedMetric.hasMin}}" ng-model="vm.newMetric.hasMin"/>
+                     </div>
+                  </div>
+
+                  <!-- FORM FIELD: Min-->
+                  <div class="form-group" ng-show="vm.newMetric.hasMin">
+                     <label class="col-md-3 control-label">Min:</label>
+                     <div class="col-md-9">
+                        <input class="form-control" name="min" type="number" role="textbox" placeholder="{{vm.loadedMetric.min}}" ng-model="vm.newMetric.min"/>
+                     </div>
+                  </div>
+               </div>
             </div>
          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
          <!-- FORM ACTIONS: SUBMIT, CANCEL -->
          <div class="form-actions">
@@ -231,19 +226,18 @@
 
 
 
-
-         </div>
-         <div class="col-md-6 pull-right">
-            <!-- FORM FIELD: Release Note -->
-            <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }">
-               <label class="col-md-3 control-label">Release Note:</label>
-               <div class="col-md-9">
-                  <input class="form-control" name="releaseNote" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.releaseNote}}" ng-model="vm.newMetric.metadata.releaseNote" ng-class="{ 'error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
-                  <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.releaseNote.$error" ng-show="metric.metadata.releaseNote.$dirty">
-                     <div>Error</div>
-                  </div>
+      </div>
+      <div class="col-md-6 pull-right">
+         <!-- FORM FIELD: Release Note -->
+         <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }">
+            <label class="col-md-3 control-label">Release Note:</label>
+            <div class="col-md-9">
+               <textarea class="form-control" name="releaseNote" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.releaseNote}}" ng-model="vm.newMetric.metadata.releaseNote" ng-class="{ 'error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" rows=5/>
+               <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.releaseNote.$error" ng-show="metric.metadata.releaseNote.$dirty">
+                  <div>Error</div>
                </div>
             </div>
+         </div>
 
 
          <!--FIELD: ID-->
@@ -302,8 +296,37 @@
          </div>
 
 
+                     <!-- FORM FIELD: TAGS -->
+                     <div class="block">
+                     <h4>Tags</h4>
+                     <div class="panel panel-default">
+                        <div class="panel-body">
+                           <div class="form-group">
+                              <label class="col-md-3 col-xs-12 control-label">Tags</label>
+                              <div class="col-md-6 col-xs-12">
+                                 <span style="width: 80; word-wrap: break-word;"
+                                 class="btn btn-info btn-rounded" ng-repeat="tag in vm.newMetric.metadata.tags">
+                                 {{tag}}
+                                 <i ng-click="vm.newMetric.metadata.tags =  vm.newMetric.metadata.tags.slice(0,$index).concat(vm.newMetric.metadata.tags.slice($index+1))"
+                                 class="glyphicon glyphicon-remove-circle pull-right"></i>
+                              </span>
+                           </div>
+                        </div>
+                        <!-- FORM FIELD: NEW TAG -->
+                        <div class="form-group">
+                           <label class="col-md-3 col-xs-12 control-label">New Tag</label>
+                           <a ng-click="vm.pushIfNotExists(vm.newTag, vm.newMetric.metadata.tags)" class="btn btn-primary">Add</a>
+                           <div class="col-md-6 col-xs-12">
+                              <input  class="form-control" type="text" ng-model="vm.newTag" ng-click="vm.newTag=''">
 
-</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+
+      </div>
 
 
 

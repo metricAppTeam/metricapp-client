@@ -28,6 +28,7 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
     vm.newMetric;
 
     vm.copyDialogToModel=copyDialogToModel;
+    vm.pushIfNotExists=pushIfNotExists;
     _selectMetricToView();
 
 
@@ -58,7 +59,14 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
     function copyDialogToModel(){
       vm.newMetric =angular.copy(vm.loadedMetric);
-      
+   }
+
+   function pushIfNotExists(el, array){
+      if(array.indexOf(el)==-1 && !angular.isUndefined(el)){
+         if(el.length>1 && el.length<31){
+            array.push(el);
+         }
+      }
    }
 
 
