@@ -87,6 +87,25 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/team/analytics.view.html'
     })
 
+    // MIC'S VERSION OF GRID
+    /*
+    .when('/graph', {
+        templateUrl: 'dist/views/graph/grids/graph.view.html'
+    })
+    .when('/grids', {
+        templateUrl: 'dist/views/graph/grids/grids.view.html'
+    })
+    .when('/graph_draft', {
+        templateUrl: 'dist/views/graph/draft/draft.view.html'
+    })
+    .when('/analytics', {
+        templateUrl: 'dist/views/graph/analytics/analytics.view.html'
+    })
+    .when('/teams', {
+        templateUrl: 'dist/views/teams/teams.view.html'
+    })
+    */
+
     // MEASUREMENT GOALS
     .when('/mgoals', {
         templateUrl: 'dist/views/mgoal/mgoals.view.html'
