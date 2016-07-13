@@ -132,7 +132,7 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
             _loadAllNotifications();
         }
         $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
-            _loadNotifications();
+            _loadAllNotifications();
         });
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;
