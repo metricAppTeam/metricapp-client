@@ -35,6 +35,18 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
 
     _init();
 
+    function loadMore() {
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.notifications = vm.notifications.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
+    }
+
+    function search(query) {
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+    }
+
     function setRead(notificationid) {
         for (var i = 0; i < vm.buffer.length; i++) {
             var notification = vm.buffer[i];
@@ -61,18 +73,6 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
 
     function removeNews() {
         vm.news = 0;
-    }
-
-    function loadMore() {
-        if (vm.idx < vm.buffer.length) {
-            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.notifications = vm.notifications.concat(vm.buffer.slice(vm.idx, e));
-            vm.idx = e;
-        }
-    }
-
-    function search(query) {
-        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
     }
 
     function _loadAllNotifications() {
@@ -105,8 +105,10 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
         vm.data = [];
         vm.buffer = [];
         vm.notifications = [];
+        vm.toread = 0;
+        vm.news = 0;
         vm.idx = 0;
-        vm.step = 2;
+        vm.step = 1;
         vm.query = '';
         vm.orderBy = '-ts_create';
         _loadAllNotifications();
@@ -121,6 +123,7 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
                 notification.read = true;
             });
             vm.toread = 0;
+            vm.news = 0;
         });
         $scope.$on(NOTIFICATION_EVENTS.SET_READ, function(event, notificationid) {
             for (var i = 0; i < vm.buffer.length; i++) {

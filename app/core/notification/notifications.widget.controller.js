@@ -37,6 +37,18 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
 
     _init();
 
+    function loadMore() {
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.notifications = vm.notifications.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
+    }
+
+    function search(query) {
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+    }
+
     function setRead(notificationid) {
         for (var i = 0; i < vm.buffer.length; i++) {
             var notification = vm.buffer[i];
@@ -63,18 +75,6 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
 
     function removeNews() {
         vm.news = 0;
-    }
-
-    function loadMore() {
-        if (vm.idx < vm.buffer.length) {
-            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.notifications = vm.notifications.concat(vm.buffer.slice(vm.idx, e));
-            vm.idx = e;
-        }
-    }
-
-    function search(query) {
-        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
     }
 
     function _loadAllNotifications() {
@@ -124,8 +124,10 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
         vm.data = [];
         vm.buffer = [];
         vm.notifications = [];
+        vm.toread = 0;
+        vm.news = 0;
         vm.idx = 0;
-        vm.step = 3;
+        vm.step = 1;
         vm.query = '';
         vm.orderBy = '-ts_create';
         if (AuthService.isLogged()) {
