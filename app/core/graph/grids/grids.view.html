@@ -1,0 +1,83 @@
+<!-- START: GRID -->
+<div ng-controller="GridsController as vm">
+    <div class="page-title">
+        <h2><a href= "#/home"><span class="fa fa-arrow-circle-o-left"></span></a> Grids <small ng-if="globals.user">Welcome, {{globals.user.username}}</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START SPARKLINE CHARTS -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">ORGANIZATION GRIDS</h3>
+                    </div>
+                    <div class="block-content"> 
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="20%">
+                                        <div class="th">Grid name</div>
+                                    </th>
+                                    <th width="9%">
+                                        <div class="th">
+                                            Progress
+                                        </div>
+                                    </th>
+                                    <th width="15%">
+                                        <div class="th">
+                                            Status
+                                        </div>
+                                    </th>
+                                    <th width="40%">
+                                        <div class="th">
+                                            Description
+                                        </div>
+                                    </th>
+                                    <th width="20%">
+                                        <div class="th">
+                                            Last Update
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in vm.grids">
+                                    <td>
+                                        <!--<a href="#/grid/{{x.id}}">
+                                            <h2>{{x.name}}</h2>
+                                        </a>-->
+                                        <a href="/#graph">
+                                            <h2>{{x.id}} {{x.name}}</h2>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <round-progress
+                                            max="100"
+                                            current="x.progress"
+                                            color="#81C784"
+                                            bgcolor="#eaeaea"
+                                            radius="20"
+                                            stroke="5"
+                                            semi="false"
+                                            rounded="true"
+                                            clockwise="true"
+                                            responsive="true"
+                                            duration="2000"
+                                            animation="easeInOutQuart"
+                                            animation-delay="0">
+                                        </round-progress>
+                                    </td>
+                                    <td><span class="label label-danger">{{x.status}}</span></td>
+                                    <td><p class="text-justify">{{x.description}}</p></td>
+                                    <td><p class="text-justify">{{x.last_update}}</p></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END SPARKLINE CHARTS -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: GRID -->

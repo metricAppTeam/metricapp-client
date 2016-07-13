@@ -48,6 +48,20 @@ function ProfileController($scope, $location, ProfileService, FlashService, GEND
     vm.gender = 'Female';
     vm.url = 'www.mariabianchi.it';
     vm.biography = 'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    vm.online = 'false';
+    vm.gender = 'FEMALE';
+
+    //list of projects for view user project
+    vm.projects = [
+        {name: "ISSR Project1", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. ",status: "active",progress: 30},
+        {name: "ISSR Project2", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. ",status: "active",progress: 65}
+    ];
+
+    //User completed tasks Vs Total User Tasks
+    vm.completed_tasks_vs_active_tasks = [
+        {label: "% User's Completed Tasks", value: 10},
+        {label: "% User's Active Tasks", value: 20}
+    ];
 
     /********************************************************************************
     * @ngdoc method

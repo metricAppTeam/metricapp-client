@@ -14,7 +14,7 @@
 angular.module('metricapp')
 
 .constant('QUESTIONER_ACTIONS', [
-    {name: 'Profile', href: '/#profile'},
+    {name: 'Personal Profile', href: '/#personalprofile'},
     {name: 'QUESTIONER_ACTION_2', href: '#/questioner_action_2'},
     {name: 'Settings', href: '#/settings'}
 ]);

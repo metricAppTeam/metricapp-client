@@ -1,0 +1,100 @@
+<!-- COMPONENT VIEW GRID -->
+<div ng-controller="GraphController as vm">
+    <div class="page-title">                    
+        <h2><a href= "#/grids"><span class="fa fa-arrow-circle-o-left"></span></a> View Grid</h2>
+    </div>
+    <!-- END PANEL DEFAULT -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3>GQM Grid {{vm.name}} details: </h3>
+                        </div>
+                    </div>
+                    <!-- START HORIZONTAL FORM SAMPLE -->
+                    <div class="block"> 
+                        <form class="form-horizontal" role="form">
+
+                                <h5><span class="fa fa-caret-down"></span> Name:</h5>
+                                <p class="col-md-12">{{vm.name}}</p>
+
+                                <h5><span class="fa fa-caret-down"></span> Description:</h5>
+                                <p class="col-md-12 text-justify">{{vm.description}}</p>
+
+                                <h5><span class="fa fa-caret-down"></span> Creation:</h5>
+                                <p class="col-md-12">{{vm.ts_creation}}</p>
+
+                                <h5><span class="fa fa-caret-down"></span> Update:</h5>
+                                <p class="col-md-12">{{vm.ts_update}}</p>
+
+                                <h5># Measurement Goals: <span  class="text-info">{{vm.num_mgs}}</span></h5>
+
+                                <h5># Questions: <span class="text-info">{{vm.num_metrics}}</span></h5>
+
+                                <h5># Metrics: <span class="text-info">{{vm.num_questions}}</span></h5>
+                                <h5 class="text-danger"># MGs to be assigned: <span>{{vm.num_questions}}</span></h5>
+                        </form>
+                    </div>
+                </div>
+                
+                <button class="btn btn-info btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-team"><span class="fa fa-group"></span> View Team</button>
+                
+                <button class="btn btn-danger btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-assignmgs"><span class="fa fa-edit"></span> Assign Measurement Goal</button>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+            
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3>GQM {{vm.name}} graph</h3>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <nvd3 options="vm.options" data="vm.data" class="with-3d-shadow with-transitions"></nvd3>
+                    </div>
+                    <!--<div class="svg-container">
+                        <button type="button" class="btn" ng-click="vm.click()">Load</button>
+                        <bubbletree id="testChart" 
+                            control="vm.chart"  
+                            width="800"
+                            height="510"
+                            link-distance='20' 
+                            fill-style='solid' 
+                            parent-color='steelblue'
+                            child-color='lightgray'
+                            collapsed-color='#ffdd99'
+                            link-color='#9ecae1'
+                            enable-tooltip="false" 
+                            text-x="1.45em"
+                            text-y="2.45em"
+                            scale-score="8">
+                        </bubbletree>
+                    </div>-->
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+<!-- NG CONTROLLER -->
+
+<!-- START MODAL: TEAM -->
+<div ng-include="'dist/views/graph/dialogs/team.dialog.view.html'"></div>
+<!-- END MODAL: TEAM -->
+
+<!-- START MODAL: TEAM -->
+<div ng-include="'dist/views/graph/dialogs/assignmgs.dialog.view.html'"></div>
+<!-- END MODAL: TEAM -->

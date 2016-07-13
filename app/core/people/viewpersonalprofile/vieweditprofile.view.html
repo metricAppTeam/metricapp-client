@@ -1,5 +1,5 @@
 <div ng-controller="ProfileController as vm">
-    <div class="col-md-8">
+    <div class="col-md-7">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h4 class="panel-title">EDIT PROFILE</h4>
@@ -15,7 +15,7 @@
                     		<div class="form-group" ng-class="{ 'hash-error': editProfileForm.firstname.$dirty && editProfileForme.firstname.$invalid }">
                     		    <label class="col-md-3 control-label">Firstname:</label>
                     		    <div class="col-md-9">
-                    		        <input class="form-control" name="firstname" type="text" role="textbox"
+                    		        <input class="form-control" name="firstname" type="text" role="textbox" 
                     		        ng-model="vm.firstname"
                     		        ng-model-options="{ updateOn: 'default' }"
                     		        ng-class="{ 'error': editProfileForm.firstname.$dirty && editProfileForm.firstname.$invalid }"
@@ -62,7 +62,7 @@
 	                        <div class="form-group" ng-class="{ 'hash-error': editProfileForm.birthday.$dirty && editProfileForm.birthday.$invalid }">
 	                            <label class="col-md-3 control-label">Birthday:</label>
 	                            <div class="col-md-9">
-	                                <input class="form-control" name="birthday" type="date"
+	                                <input class="form-control" name="birthday" type="date" datetime="dd/MM/yyyy"
 	                                ng-model="vm.birthday"
 	                                ng-model-options="{ updateOn: 'default' }"
 	                                ng-class="{ 'error': editProfileForm.birthday.$dirty && editProfileForm.birthday.$invalid }"

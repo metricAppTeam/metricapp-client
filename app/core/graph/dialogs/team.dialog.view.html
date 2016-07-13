@@ -1,0 +1,69 @@
+<!-- START: DIALOG TEAM -->
+<div class="modal" id="modal-team" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true" ng-controller="GraphController as vm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="defModalHead">Team</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                   
+                    <div class="col-md-6">
+                        <!-- CONTACT LIST METRICATORS -->
+                        <h5 style="color:#757575;" class="text-center">METRICATORS</h5>
+                        <div class="list-group list-group-contacts" ng-repeat="x in vm.metricators">
+                            <a class="list-group-item">                                 
+                                <div ng-switch on="{{x.online}}">
+                                    <div ng-switch-when="true">
+                                        <div class="list-group-status status-online"></div>
+                                    </div>
+                                    <div ng-switch-when="false">
+                                        <div class="list-group-status status-offline"></div>
+                                    </div>
+                                </div>
+                                <span class="contacts-title">{{x.firstname}} {{x.lastname}}</span>
+                                <p>{{x.role}}</p>                                                                        
+                                <div class="list-group-controls">
+                                    <button class="btn btn-danger"><span class="fa fa-envelope-o"></span></button>
+                                </div>                                    
+                            </a>                              
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!-- CONTACT LIST QUESTIONERS -->
+                        <h5 style="color:#757575;" class="text-center">QUESTIONERS</h5>
+                        <div class="list-group list-group-contacts" ng-repeat="x in vm.questioners">
+                            <a href="#" class="list-group-item">    
+
+                                <div ng-switch on="{{x.online}}">
+                                    <div ng-switch-when="true">
+                                        <div class="list-group-status status-online"></div>
+                                    </div>
+                                    <div ng-switch-when="false">
+                                        <div class="list-group-status status-offline"></div>
+                                    </div>
+                                </div>
+                                <span class="contacts-title">{{x.firstname}} {{x.lastname}}</span>
+                                <p>{{x.role}}</p>                                                                        
+                                <div class="list-group-controls">
+                                    <button class="btn btn-info"><span class="fa fa-envelope-o"></span></button>
+                                </div>                                    
+                            </a>                              
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: DIALOG SIGNUP -->

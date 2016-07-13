@@ -19,7 +19,10 @@ angular.module('metricapp',[
     'ngFlash',
     'ngMockE2E',
     'nvd3',
-    'angular.morris-chart'
+    'angular.morris-chart',
+    'angular-svg-round-progress',
+    'angular-bubbletree',
+    'angularChart'
 ]);
 
 })();

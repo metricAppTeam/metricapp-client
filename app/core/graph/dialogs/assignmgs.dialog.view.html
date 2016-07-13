@@ -1,0 +1,56 @@
+<!-- START: ASSIGN MGS -->
+<div class="modal" id="modal-assignmgs" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true" ng-controller="GraphController as vm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="defModalHead">Assign Measurement Goal</h4>
+            </div>
+            <div class="modal-body">
+                <form name="MgsForm" role="form" class="form-horizontal">
+                    <h5 style="color:#757575;" class="text-center">PENDING MEASUREMENT GOALS</h5> 
+                    <div class="form-group">
+                        <label class="col-md-1 control-label">Select</label>
+                        <div class="col-md-11">                                                                      
+                            <select class="form-control select" ng-options='x as x.name for x in vm.pending_mgs track by x.name' ng-model="vm.selectedMg" data-style="btn-success" ng-required="true" name="mgs">
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- CONTACT LIST METRICATORS -->
+                            <h5 style="color:#757575;" class="text-center">METRICATORS</h5>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Select</label>
+                                <div class="col-md-9">                                                            
+                                    <select class="form-control select" ng-options='m as (m.firstname + " "+ m.lastname) for m in vm.metricators track by m.lastname' ng-model="vm.selectedMetricator" data-style="btn-success" ng-required="true" name="metricator">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-6">
+                            <!-- CONTACT LIST QUESTIONERS -->
+                            <h5 style="color:#757575;" class="text-center">QUESTIONERS</h5>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Select</label>
+                                <div class="col-md-9">                     
+                                    <select class="form-control select" ng-options='m as (m.firstname + " "+ m.lastname) for m in vm.questioners track by m.lastname' ng-model="vm.selectedQuestioner" data-style="btn-success" name="questioner" ng-required="true">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <br>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-success" ng-disabled="!MgsForm.mgs.$error.required && !!MgsForm.metricator.$error.required && !MgsForm.questioner.$error.required" ng-click="" data-dismiss="modal">Assign</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: DIALOG ASSIGN MEASUREMENT GOAL -->
