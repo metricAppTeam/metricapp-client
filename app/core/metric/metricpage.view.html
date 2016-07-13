@@ -1,237 +1,323 @@
 <div ng-controller="MetricPageController as vm">
 
-
-ciao
-{{vm.metric.metadata.id}}
-
-<!-- FORM: METRICL -->
-<div class="row">
-<div class="col-md-6 pull-left">
-<h2>Metric :{{vm.metric.metadata.id}}</h2>
-<form name="metricForm" role="form" class="form-horizontal" ng-submit="vm.submitMetric()" novalidate="novalidate">
-
-   <div style=".editor {
-	height: 200px,
-}" class="editor" ui-ace ng-model="code">ciaoneee</div>
-
-    <!-- FORM FIELD: NAME -->
-    <div class="form-group" ng-class="{ 'hash-error': metricForm.name.$dirty && metricForm.name.$invalid }">
-        <label class="col-md-3 control-label">Name:</label>
-        <div class="col-md-9">
-           <input class="form-control" name="name" type="text" role="textbox" placeholder="{{vm.metricDialog.name}}" ng-model="vm.name" ng-class="{ 'error': metricForm.name.$dirty && metricForm.name.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
-           <div class="form-group-helper" role="alert" ng-messages="metricForm.name.$error" ng-show="metric.name.$dirty">
-                <div>Error</div>
-           </div>
-        </div>
-    </div>
-
-    <!--FIELD: ID-->
-    <div class="form-group" ng-class="{ 'hash-error': metricForm.id.$dirty && metricForm.id.$invalid }">
-        <label class="col-md-3 control-label">Id:</label>
-        <div class="col-md-9">
-           <input class="form-control" name="id" type="text" role="textbox" placeholder="{{vm.metricDialog.metadata.id}}" ng-model="vm.metadata.id" ng-class="{ 'error': metricForm.metadata.id.$dirty && metricForm.metadata.id.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
-           <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.id.$error" ng-show="metric.metadata.id.$dirty">
-                <div>Error</div>
-           </div>
-        </div>
-    </div>
-    <!-- FORM FIELD: DESCRIPTION -->
-  <div class="form-group" ng-class="{ 'hash-error': metricForm.description.$dirty && metricForm.description.$invalid }">
-      <label class="col-md-3 control-label">Description:</label>
-      <div class="col-md-9">
-          <input class="form-control" name="description" type="text" role="textbox" placeholder="{{vm.metricDialog.description}}" ng-model="vm.description" ng-class="{ 'error': metricForm.description.$dirty && metricForm.description.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
-          <div class="form-group-helper" role="alert" ng-messages="metricForm.description.$error" ng-show="metric.description.$dirty">
-               <div>Error</div>
-          </div>
-      </div>
-  </div>
-  <!-- FORM FIELD: UNIT -->
-<div class="form-group" ng-class="{ 'hash-error': metricForm.unit.$dirty && metricForm.unit.$invalid }">
-   <label class="col-md-3 control-label">Unit:</label>
-   <div class="col-md-9">
-       <input class="form-control" name="unit" type="text" role="textbox" placeholder="{{vm.metricDialog.unit}}" ng-model="vm.unit" ng-class="{ 'error': metricForm.unit.$dirty && metricForm.unit.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
-       <div class="form-group-helper" role="alert" ng-messages="metricForm.unit.$error" ng-show="metric.unit.$dirty">
-             <div>Error</div>
-       </div>
+   <div class="page-title">
+   	<h2><span class="fa fa-arrow-circle-o-left"></span> Metric Update </h2>
    </div>
+
+
+   <!-- FORM: METRIC -->
+
+   <div class="row">
+      <form name="metricForm" role="form" class="form-horizontal"  ng-submit="vm.submitMetric()" novalidate="novalidate">
+         <div class="col-md-6 pull-left">
+
+
+
+            <div style=".editor {
+               height: 200px,
+            }" class="editor" ui-ace ng-model="code">ciaoneee</div>
+
+            <!-- FORM FIELD: NAME -->
+            <div class="form-group" ng-class="{ 'hash-error': metricForm.name.$dirty && metricForm.name.$invalid }">
+               <label class="col-md-3 control-label">Name:</label>
+               <div class="col-md-9">
+                  <input class="form-control" name="name" type="text" role="textbox" placeholder="{{vm.loadedMetric.name}}" ng-model="vm.newMetric.name" ng-class="{ 'error': metricForm.name.$dirty && metricForm.name.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
+                  <div class="form-group-helper" role="alert" ng-messages="metricForm.name.$error" ng-show="metric.name.$dirty">
+                     <div>Error</div>
+                  </div>
+               </div>
+            </div>
+
+
+            <!-- FORM FIELD: DESCRIPTION -->
+            <div class="form-group" ng-class="{ 'hash-error': metricForm.description.$dirty && metricForm.description.$invalid }">
+               <label class="col-md-3 control-label">Description:</label>
+               <div class="col-md-9">
+                  <input class="form-control" name="description" type="text" role="textbox" placeholder="{{vm.loadedMetric.description}}" ng-model="vm.newMetric.description" ng-class="{ 'error': metricForm.description.$dirty && metricForm.description.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
+                  <div class="form-group-helper" role="alert" ng-messages="metricForm.description.$error" ng-show="metric.description.$dirty">
+                     <div>Error</div>
+                  </div>
+               </div>
+            </div>
+            <!-- FORM FIELD: UNIT -->
+            <div class="form-group" ng-class="{ 'hash-error': metricForm.unit.$dirty && metricForm.unit.$invalid }">
+               <label class="col-md-3 control-label">Unit:</label>
+               <div class="col-md-9">
+                  <input class="form-control" name="unit" type="text" role="textbox" placeholder="{{vm.loadedMetric.unit}}" ng-model="vm.newMetric.unit" ng-class="{ 'error': metricForm.unit.$dirty && metricForm.unit.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
+                  <div class="form-group-helper" role="alert" ng-messages="metricForm.unit.$error" ng-show="metric.unit.$dirty">
+                     <div>Error</div>
+                  </div>
+               </div>
+            </div>
+
+            <!-- FORM FIELD: hasUserDefinedList -->
+            <div class="form-group">
+               <label class="col-md-3 control-label">Has user defined list?:</label>
+               <div class="col-md-9">
+                  <input name="hasUserDefinedList" type="checkbox" placeholder="{{vm.loadedMetric.hasUserDefinedList}}" ng-model="vm.newMetric.hasUserDefinedList"/>
+               </div>
+            </div>
+            <!-- FORM FIELD: isordered -->
+            <div class="form-group" ng-show="vm.hasUserDefinedList">
+               <label class="col-md-3 control-label">Is it ordered?:</label>
+               <div class="col-md-9">
+                  <input name="ordered" type="checkbox" placeholder="{{vm.loadedMetric.ordered}}" ng-model="vm.newMetric.ordered"/>
+               </div>
+            </div>
+
+
+            <!-- FORM FIELD: UserDefinedList -->
+            <div class="form-group" ng-show="vm.newMetric.hasUserDefinedList">
+               <label class="col-md-3 control-label">List:</label>
+
+               <div class="col-md-9">
+                  <table st-table="displayedCollection" st-safe-src="vm.newMetric.userDefinedList" class="table table-striped" >
+                     <thead>
+                        <tr>
+                           <th st-sort="value">value</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr ng-repeat="value in displayedCollection">
+                           <td>{{value}}</td>
+                        </tr>
+                     </tbody>
+                     <tfoot>
+                        <tr>
+                           <td colspan="1" class="text-center">
+                              <div st-pagination="" st-items-by-page="20" st-displayed-pages="7"></div>
+                           </td>
+                        </tr>
+                     </tfoot>
+                  </table>
+               </div>
+            </div>
+
+
+            <!-- FORM FIELD: hasmax -->
+            <div class="form-group">
+               <label class="col-md-3 control-label">Has max?:</label>
+               <div class="col-md-9">
+                  <input name="hasMax" type="checkbox"  ng-model="vm.newMetric.hasMax"/>
+               </div>
+            </div>
+
+            <!-- FORM FIELD: Max-->
+            <div class="form-group" ng-show="vm.newMetric.hasMax">
+               <label class="col-md-3 control-label">Max:</label>
+               <div class="col-md-9">
+                  <input class="form-control" name="max" type="number" role="textbox" placeholder="{{vm.loadedMetric.max}}" ng-model="vm.newMetric.max"  ng-model-options="{ updateOn: 'blur' }"/>
+               </div>
+            </div>
+
+            <!-- FORM FIELD: hasMin -->
+            <div class="form-group">
+               <label class="col-md-3 control-label">Has min?:</label>
+               <div class="col-md-9">
+                  <input name="hasMin" type="checkbox"  placeholder="{{vm.loadedMetric.hasMin}}" ng-model="vm.newMetric.hasMin"/>
+               </div>
+            </div>
+
+            <!-- FORM FIELD: Min-->
+            <div class="form-group" ng-show="vm.newMetric.hasMin">
+               <label class="col-md-3 control-label">Min:</label>
+               <div class="col-md-9">
+                  <input class="form-control" name="min" type="number" role="textbox" placeholder="{{vm.loadedMetric.min}}" ng-model="vm.newMetric.min"/>
+               </div>
+            </div>
+
+            <!-- FORM FIELD: Set-->
+            <div class="form-group">
+               <label class="col-md-3 control-label">Set:</label>
+               <div class="col-md-9">
+                  <select ng-model="vm.newMetric.set" placeholder="{{vm.loadedMetric.set}}" class="form-control" >
+                     <option selected>{{vm.loadedMetric.set}}</option>
+                     <option ng-repeat="option in vm.listOfSet" ng-value="option">{{option}}</option>
+                  </select>
+               </div>
+            </div>
+
+            <!-- FORM FIELD: scaleType-->
+            <div class="form-group">
+               <label class="col-md-3 control-label">Scale Type:</label>
+               <div class="col-md-9">
+                  <select ng-model="vm.newMetric.scaleType" placeholder="{{vm.loadedMetric.scaleType}}" class="form-control" ngRequired="true" >
+                     <option selected ng-value="{{vm.loadedMetric.scaleType}}">{{vm.loadedMetric.scaleType}}</option>
+                     <option ng-repeat="option in vm.listOfScaleType" ng-value="option.value">{{option.option}}</option>
+                  </select>
+               </div>
+            </div>
+
+
+
+
+
+
+
+            <!-- FORM FIELD: FUNCTION JAVASCRIPT -->
+            <div ui-ace class="form-group" ng-class="{ 'hash-error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }">
+               <label class="col-md-3 control-label">Interpretation Model:</label>
+               <div class="col-md-9">
+                  <input class="form-control" name="functionJavascript" type="checkbox"   ng-model="vm.newMetric.functionJavascript" ng-class="{ 'error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }" ng-model-options="{ updateOn: 'blur' }"/>
+                  <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.functionJavascript.$error" ng-show="measurementGoalForm.functionJavascript.$dirty">
+                     <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+                  </div>
+               </div>
+            </div>
+
+
+            <!-- FORM FIELD: TAGS -->
+            <div class="form-group">
+               <label class="col-md-3 col-xs-12 control-label">Tags</label>
+               <div class="col-md-6 col-xs-12">
+                  <span
+                  class="btn btn-info btn-rounded" ng-repeat="tag in vm.newMetric.metadata.tags">
+                  {{tag}}
+                  <i ng-click="vm.removeTagFromMeasurementGoal($index)"
+                  class="glyphicon glyphicon-remove-circle pull-right"></i>
+               </span>
+            </div>
+         </div>
+         <!-- FORM FIELD: NEW TAG -->
+         <div class="form-group">
+            <label class="col-md-3 col-xs-12 control-label">New Tag</label>
+            <div class="col-md-6 col-xs-12">
+               <input type="text" ng-model="vm.newTag">
+               <a ng-click="vm.addTagToMeasurementGoal()"class="btn btn-primary">Add</a>
+            </div>
+         </div>
+
+         <!-- FORM ACTIONS: SUBMIT, CANCEL -->
+         <div class="form-actions">
+            <button class="btn btn-primary" type="submit" ng-disabled="metricForm.$invalid || vm.loading">Submit MeasurementGoal</button>
+         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         </div>
+         <div class="col-md-6 pull-right">
+            <!-- FORM FIELD: Release Note -->
+            <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }">
+               <label class="col-md-3 control-label">Release Note:</label>
+               <div class="col-md-9">
+                  <input class="form-control" name="releaseNote" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.releaseNote}}" ng-model="vm.newMetric.metadata.releaseNote" ng-class="{ 'error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
+                  <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.releaseNote.$error" ng-show="metric.metadata.releaseNote.$dirty">
+                     <div>Error</div>
+                  </div>
+               </div>
+            </div>
+
+
+         <!--FIELD: ID-->
+         <div class="form-group" ng-class="{ 'hash-error': metricForm.id.$dirty && metricForm.id.$invalid }">
+            <label class="col-md-3 control-label">Id:</label>
+            <div class="col-md-9">
+               <input class="form-control" name="id" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.id}}" ng-model="vm.newMetric.metadata.id" ng-class="{ 'error': metricForm.metadata.id.$dirty && metricForm.metadata.id.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+               <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.id.$error" ng-show="metric.metadata.id.$dirty">
+                  <div>Error</div>
+               </div>
+            </div>
+         </div>
+
+         <!--FIELD: Metricator ID-->
+         <div class="form-group" ng-class="{ 'hash-error': metricForm.metricatorId.$dirty && metricForm.metricatorId.$invalid }">
+            <label class="col-md-3 control-label">Metricator Id:</label>
+            <div class="col-md-9">
+               <input class="form-control" name="metricatorId" type="text" role="textbox" placeholder="{{vm.loadedMetric.metricatorId}}" ng-model="vm.newMetric.metricatorId" ng-class="{ 'error': metricForm.metricatorId.$dirty && metricForm.metricatorId.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+               <div class="form-group-helper" role="alert" ng-messages="metricForm.metricatorId.$error" ng-show="metric.metricatorId.$dirty">
+                  <div>Error</div>
+               </div>
+            </div>
+         </div>
+
+         <!--FIELD: version-->
+         <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.version.$dirty && metricForm.metadata.version.$invalid }">
+            <label class="col-md-3 control-label">Version:</label>
+            <div class="col-md-9">
+               <input class="form-control" name="version" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.version}}" ng-model="vm.newMetric.metadata.version" ng-class="{ 'error': metricForm.metadata.version.$dirty && metricForm.metadata.version.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+               <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.version.$error" ng-show="metric.metadata.version.$dirty">
+                  <div>Error</div>
+               </div>
+            </div>
+         </div>
+
+         <!--FIELD: creationDate-->
+         <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.creationDate.$dirty && metricForm.metadata.creationDate.$invalid }">
+            <label class="col-md-3 control-label">Creation Date:</label>
+            <div class="col-md-9">
+               <input class="form-control" name="creationDate" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.creationDate}}" ng-model="vm.newMetric.metadata.creationDate" ng-class="{ 'error': metricForm.metadata.creationDate.$dirty && metricForm.metadata.creationDate.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+               <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.creationDate.$error" ng-show="metric.metadata.creationDate.$dirty">
+                  <div>Error</div>
+               </div>
+            </div>
+         </div>
+
+         <!--FIELD: lastVersionDate-->
+         <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.lastVersionDate.$dirty && metricForm.metadata.lastVersionDate.$invalid }">
+            <label class="col-md-3 control-label">Last Update:</label>
+            <div class="col-md-9">
+               <input class="form-control" name="lastVersionDate" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.lastVersionDate}}" ng-model="vm.newMetric.metadata.lastVersionDate" ng-class="{ 'error': metricForm.metadata.lastVersionDate.$dirty && metricForm.metadata.lastVersionDate.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+               <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.lastVersionDate.$error" ng-show="metric.metadata.lastVersionDate.$dirty">
+                  <div>Error</div>
+               </div>
+            </div>
+         </div>
+
+
+
 </div>
 
-<!-- FORM FIELD: hasUserDefinedList -->
-<div class="form-group">
- <label class="col-md-3 control-label">Has user defined list?:</label>
- <div class="col-md-9">
-     <input name="hasUserDefinedList" type="checkbox" placeholder="{{vm.metricDialog.hasUserDefinedList}}" ng-model="vm.hasUserDefinedList"/>
-     </div>
- </div>
- <!-- FORM FIELD: isordered -->
- <div class="form-group" ng-show="vm.hasUserDefinedList">
-  <label class="col-md-3 control-label">Is it ordered?:</label>
-  <div class="col-md-9">
-      <input name="ordered" type="checkbox" placeholder="{{vm.metricDialog.ordered}}" ng-model="vm.ordered"/>
+
+
+
+
+      <div class="modal" id="modal_updatemetric" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+         <div class="modal-dialog modal-lg">
+            <div ng-include="'dist/views/metricator/modal/modal.metric.html'">
+            </div>
+         </div>
       </div>
-  </div>
 
 
-<!-- FORM FIELD: UserDefinedList -->
-<div class="form-group" ng-show="vm.hasUserDefinedList">
-<label class="col-md-3 control-label">List:</label>
-
-<div class="col-md-9">
-<table st-table="displayedCollection" st-safe-src="vm.metricDialog.userDefinedList" class="table table-striped" >
-   <thead>
-      <tr>
-         <th st-sort="value">value</th>
-      </tr>
-   </thead>
-   <tbody>
-      <tr ng-repeat="value in displayedCollection">
-         <td>{{value}}</td>
-      </tr>
-   </tbody>
-   <tfoot>
-      <tr>
-         <td colspan="1" class="text-center">
-            <div st-pagination="" st-items-by-page="20" st-displayed-pages="7"></div>
-         </td>
-      </tr>
-   </tfoot>
-</table>
-</div>
+   </form>
 </div>
 
-
-<!-- FORM FIELD: hasmax -->
-<div class="form-group">
- <label class="col-md-3 control-label">Has max?:</label>
- <div class="col-md-9">
-     <input name="hasMax" type="checkbox" checked="{{vm.metricDialog.hasMax}}" ng-model="vm.hasMax"/>
-     </div>
- </div>
-
-<!-- FORM FIELD: Max-->
-<div class="form-group" ng-show="vm.hasMax">
- <label class="col-md-3 control-label">Max:</label>
- <div class="col-md-9">
-     <input class="form-control" name="max" type="number" role="textbox" placeholder="{{vm.metricDialog.max}}" ng-model="vm.max"  ng-model-options="{ updateOn: 'blur' }"/>
-</div>
-</div>
-
-<!-- FORM FIELD: hasMin -->
-<div class="form-group">
- <label class="col-md-3 control-label">Has min?:</label>
- <div class="col-md-9">
-     <input name="hasMin" type="checkbox" placeholder="{{vm.metricDialog.hasMin}}" ng-model="vm.hasMin"/>
-     </div>
- </div>
-
-<!-- FORM FIELD: Min-->
-<div class="form-group" ng-show="vm.hasMin">
- <label class="col-md-3 control-label">Min:</label>
- <div class="col-md-9">
-     <input class="form-control" name="min" type="number" role="textbox" placeholder="{{vm.metricDialog.min}}" ng-model="vm.min"/>
-</div>
-</div>
-
-<!-- FORM FIELD: Set-->
-<div class="form-group">
- <label class="col-md-3 control-label">Set:</label>
- <div class="col-md-9">
-    <select ng-model="vm.set" placeholder="{{vm.metricDialog.set}}" class="form-control" >
-      <option selected>{{vm.metricDialog.set}}</option>
-      <option ng-repeat="option in vm.listOfSet" ng-value="option">{{option}}</option>
-   </select>
-</div>
-</div>
-
-<!-- FORM FIELD: scaleType-->
-<div class="form-group">
- <label class="col-md-3 control-label">Scale Type:</label>
- <div class="col-md-9">
-    <select ng-model="vm.scaleType" placeholder="{{vm.metricDialog.scaleType}}" class="form-control" ngRequired="true" >
-      <option selected ng-value="{{vm.metricDialog.scaleType}}">{{vm.metricDialog.scaleType}}</option>
-      <option ng-repeat="option in vm.listOfScaleType" ng-value="option.value">{{option.option}}</option>
-   </select>
-</div>
-</div>
-
-
-
-
-
-
-    <!-- FORM FIELD: FUNCTION JAVASCRIPT -->
-    <div ui-ace class="form-group" ng-class="{ 'hash-error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }">
-        <label class="col-md-3 control-label">Interpretation Model:</label>
-        <div class="col-md-9">
-           <input class="form-control" name="functionJavascript" type="checkbox"   ng-model="vm.functionJavascript" ng-class="{ 'error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }" ng-model-options="{ updateOn: 'blur' }"/>
-           <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.functionJavascript.$error" ng-show="measurementGoalForm.functionJavascript.$dirty">
-                <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
-           </div>
-        </div>
-    </div>
-
-
-
-
-    <!-- FORM FIELD: QUERY NOSQL -->
-    <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.queryNoSQL.$dirty && measurementGoalForm.queryNoSQL.$invalid }">
-        <label class="col-md-3 control-label">Query NoSQL:</label>
-        <div class="col-md-9">
-           <input class="form-control" name="queryNoSQL" type="text" role="textbox" placeholder="{{vm.measurementGoalDialog.interpretationModel.queryNoSQL}}" ng-model="vm.queryNoSQL" ng-class="{ 'error': measurementGoalForm.queryNoSQL.$dirty && measurementGoalForm.queryNoSQL.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20"/>
-           <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.queryNoSQL.$error" ng-show="measurementGoalForm.queryNoSQL.$dirty">
-                <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
-           </div>
-        </div>
-    </div>
-    <!-- FORM FIELD: TAGS -->
-    <div class="form-group">
-        <label class="col-md-3 col-xs-12 control-label">Tags</label>
-        <div class="col-md-6 col-xs-12">
-           <span
-                class="btn btn-info btn-rounded" ng-repeat="tag in vm.measurementGoalDialog.metadata.tags">
-                {{tag}}
-                <i ng-click="vm.removeTagFromMeasurementGoal($index)"
-                    class="glyphicon glyphicon-remove-circle pull-right"></i>
-           </span>
-        </div>
-    </div>
-    <!-- FORM FIELD: NEW TAG -->
-    <div class="form-group">
-        <label class="col-md-3 col-xs-12 control-label">New Tag</label>
-        <div class="col-md-6 col-xs-12">
-           <input type="text" ng-model="vm.newTag">
-           <a ng-click="vm.addTagToMeasurementGoal()"class="btn btn-primary">Add</a>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <!--START METRIC TAB-->
-        <div ng-include="'dist/views/metricator/tab/tab.metric.mgview.html'"></div>
-        <!--END METRIC TAB-->
-    </div>
-
-    <!-- FORM ACTIONS: SUBMIT, CANCEL -->
-    <div class="form-actions">
-        <button class="btn btn-primary" type="submit" ng-disabled="measurementGoalForm.$invalid || vm.loading">Submit MeasurementGoal</button>
-    </div>
-</form>
-</div>
-<div class="col-md-6 pull-right">
-      <!--START ORGANIZATIONAL GOAL TAB-->
-      <div ng-include="'dist/views/metricator/tab/tab.organizationalgoal.html'"></div>
-      <!--END ORGANIZATIONAL GOAL TAB-->
-</div>
-
-
-
-<div class="modal" id="modal_updatemetric" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div ng-include="'dist/views/metricator/modal/modal.metric.html'">
-        </div>
-    </div>
-</div>
-
-
-
-</div>
 </div>
