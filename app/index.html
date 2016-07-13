@@ -134,7 +134,7 @@
                                         <span class="label label-success"
                                         ng-show="!vm.loading && vm.success && vm.toread == 0">Up to date</span>
                                         <span class="label label-danger"
-                                        ng-show="!vm.loading && vm.success && vm.toread != 0">{{vm.toread}} to read</span>
+                                        ng-show="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}} to read</span>
                                     </div>
                                 </div>
                                 <div class="panel-body list-group list-group-contacts list-group-messages scroll" style="max-height: 200px" ng-switch="vm.loading">
@@ -149,7 +149,7 @@
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': conversation.toread == 0,
                                         'status-unread': conversation.toread > 0}"
-                                        ng-href="#/messages/{{conversation.recipient.username}}">
+                                        ng-href="#/messages/{{conversation.recipient.username}}" ng-click="vm.setRead(conversation.recipient.username)">
                                             <div class="list-group-status"
                                             ng-class="{'status-online': conversation.recipient.online,
                                             'status-offline': !conversation.recipient.online}"></div>
@@ -189,7 +189,7 @@
                                         <span class="label label-success"
                                         ng-show="!vm.loading && vm.success && vm.toread == 0">Up to date</span>
                                         <span class="label label-danger"
-                                        ng-show="!vm.loading && vm.success && vm.toread != 0">{{vm.toread}} to read</span>
+                                        ng-show="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}} to read</span>
                                     </div>
                                 </div>
                                 <div class="panel-body list-group list-group-contacts list-group-messages scroll" style="max-height: 200px" ng-switch="vm.loading">
