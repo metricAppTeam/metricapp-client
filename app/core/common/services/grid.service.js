@@ -5,21 +5,20 @@
 * @name GridService
 * @module metricapp
 * @requires $http
-* @requires $cookies
 * @requires REST_SERVICE
 * @requires AuthService
 *
 * @description
-* Provides grid management services.
+* Provides grids management services.
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .service('GridService', GridService);
 
-GridService.$inject = ['$http', '$q', '$cookies', 'REST_SERVICE', 'AuthService', 'DB_GRIDS'];
+GridService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_GRIDS'];
 
-function GridService($http, $q, $cookies, REST_SERVICE, AuthService, DB_GRIDS) {
+function GridService($http, $q, REST_SERVICE, AuthService, DB_GRIDS) {
 
     var service = this;
 
@@ -98,7 +97,7 @@ function GridService($http, $q, $cookies, REST_SERVICE, AuthService, DB_GRIDS) {
                     }
                 } else {
                     reject({errmsg: 'User not logged'});
-                }                
+                }
             }, 500);
         });
     }

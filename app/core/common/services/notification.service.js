@@ -5,27 +5,29 @@
 * @name NotificationService
 * @module metricapp
 * @requires $http
-* @requires $cookies
 * @requires REST_SERVICE
 * @requires AuthService
 *
 * @description
-* Provides authentication services.
+* Provides notifications management services.
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .service('NotificationService', NotificationService);
 
-NotificationService.$inject = ['$http', '$cookies', '$q', 'REST_SERVICE', 'AuthService', 'DB_NOTIFICATIONS'];
+NotificationService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_NOTIFICATIONS'];
 
-function NotificationService($http, $cookies, $q, REST_SERVICE, AuthService, DB_NOTIFICATIONS) {
+function NotificationService($http, $q, REST_SERVICE, AuthService, DB_NOTIFICATIONS) {
 
     var service = this;
 
     service.getAll = getAll;
     service.getById = getById;
     service.getNFrom = getNFrom;
+
+    service.setReadById = setReadById;
+    service.setAllRead = setAllRead;
 
     /********************************************************************************
     * @ngdoc method
@@ -44,7 +46,13 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, AuthService, DB_
                     if (INBOX) {
                         var NOTIFICATIONS = INBOX.notifications;
                         var NEWS = INBOX.news;
-                        resolve({notifications: NOTIFICATIONS, news: NEWS});
+                        var toread = 0;
+                        NOTIFICATIONS.forEach(function(NOTIFICATION) {
+                            if (!NOTIFICATION.read) {
+                                toread++;
+                            }
+                        });
+                        resolve({notifications: NOTIFICATIONS, news: NEWS, toread: toread});
                     } else {
                         reject({errmsg: 'Notifications not found for user ' + authusername});
                     }
@@ -119,6 +127,72 @@ function NotificationService($http, $cookies, $q, REST_SERVICE, AuthService, DB_
                           }
                         }
                         resolve({notifications: notifications, news: news, toread: toread});
+                    } else {
+                        reject({errmsg: 'Notifications not found for user ' + authusername});
+                    }
+                } else {
+                    reject({errmsg: 'User not logged'});
+                }
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name setReadById
+    * @description
+    * Set as read the specified notification.
+    * @param {Int} notificationid The id of the notification to set read.
+    * @returns {Boolean|Error} On success, a messagen;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function setReadById(notificationid) {
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var INBOX = DB_NOTIFICATIONS[authusername];
+                    if (INBOX) {
+                        var NOTIFICATIONS = INBOX.notifications;
+                        var i = NOTIFICATIONS.indexOf(function(NOTIFICATION) {
+                            return NOTIFICATION.id === notificationid;
+                        });
+                        if (i >= 0) {
+                            NOTIFICATIONS[i].read = true;
+                            resolve({msg: 'Notification ' + notificationid + ' marked as read'});
+                        } else {
+                            reject({errmsg: 'Notification ' + notificationid + ' not found for user ' + authusername});
+                        }
+                    } else {
+                        reject({errmsg: 'Notifications not found for user ' + authusername});
+                    }
+                } else {
+                    reject({errmsg: 'User not logged'});
+                }
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name setAllRead
+    * @description
+    * Set as read all the ontifications for authuser.
+    * @returns {Boolean|Error} On success, a message;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function setAllRead() {
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var INBOX = DB_NOTIFICATIONS[authusername];
+                    if (INBOX) {
+                        var NOTIFICATIONS = INBOX.notifications;
+                        NOTIFICATIONS.forEach(function(NOTIFICATION) {
+                            NOTIFICATION.read = true;
+                        });
+                        resolve({msg: 'All notifications marked as read'});
                     } else {
                         reject({errmsg: 'Notifications not found for user ' + authusername});
                     }
