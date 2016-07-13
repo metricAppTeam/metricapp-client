@@ -24,10 +24,10 @@ function GridsController($scope, $location) {
 
     //list of grids
     vm.grids = [
-        {id: "1", name: "GRID 1",progress: 30, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
-        {id: "2", name: "GRID 2",progress: 40, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
-        {id: "3", name: "GRID 3",progress: 90, status: "complete", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
-        {id: "4", name: "GRID 4",progress: 10, status: "active", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"}
+        {id: "1", name: "GRID 1",progress: 30, status: "active", last_update:"10/01/2016", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {id: "2", name: "GRID 2",progress: 40, status: "active", last_update:"10/01/2016", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {id: "3", name: "GRID 3",progress: 90, status: "complete", last_update:"10/01/2016", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"},
+        {id: "4", name: "GRID 4",progress: 10, status: "active", last_update:"10/01/2016", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"}
     ];
 
     /********************************************************************************

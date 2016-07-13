@@ -29,22 +29,19 @@
                                 <h5><span class="fa fa-caret-down"></span> Update:</h5>
                                 <p class="col-md-12">{{vm.ts_update}}</p>
 
-                                <h5># Measurement Goals: <span>{{vm.num_mgs}}</span></h5>
+                                <h5># Measurement Goals: <span  class="text-info">{{vm.num_mgs}}</span></h5>
 
-                                <h5># Questions: <span>{{vm.num_metrics}}</span></h5>
+                                <h5># Questions: <span class="text-info">{{vm.num_metrics}}</span></h5>
 
-                                <h5># Metrics: <span>{{vm.num_questions}}</span></h5>
+                                <h5># Metrics: <span class="text-info">{{vm.num_questions}}</span></h5>
+                                <h5 class="text-danger"># MGs to be assigned: <span>{{vm.num_questions}}</span></h5>
                         </form>
                     </div>
                 </div>
-                <!-- DIALOGS -->
+                
                 <button class="btn btn-info btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-team"><span class="fa fa-group"></span> View Team</button>
-                <!-- DIALOGS -->
-                <a href="#/analytics">
-                <button class="btn btn-success btn-lg btn-block"><span class="fa fa-bar-chart-o"></span> View Analytics</button>
-                </a>
-                <!-- DIALOGS -->
-                <button class="btn btn-danger btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-assignmgs"><span class="fa fa-edit"></span> Create Measurement Goal</button>
+                
+                <button class="btn btn-danger btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-assignmgs"><span class="fa fa-edit"></span> Assign Measurement Goal</button>
                 <br>
                 <br>
                 <br>
@@ -60,7 +57,10 @@
                             <h3>GQM {{vm.name}} graph</h3>
                         </div>
                     </div>
-                    <div class="svg-container">
+                    <div class="panel-body">
+                        <nvd3 options="vm.options" data="vm.data" class="with-3d-shadow with-transitions"></nvd3>
+                    </div>
+                    <!--<div class="svg-container">
                         <button type="button" class="btn" ng-click="vm.click()">Load</button>
                         <bubbletree id="testChart" 
                             control="vm.chart"  
@@ -77,7 +77,7 @@
                             text-y="2.45em"
                             scale-score="8">
                         </bubbletree>
-                    </div>
+                    </div>-->
                 </div>
                 <br>
                 <br>
