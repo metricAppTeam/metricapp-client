@@ -123,7 +123,7 @@
                         <!-- START: MESSAGES -->
                         <li class="xn-icon-button pull-right" ng-controller="MessagesWidgetController as vm">
                             <a href="" ng-click="vm.removeNews()"><span class="fa fa-comments"></span></a>
-                            <div class="informer informer-danger" ng-show="!vm.loading && vm.success && vm.news > 0">{{vm.news}}</div>
+                            <div class="informer informer-danger" ng-show="!vm.loading && vm.success && vm.news > 0" ng-cloak>{{vm.news}}</div>
                             <div class="panel panel-primary animated zoomIn xn-drop-left">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><span class="fa fa-comments"></span> Messages</h3>
@@ -178,7 +178,7 @@
                         <!-- START: NOTIFICATIONS -->
                         <li class="xn-icon-button pull-right" ng-controller="NotificationsWidgetController as vm">
                             <a href="" ng-click="vm.removeNews()"><span class="fa fa-globe"></span></a>
-                            <div class="informer informer-danger" ng-show="!vm.loading && vm.success && vm.news > 0">{{vm.news}}</div>
+                            <div class="informer informer-danger" ng-show="!vm.loading && vm.success && vm.news > 0" ng-cloak>{{vm.news}}</div>
                             <div class="panel panel-primary animated zoomIn xn-drop-left">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><span class="fa fa-globe"></span> Notifications</h3>
