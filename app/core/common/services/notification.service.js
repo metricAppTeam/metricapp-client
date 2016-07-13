@@ -24,7 +24,7 @@ function NotificationService($http, $q, REST_SERVICE, AuthService, DB_NOTIFICATI
 
     service.getAll = getAll;
     service.getById = getById;
-    service.getNFrom = getNFrom;
+    //service.getNFrom = getNFrom;
 
     service.setReadById = setReadById;
     service.setAllRead = setAllRead;
@@ -108,6 +108,7 @@ function NotificationService($http, $q, REST_SERVICE, AuthService, DB_NOTIFICATI
     * @returns {[Notification]|Error} On success, the notifications for authuser;
     * an error message, otherwise.
     ***************************************************************************/
+    /*
     function getNFrom(ntfStart, ntfN) {
         return $q(function(resolve, reject) {
             setTimeout(function() {
@@ -136,6 +137,7 @@ function NotificationService($http, $q, REST_SERVICE, AuthService, DB_NOTIFICATI
             }, 500);
         });
     }
+    */
 
     /********************************************************************************
     * @ngdoc method
@@ -143,7 +145,7 @@ function NotificationService($http, $q, REST_SERVICE, AuthService, DB_NOTIFICATI
     * @description
     * Set as read the specified notification.
     * @param {Int} notificationid The id of the notification to set read.
-    * @returns {Boolean|Error} On success, a messagen;
+    * @returns {Boolean|Error} On success, a message;
     * an error message, otherwise.
     ********************************************************************************/
     function setReadById(notificationid) {
@@ -177,7 +179,7 @@ function NotificationService($http, $q, REST_SERVICE, AuthService, DB_NOTIFICATI
     * @ngdoc method
     * @name setAllRead
     * @description
-    * Set as read all the ontifications for authuser.
+    * Set as read all the notifications for authuser.
     * @returns {Boolean|Error} On success, a message;
     * an error message, otherwise.
     ********************************************************************************/
