@@ -3,26 +3,22 @@
 <!-- PAGE CONTENT WRAPPER -->
     <div class="page-content-wrap">
         <div class="row">
-            <div class="col-md-3">
-
-                <div class="widget widget-default widget-no-subtitle">
-                    
+            <div class="col-md-3" role="link">
+                <div class="widget widget-default widget-no-subtitle" onclick="location.href='#/grids';">
                     <div class="widget-big-int"><span>{{vm.active_tasks}}</span></div>
-                    <div class="widget-subtitle">Active tasks</div>
-                    <!-- MANCA IL LINK ALLA PAGINA DEI TASKS -->
+                    <div class="widget-subtitle">Open Grids</div>
                 </div>
 
             </div>
             <div class="col-md-3">
-                <div class="widget widget-default widget-no-subtitle">
+                <div class="widget widget-default widget-no-subtitle" onclick="location.href='#/teams';">
                     <div class="widget-big-int"><span class="num-count">{{vm.active_teams}}</span></div>
                     <div class="widget-subtitle">Teams at work</div>
-                    <!-- MANCA IL LINK ALLA PAGINA DEI TEAM -->
                 </div>                        
             </div>
             <div class="col-md-3">
 	            <!-- START WIDGET MESSAGES -->
-	            <div class="widget widget-default widget-item-icon" onclick="location.href='pages-messages.html';">
+	            <div class="widget widget-default widget-item-icon" onclick="location.href='#/messages';">
 	                <div class="widget-item-left">
 	                    <span class="fa fa-envelope"></span>
 	                </div>                             
@@ -71,7 +67,7 @@
             </div>
             <!-- END USERS ACTIVITY BLOCK -->
 
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <!-- START VISITORS BLOCK -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -80,24 +76,28 @@
                             <span>Questioners vs Metricators</span>
                         </div>
                     </div>
-                    <div class="panel-body padding-0">
-                        <div
-                        bar-chart 
-                        bar-data='vm.trend_active_users'
-                        bar-x='y'
-                        bar-y='["questioners", "metricators"]'
-                        bar-labels='["Questioners", "Metricators"]'
-                        bar-colors='["#33414e", "#1caf9a"]'
-                        bar-resize="true">
-                        </div>
+                    <div
+                    area-chart
+                    area-data='[
+                        { y: "2006", a: 100, b: 90 },
+                        { y: "2007", a: 75,  b: 65 },
+                        { y: "2008", a: 50,  b: 40 },
+                        { y: "2009", a: 75,  b: 65 },
+                        { y: "2010", a: 50,  b: 40 },
+                        { y: "2011", a: 75,  b: 65 },
+                        { y: "2012", a: 100, b: 90 }
+                      ]'
+                    area-xkey='y'
+                    area-ykeys='["a", "b"]'
+                    area-labels='["Serie A", "Serie B"]'
+                    line-colors='["#1caf9a", "#33414e"]'>
                     </div>
                     <div class="panel-footer"></div>  
                 </div>
                 <!-- END VISITORS BLOCK -->
             </div>
 
-            <div class="col-md-4">
-                <!-- START PROJECTS BLOCK -->
+            <!--<div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title-box">
@@ -150,6 +150,7 @@
                         </div>
                     </div>  
                 </div>
+                -->
                 <!-- END PROJECTS BLOCK -->
             </div>
         </div>
