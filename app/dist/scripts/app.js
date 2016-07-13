@@ -2490,7 +2490,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-12 14:32:07
+* @Last Modified time: 2016-07-13 15:02:04
 */
 (function () { 'use strict';
 
@@ -2528,6 +2528,9 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     //vm.organizationalGoalDialog = {};
     //vm.metricsDialog = [];
     vm.externalMetricDialog = [];
+    vm.externalQuestionDialog = [];
+    vm.externalContextFactorDialog = [];
+    vm.externalAssumptionDialog = [];
 
 
     vm.submitMeasurementGoal = submitMeasurementGoal;
@@ -2544,6 +2547,9 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.getApprovedMetrics = getApprovedMetrics;
     vm.addMetricToMeasurementGoal = addMetricToMeasurementGoal;
     vm.removeMetricFromMeasurementGoal = removeMetricFromMeasurementGoal;
+    vm.addSomethingToMeasurementGoal = addSomethingToMeasurementGoal;
+    vm.removeSomethingFromMeasurementGoal = removeSomethingFromMeasurementGoal;
+
 
     //initOrganizationalGoalDialog();
     //getMetricsByMeasurementGoal();
@@ -2563,10 +2569,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         var qualityFocusSubmit = (vm.qualityFocus !== undefined) ? vm.qualityFocus :  vm.measurementGoalDialog.qualityFocus;
         var functionJavascriptSubmit = (vm.functionJavascript !== undefined) ? vm.functionJavascript :  vm.measurementGoalDialog.interpretationModel.functionJavascript;
         var queryNoSQLSubmit = (vm.queryNoSQL !== undefined) ? vm.queryNoSQL :  vm.measurementGoalDialog.interpretationModel.queryNoSQL;
-
-
-
-
+        
         var measurementGoal = {
             userid : vm.measurementGoalDialog.userid,
         	name : vm.name,
@@ -2806,6 +2809,77 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
 
     /********************************************************************************
     * @ngdoc method
+    * @name addSomethingToMeasurementGoal
+    * @description
+    * Add something to measurement goal.
+    ********************************************************************************/
+    function addSomethingToMeasurementGoal(typeObject, index){
+
+        var toAdd = [];
+        var dialog = [];
+
+        switch(typeObject) {
+            case 'Metric':
+                toAdd = vm.metrics;
+                dialog = vm.externalMetricDialog;
+                break;
+            case 'Question':
+                toAdd = vm.questions;
+                dialog = vm.externalQuestionDialog;
+                break;
+            case 'ContextFactor':
+                toAdd = vm.contextFactors;
+                dialog = vm.externalContextFactorDialog;
+                break;
+            case 'Assumption':
+                toAdd = vm.assumptions;
+                dialog = vm.externalAssumptionDialog;
+                break;
+        }
+
+        for(var i=0; i<toAdd.length; i++){
+            if(dialog[index].metadata.id == toAdd[i].metadata.id){
+                $window.alert('You cannot add an item twice!');
+                return true;
+            }
+        }
+
+        var pointerBus = {
+           objIdLocalToPhase : "",
+           typeObj : typeObject,
+           instance : dialog[index].metadata.id,
+           busVersion : "",
+           tags: []
+        };
+
+        switch(typeObject) {
+            case 'Metric':
+                vm.measurementGoalDialog.metrics.push(pointerBus);
+                vm.metrics.push(dialog[index]);
+                break;
+            case 'Question':
+                vm.measurementGoalDialog.questions.push(pointerBus);
+                vm.questions.push(dialog[index]);
+                break;
+            case 'ContextFactor':
+                vm.measurementGoalDialog.contextFactors.push(pointerBus);
+                vm.contextFactors.push(dialog[index]);
+                break;
+            case 'Assumption':
+                vm.measurementGoalDialog.assumptions.push(pointerBus);
+                vm.assumptions.push(dialog[index]);
+                break;
+        }
+        
+        $window.alert('Item added');
+        console.log(vm.measurementGoalDialog);
+        return false;
+    }
+
+
+
+    /********************************************************************************
+    * @ngdoc method
     * @name removeMetricFromMeasurementGoal
     * @description
     * Remove metric from measurement goal.
@@ -2816,6 +2890,39 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         $window.alert('Item removed');
         console.log(vm.measurementGoalDialog);
     }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name removeSomethingFromMeasurementGoal
+    * @description
+    * Remove something from measurement goal.
+    ********************************************************************************/
+    function removeSomethingFromMeasurementGoal(typeObject, index){
+        
+        switch(typeObject) {
+            case 'Metric':
+                vm.measurementGoalDialog.metrics.splice(index, 1);
+                vm.metrics.splice(index, 1);
+                break;
+            case 'Question':
+                vm.measurementGoalDialog.questions.splice(index, 1);
+                vm.questions.splice(index, 1);
+                break;
+            case 'ContextFactor':
+                vm.measurementGoalDialog.contextFactors.splice(index, 1);
+                vm.contextFactors.splice(index, 1);
+                break;
+            case 'Assumption':
+                vm.measurementGoalDialog.assumptions.splice(index, 1);
+                vm.assumptions.splice(index, 1);
+                break;
+        }
+
+        $window.alert('Item removed');
+        console.log(vm.measurementGoalDialog);
+    }
+
+
 
     /********************************************************************************
     * @ngdoc method
@@ -3063,7 +3170,7 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 12:38:26
+* @Last Modified time: 2016-07-13 12:45:38
 */
 (function () { 'use strict';
 
@@ -3235,10 +3342,10 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         }
     };*/
 
-    function setMeasurementGoalDialog(measurementGoalToAssignId){
+    function setMeasurementGoalDialog(parentIndex,measurementGoalToAssignId){
         //TODO add parent index
-        vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
-        getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
+        vm.measurementGoalDialog = vm.measurementGoals[parentIndex][measurementGoalToAssignId];
+        getMeasurementGoalExternals(vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id);
         //var goalid = $routeParams.goalid;
         //vm.currMGoal = {
         //    id: goalid;

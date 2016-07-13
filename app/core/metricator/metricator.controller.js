@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 12:45:38
+* @Last Modified time: 2016-07-13 17:29:29
 */
 (function () { 'use strict';
 
@@ -136,7 +136,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 $("#modal_large").modal("show");
             },
             function(data) {
-                alert('Error retriving Metrics');
+                alert('Error retriving Externals');
             }
         );
     };

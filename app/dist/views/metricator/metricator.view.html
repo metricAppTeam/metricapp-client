@@ -42,7 +42,7 @@
                         <!--#modal_large vm.setModal($parent.$index) id="modal_button"-->
                     <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMeasurementGoalDialog($parent.$index,$index)">{{measurementGoal.metadata.id}}</button>-->
                     <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.getMeasurementGoalExternals($index)">{{vm.measurementGoalDialog.metadata.id}}</button>-->
-                    <button class="btn btn-default btn-rounded" ng-click="vm.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
+                    <button class="btn btn-default btn-rounded" ng-click="vm.setMeasurementGoalDialog($parent.$index,$index)">{{measurementGoal.metadata.id}}</button>
                         </td>
                         <td>{{measurementGoal.metadata.entityType}}</td>
                         <td>{{measurementGoal.metadata.creationDate}}</td>
