@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-07-12 23:08:35
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-12 23:37:00
+* @Last Modified time: 2016-07-13 11:18:05
 */
 
 (function () { 'use strict';
@@ -31,10 +31,16 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     vm.getMeasurementGoals = getApprovedMeasurementGoals;
     vm.getMetrics = getApprovedMetrics;
 
+    //var states = [
+    //	Approved = 'Approved',
+    //	OnUpdate = 'OnUpdate',
+    //	Pending = 'Pending'
+    //];
+    vm.date = new Date();
+
     var states = [
-    	Approved = 'Approved',
-    	OnUpdate = 'OnUpdate',
-    	Pending = 'Pending'
+    	STATES.CREATED,
+    	STATES.ONUPDATEQUESTIONERENDPOINT
     ];
 
     var approvedMeasurementGoals = 0;

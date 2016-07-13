@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-12 22:56:54
+* @Last Modified time: 2016-07-13 11:44:28
 */
 (function () { 'use strict';
 
@@ -37,7 +37,8 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     //    metrics : [],
     //    questions : []
     //};
-    vm.measurementGoals = [];
+    vm.states = [STATES.ONUPDATEQUESTIONERENDPOINT, STATES.CREATED];
+    vm.measurementGoals = [undefined,undefined];
     vm.metrics = [];
     vm.contextFactors = [];
     vm.assumptions = [];
@@ -69,19 +70,31 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * @description
     * Get active measurement goals for a metricator.
     ********************************************************************************/
-    function getMeasurementGoals(){
-        //TODO add method to retrieve last approved measurementGoal
-        //TODO add method to send for approval
-         MeasurementGoalService.getMeasurementGoals().then(
+    function getMeasurementGoals(index){
+         MeasurementGoalService.getMeasurementGoals(vm.states[index]).then(
             function(data) {
                 console.log(data.measurementGoals);
                 //vm.results.measurementGoals = data.measurementGoals;
-                vm.measurementGoals = data.measurementGoals;
+                vm.measurementGoals[index] = data.measurementGoals;
             },
             function(data) {
                 alert('Error retriving Measurement Goals');
             }
         );
+    };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get active measurement goals for a metricator.
+    ********************************************************************************/
+    function getMeasurementGoals(){
+        //TODO add method to retrieve last approved measurementGoal
+        //TODO add method to send for approval
+        for (var i=0; i<vm.states.length; i++){
+            getMeasurementGoals(i);
+        }
     };
 
     /********************************************************************************
@@ -161,6 +174,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     };*/
 
     function setMeasurementGoalDialog(measurementGoalToAssignId){
+        //TODO add parent index
         vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
         getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
         //var goalid = $routeParams.goalid;

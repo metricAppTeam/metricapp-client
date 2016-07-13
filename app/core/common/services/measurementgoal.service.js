@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 21:32:56
+* @Last Modified time: 2016-07-13 11:45:39
 */
 (function() { 'use strict';
 
@@ -99,9 +99,9 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     * Get measurement goals.
     ********************************************************************************/
     
-    function getMeasurementGoals() {
+    function getMeasurementGoals(state) {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=metricator').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');

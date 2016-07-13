@@ -305,6 +305,42 @@ angular.module('metricapp')
 
 })();
 
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-13 11:01:31
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-13 11:17:22
+*/
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc constant
+* @name STATES
+* @module metricapp
+* @description
+* Defines constants related to the states of a Measurement Goal.
+* - CREATED:
+* - ONUPDATEWAITINGQUESTIONS:
+* - ONUPDATEQUESTIONSENDPOINT:
+* - PENDING:
+* - REJECTED:
+* - SUSPENDED:
+* - APPROVED:
+************************************************************************************/
+
+angular.module('metricapp')
+
+.constant('STATES', {
+    CREATED:   'Created',
+    ONUPDATEWAITINGQUESTIONS: 'OnUpdatedWaitingQuestions',
+    ONUPDATEQUESTIONERENDPOINT: 'OnUpdateQuestionerEndpoint',
+    PENDING: 'Pending',
+    REJECTED: 'Rejected',
+    SUSPENDED: 'Suspended',
+    APPROVED: 'Approved'
+});
+
+})();
 (function() { 'use strict';
 
 /************************************************************************************
@@ -1019,7 +1055,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 21:32:56
+* @Last Modified time: 2016-07-13 11:45:39
 */
 (function() { 'use strict';
 
@@ -1116,9 +1152,9 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     * Get measurement goals.
     ********************************************************************************/
     
-    function getMeasurementGoals() {
+    function getMeasurementGoals(state) {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid=metricator').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -3026,7 +3062,7 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-12 12:21:28
+* @Last Modified time: 2016-07-13 11:44:28
 */
 (function () { 'use strict';
 
@@ -3061,7 +3097,8 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     //    metrics : [],
     //    questions : []
     //};
-    vm.measurementGoals = [];
+    vm.states = [STATES.ONUPDATEQUESTIONERENDPOINT, STATES.CREATED];
+    vm.measurementGoals = [undefined,undefined];
     vm.metrics = [];
     vm.contextFactors = [];
     vm.assumptions = [];
@@ -3093,19 +3130,31 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * @description
     * Get active measurement goals for a metricator.
     ********************************************************************************/
-    function getMeasurementGoals(){
-        //TODO add method to retrieve last approved measurementGoal
-        //TODO add method to send for approval
-         MeasurementGoalService.getMeasurementGoals().then(
+    function getMeasurementGoals(index){
+         MeasurementGoalService.getMeasurementGoals(vm.states[index]).then(
             function(data) {
                 console.log(data.measurementGoals);
                 //vm.results.measurementGoals = data.measurementGoals;
-                vm.measurementGoals = data.measurementGoals;
+                vm.measurementGoals[index] = data.measurementGoals;
             },
             function(data) {
                 alert('Error retriving Measurement Goals');
             }
         );
+    };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get active measurement goals for a metricator.
+    ********************************************************************************/
+    function getMeasurementGoals(){
+        //TODO add method to retrieve last approved measurementGoal
+        //TODO add method to send for approval
+        for (var i=0; i<vm.states.length; i++){
+            getMeasurementGoals(i);
+        }
     };
 
     /********************************************************************************
@@ -3142,6 +3191,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 vm.assumptions = data.assumptions;
                 vm.organizationalGoal = data.organizationalGoal;
                 vm.instanceProject = data.instanceProject;
+
                 $("#modal_large").modal("show");
             },
             function(data) {
@@ -3184,6 +3234,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     };*/
 
     function setMeasurementGoalDialog(measurementGoalToAssignId){
+        //TODO add parent index
         vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
         getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
         //var goalid = $routeParams.goalid;
@@ -3211,6 +3262,70 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         console.log($location.path('/measurementgoal'));
 
     }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Submits a MeasurementGoal.
+    ********************************************************************************/
+    function submitMeasurementGoal() {
+
+        //getLatestVersion
+
+        var measurementGoal = {
+            userid : vm.measurementGoalDialog.userid,
+            name : vm.name,
+            object : vm.measurementGoalDialog.object,
+            viewPoint : vm.measurementGoalDialog.viewPoint,
+            qualityFocus : vm.measurementGoalDialog.qualityFocus,
+            purpose : vm.measurementGoalDialog.purpose,
+            OrganizationalGoalId : vm.measurementGoalDialog.OrganizationalGoalId,
+            metrics : vm.measurementGoalDialog.metrics,
+            questions : vm.measurementGoalDialog.questions,
+            metricatorId : vm.measurementGoalDialog.metricatorId,
+            questionersId : vm.measurementGoalDialog.questionersId,
+            contextFactors : vm.measurementGoalDialog.contextFactors,
+            assumptions : vm.measurementGoalDialog.assumptions,
+            interpretationModel : {
+                functionJavascript : vm.measurementGoalDialog.interpretationModel.functionJavascript,
+                queryNoSQL : vm.measurementGoalDialog.interpretationModel.queryNoSQL
+            },
+            metadata : {
+                id : vm.measurementGoalDialog.metadata.id,
+                version : vm.measurementGoalDialog.metadata.version,
+                tags : vm.measurementGoalDialog.metadata.tags,
+                creatorId : vm.measurementGoalDialog.metadata.creatorId,
+                state : vm.measurementGoalDialog.metadata.state,
+                releaseNote : vm.sendMessage,
+                entityType : vm.measurementGoalDialog.metadata.entityType,
+                versionBus : vm.measurementGoalDialog.metadata.versionBus,
+                creationDate : vm.measurementGoalDialog.metadata.creationDate,
+                lastVersionDate : vm.measurementGoalDialog.metadata.lastVersionDate
+            }
+        };
+        MeasurementGoalService.submitMeasurementGoal(measurementGoal).then(
+            function(message) {
+                //alert(message);
+                vm.measurementGoalDialog = message.measurementGoals[0];
+                $("#modal_large_measurementgoal").modal("show");
+                //$location.path('/measurementgoal');
+            },
+            function(message) {
+                alert(message);
+            }
+        );
+        /*
+        AuthService.signup(user, profile).then(
+            function(message) {
+                alert(message);
+                $location.path('/');
+            },
+            function(message) {
+                alert(message);
+            });*/
+    }
+
 
     /*
     function getMeasurementGoals() {
@@ -3872,6 +3987,126 @@ function QuestionController($scope, $location) {
     }
 }
 
+})();
+
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-12 23:08:35
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-13 11:18:05
+*/
+
+(function () { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name MetricatorDashboardController
+* @module metricapp
+* @requires $scope
+* @requires $location
+* @description
+* Manages the Measurement goal and metrics by Metricator id.
+* Realizes the control layer for `metricatordashboard.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('MetricatorDashboardController', MetricatorDashboardController);
+
+MetricatorDashboardController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window'];
+
+function MetricatorDashboardController($scope, $location, MetricService, MeasurementGoalService, $window) {
+
+    var vm = this;
+
+    vm.getMeasurementGoals = getApprovedMeasurementGoals;
+    vm.getMetrics = getApprovedMetrics;
+
+    //var states = [
+    //	Approved = 'Approved',
+    //	OnUpdate = 'OnUpdate',
+    //	Pending = 'Pending'
+    //];
+    vm.date = new Date();
+
+    var states = [
+    	STATES.CREATED,
+    	STATES.ONUPDATEQUESTIONERENDPOINT
+    ];
+
+    var approvedMeasurementGoals = 0;
+    var onUpdateMeasurementGoals = 0;
+    var pendingMeasurementGoals = 0;
+    var measurementGoals = [approvedMeasurementGoals, onUpdateMeasurementGoals, pendingMeasurementGoals];
+
+    var approvedMetrics = 0;
+    var onUpdateMetrics = 0;
+    var pendingMetrics = 0;
+    var metrics = [approvedMetrics, onUpdateMetrics, pendingMetrics];
+
+    vm.results = {
+    	metrics : metrics,
+    	measurementGoals : measurementGoals,
+    }; 
+
+    vm.getMeasurementGoals();
+    vm.getMetrics();
+
+    _init();
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMeasurementGoals
+    * @description
+    * Get measurement goals for a metricator.
+    ********************************************************************************/
+    function getMeasurementGoals(){
+        //TODO add method to retrieve last approved measurementGoal
+        //TODO add method to send for approval
+        for (var i = 0; i < states.lenght; i++){
+	        MeasurementGoalService.countMeasurementGoalsByState(states[i]).then(
+	            function(data) {
+	                console.log(data.measurementGoals);
+	                vm.results.measurementGoals[i] = data.count;
+	            },
+	            function(data) {
+	                alert('Error retriving Measurement Goals');
+	            }
+	        );
+        }
+    };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMetrics
+    * @description
+    * Get metrics for a metricator.
+    ********************************************************************************/
+    function getMetrics(){
+    	for (var i = 0; i < states.lenght; i++){
+	        MetricService.countMetricsByState(states[i]).then(
+	            function(data) {
+	                console.log(data.metricsDTO);
+	                vm.results.metrics[i] = data.count;
+	            },
+	            function(data) {
+	                alert('Error retriving Metrics');
+	            }
+	        );
+     	}
+    };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name _init
+    * @description
+    * Initializes the controller.
+    ********************************************************************************/
+    function _init() {
+        
+    }
+
+	}
 })();
 
 (function() { 'use strict';
