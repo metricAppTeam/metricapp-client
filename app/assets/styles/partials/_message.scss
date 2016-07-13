@@ -3,11 +3,11 @@
     .list-group-item-message {
 
         &.status-read {
-            font-weight: inherit;
+            //font-weight: inherit;
         }
 
         &.status-unread {
-            font-weight: bold;
+            background-color: $light-grey;
         }
 
     }
