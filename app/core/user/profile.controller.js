@@ -30,6 +30,8 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
 
     vm.GENDERS = GENDERS;
 
+    vm.show = 1;
+
     vm.updateProfile = updateProfile;
     vm.updatePassword = updatePassword;
 
