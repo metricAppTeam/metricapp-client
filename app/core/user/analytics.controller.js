@@ -17,11 +17,13 @@ angular.module('metricapp')
 
 .controller('UserAnalyticsController', UserAnalyticsController);
 
-UserAnalyticsController.$inject = ['$location', '$routeParams', 'UserService', 'UserAnalyticsService'];
+UserAnalyticsController.$inject = ['$location', '$routeParams', 'UserService', 'UserAnalyticsService','USER_ANALYTICS'];
 
-function UserAnalyticsController($location, $routeParams, UserService, UserAnalyticsService) {
+function UserAnalyticsController($location, $routeParams, UserService, UserAnalyticsService,USER_ANALYTICS) {
 
     var vm = this;
+
+    vm.USER_ANALYTICS = USER_ANALYTICS;
 
     _init();
 
@@ -60,7 +62,6 @@ function UserAnalyticsController($location, $routeParams, UserService, UserAnaly
         };
         _loadUserAnalytics(vm.currUser.username);
     }
-
 }
 
 })();

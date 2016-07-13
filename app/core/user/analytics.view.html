@@ -9,7 +9,81 @@
     <div class="page-title">
         <h2><span class="fa fa-user"></span> User Analytics <small ng-show="!vm.loading && vm.success">{{vm.currUser | userFullname}}</small></h2>
     </div>
+
     <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading analytics for user {{vm.currUser.username}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+
+                    <!-- START PANEL -->
+                    <div class="panel panel-danger">
+                        <div class="panel-heading"></div>
+                        <div class="panel-body">
+                            <div class="row"> 
+                                <div class="col-md-2">                        
+                                    <a class="tile tile-info">{{vm.currUser.analytics[vm.USER_ANALYTICS.GQM_SCORE]}}<p>GQM Score</p>
+                                    </a>                        
+                                </div>
+
+                                <div class="col-md-2">                        
+                                    <a class="tile tile-success">{{vm.currUser.analytics[vm.USER_ANALYTICS.GRIDS_TOT]}}<p>Tot. Grids</p>
+                                    </a>                        
+                                </div>
+
+                                <div class="col-md-2">                        
+                                    <a class="tile tile-warning">{{vm.currUser.analytics[vm.USER_ANALYTICS.ARTIFACTS_TOT]}}<p>Tot. Artifacts</p>
+                                    </a>                        
+                                </div>
+
+                                <div class="col-md-2">                         
+                                    <a class="tile tile-default">{{vm.currUser.analytics[vm.USER_ANALYTICS.ACCEPTANCE_RATIO]}}<p>Acceptance Ratio</p>
+                                    </a>                        
+                                </div>
+
+                                <div class="col-md-2">                        
+                                    <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.ARTIFACTS_MGOAL]}}<p>Artifacts Mgoal</p>
+                                    </a>                        
+                                </div>
+
+                                <div class="col-md-2">                       
+                                    <a class="tile tile-success">{{vm.currUser.analytics[vm.USER_ANALYTICS.ARTIFACTS_RATE]}}<p>Artifacs Rate</p>
+                                    </a>                        
+                                </div>
+
+                                <div class="col-md-2">                        
+                                    <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.WORKTIME_RATIO]}}<p>Worktime Ratio</p>
+                                    </a>                        
+                                </div>
+
+                                <div class="col-md-2">                       
+                                    <a class="tile tile-info">{{vm.currUser.analytics[vm.USER_ANALYTICS.TASKS_PROGRESS]}}<p>Tasks Progress</p>
+                                    </a>                        
+                                </div>
+                            </div>
+                            {{vm.currUser.analytics[vm.USER_ANALYTICS.TASKS_RECORD]}}
+                            <div class="row"> 
+                                <div class="col-md-12">
+                                    <div 
+                                        area-chart
+                                        area-data='vm.currUser.analytics[vm.USER_ANALYTICS.TASKS_RECORD]'
+                                        area-xkey='ts'
+                                        area-ykeys='["assigned", "submitted","accepted"]'
+                                        area-labels='["Assigned Tasks", "Submitted Tasks","Accepted Tasks"]'
+                                        line-colors='["#31C0BE", "#c7254e","#fea223"]'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--<div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">
             <div class="col-md-12">
                 <p ng-switch-when="true">Loading analytics for user {{vm.currUser.username}} ...</p>
@@ -22,6 +96,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 <!-- END: USER ANALYTICS -->
