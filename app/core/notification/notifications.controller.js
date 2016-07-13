@@ -5,10 +5,12 @@
 * @name NotificationsController
 * @module metricapp
 * @requires $scope
+* @requires $rootScope
 * @requires $location
 * @requires $filter
 * @requires NotificationService
 * @requires UserService
+* @requires NOTIFICATION_EVENTS
 *
 * @description
 * Realizes the control layer for `notifications.view`.
@@ -18,16 +20,47 @@ angular.module('metricapp')
 
 .controller('NotificationsController', NotificationsController);
 
-NotificationsController.$inject = ['$scope', '$location', '$filter', 'NotificationService', 'UserService'];
+NotificationsController.$inject = ['$scope', '$rootScope', '$location', '$filter', 'NotificationService', 'UserService', 'AuthService', 'NOTIFICATION_EVENTS', 'AUTH_EVENTS'];
 
-function NotificationsController($scope, $location, $filter, NotificationService, UserService) {
+function NotificationsController($scope, $rootScope, $location, $filter, NotificationService, UserService, AuthService, NOTIFICATION_EVENTS, AUTH_EVENTS) {
 
     var vm = this;
 
     vm.loadMore = loadMore;
     vm.search = search;
 
+    vm.setRead = setRead;
+    vm.setAllRead = setAllRead;
+    vm.removeNews = removeNews;
+
     _init();
+
+    function setRead(notificationid) {
+        for (var i = 0; i < vm.buffer.length; i++) {
+            var notification = vm.buffer[i];
+            if (notification.id === notificationid) {
+                if (!notification.read) {
+                    notification.read = true;
+                    vm.toread --;
+                }
+            }
+        }
+        NotificationService.setReadById(notificationid);
+        $rootScope.$broadcast(NOTIFICATION_EVENTS.SET_READ, notificationid);
+    }
+
+    function setAllRead() {
+        vm.buffer.forEach(function(notification) {
+            notification.read = true;
+        });
+        vm.toread = 0;
+        NotificationService.setAllRead();
+        $rootScope.$broadcast(NOTIFICATION_EVENTS.ALL_READ);
+    }
+
+    function removeNews() {
+        vm.news = 0;
+    }
 
     function loadMore() {
         if (vm.idx < vm.buffer.length) {
@@ -47,28 +80,13 @@ function NotificationsController($scope, $location, $filter, NotificationService
         NotificationService.getAll().then(
             function(resolve) {
                 var notifications = resolve.notifications;
-                var authors = [];
+                vm.toread = resolve.toread;
+                vm.news = resolve.news;
                 notifications.forEach(function(notification) {
-                    authors.push(notification.author);
+                    vm.data.push(notification);
                 });
-                return UserService.getInArray(authors).then(
-                    function(resolve) {
-                        var users = resolve.users;
-                        notifications.forEach(function(notification) {
-                            var author = notification.author;
-                            notification.author = angular.copy(users[author]);
-                            if (notification.author) {
-                                vm.data.push(notification);
-                            }
-                        });
-                        vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
-                        vm.success = true;
-                    },
-                    function(reject) {
-                        vm.errmsg = reject.errmsg;
-                        vm.success = false;
-                    }
-                );
+                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                vm.success = true;
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
@@ -87,7 +105,7 @@ function NotificationsController($scope, $location, $filter, NotificationService
         vm.buffer = [];
         vm.notifications = [];
         vm.idx = 0;
-        vm.step = 5;
+        vm.step = 2;
         vm.query = '';
         vm.orderBy = '-ts_create';
         _loadAllNotifications();
@@ -96,6 +114,23 @@ function NotificationsController($scope, $location, $filter, NotificationService
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
             vm.notifications = vm.buffer.slice(vm.idx, e);
             vm.idx = e;
+        });
+        $scope.$on(NOTIFICATION_EVENTS.ALL_READ, function() {
+            vm.buffer.forEach(function(notification) {
+                notification.read = true;
+            });
+            vm.toread = 0;
+        });
+        $scope.$on(NOTIFICATION_EVENTS.SET_READ, function(event, notificationid) {
+            for (var i = 0; i < vm.buffer.length; i++) {
+                var notification = vm.buffer[i];
+                if (notification.id === notificationid) {
+                    if (!notification.read) {
+                        notification.read = true;
+                        vm.toread --;
+                    }
+                }
+            }
         });
     }
 

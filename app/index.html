@@ -118,7 +118,7 @@
                         <li class="xn-icon-button pull-right" ng-controller="ChatsWidgetController as vm">
                             <a href="#"><span class="fa fa-comments"></span></a>
                             <div class="informer informer-danger" ng-show="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}}</div>
-                            <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
+                            <div class="panel panel-primary animated zoomIn xn-drop-left">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><span class="fa fa-comments"></span> Messages</h3>
                                     <div class="pull-right">
@@ -162,13 +162,19 @@
 
                         <!-- START: NOTIFICATIONS -->
                         <li class="xn-icon-button pull-right" ng-controller="NotificationsWidgetController as vm">
-                            <a href="#"><span class="fa fa-globe"></span></a>
+                            <a href="#"><span class="fa fa-globe" ng-click="vm.removeNews()"></span></a>
                             <div class="informer informer-danger" ng-show="!vm.loading && vm.success && vm.news > 0">{{vm.news}}</div>
-                            <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
+                            <div class="panel panel-primary animated zoomIn xn-drop-left">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><span class="fa fa-globe"></span> Notifications</h3>
                                     <div class="pull-right">
-                                        <span class="label label-danger" ng-show="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}} to read</span>
+                                        <span class="label label-info"
+                                        ng-disabled="!vm.loading || !vm.success || vm.toread == 0"
+                                        ng-click="vm.setAllRead()">Mark all read</span>
+                                        <span class="label label-success"
+                                        ng-show="!vm.loading && vm.success && vm.toread == 0">Up to date</span>
+                                        <span class="label label-danger"
+                                        ng-show="!vm.loading && vm.success && vm.toread != 0">{{vm.toread}} to read</span>
                                     </div>
                                 </div>
                                 <div class="panel-body list-group list-group-contacts list-group-messages scroll" style="max-height: 200px" ng-switch="vm.loading">
@@ -183,13 +189,15 @@
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': notification.read,
                                         'status-unread': !notification.read}"
-                                        ng-href="#/{{notification.scope}}/{{notification.artifact_id}}">
+                                        ng-href="#/{{notification.scope}}/{{notification.artifact_id}}" ng-click="vm.setRead(notification.id)">
                                             <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
                                             <span class="contacts-title">
-                                                {{notification.author | userFullname}} /
-                                                {{notification.name}} / {{notification.scope}}
-                                                <small>{{notification.ts_create | datetimeFilter:'ago'}}</small>
+                                                {{notification.author | userFullname}} <small>{{notification.ts_create | datetimeFilter:'ago'}}</small>
+                                                <p>{{notification.name}}</p>
                                             </span>
+                                        </a>
+                                        <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered" href="#">
+                                            <button type="button" class="btn btn-default btn-sm" ng-click="vm.loadMore()">Load More</button>
                                         </a>
                                         <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
                                             <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>

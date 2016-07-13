@@ -5,7 +5,7 @@
         <li class="active"><a ng-href="#/notifications">Notifications</a></li>
     </ul>
     <div class="page-title">
-        <h2><span class="fa fa-globe"></span> Notifications <small ng-if="!vm.loading && vm.success && vm.toread > 0">{{vm.news}} new / {{vm.toread}} to read</small></h2>
+        <h2><span class="fa fa-globe"></span> Notifications <small ng-if="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}} to read</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row">
@@ -14,7 +14,7 @@
                     <div class="panel-body">
                         <form name="searchForm" class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <span class="fa fa-search"></span>
@@ -29,6 +29,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-success btn-block" ng-click="vm.setAllRead()"><span class="fa fa-check"></span> Mark all read</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -42,14 +45,29 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.notifications.length == 0">No notifications yet.</p>
                     <div ng-switch-when="true">
-                        <ul>
-                            <li ng-repeat="notification in vm.notifications | filter:vm.query | orderBy:vm.orderBy track by notification.id">
-                                <a ng-href="#/{{notification.scope}}/{{notification.artifact_id}}">{{notification.name}}</a>
-                                <ul>
-                                    <li ng-repeat="(key, value) in notification">{{key}} = {{value}}</li>
-                                <ul>
-                            </li>
-                        </ul>
+                        <div class="panel panel-default">
+                            <div class="panel-body list-group list-group-contacts list-group-messages">
+                                <a class="list-group-item list-group-item-message"
+                                ng-repeat="notification in vm.notifications | filter:vm.query | orderBy:vm.orderBy track by notification.id"
+                                ng-class="{'status-read': notification.read,
+                                'status-unread': !notification.read}"
+                                ng-href="#/{{notification.scope}}/{{notification.artifact_id}}" ng-click="vm.setRead(notification.id)">
+                                    <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
+                                    <span class="contacts-title">
+                                        {{notification.author | userFullname}} <small>{{notification.ts_create | datetimeFilter:'ago'}}</small>
+                                        <p>{{notification.name}}</p>
+                                    </span>
+                                    <div class="list-group-controls">
+                                        <span class="fa" ng-class="{'fa-check': notification.read, 'fa-envelope': !notification.read}"></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1 col-centered">
+                                <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                            </div>
+                        </div>
                     </div>
                     <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
                 </div>
