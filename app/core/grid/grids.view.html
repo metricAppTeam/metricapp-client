@@ -46,7 +46,67 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <p ng-switch-when="true" ng-if="vm.grids.length == 0">No grids yet.</p>
                     <div ng-switch-when="true">
-                        <ul>
+                        <div class="panel panel-default">
+                            <div class="block-content"> 
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">
+                                                <div class="th">Grid name</div>
+                                            </th>
+                                            <th width="9%">
+                                                <div class="th">
+                                                    Progress
+                                                </div>
+                                            </th>
+                                            <th width="40%">
+                                                <div class="th">
+                                                    Description
+                                                </div>
+                                            </th>
+                                            <th width="20%">
+                                                <div class="th">
+                                                    Creation
+                                                </div>
+                                            </th>
+                                            <th width="20%">
+                                                <div class="th">
+                                                    Last Update
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="grid in vm.grids | filter:vm.query | orderBy:vm.orderBy track by grid.id">
+                                            <td>
+                                                <a ng-href="#/grids/{{grid.id}}">{{grid.name}}></a>
+                                            </td>
+                                            <td>
+                                                <round-progress
+                                                    max="100"
+                                                    current="grid.progress"
+                                                    color="#81C784"
+                                                    bgcolor="#eaeaea"
+                                                    radius="20"
+                                                    stroke="5"
+                                                    semi="false"
+                                                    rounded="true"
+                                                    clockwise="true"
+                                                    responsive="true"
+                                                    duration="2000"
+                                                    animation="easeInOutQuart"
+                                                    animation-delay="0">
+                                                </round-progress>
+                                            </td>
+                                            <td><p class="text-justify">{{grid.description}}</p></td>
+                                            <td><p class="text-justify">{{grid.ts_create}}</p></td>
+                                            <td><p class="text-justify">{{grid.ts_update}}</p></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--<ul>
                             <li ng-repeat="grid in vm.grids | filter:vm.query | orderBy:vm.orderBy track by grid.id">
                                 <a ng-href="#/grids/{{grid.id}}">{{grid.name}}</a>
                                 <ul>
@@ -59,7 +119,7 @@
                                 <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <p ng-switch-when="false">Ooops! Something went wrong :-({{vm.errmsg}}</p>
                 </div>
             </div>
