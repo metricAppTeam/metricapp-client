@@ -23,7 +23,6 @@ angular.module('metricapp')
         questioner: 'questioner-mp',
         metricator: 'metricator-ag',
         status: 'MGOAL_APPROVED',
-        grid: 1, // grid di appartenenza
         progress: 100,
         ts_create: new Date(2016, 1, 16, 10, 10, 45, 500),
         ts_update: new Date(2016, 1, 17, 10, 10, 45, 500)

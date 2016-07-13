@@ -99,7 +99,7 @@ function routes($routeProvider, $locationProvider) {
     .when('/questions', {
         templateUrl: 'dist/views/question/questions.view.html'
     })
-    .when('/mgoals/:questionid', {
+    .when('/questions/:questionid', {
         templateUrl: 'dist/views/question/question.view.html'
     })
 
