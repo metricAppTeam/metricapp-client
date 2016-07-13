@@ -24,7 +24,7 @@ angular.module('metricapp')
         email:      'giacomo.marciani@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/users/expert-gm.svg',
-        bio:  'MSc Student in Computer Science Engineering at University of Rome Tro Vergata.',
+        bio:        'MSc Student in Computer Science Engineering at University of Rome Tro Vergata.',
         online:     false
     },
 
@@ -39,7 +39,7 @@ angular.module('metricapp')
         email:      'michele.porretta@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/users/expert-mp.svg',
-        bio:  'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
         online:     false
     },
 
@@ -54,7 +54,7 @@ angular.module('metricapp')
         email:      'giovanni.cantone@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/users/expert-gc.svg',
-        bio:  'Full Professor in Computer Science Engineering at University of Rome Tor Vergata.',
+        bio:        'Full Professor in Computer Science Engineering at University of Rome Tor Vergata.',
         online:     false
     },
 
@@ -69,7 +69,7 @@ angular.module('metricapp')
         email:      'manuel.mastrofini@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/users/expert-mm.svg',
-        bio:  'Associate Professor in Computer Science Engineering at University of Rome Tor Vergata.',
+        bio:        'Associate Professor in Computer Science Engineering at University of Rome Tor Vergata.',
         online:     false
     },
 
@@ -84,7 +84,7 @@ angular.module('metricapp')
         email:      'andrea.gennusa@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/users/metricator-ag.svg',
-        bio:  'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
         online:     false
     },
 
@@ -99,7 +99,7 @@ angular.module('metricapp')
         email:      'alessandro.fazio@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/users/metricator-af.svg',
-        bio:  'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
         online:     false
     },
 
@@ -114,7 +114,7 @@ angular.module('metricapp')
         email:      'marco.piu@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/users/questioner-mp.svg',
-        bio:  'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
         online:     false
     },
 
@@ -129,7 +129,7 @@ angular.module('metricapp')
         email:      'davide.nanni@domain.com',
         mobile:     '+39 12345678',
         picture:    'uploads/users/questioner-dn.svg',
-        bio:  'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
         online:     false
     }
 
