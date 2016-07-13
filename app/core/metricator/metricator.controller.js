@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 11:44:28
+* @Last Modified time: 2016-07-13 12:45:38
 */
 (function () { 'use strict';
 
@@ -21,13 +21,14 @@ angular.module('metricapp')
 
 .controller('MetricatorController', MetricatorController);
 
-MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window'];
+MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window',"STATES"];
 
-function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window) {
+function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window, STATES) {
 
     var vm = this;
 
     vm.getMeasurementGoals = getMeasurementGoals;
+    vm.getMeasurementGoalsByState = getMeasurementGoalsByState;
     vm.getMetrics = getMetrics;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
     vm.getMeasurementGoalExternals = getMeasurementGoalExternals;
@@ -68,9 +69,9 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * @ngdoc method
     * @name submitMeasurementGoal
     * @description
-    * Get active measurement goals for a metricator.
+    * Get measurement goals by state for a metricator.
     ********************************************************************************/
-    function getMeasurementGoals(index){
+    function getMeasurementGoalsByState(index){
          MeasurementGoalService.getMeasurementGoals(vm.states[index]).then(
             function(data) {
                 console.log(data.measurementGoals);
@@ -93,7 +94,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         //TODO add method to retrieve last approved measurementGoal
         //TODO add method to send for approval
         for (var i=0; i<vm.states.length; i++){
-            getMeasurementGoals(i);
+            getMeasurementGoalsByState(i);
         }
     };
 
@@ -173,10 +174,10 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         }
     };*/
 
-    function setMeasurementGoalDialog(measurementGoalToAssignId){
+    function setMeasurementGoalDialog(parentIndex,measurementGoalToAssignId){
         //TODO add parent index
-        vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
-        getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
+        vm.measurementGoalDialog = vm.measurementGoals[parentIndex][measurementGoalToAssignId];
+        getMeasurementGoalExternals(vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id);
         //var goalid = $routeParams.goalid;
         //vm.currMGoal = {
         //    id: goalid;

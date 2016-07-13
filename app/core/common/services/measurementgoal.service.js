@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 11:45:39
+* @Last Modified time: 2016-07-13 12:01:53
 */
 (function() { 'use strict';
 
@@ -23,9 +23,9 @@ angular.module('metricapp')
 .service('MeasurementGoalService', MeasurementGoalService);
 
 MeasurementGoalService.$inject = [
-    '$http', '$rootScope', '$cookies', '$window'];
+    '$http', '$rootScope', '$cookies', '$window', 'AuthService'];
 
-function MeasurementGoalService($http, $rootScope, $cookies, $window) {
+function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthService) {
 
     var service = this;
 
@@ -100,7 +100,8 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     ********************************************************************************/
     
     function getMeasurementGoals(state) {
-        
+        console.log('GET Measurement Goals with userid='+AuthService.getUser().username+'&state='+state);
+
         return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);

@@ -1055,7 +1055,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 11:45:39
+* @Last Modified time: 2016-07-13 12:01:53
 */
 (function() { 'use strict';
 
@@ -1076,9 +1076,9 @@ angular.module('metricapp')
 .service('MeasurementGoalService', MeasurementGoalService);
 
 MeasurementGoalService.$inject = [
-    '$http', '$rootScope', '$cookies', '$window'];
+    '$http', '$rootScope', '$cookies', '$window', 'AuthService'];
 
-function MeasurementGoalService($http, $rootScope, $cookies, $window) {
+function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthService) {
 
     var service = this;
 
@@ -1153,7 +1153,8 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     ********************************************************************************/
     
     function getMeasurementGoals(state) {
-        
+        console.log('GET Measurement Goals with userid='+AuthService.getUser().username+'&state='+state);
+
         return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
@@ -3062,7 +3063,7 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 11:44:28
+* @Last Modified time: 2016-07-13 12:38:26
 */
 (function () { 'use strict';
 
@@ -3081,13 +3082,14 @@ angular.module('metricapp')
 
 .controller('MetricatorController', MetricatorController);
 
-MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window'];
+MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window',"STATES"];
 
-function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window) {
+function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window, STATES) {
 
     var vm = this;
 
     vm.getMeasurementGoals = getMeasurementGoals;
+    vm.getMeasurementGoalsByState = getMeasurementGoalsByState;
     vm.getMetrics = getMetrics;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
     vm.getMeasurementGoalExternals = getMeasurementGoalExternals;
@@ -3128,9 +3130,9 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * @ngdoc method
     * @name submitMeasurementGoal
     * @description
-    * Get active measurement goals for a metricator.
+    * Get measurement goals by state for a metricator.
     ********************************************************************************/
-    function getMeasurementGoals(index){
+    function getMeasurementGoalsByState(index){
          MeasurementGoalService.getMeasurementGoals(vm.states[index]).then(
             function(data) {
                 console.log(data.measurementGoals);
@@ -3153,7 +3155,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         //TODO add method to retrieve last approved measurementGoal
         //TODO add method to send for approval
         for (var i=0; i<vm.states.length; i++){
-            getMeasurementGoals(i);
+            getMeasurementGoalsByState(i);
         }
     };
 
