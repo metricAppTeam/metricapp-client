@@ -51,14 +51,6 @@ function ProfileController($scope, $location, ProfileService, FlashService, GEND
     vm.online = 'false';
     vm.gender = 'FEMALE';
 
-    vm.num_tasks_completed = 20;
-    vm.num_tasks_active = 10;
-    vm.total_task_for_user = vm.num_tasks_completed + vm.num_tasks_completed;
-
-    vm.num_total_tasks_active_on_system = 50;
-    vm.percentage_tasks_completed = (vm.num_tasks_completed/vm.num_total_tasks_for_user);
-    vm.percentage_tasks_active = (vm.num_tasks_active/vm.num_total_tasks_for_user);
-
     //list of projects for view user project
     vm.projects = [
         {name: "ISSR Project1", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. ",status: "active",progress: 30},
