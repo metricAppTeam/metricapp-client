@@ -161,10 +161,9 @@
                                             </span>
                                             <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 50 : 45)}}...</p>
                                         </a>
-                                        <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more" href="#">
-                                            <button type="button" class="btn btn-default btn-sm" ng-click="vm.loadMore()">Load More</button>
-                                        </a>
-                                        <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
+                                        <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more"
+                                        ng-click="vm.loadMore()" href="">Load More</a>
+                                        <a ng-switch-when="false" class="list-group-item list-group-item-message" href="">
                                             <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>
                                         </a>
                                     </div>
@@ -198,7 +197,7 @@
                                         <span class="contacts-title">Loading notifications ...</span>
                                     </a>
                                     <div ng-switch-when="false" ng-switch="vm.success">
-                                        <a ng-switch-when="true" ng-show="vm.notifications.length == 0" class="list-group-item list-group-item-message" href="#">
+                                        <a ng-switch-when="true" ng-show="vm.notifications.length == 0" class="list-group-item list-group-item-message" href="">
                                             <span class="contacts-title">No notifications yet</span>
                                         </a>
                                         <a ng-switch-when="true" ng-repeat="notification in vm.notifications | orderBy: '-ts_create' track by notification.id"
@@ -212,10 +211,9 @@
                                                 <p>{{notification.name}}</p>
                                             </span>
                                         </a>
-                                        <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more" href="#">
-                                            <button type="button" class="btn btn-default btn-sm" ng-click="vm.loadMore()">Load More</button>
-                                        </a>
-                                        <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
+                                        <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more"
+                                        ng-click="vm.loadMore()" href="">Load More</a>
+                                        <a ng-switch-when="false" class="list-group-item list-group-item-message" href="">
                                             <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>
                                         </a>
                                     </div>
