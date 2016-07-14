@@ -95,8 +95,8 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
     function goToUpdateMetric(){
         MetricService.toUpdateMetric(vm.metricDialog);
         console.log("Going to Update Metric");
-        $location.path('/metric');
-        console.log($location.path('/metric'));
+        $window.location.href ='#/metric?id='+vm.metricDialog.metadata.id;
+
     }
 
     /********************************************************************************

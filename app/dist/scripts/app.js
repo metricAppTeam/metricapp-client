@@ -1308,6 +1308,42 @@ function MetricService($http, $window, AuthService) {
     service.getMetricsByState = getMetricsByState;
     service.toUpdateMetric = toUpdateMetric;
     service.getToUpdate = getToUpdate;
+    service.submitMetric = submitMetric;
+    service.newMetric=newMetric;
+
+
+    function submitMetric(metric){
+      return $http.put('http://qips.sweng.uniroma2.it/metricapp-server/metric/', metric).then(
+          function(response) {
+               //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
+               console.log('SUCCESS PUT metric');
+               var message = response.data;
+               return message;
+          },
+          function(response) {
+               var message = response.data;
+               console.log('FAILURE PUT metric');
+               return message;
+          }
+     );
+
+   }
+   function newMetric(metric){
+     return $http.post('http://qips.sweng.uniroma2.it/metricapp-server/metric/', metric).then(
+         function(response) {
+              //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
+              console.log('SUCCESS POST metric');
+              var message = response.data;
+              return message;
+         },
+         function(response) {
+              var message = response.data;
+              console.log('FAILURE POST metric');
+              return message;
+         }
+    );
+
+   }
 
 
     /********************************************************************************
@@ -3176,9 +3212,9 @@ angular.module('metricapp')
 
 .controller('MetricPageController', MetricPageController);
 
-MetricPageController.$inject = ['$scope','$routeParams', '$location','MetricService','$window'];
+MetricPageController.$inject = ['$scope','$routeParams', '$location','MetricService','AuthService','$window'];
 
-function MetricPageController($scope,$routeParams, $location, MetricService, $window) {
+function MetricPageController($scope,$routeParams, $location, MetricService,AuthService, $window) {
     var vm = this;
     vm.loading = true;
 
@@ -3210,8 +3246,10 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
     function _selectMetricToView(){
       if(angular.isUndefined($routeParams.id)){
          vm.loadedMetric= MetricService.getToUpdate();
-         vm.loading=false;
+
          vm.copyDialogToModel();
+         vm.loading=false;
+         return;
       }else{
 
          MetricService.getMetricsById($routeParams.id).then(
@@ -3251,7 +3289,20 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
 
 
-
+   /********************************************************************************
+   * @ngdoc method
+   * @name submit
+   * @description
+   * Check if the metric in vm.dialog has metricatorId field of the logged user
+   ********************************************************************************/
+   function canIUpdate(metric){
+      if ((metric.metricatorId == AuthService.getUser().username && AuthService.getUser().role=='METRICATOR')||AuthService.getUser().role=='EXPERT'){
+         console.log(AuthService.getUser().username+ " has rights to update metric of "+ metric.metricatorId );
+         return true;
+      }else{
+         return false;
+      }
+   }
 
     /********************************************************************************
     * @ngdoc method
@@ -3259,50 +3310,10 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
     * @description
     * Submits a Metric
     ********************************************************************************/
-    function submitMetric() {
-      console.log(vm.newMetric)
-        var objectSubmit = (vm.object !== null) ? vm.object :  vm.measurementGoalDialog.object;
-        var purposeSubmit = (vm.purpose !== null) ? vm.purpose :  vm.measurementGoalDialog.purpose;
-        var viewPointSubmit = (vm.viewPoint !== null) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
-        var focusSubmit = (vm.focus !== null) ? vm.focus :  vm.measurementGoalDialog.focus;
-        var functionJavascriptSubmit = (vm.functionJavascript !== null) ? vm.functionJavascript :  vm.measurementGoalDialog.functionJavascript;
-        var queryNoSQLSubmit = (vm.queryNoSQL !== null) ? vm.queryNoSQL :  vm.measurementGoalDialog.queryNoSQL;
+    function submitMetric(metric) {
+      console.log(vm.newMetric);
 
-
-
-
-        var measurementGoal = {
-            userid : vm.measurementGoalDialog.userid,
-        	name : vm.name,
-        	object : vm.object,
-            viewPoint : vm.viewPoint,
-            focus : vm.focus,
-        	purpose : vm.purpose,
-            OrganizationalGoalId : vm.measurementGoalDialog.OrganizationalGoalId,
-            metrics : vm.measurementGoalDialog.metrics,
-            questions : vm.measurementGoalDialog.questions,
-            metricatorId : vm.measurementGoalDialog.metricatorId,
-            questionersId : vm.measurementGoalDialog.questionersId,
-            contextFactors : vm.measurementGoalDialog.contextFactors,
-            assumptions : vm.measurementGoalDialog.assumptions,
-            interpretationModel : {
-                functionJavascript : vm.functionJavascript,
-                queryNoSQL : vm.queryNoSQL
-            },
-            metadata : {
-                id : vm.measurementGoalDialog.metadata.id,
-                version : vm.measurementGoalDialog.metadata.version,
-                tags : vm.measurementGoalDialog.metadata.tags,
-                creatorId : vm.measurementGoalDialog.metadata.creatorId,
-                state : vm.measurementGoalDialog.metadata.state,
-                releaseNote : vm.measurementGoalDialog.metadata.releaseNote,
-                entityType : vm.measurementGoalDialog.metadata.entityType,
-                versionBus : vm.measurementGoalDialog.metadata.versionBus,
-                creationDate : vm.measurementGoalDialog.metadata.creationDate,
-                lastVersionDate : vm.measurementGoalDialog.metadata.lastVersionDate
-            }
-        };
-        MeasurementGoalService.submitMeasurementGoal(measurementGoal).then(
+        MetricService.submitMetric(metric).then(
             function(message) {
                 alert(message);
                 //$location.path('/measurementgoal');
@@ -3618,8 +3629,8 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
     function goToUpdateMetric(){
         MetricService.toUpdateMetric(vm.metricDialog);
         console.log("Going to Update Metric");
-        $location.path('/metric');
-        console.log($location.path('/metric'));
+        $window.location.href ='#/metric?id='+vm.metricDialog.metadata.id;
+
     }
 
     /********************************************************************************

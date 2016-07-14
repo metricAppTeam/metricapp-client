@@ -1,4 +1,4 @@
-<div ng-controller="MetricPageController as vm">
+<div ng-controller="MetricPageController as vm" >
 
    <div class="page-title">
       <h2><span class="fa fa-arrow-circle-o-left"></span> Metric Update </h2>
@@ -8,13 +8,16 @@
    <!-- FORM: METRIC -->
 
    <div class="row">
-      <form name="metricForm" role="form" class="form-horizontal"  ng-submit="vm.submitMetric()" novalidate="novalidate">
+      <form name="metricForm" role="form" class="form-horizontal"  ng-submit="vm.submitMetric(vm.newMetric)" novalidate="novalidate">
          <div class="col-md-6 pull-left">
 
 
 
 
-
+            <div class="block">
+               <h4>Ontology</h4>
+               <div class="panel panel-default">
+                  <div class="panel-body">
             <!-- FORM FIELD: NAME -->
             <div class="form-group" ng-class="{ 'hash-error': metricForm.name.$invalid }">
                <label class="col-md-3 control-label">Name:</label>
@@ -69,6 +72,9 @@
                   </select>
                </div>
             </div>
+         </div>
+         </div>
+         </div>
 
             <div class="block">
                <h4>Maximum value</h4>
@@ -128,11 +134,20 @@
 
 
 
-
+            <div class="block">
+               <h4>Submit</h4>
+               <div class="panel panel-default">
+                  <div class="panel-body">
             <!-- FORM ACTIONS: SUBMIT, CANCEL -->
             <div class="form-actions">
-               <button class="btn btn-primary" type="submit" ng-disabled="metricForm.$invalid || vm.loading">Submit Metric</button>
+               <button class="btn btn-primary" type="submit" ng-disabled="metricForm.$invalid || vm.loading || vm.newMetric.metadata.state!='OnUpdate'">Submit Metric</button>
+               <div ng-show="vm.loading">Please Wait</div>
+               <div ng-show="metricForm.$invalid">Incorrect Input</div>
+               <div ng-show="vm.newMetric.metadata.state!='OnUpdate'">To be updated a Metric Must be in state of OnUpdate</div>
             </div>
+         </div>
+         </div>
+         </div>
 
 
 
