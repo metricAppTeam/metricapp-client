@@ -1836,6 +1836,25 @@ function UserService($http, REST_SERVICE) {
     };
   }
 
+  angular.module('metricapp')
+      .directive('metricupdate', metricupdate);
+  function metricupdate() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/metric/metricupdate.view.html'
+    };
+  }
+
+  angular.module('metricapp')
+      .directive('metricread', metricread);
+  function metricread() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/metric/metricread.view.html'
+    };
+  }
+
+
 })();
 
 (function () {
@@ -2025,14 +2044,14 @@ function mUnique($http, $q) {
 
 angular.module('metricapp')
 
-.directive('sidebar', sidebar);
+.directive('topbar', topbar);
 
-function sidebar() {
+function topbar() {
     return {
       restrict: 'E',
       scope: false,
-      controller: 'SidebarController as vm',
-      templateUrl: 'dist/views/navigation/sidebar/sidebar.view.html'
+      controller: 'TopbarController as vm',
+      templateUrl: 'dist/views/navigation/topbar/topbar.view.html'
     };
 }
 
@@ -2042,14 +2061,14 @@ function sidebar() {
 
 angular.module('metricapp')
 
-.directive('topbar', topbar);
+.directive('sidebar', sidebar);
 
-function topbar() {
+function sidebar() {
     return {
       restrict: 'E',
       scope: false,
-      controller: 'TopbarController as vm',
-      templateUrl: 'dist/views/navigation/topbar/topbar.view.html'
+      controller: 'SidebarController as vm',
+      templateUrl: 'dist/views/navigation/sidebar/sidebar.view.html'
     };
 }
 
@@ -4538,6 +4557,34 @@ function QuestionController($scope, $location) {
 
 /************************************************************************************
 * @ngdoc controller
+* @name TopbarController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the topbar for all users.
+* Realizes the control layer for {topbar.directive}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('TopbarController', TopbarController);
+
+TopbarController.$inject = ['$scope', '$location', 'AuthService'];
+
+function TopbarController($scope, $location, AuthService) {
+
+    var vm = this;
+
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
 * @name SidebarController
 * @module metricapp
 * @requires $scope
@@ -4600,34 +4647,6 @@ function SidebarController($scope, $location, ActionService) {
     function _init() {
 
     }
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name TopbarController
-* @module metricapp
-* @requires $scope
-* @requires $location
-*
-* @description
-* Manages the topbar for all users.
-* Realizes the control layer for {topbar.directive}.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('TopbarController', TopbarController);
-
-TopbarController.$inject = ['$scope', '$location', 'AuthService'];
-
-function TopbarController($scope, $location, AuthService) {
-
-    var vm = this;
-
 }
 
 })();
