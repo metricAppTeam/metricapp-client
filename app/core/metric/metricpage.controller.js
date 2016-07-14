@@ -36,6 +36,7 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
 
 
+
     function _selectMetricToView(){
       if(angular.isUndefined($routeParams.id)){
          vm.loadedMetric= MetricService.getToUpdate();

@@ -20,6 +20,7 @@ angular.module('metricapp',[
     'ngMockE2E',
     'smart-table',
     'ui.ace',
+    'as.sortable',
     'nvd3',
     'angular.morris-chart'
 ]);
