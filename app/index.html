@@ -138,11 +138,11 @@
                                     </div>
                                 </div>
                                 <div class="panel-body list-group list-group-contacts list-group-messages scroll" style="max-height: 200px" ng-switch="vm.loading">
-                                    <a ng-switch-when="true" class="list-group-item list-group-item-message" href="#">
+                                    <a ng-switch-when="true" class="list-group-item list-group-item-message" href="">
                                         <span class="contacts-title">Loading  messages ...</span>
                                     </a>
                                     <div ng-switch-when="false" ng-switch="vm.success">
-                                        <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="#">
+                                        <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="">
                                             <span class="contacts-title">No conversations yet</span>
                                         </a>
                                         <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy: '-ts_update' track by conversation.recipient.username"
@@ -157,6 +157,7 @@
                                             <span class="contacts-title">
                                                 {{conversation.recipient | userFullname}}
                                                 <small>{{conversation.messages[conversation.messages.length - 1].ts_create | datetimeFilter:'ago'}}</small>
+                                                <span class="label label-danger" ng-show="conversation.toread > 0">{{conversation.toread}}</span>
                                             </span>
                                             <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 50 : 45)}}...</p>
                                         </a>

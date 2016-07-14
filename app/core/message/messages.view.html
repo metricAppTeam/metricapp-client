@@ -1,0 +1,146 @@
+<div ng-controller="MessagesController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li class="active"><a ng-href="#/messages">Messages</a></li>
+    </ul>
+    <div class="content-frame">
+        <div class="content-frame-top">
+            <div class="page-title">
+                <h2><span class="fa fa-globe"></span>
+                    Messages
+                    <span class="label label-success" ng-show="!vm.loading && vm.success && vm.toread == 0">Up to date</span>
+                    <span class="label label-danger" ng-show="!vm.loading && vm.success && vm.toread != 0">{{vm.toread}} to read</span>
+                </h2>
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-danger"
+                data-toggle="modal" data-target="#modal-create-conversation"><span class="fa fa-pencil"></span> New</button>
+                <button class="btn btn-default content-frame-right-toggle"><span class="fa fa-bars"></span></button>
+            </div>
+        </div>
+        <!-- START: FRAME-RIGHT -->
+        <div class="content-frame-right">
+            <div class="list-group list-group-contacts list-group-messages border-bottom push-down-10" ng-switch="vm.loading">
+                <a ng-switch-when="true" class="list-group-item list-group-item-message" href="">
+                    <span class="contacts-title">Loading  messages ...</span>
+                </a>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="">
+                        <span class="contacts-title">No conversations yet</span>
+                    </a>
+                    <!-- START REMOVE -->
+                    <ul ng-switch-when="true">
+                        <li ng-repeat="conversation in vm.conversations | filter:vm.query | orderBy:vm.orderBy track by conversation.recipient.username">
+                            <a ng-href="#/messages/{{conversation.recipient.username}}">{{conversation.recipient.username | userFullname}}</a>
+                            <ul>
+                                <li ng-repeat="(key, value) in conversation">{{key}} = {{value}}</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- END REMOVE -->
+                    <!-- START OK
+                    <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy: '-ts_update' track by conversation.recipient.username"
+                    ng-href="#/messages/{{conversation.recipient}}" class="list-group-item list-group-item-message"
+                    ng-class="{'active': conversation.recipient.username === vm.currConversation.recipient.username,
+                    'status-read': conversation.toread == 0,
+                    'status-unread': conversation.toread > 0}">
+                        <div class="list-group-status"
+                        ng-class="{'status-online': conversation.recipient.online,
+                        'status-offline': !conversation.recipient.online}"></div>
+                        <img ng-src="{{conversation.recipient.picture}}" class="pull-left" alt="{{conversation.recipient.username}}">
+                        <div class="contacts-title">{{conversation.recipient | userFullname}}
+                            <span ng-show="conversation.toread > 0" class="label label-danger">{{conversation.toread}}</span>
+                        </div>
+                        <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 30 : 28)}}...</p>
+                    </a>
+                    END OK -->
+                    <div ng-switch-when="true" class="row">
+                        <div class="col-lg-1 col-centered">
+                            <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                        </div>
+                    </div>
+                    <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
+                        <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- END: FRAME-RIGHT -->
+        <!-- START: FRAME-BODY -->
+        <div class="content-frame-body content-frame-body-left" ng-controller="ChatController as vm">
+            <div class="messages messages-img">
+                <!-- START REMOVE  -->
+                <div class="row" ng-switch="vm.loading">
+                    <div class="col-md-12">
+                        <p ng-switch-when="true">Loading messages ...</p>
+                        <div ng-switch-when="false" ng-switch="vm.success">
+                            <p ng-switch-when="true" ng-if="vm.currConversation.messages.length == 0">No message yet.</p>
+                            <div ng-switch-when="true">
+                                <ul>
+                                    <li ng-repeat="message in vm.currConversation.messages | filter:vm.query | orderBy:vm.orderBy track by message.id">
+                                        <ul>
+                                            <li ng-repeat="(key, value) in question">{{key}} = {{value}}</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <div class="row">
+                                    <div class="col-lg-1 col-centered">
+                                        <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- END REMOVE -->
+
+
+                <!-- START OK
+                <div ng-repeat="message in vm.currConversation.messages | orderBy: 'ts_create' track by message.id" class="item item-visible" ng-class="{'in': message.author != globals.user.username}">
+                    <div class="image" ng-switch="message.author">
+                        <img ng-switch-when="vm.currConversation.sender.username"
+                        ng-src="{{vm.currConversation.sender.picture}}"
+                        alt="vm.currConversation.sender.username">
+                        <img ng-switch-when="vm.currConversation.recipient.username"
+                        ng-src="{{vm.currConversation.recipient.picture}}"
+                        alt="vm.currConversation.recipient.username">
+                    </div>
+                    <div class="text">
+                        <div class="heading" ng-switch="message.author">
+                            <a ng-switch-when="vm.currConversation.sender.username"
+                            ng-href="#/profile/{{vm.currConversation.sender.username}}">{{vm.currConversation.sender | userFullname}}</a>
+                            <a ng-switch-when="vm.currConversation.recipient.username"
+                            ng-href="#/profile/{{vm.currConversation.recipient.username}}">{{vm.currConversation.recipient | userFullname}}</a>
+                            <span class="date">{{message.ts_create | datetimeFilter:'normal'}}</span>
+                        </div>
+                        {{message.content}}
+                    </div>
+                </div>
+                END OK -->
+            </div>
+
+            <div class="panel panel-default push-up-10">
+                <div class="panel-body panel-body-search">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default"><span class="fa fa-camera"></span></button>
+                            <button class="btn btn-default"><span class="fa fa-chain"></span></button>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Your message..." ng-model="vm.myMessage"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" ng-disabled="vm.myMessage.length == 0" ng-click="vm.sendMessage(vm.myMessage)">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: FRAME-BODY -->
+    </div>
+    <!-- END: FRAME -->
+</div>
+<!-- START: DIALOG CREATE-CONVERSATION -->
+<!--<div ng-include="'dist/views/message/conversation.create.view.html'"></div>-->
+<!-- END: DIALOG CREATE-CONVERSATION -->
+<!-- END: MESSAGES -->

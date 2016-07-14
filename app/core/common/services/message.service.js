@@ -228,14 +228,15 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                     var S_MAILBOX = DB_MESSAGES[authusername];
                     if (S_MAILBOX) {
                         var lastRecipient;
-                        var ts_update = new Date(0);
+                        var ts_update = 0;
                         for (var recipient in S_MAILBOX) {
                             var CONVERSATION = S_MAILBOX[recipient];
                             if (CONVERSATION.ts_update > ts_update) {
                                 lastRecipient = CONVERSATION.recipient;
                             }
                         }
-                        resolve({lastRecipient: lastRecipient});
+                        alert('MessageService lastRecipient: ' + JSON.stringify(lastRecipient));
+                        resolve({lastRecipient: lastRecipient.username});
                     } else {
                         reject({lastRecipient: null, errmsg: 'Mailbox not found for user ' + authusername});
                     }

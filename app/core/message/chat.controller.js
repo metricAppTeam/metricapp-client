@@ -31,33 +31,45 @@ function ChatController($scope, $location, $routeParams, $filter, MessageService
     _init();
 
     function loadMore() {
-        /*
         if (vm.idx < vm.buffer.length) {
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
             vm.conversation.messages = vm.conversation.messages.concat(vm.buffer.slice(vm.idx, e));
             vm.idx = e;
         }
-        */
     }
 
-    function sendMessage(content) {
-        var message = {
-            ts_create: new Date(),
-            author: $rootScope.globals.user.username,
-            content: content
-        };
-        vm.currConversation.messages.push(message);
+    function sendMessage(recipient, content) {
+        vm.loading = true;
+        vm.success = false;
+        MessageService.sendMessage(recipient, content).then(
+            function(resolve) {
+                var sentMessage = resolve.sentMessage;
+                vm.currConversation.messages.push(sentMessage);
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
+    }
+
+    function _setRead(recipient) {
+        MessageService.setReadById(recipient);
+        $rootScope.$broadcast(MESSAGE_EVENTS.SET_READ, recipient);
     }
 
     function _loadConversation(recipient) {
         vm.loading = true;
         vm.success = false;
-        MessageService.getById(recipient, -1).then(
+        MessageService.getById(recipient).then(
             function(resolve) {
                 vm.currConversation = angular.copy(resolve.conversation);
-                return UserService.getUser(vm.currConversation.recipient).then(
+                return UserService.getById(vm.currConversation.recipient).then(
                     function(resolve) {
                         vm.currConversation.recipient = angular.copy(resolve.user);
+                        _setRead(currConversation.recipient.username);
                         vm.success = true;
                     },
                     function(reject) {
