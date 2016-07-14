@@ -28,10 +28,21 @@
                         </div>
                         <div class="panel-body list-group">
                             <a class="list-group-item" ng-click="vm.show=1"><span class="fa fa-user"></span> About</a>
+                            
                             <a class="list-group-item" ng-click="vm.show=2"><span class="fa fa-tasks"></span> Projects</a>
-                            <a class="list-group-item" ng-href="#/profile/{{vm.currUser.username}}/analytics"><span class="fa fa-bar-chart-o"></span> Statistics</a>
-                            <a class="list-group-item" ng-if="globals.user.username == vm.currUser.username"  ng-click="vm.show=3"><span class="fa fa-pencil"></span> Edit Profile</a>
-                            <a class="list-group-item" ng-if="globals.user.username == vm.currUser.username" ng-click="vm.show=4"><span class="fa fa-gear"></span> Edit Credentials</a>
+                            
+                            <a class="list-group-item" ng-href="#/profile/{{vm.currUser.username}}/analytics">
+                                <span class="fa fa-bar-chart-o"></span> Statistics</a>
+                            
+                            <a class="list-group-item" ng-if="globals.user.username == vm.currUser.username"  ng-click="vm.show=3">
+                                <span class="fa fa-pencil"></span> Edit Profile</a>
+                            
+                            <a class="list-group-item" ng-if="globals.user.username == vm.currUser.username" ng-click="vm.show=4">
+                                <span class="fa fa-gear"></span> Edit Credentials</a>
+                            
+                            <a class="list-group-item" ng-if="globals.user.username != vm.currUser.username" ng-href="#/messages/{{vm.currUser.username}}"">
+                                <span class="fa fa-envelope-o"></span> Contact</a>
+                            
                             <a class="list-group-item">
                                 <div ng-switch on='{{vm.currUser.online}}'>
                                     <div ng-switch-when='true'>                    
