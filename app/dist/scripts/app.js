@@ -1346,12 +1346,14 @@ function MetricService($http, $window, AuthService) {
   }
 
 
-   function newMetric(metric){
+   function newMetric(){
+      var metric = {description:null, hasMax:false, hasMin:false, hasUserDefinedList:false,isOrdered:false,max:0,metadata:{creationDate:null,creatorId:AuthService.getUser().username,entityType:'Metric',id:null,lastVersionDate:null,releaseNote:null,state:'Created',tags:[],version:'0',versionBus:null},metricatorId:AuthService.getUser().username,min:0,name:null,scaleType:'ordinalScale',set:'integers',unit:null,userDefinedList:[]};
      return $http.post('http://qips.sweng.uniroma2.it/metricapp-server/metric/', metric).then(
          function(response) {
               //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
               console.log('SUCCESS POST metric');
               var message = response.data;
+              mmetric = message.metricsDTO[0];
               return message;
          },
          function(response) {
@@ -3272,6 +3274,7 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
    vm.labelsForState = [
       {state:'OnUpdate',label: "label label-primary label-form"},
       {state:'Pending',label: "label label-default label-form"},
+      {state:'Created',label: "label label-default label-form"},
       {state:'Approved',label: "label label-warning label-form"},
       {state:'Rejected',label: "label label-danger label-form"}];
 
@@ -3392,6 +3395,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
             if(metric.metadata.state=='Rejected'){
                vm.canIUpdateVar = true;
             }
+            if(metric.metadata.state=='Created'){
+               vm.canIUpdateVar = true;
+            }
             return;
          }
 
@@ -3400,6 +3406,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
             if(metric.metadata.state=='OnUpdate'){
                vm.canIUpdateVar = true;
                vm.canISendForApproval=true;
+            }
+            if(metric.metadata.state=='Created'){
+               vm.canIUpdateVar = true;
             }
             if(metric.metadata.state=='Pending'){
                vm.canIApprove = true;
@@ -3421,7 +3430,7 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
       ********************************************************************************/
       function submitMetric(metric) {
          console.log(metric);
-         if(metric.metadata.state=='Rejected'){
+         if(metric.metadata.state=='Rejected' || metric.metadata.state=='Created'){
             metric.metadata.state='OnUpdate';
          }
          MetricService.submitMetric(metric).then(
@@ -3642,6 +3651,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
     vm.update=update;
     vm.isMine=isMine;
     vm.goToUpdateMetric = goToUpdateMetric;
+    vm.newMetric = newMetric;
 
     vm.update();
 
@@ -3650,6 +3660,13 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
 
     _init();
 
+
+
+    function newMetric(){
+      MetricService.newMetric().then(
+         function(data){vm.update();},function(data){vm.update();}
+      );
+   }
 
     /********************************************************************************
     * @ngdoc method

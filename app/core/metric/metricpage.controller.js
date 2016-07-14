@@ -37,6 +37,7 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
    vm.labelsForState = [
       {state:'OnUpdate',label: "label label-primary label-form"},
       {state:'Pending',label: "label label-default label-form"},
+      {state:'Created',label: "label label-default label-form"},
       {state:'Approved',label: "label label-warning label-form"},
       {state:'Rejected',label: "label label-danger label-form"}];
 
@@ -157,6 +158,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
             if(metric.metadata.state=='Rejected'){
                vm.canIUpdateVar = true;
             }
+            if(metric.metadata.state=='Created'){
+               vm.canIUpdateVar = true;
+            }
             return;
          }
 
@@ -165,6 +169,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
             if(metric.metadata.state=='OnUpdate'){
                vm.canIUpdateVar = true;
                vm.canISendForApproval=true;
+            }
+            if(metric.metadata.state=='Created'){
+               vm.canIUpdateVar = true;
             }
             if(metric.metadata.state=='Pending'){
                vm.canIApprove = true;
@@ -186,7 +193,7 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
       ********************************************************************************/
       function submitMetric(metric) {
          console.log(metric);
-         if(metric.metadata.state=='Rejected'){
+         if(metric.metadata.state=='Rejected' || metric.metadata.state=='Created'){
             metric.metadata.state='OnUpdate';
          }
          MetricService.submitMetric(metric).then(

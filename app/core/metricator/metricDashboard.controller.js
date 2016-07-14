@@ -31,6 +31,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
     vm.update=update;
     vm.isMine=isMine;
     vm.goToUpdateMetric = goToUpdateMetric;
+    vm.newMetric = newMetric;
 
     vm.update();
 
@@ -39,6 +40,13 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
 
     _init();
 
+
+
+    function newMetric(){
+      MetricService.newMetric().then(
+         function(data){vm.update();},function(data){vm.update();}
+      );
+   }
 
     /********************************************************************************
     * @ngdoc method

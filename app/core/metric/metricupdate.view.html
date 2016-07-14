@@ -37,7 +37,7 @@
                <div class="form-group" role="form" ng-class="{ 'hash-error': metricForm.description.$dirty && metricForm.description.$invalid }">
                   <label class="col-md-3 control-label">Description:</label>
                   <div class="col-md-9">
-                     <textarea required class="form-control" name="description" type="text" role="textbox" placeholder="{{vm.loadedMetric.description}}" ng-model="vm.newMetric.description" ng-class="{ 'error': metricForm.description.$dirty && metricForm.description.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="60"/>
+                     <textarea required class="form-control" name="description" type="text" role="textbox" placeholder="{{vm.loadedMetric.description}}" ng-model="vm.newMetric.description" ng-class="{ 'error': metricForm.description.$dirty && metricForm.description.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="160"/>
                      <div class="form-group-helper" role="alert" ng-messages="metricForm.description.$error" ng-show="metric.description.$dirty">
                         <div>Error</div>
                      </div>
@@ -142,7 +142,7 @@
                         <div class="form-group" ng-show="vm.newMetric.hasUserDefinedList">
                            <label class="col-md-3 control-label">Is it ordered?:</label>
                            <div class="col-md-9">
-                              <input name="ordered" type="checkbox" placeholder="{{vm.loadedMetric.ordered}}" ng-model="vm.newMetric.ordered"/>
+                              <input name="isOrdered" type="checkbox" placeholder="{{vm.loadedMetric.isOrdered}}" ng-model="vm.newMetric.isOrdered"/>
                            </div>
                         </div>
                         <div class="form-group" ng-show="vm.newMetric.hasUserDefinedList">
