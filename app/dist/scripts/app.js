@@ -558,6 +558,9 @@ function routes($routeProvider, $locationProvider) {
     .when('/metricator', {
         templateUrl: 'dist/views/metricator/metricator.view.html'
     })
+    .when('/measurementgoal/sendforapproval', {
+        templateUrl: 'dist/views/measurementgoal/measurementgoal.sendforapproval.view.html'
+    })
     .otherwise({
         redirectTo: '/404'
     });
@@ -1055,7 +1058,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 11:01:18
+* @Last Modified time: 2016-07-14 16:21:37
 */
 (function() { 'use strict';
 
@@ -1100,7 +1103,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     * Submits a MeasurementGoal.
     * @param {MeasurementGoal} Measurement Goal to submit.
     ********************************************************************************/
-    function submitMeasurementGoal(measurementGoal) {
+    function submitMeasurementGoal(measurementGoal, state) {
         console.log('SUBMIT measurementGoal WITH ' +
         'name= '  + measurementGoal.name + ' & ' +	
         'object=' + measurementGoal.object + ' & ' +
@@ -1124,8 +1127,9 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
         	focus: measurementGoal.focus,
         	metadata: metadata};*/
                 
+        console.log("POST MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
-
+        return false;
         //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
@@ -1182,7 +1186,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     ********************************************************************************/
     function getExternalContextFactors() {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/contextfactor?all=true').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/contextfactor/all').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
@@ -1207,7 +1211,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     ********************************************************************************/
     function getExternalAssumptions() {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/assumption?all=true').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/assumption/all').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');
@@ -1749,6 +1753,28 @@ function UserService($http, REST_SERVICE) {
     return {
       restrict: 'E',
       templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
+    };
+  }
+
+})();
+
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-14 16:38:56
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-14 16:39:58
+*/
+
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('measurementgoalsendforapproval', metricator);
+
+  function metricator() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/measurementgoal/measurementgoal.sendforapproval.view.html'
     };
   }
 
@@ -2542,7 +2568,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 11:13:27
+* @Last Modified time: 2016-07-14 17:04:38
 */
 (function () { 'use strict';
 
@@ -2561,12 +2587,13 @@ angular.module('metricapp')
 
 .controller('MeasurementGoalController', MeasurementGoalController);
 
-MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService','MetricService','$window','AuthService'];
+MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService','MetricService','$window','AuthService', 'STATES'];
 
-function MeasurementGoalController($scope, $location, MeasurementGoalService, MetricService, $window, AuthService) {
+function MeasurementGoalController($scope, $location, MeasurementGoalService, MetricService, $window, AuthService, STATES) {
 
     var vm = this;
 
+    $('body').removeClass('modal-open');
     vm.measurementGoals = [];
 
     //Initialize some transition variables
@@ -2583,7 +2610,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.externalQuestionDialog = [];
     vm.externalContextFactorDialog = [];
     vm.externalAssumptionDialog = [];
-
 
     vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.cancelSubmit = cancelSubmit;
@@ -2605,6 +2631,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.isSubmittable = isSubmittable;
     vm.getExternalContextFactors = getExternalContextFactors;
     vm.getExternalAssumptions = getExternalAssumptions;
+    vm.sendForApproval = sendForApproval;
 
     //initOrganizationalGoalDialog();
     //getMetricsByMeasurementGoal();
@@ -2616,7 +2643,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * @description
     * Submits a MeasurementGoal.
     ********************************************************************************/
-    function submitMeasurementGoal() {
+    function submitMeasurementGoal(state) {
         
         var objectSubmit = (vm.object !== undefined) ? vm.object :  vm.measurementGoalDialog.object;
         var purposeSubmit = (vm.purpose !== undefined) ? vm.purpose :  vm.measurementGoalDialog.purpose;
@@ -2624,7 +2651,10 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         var qualityFocusSubmit = (vm.qualityFocus !== undefined) ? vm.qualityFocus :  vm.measurementGoalDialog.qualityFocus;
         var functionJavascriptSubmit = (vm.functionJavascript !== undefined) ? vm.functionJavascript :  vm.measurementGoalDialog.interpretationModel.functionJavascript;
         var queryNoSQLSubmit = (vm.queryNoSQL !== undefined) ? vm.queryNoSQL :  vm.measurementGoalDialog.interpretationModel.queryNoSQL;
-        
+        var releaseNoteSubmit = (vm.sendMessage !== undefined) ? vm.sendMessage :  vm.measurementGoalDialog.metadata.releaseNote;
+        var stateSubmit = (state != null) ? state :  vm.measurementGoalDialog.metadata.state;
+
+
         var measurementGoal = {
             userid : vm.measurementGoalDialog.userid,
         	name : vm.name,
@@ -2648,15 +2678,15 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 version : vm.measurementGoalDialog.metadata.version,
                 tags : vm.measurementGoalDialog.metadata.tags,
                 creatorId : vm.measurementGoalDialog.metadata.creatorId,
-                state : vm.measurementGoalDialog.metadata.state,
-                releaseNote : vm.measurementGoalDialog.metadata.releaseNote,
+                state : stateSubmit,
+                releaseNote : releaseNoteSubmit,
                 entityType : vm.measurementGoalDialog.metadata.entityType,
                 versionBus : vm.measurementGoalDialog.metadata.versionBus,
                 creationDate : vm.measurementGoalDialog.metadata.creationDate,
                 lastVersionDate : vm.measurementGoalDialog.metadata.lastVersionDate
             }
         };
-        MeasurementGoalService.submitMeasurementGoal(measurementGoal).then(
+        MeasurementGoalService.submitMeasurementGoal(measurementGoal, state).then(
             function(message) {
                 //alert(message);
                 vm.measurementGoalDialog = message.measurementGoals[0];
@@ -2677,6 +2707,22 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 alert(message);
             });*/
     }
+
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name sendForApproval
+    * @description
+    * Sends a MeasurementGoal for approval.
+    ********************************************************************************/
+    function sendForApproval() {
+        //if (vm.sendMessage !== undefined) {
+        //    vm.measurementGoalDialog.metadata.releaseNote = vm.sendMessage;
+        
+        //} 
+        submitMeasurementGoal('Pending');
+    }
+
 
     /********************************************************************************
     * @ngdoc method
@@ -2766,8 +2812,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
          MeasurementGoalService.getExternalContextFactors().then(
             function(data) {
                 console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
-                console.log(data.contextFactors);
-                vm.externalContextFactorDialog = data.contextFactors;
+                console.log(data);
+                vm.externalContextFactorDialog = data;
                 $("#modal_large_external_contextfactor").modal("show");
 
             },
@@ -2787,8 +2833,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
          MeasurementGoalService.getExternalAssumptions().then(
             function(data) {
                 console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');
-                console.log(data.assumptions);
-                vm.externalAssumptionDialog = data.assumptions;
+                console.log(data);
+                vm.externalAssumptionDialog = data;
                 $("#modal_large_external_assumption").modal("show");
             },
             function(data) {
@@ -2933,10 +2979,23 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 break;
         }
 
-        for(var i=0; i<toAdd.length; i++){
-            if(dialog[index].metadata.id == toAdd[i].metadata.id){
-                $window.alert('You cannot add an item twice!');
-                return true;
+        if (typeObject == 'Metric' || typeObject == 'Question') {
+            console.log('METRIC OR QUESTION UPDATE');
+            for(var i=0; i<toAdd.length; i++){
+                if(dialog[index].metadata.id == toAdd[i].metadata.id){
+                    $window.alert('You cannot add an item twice!');
+                    return true;
+                }
+            }
+        }
+        else {
+            console.log('CONTEXTFACTOR OR ASSUMPTION UPDATE');
+            console.log(dialog[index]);
+            for(var i=0; i<toAdd.length; i++){
+                if(dialog[index].id == toAdd[i].id){
+                    $window.alert('You cannot add an item twice!');
+                    return true;
+                }
             }
         }
 
@@ -3029,7 +3088,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         console.log(vm.measurementGoalDialog.metricatorId);
         console.log(AuthService.getUser().username);
         console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
-        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username;
+        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !vm.measurementGoalDialog.metadata.state == 'Pending';
     }
 
     /********************************************************************************
@@ -3288,7 +3347,7 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 20:09:14
+* @Last Modified time: 2016-07-14 16:47:54
 */
 (function () { 'use strict';
 
@@ -3348,6 +3407,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
     vm.isModifiable = isModifiable;
     vm.isSubmittable = isSubmittable;
+    vm.sendForApproval = sendForApproval;
     
     vm.getMeasurementGoals();
     //vm.getMetrics();
@@ -3577,7 +3637,26 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
     }
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name sendForApproval
+    * @description
+    * Send Measurement Goal for approval.
+    ********************************************************************************/ 
+    function sendForApproval(){
+        var toUpdate = {
+            measurementGoal : vm.measurementGoalDialog,
+            metrics : vm.metrics,
+            contextFactors : vm.contextFactors,
+            assumptions : vm.assumptions,
+            organizationalGoal : vm.organizationalGoal,
+            instanceProject : vm.instanceProject
+        };
 
+        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
+        
+        $location.path('/measurementgoal/sendforapproval');
+    }
 
     /*
     function getMeasurementGoals() {
@@ -3611,6 +3690,9 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         );*/
         
     }
+
+    
+
 
 
     /********************************************************************************

@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 11:27:03
+* @Last Modified time: 2016-07-14 17:30:08
 */
 (function() { 'use strict';
 
@@ -47,7 +47,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     * Submits a MeasurementGoal.
     * @param {MeasurementGoal} Measurement Goal to submit.
     ********************************************************************************/
-    function submitMeasurementGoal(measurementGoal) {
+    function submitMeasurementGoal(measurementGoal, state) {
         console.log('SUBMIT measurementGoal WITH ' +
         'name= '  + measurementGoal.name + ' & ' +	
         'object=' + measurementGoal.object + ' & ' +
@@ -71,8 +71,8 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
         	focus: measurementGoal.focus,
         	metadata: metadata};*/
                 
+        console.log("POST MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
-
         //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
@@ -129,7 +129,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     ********************************************************************************/
     function getExternalContextFactors() {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/contextfactor/all').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/contextfactor/all').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
@@ -154,7 +154,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     ********************************************************************************/
     function getExternalAssumptions() {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/assumption/all').then(
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/assumption/all').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');

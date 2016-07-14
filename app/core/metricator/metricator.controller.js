@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 20:09:14
+* @Last Modified time: 2016-07-14 16:47:54
 */
 (function () { 'use strict';
 
@@ -62,6 +62,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
     vm.isModifiable = isModifiable;
     vm.isSubmittable = isSubmittable;
+    vm.sendForApproval = sendForApproval;
     
     vm.getMeasurementGoals();
     //vm.getMetrics();
@@ -291,7 +292,26 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
     }
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name sendForApproval
+    * @description
+    * Send Measurement Goal for approval.
+    ********************************************************************************/ 
+    function sendForApproval(){
+        var toUpdate = {
+            measurementGoal : vm.measurementGoalDialog,
+            metrics : vm.metrics,
+            contextFactors : vm.contextFactors,
+            assumptions : vm.assumptions,
+            organizationalGoal : vm.organizationalGoal,
+            instanceProject : vm.instanceProject
+        };
 
+        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
+        
+        $location.path('/measurementgoal/sendforapproval');
+    }
 
     /*
     function getMeasurementGoals() {
@@ -325,6 +345,9 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         );*/
         
     }
+
+    
+
 
 
     /********************************************************************************

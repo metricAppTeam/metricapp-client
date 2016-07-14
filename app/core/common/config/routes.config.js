@@ -73,6 +73,9 @@ function routes($routeProvider, $locationProvider) {
     .when('/metricator', {
         templateUrl: 'dist/views/metricator/metricator.view.html'
     })
+    .when('/measurementgoal/sendforapproval', {
+        templateUrl: 'dist/views/measurementgoal/measurementgoal.sendforapproval.view.html'
+    })
     .otherwise({
         redirectTo: '/404'
     });

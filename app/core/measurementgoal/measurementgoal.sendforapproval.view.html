@@ -1,0 +1,19 @@
+<div ng-controller="MeasurementGoalController as vm">
+	<div class="block">
+		<form name="measurementGoalForm" role="form" class="form-horizontal" ng-submit="vm.sendForApproval()" novalidate="novalidate">
+			<div class="form-group">
+			    <label class="col-md-3 col-xs-12 control-label">Note</label>
+			    <div class="col-md-6 col-xs-12">
+			        <textarea name="inputDescription" class="form-control" rows="5"
+			            ng-required="true" ng-minlength="10" 
+			            ng-model="vm.sendMessage">    	
+		            </textarea>
+			    </div>
+			</div>
+			<!-- FORM ACTIONS: SUBMIT -->
+	        <div class="form-actions">
+	            <button class="btn btn-primary" type="submit" ng-disabled="measurementGoalForm.$invalid || vm.loading">Send</button>
+	        </div>
+		</form>
+	</div>
+</div>
