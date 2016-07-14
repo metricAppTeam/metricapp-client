@@ -2044,14 +2044,14 @@ function mUnique($http, $q) {
 
 angular.module('metricapp')
 
-.directive('topbar', topbar);
+.directive('sidebar', sidebar);
 
-function topbar() {
+function sidebar() {
     return {
       restrict: 'E',
       scope: false,
-      controller: 'TopbarController as vm',
-      templateUrl: 'dist/views/navigation/topbar/topbar.view.html'
+      controller: 'SidebarController as vm',
+      templateUrl: 'dist/views/navigation/sidebar/sidebar.view.html'
     };
 }
 
@@ -2061,14 +2061,14 @@ function topbar() {
 
 angular.module('metricapp')
 
-.directive('sidebar', sidebar);
+.directive('topbar', topbar);
 
-function sidebar() {
+function topbar() {
     return {
       restrict: 'E',
       scope: false,
-      controller: 'SidebarController as vm',
-      templateUrl: 'dist/views/navigation/sidebar/sidebar.view.html'
+      controller: 'TopbarController as vm',
+      templateUrl: 'dist/views/navigation/topbar/topbar.view.html'
     };
 }
 
@@ -3241,6 +3241,12 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
     vm.loading = true;
     vm.modifying = false;
 
+    vm.canIUpdateVar = false;
+    vm.isExpert= false;
+    vm.canIApprove=false;
+    vm.canIRequestChange=false;
+    vm.canISendForApproval=false;
+
 
     vm.listOfSet=[{value:'integers', option:'Integers'},{value:'reals',option:'Reals'}];
     vm.listOfScaleType = [{value:'nominalScale', option:'Nominal Scale'},{value:'ordinalScale',option:'Ordinal Scale'},{value:'intervalScale',option:'Interval Scale'},{value:'ratioScale',option:'Ratio Scale'},{value:'absoluteScale',option:'Absolute Scale'}]
@@ -3259,12 +3265,22 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
     vm.pushIfNotExists=pushIfNotExists;
     vm.submitMetric=submitMetric;
     vm.setLabelState = setLabelState;
+    vm.setRights = setRights;
     _selectMetricToView();
 
 
 
-
-
+    /********************************************************************************
+   * @ngdoc method
+   * @name initMetric
+   * @description
+   * This function triggers other function when a metric is loaded
+   ********************************************************************************/
+    function initMetric(){
+      vm.copyDialogToModel();
+      vm.setLabelState();
+      vm.setRights();
+   }
 
     /********************************************************************************
    * @ngdoc method
@@ -3278,9 +3294,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
       if(angular.isUndefined($routeParams.id)){
          vm.loadedMetric= MetricService.getToUpdate();
 
-         vm.copyDialogToModel();
-         vm.setLabelState();
+
          vm.loading=false;
+         initMetric();
          return;
       }else{
 
@@ -3288,8 +3304,8 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
             function(data){
                vm.loadedMetric = data.metricsDTO[0];
                vm.loading=false;
-               vm.copyDialogToModel();
-               vm.setLabelState();
+
+               initMetric();
 
             },function(data){
                vm.error = true;
@@ -3334,12 +3350,43 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
    * @description
    * Check if the metric in vm.dialog has metricatorId field of the logged user
    ********************************************************************************/
-   function canIUpdate(metric){
-      if ((metric.metricatorId == AuthService.getUser().username && AuthService.getUser().role=='METRICATOR')||AuthService.getUser().role=='EXPERT'){
-         console.log(AuthService.getUser().username+ " has rights to update metric of "+ metric.metricatorId );
-         return true;
-      }else{
-         return false;
+   function setRights(){
+      if(angular.isUndefined(vm.newMetric)){
+         vm.canIUpdateVar = false;
+         vm.isExpert= false;
+         vm.canIApprove=false;
+         vm.canIRequestChange=false;
+         vm.canISendForApproval=false;
+         return;
+      }
+      var metric = vm.newMetric;
+
+      if(metric.metricatorId == AuthService.getUser().username && AuthService.getUser().role=='METRICATOR'){
+         if(metric.metadata.state=='OnUpdate'){
+            vm.canIUpdateVar = true;
+            vm.canISendForApproval=true;
+         }
+         if(metric.metadata.state=='Rejected'){
+            vm.canIUpdateVar = true;
+         }
+         return;
+      }
+
+      if(AuthService.getUser().role=='EXPERT'){
+         vm.isExpert = true;
+         if(metric.metadata.state=='OnUpdate'){
+            vm.canIUpdateVar = true;
+            vm.canISendForApproval=true;
+         }
+         if(metric.metadata.state=='Pending'){
+            vm.canIApprove = true;
+         }
+         if(metric.metadata.state=='Approved'){
+            vm.canIRequestChange = true;
+         }
+         if(metric.metadata.state=='Rejected'){
+            vm.canIUpdateVar = true;
+         }
       }
    }
 
@@ -4557,34 +4604,6 @@ function QuestionController($scope, $location) {
 
 /************************************************************************************
 * @ngdoc controller
-* @name TopbarController
-* @module metricapp
-* @requires $scope
-* @requires $location
-*
-* @description
-* Manages the topbar for all users.
-* Realizes the control layer for {topbar.directive}.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('TopbarController', TopbarController);
-
-TopbarController.$inject = ['$scope', '$location', 'AuthService'];
-
-function TopbarController($scope, $location, AuthService) {
-
-    var vm = this;
-
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
 * @name SidebarController
 * @module metricapp
 * @requires $scope
@@ -4647,6 +4666,34 @@ function SidebarController($scope, $location, ActionService) {
     function _init() {
 
     }
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name TopbarController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the topbar for all users.
+* Realizes the control layer for {topbar.directive}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('TopbarController', TopbarController);
+
+TopbarController.$inject = ['$scope', '$location', 'AuthService'];
+
+function TopbarController($scope, $location, AuthService) {
+
+    var vm = this;
+
 }
 
 })();
