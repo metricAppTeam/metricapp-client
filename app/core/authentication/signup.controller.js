@@ -7,7 +7,6 @@
 * @requires $scope
 * @requires $location
 * @requires UserService
-* @requires FlashService
 * @requires ROLES
 * @requires GENDERS
 *
@@ -19,10 +18,10 @@ angular.module('metricapp')
 
 .controller('SignupController', SignupController);
 
-SignupController.$inject = ['$scope', '$location', 'UserService', 'FlashService',
+SignupController.$inject = ['$scope', '$location', 'UserService',
 'ROLES', 'GENDERS'];
 
-function SignupController($scope, $location, UserService, FlashService, ROLES, GENDERS) {
+function SignupController($scope, $location, UserService, ROLES, GENDERS) {
 
     var vm = this;
 
@@ -48,15 +47,11 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
             function(resolve) {
                 var msg = resolve.msg;
                 vm.success = true;
-                alert(msg);
-                //FlashService.success(msg);
-                $location.path('/');
             },
             function(reject) {
-                var errmsg = reject.errmsg;
-                alert(errmsg);
+                vm.errmsg = reject.errmsg;
+                alert(vm.errmsg);
                 vm.success = false;
-                //FlashService.danger(errmsg);
             }
         ).finally(function() {
             vm.loading = false;
@@ -70,7 +65,7 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
     * Cancels the ongoing user registration.
     ********************************************************************************/
     function cancelSignup() {
-        $location.path('/');
+        //$location.path('/');
     }
 
     /********************************************************************************
@@ -83,20 +78,6 @@ function SignupController($scope, $location, UserService, FlashService, ROLES, G
         vm.loading = false;
         vm.success = false;
         vm.errmsg = null;
-        /*vm.user = {
-            username: null,
-            password: null,
-            role: null,
-            firstname: null,
-            lastname: null,
-            gender: null,
-            birthday: new Date(),
-            email: null,
-            mobile: null,
-            picture: null
-
-        };
-        */
     }
 
 }
