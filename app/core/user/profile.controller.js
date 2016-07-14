@@ -35,6 +35,11 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
     vm.updateProfile = updateProfile;
     vm.updatePassword = updatePassword;
 
+    vm.projects = [
+        {name: "ISSR Project1", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. ",status: "active",progress: 30},
+        {name: "ISSR Project2", description:"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. ",status: "active",progress: 65}
+    ];
+
     _init();
 
     function updateProfile(user) {
