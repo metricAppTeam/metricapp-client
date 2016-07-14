@@ -40,8 +40,53 @@
             <div class="col-md-12">
                 <p ng-switch-when="true">Loading teams ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
-                    <p ng-switch-when="true" ng-if="vm.grids.length == 0">No grids yet.</p>
+                    <p ng-switch-when="true" ng-if="vm.teams.length == 0">No teams yet.</p>
                     <div ng-switch-when="true">
+                        <div class="panel panel-default">
+                            <div class="block-content"> 
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="11%">
+                                                <div class="th">Team name</div>
+                                            </th>
+                                            <th width="15%">
+                                                <div class="th">
+                                                    # Questioners
+                                                </div>
+                                            </th>
+                                            <th width="15%">
+                                                <div class="th">
+                                                    # Metricators
+                                                </div>
+                                            </th>
+                                            <th width="15%">
+                                                <div class="th">
+                                                    Creation
+                                                </div>
+                                            </th>
+                                            <th width="15%">
+                                                <div class="th">
+                                                    Last Update
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="team in vm.teams | filter:vm.query | orderBy:vm.orderBy track by team.id">
+                                            <td>
+                                                <a ng-href="#/teams/{{team.id}}"><h5 class="text-danger">{{team.name}}</h5></a>
+                                            </td>
+                                            <td><h5 class="text-justify">{{team.questioners.length}}</h5></td>
+                                            <td><h5 class="text-justify">{{team.metricators.length}}</h5></td>
+                                            <td><h5 class="text-justify">{{team.ts_create | datetimeFilter: 'normal'}}</h5></td>
+                                            <td><h5 class="text-justify">{{team.ts_update | datetimeFilter: 'normal'}}</h5></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         <ul>
                             <li ng-repeat="team in vm.teams | filter:vm.query | orderBy:vm.orderBy track by team.id">
                                 <a ng-href="#/teams/{{team.id}}">{{team.name}}</a>

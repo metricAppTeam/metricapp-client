@@ -82,6 +82,8 @@ function TeamController($scope, $rootScope, $location, $routeParams, $q,
                         vm.currTeam.questioners=angular.copy(resolve.questioners.users);
                         vm.currTeam.metricators=angular.copy(resolve.metricators.users);
                         vm.updtTeam = angular.copy(vm.currTeam);
+                        vm.num_questioners = Object.keys(vm.currTeam.questioners).length;
+                        vm.num_metricators = Object.keys(vm.currTeam.metricators).length;
                         vm.success=true;
                     },
                     function(reject){
@@ -103,6 +105,7 @@ function TeamController($scope, $rootScope, $location, $routeParams, $q,
         vm.loading = true;
         vm.success = false;
         vm.errmsg = null;
+        vm.orderBy = 'firstname';
         vm.currTeam = {
             id: $routeParams.teamid
         };
