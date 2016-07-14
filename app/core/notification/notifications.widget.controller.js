@@ -82,7 +82,7 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
         vm.success = false;
         NotificationService.getAll().then(
             function(resolve) {
-                var notifications = resolve.notifications;
+                var notifications = angular.copy(resolve.notifications);
                 vm.toread = resolve.toread;
                 vm.news = resolve.news;
                 var authors = [];
@@ -91,7 +91,7 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
                 });
                 return UserService.getInArray(authors).then(
                     function(resolve) {
-                        var users = resolve.users;
+                        var users = angular.copy(resolve.users);
                         notifications.forEach(function(notification) {
                             var author = notification.author;
                             notification.author = angular.copy(users[author]);

@@ -80,14 +80,31 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
         vm.success = false;
         NotificationService.getAll().then(
             function(resolve) {
-                var notifications = resolve.notifications;
+                var notifications = angular.copy(resolve.notifications);
                 vm.toread = resolve.toread;
                 vm.news = resolve.news;
+                var authors = [];
                 notifications.forEach(function(notification) {
-                    vm.data.push(notification);
+                    authors.push(notification.author);
                 });
-                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
-                vm.success = true;
+                return UserService.getInArray(authors).then(
+                    function(resolve) {
+                        var users = angular.copy(resolve.users);
+                        notifications.forEach(function(notification) {
+                            var author = notification.author;
+                            notification.author = angular.copy(users[author]);
+                            if (notification.author) {
+                                vm.data.push(notification);
+                            }
+                        });
+                        vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                        vm.success = true;
+                    },
+                    function(reject) {
+                        vm.errmsg = reject.errmsg;
+                        vm.success = false;
+                    }
+                );
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
