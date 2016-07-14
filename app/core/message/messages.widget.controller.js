@@ -162,6 +162,14 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
                 }
             }
         });
+        $scope.$on(MESSAGE_EVENTS.MESSAGE_SENT, function(event, recipient, message) {
+            for (var i = 0; i < vm.buffer.length; i++) {
+                var conversation = vm.buffer[i];
+                if (conversation.recipient.username === recipient) {
+                    conversation.messages.push(message);
+                }
+            }
+        });
     }
 
 }

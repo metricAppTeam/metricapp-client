@@ -47,7 +47,6 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
                 for (var user in DB_USERS) {
                     users.push(DB_USERS[user]);
                 }
-                alert('UserService.getAll->DB_USERS : ' + angular.toJson(DB_USERS));
                 resolve({users: users});
             }, 500);
         });
@@ -63,7 +62,6 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
     * an error message, otherwise.
     ********************************************************************************/
     function getById(username) {
-        alert('UserService.getById:username='+username);
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var USER = DB_USERS[username];
@@ -86,7 +84,6 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
     * an error message, otherwise.
     ********************************************************************************/
     function getInArray(usernames) {
-        alert('UserService.getInArray:usernames='+angular.toJson(usernames));
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var users = {};

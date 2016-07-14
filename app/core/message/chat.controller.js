@@ -48,6 +48,7 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
                 var sentMessage = angular.copy(resolve.sentMessage);
                 vm.currConversation.messages.push(sentMessage);
                 vm.success = true;
+                $rootScope.$broadcast(MESSAGE_EVENTS.MESSAGE_SENT, vm.currConversation.recipient.username, sentMessage);
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;

@@ -88,7 +88,8 @@
                             <button class="btn btn-default"><span class="fa fa-camera"></span></button>
                             <button class="btn btn-default"><span class="fa fa-chain"></span></button>
                         </div>
-                        <input type="text" class="form-control" placeholder="Your message..." ng-model="vm.myMessage"/>
+                        <input type="text" name="myMessage" class="form-control" placeholder="Your message..."
+                        ng-model="vm.myMessage"/>
                         <div class="input-group-btn">
                             <button class="btn btn-default"
                             ng-disabled="vm.loading || !vm.success || vm.myMessage.length == 0"

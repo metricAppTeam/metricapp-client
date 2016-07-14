@@ -50,7 +50,6 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
     }
 
     function setRead(recipient) {
-        //alert('MessagesController._setRead:recipient=' + angular.toJson(recipient));
         for (var i = 0; i < vm.buffer.length; i++) {
             var conversation = vm.buffer[i];
             if (conversation.recipient.username === recipient) {
@@ -172,6 +171,14 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                             vm.toread -= conversation.toread;
                             conversation.toread = 0;
                         }
+                    }
+                }
+            });
+            $scope.$on(MESSAGE_EVENTS.MESSAGE_SENT, function(event, recipient, message) {
+                for (var i = 0; i < vm.buffer.length; i++) {
+                    var conversation = vm.buffer[i];
+                    if (conversation.recipient.username === recipient) {
+                        conversation.messages.push(message);
                     }
                 }
             });

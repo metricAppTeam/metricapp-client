@@ -13,8 +13,8 @@
 angular.module('metricapp')
 
 .constant('NOTIFICATION_EVENTS', {
-    ALL_READ:              'notification.all.read',
-    SET_READ:              'notification.set.read',
+    ALL_READ: 'notification.all.read',
+    SET_READ: 'notification.set.read',
 });
 
 })();
