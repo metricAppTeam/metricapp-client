@@ -114,8 +114,22 @@
                             <input class="form-control" name="bio" type="text" role="textbox" placeholder="Bio"
                             ng-model="vm.updtUser.bio"
                             ng-model-options="{ updateOn: 'default' }"
-                            ng-class="{ 'error': updateProfileForm.bio.$dirty && updateProfileForm.bio.$invalid }"/>
+                            ng-class="{ 'error': updateProfileForm.bio.$dirty && updateProfileForm.bio.$invalid }"
+                            ng-minlength="3" ng-maxlength="300"/>
                             <div class="form-group-helper" role="alert" ng-messages="updateProfileForm.bio.$error" ng-show="updateProfileForm.bio.$dirty">
+                                <div ng-messages-include="dist/views/user/messages/update-profile.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: WEBSITE -->
+                    <div class="form-group" ng-class="{ 'hash-error': updateProfileForm.website.$dirty && updateProfileForm.website.$invalid }">
+                        <label class="col-md-3 control-label">Website:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="website" type="url" role="textbox" placeholder="Website"
+                            ng-model="vm.updtUser.website"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': updateProfileForm.website.$dirty && updateProfileForm.website.$invalid }"/>
+                            <div class="form-group-helper" role="alert" ng-messages="updateProfileForm.website.$error" ng-show="updateProfileForm.website.$dirty">
                                 <div ng-messages-include="dist/views/user/messages/update-profile.message.html"></div>
                             </div>
                         </div>

@@ -25,7 +25,7 @@
                     ng-switch-when="true"
                     ng-href="#/profile/{{vm.currUser.username}}/analytics">View Analytics</a>
                     <ul ng-switch-when="true">
-                        <li ng-repeat="(key, value) in vm.currUser">{{key}} = {{value}}</li>
+                        <li ng-repeat="(key, value) in vm.currUser">{{key}} = {{value || 'Not available'}}</li>
                     </ul>
                     <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
                 </div>
