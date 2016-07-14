@@ -11,7 +11,7 @@
 
 angular.module('metricapp')
 
-app.filter('excerptFilter',excerptFilter);
+.filter('excerptFilter',excerptFilter);
 
 function excerptFilter(){
   return function(string, condition, lenTrue, lenFalse, fallbackString){
