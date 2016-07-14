@@ -29,6 +29,7 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
     vm.copyDialogToModel=copyDialogToModel;
     vm.pushIfNotExists=pushIfNotExists;
+    vm.submitMetric=submitMetric;
     _selectMetricToView();
 
 
@@ -36,7 +37,14 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
 
 
-
+    /********************************************************************************
+   * @ngdoc method
+   * @name _selectMetricToView
+   * @description
+   * This function checks that in the url there's param id.
+   *If id is specified, the page is loaded with the metric with id specified.
+   * Otherwise page is loaded with metric in MetricService
+   ********************************************************************************/
     function _selectMetricToView(){
       if(angular.isUndefined($routeParams.id)){
          vm.loadedMetric= MetricService.getToUpdate();
@@ -61,7 +69,14 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
     function copyDialogToModel(){
       vm.newMetric =angular.copy(vm.loadedMetric);
    }
-
+   /********************************************************************************
+  * @ngdoc method
+  * @name pushIfNotExists
+  * @description
+  * This function takes an element el, typically a string.
+  * Firstly it checks that el is not null and el is not already in array.
+  * Then, if it is not too long or too short it pushes el to array.
+  ********************************************************************************/
    function pushIfNotExists(el, array){
       if(array.indexOf(el)==-1 && !angular.isUndefined(el)){
          if(el.length>1 && el.length<31){
@@ -78,12 +93,12 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
     /********************************************************************************
     * @ngdoc method
-    * @name submitMeasurementGoal
+    * @name submitMetric
     * @description
-    * Submits a MeasurementGoal.
+    * Submits a Metric
     ********************************************************************************/
-    function submitMeasurementGoal() {
-
+    function submitMetric() {
+      console.log(vm.newMetric)
         var objectSubmit = (vm.object !== null) ? vm.object :  vm.measurementGoalDialog.object;
         var purposeSubmit = (vm.purpose !== null) ? vm.purpose :  vm.measurementGoalDialog.purpose;
         var viewPointSubmit = (vm.viewPoint !== null) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;

@@ -3101,6 +3101,65 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
 
 })();
 
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name MessageController
+* @module metricapp
+* @requires $scope
+* @requires $location
+* @requires MESSAGE_STATE
+*
+* @description
+* Manages the message-based conversation between users.
+* Realizes the control layer for:
+* - `messages.view`
+* - widgets about messages.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('MessageController', MessageController);
+
+MessageController.$inject = ['$scope', '$location', 'MESSAGE_STATE'];
+
+function MessageController($scope, $location, MESSAGE_STATE) {
+
+    var vm = this;
+
+    _init();
+
+    vm.getNumberOfMessages = getNumberOfMessages;
+    vm.getNumberOfUnreadMessages = getNumberOfUnreadMessages;
+
+    function getNumberOfMessages() {
+        return vm.messages.length;
+    }
+
+    function getNumberOfUnreadMessages() {
+        var unreads = 0;
+        for (var i = 0; i < vm.messages.length; i++) {
+            var msg = vm.messages[i];
+            if (msg.state === MESSAGE_STATE.UNREAD) {
+                unreads++;
+            }
+        }
+        return unreads;
+    }
+
+    function _init() {
+        vm.messages = [
+            {author: 'giacomo.marciani', content: 'Lorem ipsum dolor sit amet.', state: MESSAGE_STATE.UNREAD},
+            {author: 'michele.porretta', content: 'Lorem ipsum dolor sit amet.', state: MESSAGE_STATE.UNREAD},
+            {author: 'marco.piu',        content: 'Lorem ipsum dolor sit amet.', state: MESSAGE_STATE.READ},
+        ];
+    }
+
+}
+
+})();
+
 (function () { 'use strict';
 
 /************************************************************************************
@@ -3132,6 +3191,7 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
     vm.copyDialogToModel=copyDialogToModel;
     vm.pushIfNotExists=pushIfNotExists;
+    vm.submitMetric=submitMetric;
     _selectMetricToView();
 
 
@@ -3139,7 +3199,14 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
 
 
-
+    /********************************************************************************
+   * @ngdoc method
+   * @name _selectMetricToView
+   * @description
+   * This function checks that in the url there's param id.
+   *If id is specified, the page is loaded with the metric with id specified.
+   * Otherwise page is loaded with metric in MetricService
+   ********************************************************************************/
     function _selectMetricToView(){
       if(angular.isUndefined($routeParams.id)){
          vm.loadedMetric= MetricService.getToUpdate();
@@ -3164,7 +3231,14 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
     function copyDialogToModel(){
       vm.newMetric =angular.copy(vm.loadedMetric);
    }
-
+   /********************************************************************************
+  * @ngdoc method
+  * @name pushIfNotExists
+  * @description
+  * This function takes an element el, typically a string.
+  * Firstly it checks that el is not null and el is not already in array.
+  * Then, if it is not too long or too short it pushes el to array.
+  ********************************************************************************/
    function pushIfNotExists(el, array){
       if(array.indexOf(el)==-1 && !angular.isUndefined(el)){
          if(el.length>1 && el.length<31){
@@ -3181,12 +3255,12 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
 
     /********************************************************************************
     * @ngdoc method
-    * @name submitMeasurementGoal
+    * @name submitMetric
     * @description
-    * Submits a MeasurementGoal.
+    * Submits a Metric
     ********************************************************************************/
-    function submitMeasurementGoal() {
-
+    function submitMetric() {
+      console.log(vm.newMetric)
         var objectSubmit = (vm.object !== null) ? vm.object :  vm.measurementGoalDialog.object;
         var purposeSubmit = (vm.purpose !== null) ? vm.purpose :  vm.measurementGoalDialog.purpose;
         var viewPointSubmit = (vm.viewPoint !== null) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
@@ -3441,65 +3515,6 @@ function MetricPageController($scope,$routeParams, $location, MetricService, $wi
     ********************************************************************************/
     function _init() {
         vm.loading = false;
-    }
-
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name MessageController
-* @module metricapp
-* @requires $scope
-* @requires $location
-* @requires MESSAGE_STATE
-*
-* @description
-* Manages the message-based conversation between users.
-* Realizes the control layer for:
-* - `messages.view`
-* - widgets about messages.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('MessageController', MessageController);
-
-MessageController.$inject = ['$scope', '$location', 'MESSAGE_STATE'];
-
-function MessageController($scope, $location, MESSAGE_STATE) {
-
-    var vm = this;
-
-    _init();
-
-    vm.getNumberOfMessages = getNumberOfMessages;
-    vm.getNumberOfUnreadMessages = getNumberOfUnreadMessages;
-
-    function getNumberOfMessages() {
-        return vm.messages.length;
-    }
-
-    function getNumberOfUnreadMessages() {
-        var unreads = 0;
-        for (var i = 0; i < vm.messages.length; i++) {
-            var msg = vm.messages[i];
-            if (msg.state === MESSAGE_STATE.UNREAD) {
-                unreads++;
-            }
-        }
-        return unreads;
-    }
-
-    function _init() {
-        vm.messages = [
-            {author: 'giacomo.marciani', content: 'Lorem ipsum dolor sit amet.', state: MESSAGE_STATE.UNREAD},
-            {author: 'michele.porretta', content: 'Lorem ipsum dolor sit amet.', state: MESSAGE_STATE.UNREAD},
-            {author: 'marco.piu',        content: 'Lorem ipsum dolor sit amet.', state: MESSAGE_STATE.READ},
-        ];
     }
 
 }
