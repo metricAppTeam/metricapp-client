@@ -80,6 +80,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
     * an error message, otherwise.
     ********************************************************************************/
     function getById(recipient) {
+        alert('MessageService.getById:recipient='+angular.toJson(recipient));
         return $q(function(resolve,reject) {
             setTimeout(function() {
                 var authusername = AuthService.getUsername();
@@ -160,6 +161,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
     * an error message, otherwise.
     ********************************************************************************/
     function setReadById(recipient) {
+        alert('MessageService.setReadById:recipient='+angular.toJson(recipient));
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var authusername = AuthService.getUsername();
@@ -235,7 +237,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                                 lastRecipient = CONVERSATION.recipient;
                             }
                         }
-                        alert('MessageService lastRecipient: ' + JSON.stringify(lastRecipient));
+                        alert('MessageService.lastRecipient: ' + angular.toJson(lastRecipient));
                         resolve({lastRecipient: lastRecipient.username});
                     } else {
                         reject({lastRecipient: null, errmsg: 'Mailbox not found for user ' + authusername});

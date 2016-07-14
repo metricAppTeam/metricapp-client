@@ -79,7 +79,7 @@
                                 <ul>
                                     <li ng-repeat="message in vm.currConversation.messages | filter:vm.query | orderBy:vm.orderBy track by message.id">
                                         <ul>
-                                            <li ng-repeat="(key, value) in question">{{key}} = {{value}}</li>
+                                            <li ng-repeat="(key, value) in message">{{key}} = {{value}}</li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -130,7 +130,7 @@
                         </div>
                         <input type="text" class="form-control" placeholder="Your message..." ng-model="vm.myMessage"/>
                         <div class="input-group-btn">
-                            <button class="btn btn-default" ng-disabled="vm.myMessage.length == 0" ng-click="vm.sendMessage(vm.myMessage)">Send</button>
+                            <button class="btn btn-default" ng-disabled="vm.myMessage.length == 0" ng-click="vm.sendMessage()">Send</button>
                         </div>
                     </div>
                 </div>

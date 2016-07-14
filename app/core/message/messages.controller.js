@@ -50,6 +50,8 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
     }
 
     function setRead(recipient) {
+        //var recipientUsername = recipient.username || recipient;
+        alert('MessagesController._setRead:recipient=' + angular.toJson(recipient));
         for (var i = 0; i < vm.buffer.length; i++) {
             var conversation = vm.buffer[i];
             if (conversation.recipient.username === recipient) {
@@ -59,7 +61,9 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                 }
             }
         }
+        //MessageService.setReadById(recipient.username || recipient);
         MessageService.setReadById(recipient);
+        //$rootScope.$broadcast(MESSAGE_EVENTS.SET_READ, recipient.username || recipient);
         $rootScope.$broadcast(MESSAGE_EVENTS.SET_READ, recipient);
     }
 
