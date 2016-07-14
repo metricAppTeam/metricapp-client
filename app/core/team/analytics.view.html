@@ -15,6 +15,73 @@
             <div class="col-md-12">
                 <p ng-switch-when="true">Loading analytics for team {{vm.currTeam.id}} ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
+
+                    <!-- START PANEL -->
+                    <div class="panel panel-danger">
+                        <div class="panel-heading"></div>
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="row"> 
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-info">{{vm.currTeam.analytics[vm.TEAM_ANALYTICS.GQM_SCORE]}}<p>GQM Score</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-success">{{vm.currTeam.analytics[vm.TEAM_ANALYTICS.GRIDS_TOT]}}<p>Tot. Grids</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-warning">{{vm.currTeam.analytics[vm.TEAM_ANALYTICS.ARTIFACTS_TOT]}}<p>Tot. Artifacts</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                         
+                                        <a class="tile tile-default">{{vm.currTeam.analytics[vm.TEAM_ANALYTICS.ACCEPTANCE_RATIO]}}<p>Acceptance Ratio</p>
+                                        </a>                        
+                                    </div>
+                                </div>
+                                <div class="row"> 
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-danger">{{vm.currTeam.analytics[vm.TEAM_ANALYTICS.ARTIFACTS_MGOAL]}}<p>Artifacts Mgoal</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                       
+                                        <a class="tile tile-success">{{vm.currTeam.analytics[vm.TEAM_ANALYTICS.ARTIFACTS_RATE]}}<p>Artifacs Rate</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-danger">{{vm.currTeam.analytics[vm.TEAM_ANALYTICS.WORKTIME_RATIO]}}<p>Worktime Ratio</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                       
+                                        <a class="tile tile-info">{{vm.currTeam.analytics[vm.TEAM_ANALYTICS.TASKS_PROGRESS]}}<p>Tasks Progress</p>
+                                        </a>                        
+                                    </div>
+                                </div>
+                            </div>
+                            <h5> BUG CHART DA RISOLVERE <h5>
+                            <h4 class="text-center">Assigned, Submitted and Accepted tasks over time for team {{vm.currTeam.name}}</font></h4>
+                            <div class="row"> 
+                                <div class="col-md-15">
+                                    <div 
+                                        area-chart
+                                        area-data='[{"ts":"2016-01-31T11:30:00.000Z","assigned":3,"submitted":3,"accepted":9},{"ts":"2016-02-01T11:30:00.000Z","assigned":6,"submitted":9,"accepted":7},{"ts":"2016-02-02T11:30:00.000Z","assigned":7,"submitted":6,"accepted":5},{"ts":"2016-02-03T11:30:00.000Z","assigned":7,"submitted":1,"accepted":4},{"ts":"2016-02-04T11:30:00.000Z","assigned":6,"submitted":2,"accepted":3},{"ts":"2016-02-05T11:30:00.000Z","assigned":5,"submitted":8,"accepted":5},{"ts":"2016-02-06T11:30:00.000Z","assigned":5,"submitted":9,"accepted":4},{"ts":"2016-02-07T11:30:00.000Z","assigned":9,"submitted":4,"accepted":9},{"ts":"2016-02-08T11:30:00.000Z","assigned":8,"submitted":5,"accepted":5},{"ts":"2016-02-09T11:30:00.000Z","assigned":0,"submitted":5,"accepted":7},{"ts":"2016-02-10T11:30:00.000Z","assigned":4,"submitted":1,"accepted":0},{"ts":"2016-02-11T11:30:00.000Z","assigned":6,"submitted":8,"accepted":9},{"ts":"2016-02-12T11:30:00.000Z","assigned":5,"submitted":2,"accepted":4},{"ts":"2016-02-13T11:30:00.000Z","assigned":6,"submitted":3,"accepted":1},{"ts":"2016-02-14T11:30:00.000Z","assigned":6,"submitted":8,"accepted":0},{"ts":"2016-02-15T11:30:00.000Z","assigned":9,"submitted":1,"accepted":9},{"ts":"2016-02-16T11:30:00.000Z","assigned":5,"submitted":5,"accepted":3},{"ts":"2016-02-17T11:30:00.000Z","assigned":8,"submitted":3,"accepted":5},{"ts":"2016-02-18T11:30:00.000Z","assigned":3,"submitted":3,"accepted":6},{"ts":"2016-02-19T11:30:00.000Z","assigned":5,"submitted":0,"accepted":4},{"ts":"2016-02-20T11:30:00.000Z","assigned":9,"submitted":5,"accepted":8},{"ts":"2016-02-21T11:30:00.000Z","assigned":4,"submitted":1,"accepted":7},{"ts":"2016-02-22T11:30:00.000Z","assigned":8,"submitted":5,"accepted":2},{"ts":"2016-02-23T11:30:00.000Z","assigned":7,"submitted":9,"accepted":0},{"ts":"2016-02-24T11:30:00.000Z","assigned":1,"submitted":6,"accepted":0},{"ts":"2016-02-25T11:30:00.000Z","assigned":1,"submitted":6,"accepted":6},{"ts":"2016-02-26T11:30:00.000Z","assigned":4,"submitted":8,"accepted":2},{"ts":"2016-02-27T11:30:00.000Z","assigned":7,"submitted":6,"accepted":1},{"ts":"2016-02-28T11:30:00.000Z","assigned":8,"submitted":4,"accepted":2},{"ts":"2016-02-29T11:30:00.000Z","assigned":3,"submitted":3,"accepted":7}]'
+                                        area-xkey='ts'
+                                        area-ykeys='["assigned", "submitted","accepted"]'
+                                        area-labels='["Assigned Tasks", "Submitted Tasks","Accepted Tasks"]'
+                                        line-colors='["#31C0BE", "#c7254e","#fea223"]'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+
                     <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-href="#/teams/{{vm.currTeam.id}}">Overview</a>
                     <ul ng-switch-when="true">
                         <li ng-repeat="(key, value) in vm.currTeam.analytics">{{key}} = {{value}}</li>
