@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 17:30:08
+* @Last Modified time: 2016-07-14 19:38:37
 */
 (function() { 'use strict';
 
@@ -39,6 +39,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     service.getMeasurementGoalExternals = getMeasurementGoalExternals;
     service.getExternalContextFactors = getExternalContextFactors;
     service.getExternalAssumptions = getExternalAssumptions;
+    service.countMeasurementGoalsByState = countMeasurementGoalsByState;
 
     /********************************************************************************
     * @ngdoc method
@@ -87,6 +88,32 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
             function(response) {
                 var message = response.data;
                 console.log('FAILURE GET measurementGoal');
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name countMeasurementGoalsByState
+    * @description
+    * Count Measurement Goals.
+    ********************************************************************************/
+    function countMeasurementGoalsByState(state) {
+        console.log('GET Measurement Goals with userid='+AuthService.getUser().username+'&state='+state);
+
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal/count/?userid='+AuthService.getUser().username+'&state='+state).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
                 return message;
             }
         );

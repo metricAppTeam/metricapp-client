@@ -341,6 +341,41 @@ angular.module('metricapp')
 });
 
 })();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-14 21:02:20
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-14 21:03:48
+*/
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc constant
+* @name STATES
+* @module metricapp
+* @description
+* Defines constants related to the states of a Measurement Goal.
+* - CREATED:
+* - ONUPDATE:
+* - PENDING:
+* - REJECTED:
+* - SUSPENDED:
+* - APPROVED:
+************************************************************************************/
+
+angular.module('metricapp')
+
+.constant('STATES_METRIC', {
+    CREATED: 'Created',
+    ONUPDATE: 'OnUpdate',
+    PENDING: 'Pending',
+    REJECTED: 'Rejected',
+    SUSPENDED: 'Suspended',
+    APPROVED: 'Approved'
+});
+
+})();
 (function() { 'use strict';
 
 /************************************************************************************
@@ -551,6 +586,9 @@ function routes($routeProvider, $locationProvider) {
     })
     .when('/measurementgoal', {
         templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
+    })
+    .when('/metricatordashboard', {
+        templateUrl: 'dist/views/home/metricatordashboard/metricatordashboard.view.html'
     })
     .when('/measurementgoalsearch', {
         templateUrl: 'dist/views/measurementgoal/measurementgoalsearch.view.html'
@@ -1058,7 +1096,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 16:21:37
+* @Last Modified time: 2016-07-14 19:38:37
 */
 (function() { 'use strict';
 
@@ -1095,6 +1133,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     service.getMeasurementGoalExternals = getMeasurementGoalExternals;
     service.getExternalContextFactors = getExternalContextFactors;
     service.getExternalAssumptions = getExternalAssumptions;
+    service.countMeasurementGoalsByState = countMeasurementGoalsByState;
 
     /********************************************************************************
     * @ngdoc method
@@ -1129,7 +1168,6 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
                 
         console.log("POST MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
-        return false;
         //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
@@ -1144,6 +1182,32 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
             function(response) {
                 var message = response.data;
                 console.log('FAILURE GET measurementGoal');
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name countMeasurementGoalsByState
+    * @description
+    * Count Measurement Goals.
+    ********************************************************************************/
+    function countMeasurementGoalsByState(state) {
+        console.log('GET Measurement Goals with userid='+AuthService.getUser().username+'&state='+state);
+
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal/count/?userid='+AuthService.getUser().username+'&state='+state).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
                 return message;
             }
         );
@@ -1339,7 +1403,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 16:09:39
+* @Last Modified time: 2016-07-14 21:01:10
 */
 (function() { 'use strict';
 
@@ -1362,16 +1426,17 @@ angular.module('metricapp')
 //MetricatorService.$inject = [
 //    '$http', '$rootScope', '$cookies', '$window'];
 
-MetricService.$inject = ['$http', '$window'];
+MetricService.$inject = ['$http', '$window', 'AuthService'];
              
 //function MetricatorService($http, $rootScope, $cookies, $window) {
-function MetricService($http, $window) {
+function MetricService($http, $window, AuthService) {
 
     var service = this;
 
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
     service.getMetricsById = getMetricsById;
+    service.countMetricsByState = countMetricsByState;
 
     /********************************************************************************
     * @ngdoc method
@@ -1398,6 +1463,33 @@ function MetricService($http, $window) {
         );
 
     }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name countMetricsByState
+    * @description
+    * Count metrics by state.
+    ********************************************************************************/
+    function countMetricsByState(state) {
+        console.log('GET Metrics with userid='+AuthService.getUser().username+'&state='+state);
+
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric/count?userid='+AuthService.getUser().username+'&state='+state).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
 
     /********************************************************************************
     * @ngdoc method
@@ -2000,6 +2092,66 @@ function topbar() {
 
 /************************************************************************************
 * @ngdoc controller
+* @name CommentController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the comment-based conversation between users.
+* Realizes the control layer for `comment.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('CommentController', CommentController);
+
+CommentController.$inject = ['$scope', '$location'];
+
+function CommentController($scope, $location) {
+
+    var vm = this;
+
+    vm.foo = foo;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @returns {type} Insert here return description.
+    ********************************************************************************/
+    function foo(a, b, c) {
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name _foo
+    * @description
+    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    * @param {type} a Insert here param description.
+    * @param {type} b Insert here param description.
+    * @param {type} c Insert here param description.
+    * @returns {type} Insert here return description.
+    ********************************************************************************/
+    function _foo(a, b, c) {
+
+    }
+
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
 * @name LoginController
 * @requires $rootScope
 * @requires $location
@@ -2208,66 +2360,6 @@ function SignupController($scope, $location, SignupService, FlashService, ROLES,
     ********************************************************************************/
     function _init() {
         vm.loading = false;
-    }
-
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name CommentController
-* @module metricapp
-* @requires $scope
-* @requires $location
-*
-* @description
-* Manages the comment-based conversation between users.
-* Realizes the control layer for `comment.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('CommentController', CommentController);
-
-CommentController.$inject = ['$scope', '$location'];
-
-function CommentController($scope, $location) {
-
-    var vm = this;
-
-    vm.foo = foo;
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function foo(a, b, c) {
-
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name _foo
-    * @description
-    * Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    * eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    * @param {type} a Insert here param description.
-    * @param {type} b Insert here param description.
-    * @param {type} c Insert here param description.
-    * @returns {type} Insert here return description.
-    ********************************************************************************/
-    function _foo(a, b, c) {
-
     }
 
 }
@@ -4327,7 +4419,7 @@ function QuestionController($scope, $location) {
 * @Author: alessandro.fazio
 * @Date:   2016-07-12 23:08:35
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 11:18:05
+* @Last Modified time: 2016-07-14 21:05:03
 */
 
 (function () { 'use strict';
@@ -4347,14 +4439,11 @@ angular.module('metricapp')
 
 .controller('MetricatorDashboardController', MetricatorDashboardController);
 
-MetricatorDashboardController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window'];
+MetricatorDashboardController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window', 'STATES', 'STATES_METRIC'];
 
-function MetricatorDashboardController($scope, $location, MetricService, MeasurementGoalService, $window) {
+function MetricatorDashboardController($scope, $location, MetricService, MeasurementGoalService, $window, STATES, STATES_METRIC) {
 
     var vm = this;
-
-    vm.getMeasurementGoals = getApprovedMeasurementGoals;
-    vm.getMetrics = getApprovedMetrics;
 
     //var states = [
     //	Approved = 'Approved',
@@ -4363,12 +4452,29 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     //];
     vm.date = new Date();
 
-    var states = [
-    	STATES.CREATED,
-    	STATES.ONUPDATEQUESTIONERENDPOINT
+    vm.measurementGoalStates = [
+    	STATES.APPROVED,
+    	STATES.ONUPDATEQUESTIONERENDPOINT,
+        STATES.PENDING
     ];
 
-    var approvedMeasurementGoals = 0;
+    //vm.measurementGoalStates = [];
+    //vm.measurementGoalStates[0] = 'Approved';
+    //vm.measurementGoalStates[1] = 'OnUpdateQuestionerEndpoint';
+    //vm.measurementGoalStates[2] = 'Pending';
+    
+
+    vm.metricStates = [
+        STATES_METRIC.APPROVED,
+        STATES_METRIC.ONUPDATE,
+        STATES_METRIC.PENDING
+    ];
+
+    vm.measurementGoals = {};
+
+    vm.metrics = {};
+
+    /*var approvedMeasurementGoals = 0;
     var onUpdateMeasurementGoals = 0;
     var pendingMeasurementGoals = 0;
     var measurementGoals = [approvedMeasurementGoals, onUpdateMeasurementGoals, pendingMeasurementGoals];
@@ -4381,11 +4487,13 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     vm.results = {
     	metrics : metrics,
     	measurementGoals : measurementGoals,
-    }; 
+    }; */
+
+    vm.getMeasurementGoals = getMeasurementGoals;
+    vm.getMetrics = getMetrics;
 
     vm.getMeasurementGoals();
     vm.getMetrics();
-
     _init();
 
     /********************************************************************************
@@ -4395,19 +4503,25 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     * Get measurement goals for a metricator.
     ********************************************************************************/
     function getMeasurementGoals(){
-        //TODO add method to retrieve last approved measurementGoal
-        //TODO add method to send for approval
-        for (var i = 0; i < states.lenght; i++){
-	        MeasurementGoalService.countMeasurementGoalsByState(states[i]).then(
-	            function(data) {
-	                console.log(data.measurementGoals);
-	                vm.results.measurementGoals[i] = data.count;
-	            },
-	            function(data) {
-	                alert('Error retriving Measurement Goals');
-	            }
-	        );
-        }
+        console.log("Retrieving some informations about Measurement Goals");
+
+        //for (var i = 0, len = vm.measurementGoalStates.length; i<len ; i++){
+	    vm.measurementGoalStates.forEach(
+                function getMgByState(i){ 
+                    MeasurementGoalService.countMeasurementGoalsByState(i).then(
+        	            function(data) {
+        	                console.log(data.measurementGoals);
+        	                vm.measurementGoals[i] = data.count;
+                            console.log("vm.measurementGoals[" + i + "] = " + data.count);
+        	            },
+        	            function(data) {
+        	                alert('Error retriving Measurement Goals');
+        	            }
+                );}
+	        ,vm);
+        //}
+
+        console.log(vm.measurementGoals);
     };
 
     /********************************************************************************
@@ -4417,17 +4531,24 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     * Get metrics for a metricator.
     ********************************************************************************/
     function getMetrics(){
-    	for (var i = 0; i < states.lenght; i++){
-	        MetricService.countMetricsByState(states[i]).then(
+        console.log("Retrieving some informations about Metrics");
+
+    	//for (var i = 0; i < vm.metricStates.lenght; i++){
+	    vm.metricStates.forEach(
+                function getMetByState(i){ 
+            MetricService.countMetricsByState(i).then(
 	            function(data) {
 	                console.log(data.metricsDTO);
-	                vm.results.metrics[i] = data.count;
+	                vm.metrics[i] = data.count;
+                    console.log("vm.metrics[" + i + "] = " + data.count);
+
 	            },
 	            function(data) {
 	                alert('Error retriving Metrics');
 	            }
-	        );
-     	}
+	        );}
+        ,vm);
+     	//}
     };
 
     /********************************************************************************

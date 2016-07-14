@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-11 16:09:39
+* @Last Modified time: 2016-07-14 21:01:10
 */
 (function() { 'use strict';
 
@@ -25,16 +25,17 @@ angular.module('metricapp')
 //MetricatorService.$inject = [
 //    '$http', '$rootScope', '$cookies', '$window'];
 
-MetricService.$inject = ['$http', '$window'];
+MetricService.$inject = ['$http', '$window', 'AuthService'];
              
 //function MetricatorService($http, $rootScope, $cookies, $window) {
-function MetricService($http, $window) {
+function MetricService($http, $window, AuthService) {
 
     var service = this;
 
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
     service.getMetricsById = getMetricsById;
+    service.countMetricsByState = countMetricsByState;
 
     /********************************************************************************
     * @ngdoc method
@@ -61,6 +62,33 @@ function MetricService($http, $window) {
         );
 
     }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name countMetricsByState
+    * @description
+    * Count metrics by state.
+    ********************************************************************************/
+    function countMetricsByState(state) {
+        console.log('GET Metrics with userid='+AuthService.getUser().username+'&state='+state);
+
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric/count?userid='+AuthService.getUser().username+'&state='+state).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
 
     /********************************************************************************
     * @ngdoc method
