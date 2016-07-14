@@ -63,18 +63,16 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <div class="panel-title-box">
-                                            <h3>GQM {{vm.name}} graph</h3>
+                                            <h3>GQM {{vm.name}} graph      CAMBIARE IL JSON</h3>
                                         </div>
                                     </div>
                                     <div class="panel-body">
-                                        
-                                    <cytoscape 
-                                        graph-options="options" 
-                                        graph-elements="elements" 
-                                        graph-layout="layout" 
-                                        graph-style="style">
-                                    </cytoscape>
-
+                                        <cytoscape 
+                                            graph-options="vm.options" 
+                                            graph-elements="vm.elements" 
+                                            graph-layout="vm.layout" 
+                                            graph-style="vm.style">
+                                        </cytoscape>
                                     </div>
                                 </div>
                                 <div class="panel panel-default">

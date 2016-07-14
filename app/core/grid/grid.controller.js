@@ -26,10 +26,10 @@ angular.module('metricapp')
 .controller('GridController', GridController);
 
 GridController.$inject = ['$scope', '$rootScope', '$location', '$routeParams', '$q',
-'GridService', 'MGoalService', 'QuestionService', 'MetricService', 'UserService', 'ROLES', 'GRID_EVENTS'];
+'GridService', 'MGoalService', 'QuestionService', 'MetricService', 'UserService', 'ROLES', 'GRID_EVENTS','cytoData'];
 
 function GridController($scope, $rootScope, $location, $routeParams, $q,
-    GridService, MGoalService, QuestionService, MetricService, UserService, ROLES, GRID_EVENTS) {
+    GridService, MGoalService, QuestionService, MetricService, UserService, ROLES, GRID_EVENTS,cytoData) {
 
     var vm = this;
 
@@ -118,10 +118,88 @@ function GridController($scope, $rootScope, $location, $routeParams, $q,
         };
         _loadGrid(vm.currGrid.id);
     }
+    
+    $scope.vm.options = {
+        textureOnViewport:true,
+        pixelRatio: 'auto',
+        motionBlur: false,
+        hideEdgesOnViewport:true
+       };
 
-    vm.count_questions = function (){
-        return 'ciao';
-    }    
+    $scope.vm.layout = {name: 'circle'};
+
+    $scope.vm.elements = 
+    {
+        n1:{ group: 'nodes', data:{ weight: 30,   color: 'orange' ,     name: 'Metric 1'   }  },
+        n2:{ group: 'nodes', data:{ weight: 30,   color: 'red'    ,     name: 'MG 2'       }  },
+        n3:{ group: 'nodes', data:{ weight: 30,   color: 'blue'   ,     name: 'Question 1' }  },
+        n4:{ group: 'nodes', data:{ weight: 30,   color: 'green'  ,     name: 'Org. Goal 1'}  },
+
+        e1:{ group: 'edges', data:{ target: 'n1', source: 'n1' } },
+        e2:{ group: 'edges', data:{ target: 'n1', source: 'n2' } },
+        e3:{ group: 'edges', data:{ target: 'n1', source: 'n3' } },
+        e4:{ group: 'edges', data:{ target: 'n1', source: 'n1' } }
+    };
+        
+    $scope.vm.style = 
+    [
+        {
+            selector: 'node',
+            style: {
+                'height': 'data(weight)',
+                'width': 'data(weight)',
+                'shape': 'ellipse',
+                'border-width': 0,
+                'background-color': 'data(color)',
+            } 
+        }
+    ];
+
+
+    $scope.node_name = '';
+    $scope.node_description = '';
+    $scope.node_creation ='';
+    $scope.node_update = '';
+
+    $scope.$on('cy:node:mouseover', function(ng,cy){
+        $scope.event.name = 'cy:node:mouseover';
+        var node = cy.cyTarget;
+        //$scope.node_name = (node.data());
+        $scope.node_name = 'eddaicazzo..';
+        $scope.$apply();
+    });
+
+    $scope.$on('cy:node:mouseout', function(ng,cy){
+        $scope.event.name = 'cy:node:mouseout';
+        var node = cy.cyTarget;
+        //$scope.node_name = (node.data());
+        $scope.node_name = 'eddaicazzo..';
+        $scope.$apply();
+    });
+
+    $scope.$on('cy:node:mousedown', function(ng,cy){
+        $scope.event.name = 'cy:node:mousedown';
+        var node = cy.cyTarget;
+        //$scope.node_name = (node.data());
+        $scope.node_name = 'eddaicazzo..';
+        $scope.$apply();
+    });
+
+    $scope.$on('cy:node:mouseup', function(ng,cy){
+        $scope.event.name = 'cy:node:mouseup';
+        var node = cy.cyTarget;
+        //$scope.node_name = (node.data());
+        $scope.node_name = 'eddaicazzo..';
+        $scope.$apply();
+    });
+
+    $scope.$on('cy:node:click', function(ng,cy){
+        $scope.event.name = 'cy:node:click';
+        var node = cy.cyTarget;
+        //$scope.node_name = (node.data());
+        $scope.node_name = 'eddaicazzo..';
+        $scope.$apply();
+    });    
 
 }
 
