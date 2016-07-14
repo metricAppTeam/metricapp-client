@@ -36,6 +36,7 @@ function UserAnalyticsController($location, $routeParams, UserService, UserAnaly
                 return UserAnalyticsService.getAll(username).then(
                     function(resolve) {
                         vm.currUser.analytics = angular.copy(resolve.analytics);
+                        _loadChartData();
                         vm.success = true;
                     },
                     function(reject) {
@@ -61,6 +62,12 @@ function UserAnalyticsController($location, $routeParams, UserService, UserAnaly
             username: $routeParams.username
         };
         _loadUserAnalytics(vm.currUser.username);
+    }
+
+    vm.chart_data = '';
+
+    function _loadChartData() {
+        vm.chart_data = vm.currUser.analytics[vm.USER_ANALYTICS.TASKS_RECORD];
     }
 }
 
