@@ -43,6 +43,7 @@ function MetricService($http, $window, AuthService) {
     service.getToUpdate = getToUpdate;
     service.submitMetric = submitMetric;
     service.newMetric=newMetric;
+    service.changeState = changeState;
 
 
     function submitMetric(metric){
@@ -59,8 +60,25 @@ function MetricService($http, $window, AuthService) {
                return message;
           }
      );
-
    }
+
+   function changeState(metric){
+     return $http.put('http://qips.sweng.uniroma2.it/metricapp-server/metric?onlychangestate=true', metric).then(
+         function(response) {
+              //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
+              console.log('SUCCESS PUT metric');
+              var message = response.data;
+              return message;
+         },
+         function(response) {
+              var message = response.data;
+              console.log('FAILURE PUT metric');
+              return message;
+         }
+    );
+  }
+
+
    function newMetric(metric){
      return $http.post('http://qips.sweng.uniroma2.it/metricapp-server/metric/', metric).then(
          function(response) {

@@ -1310,6 +1310,7 @@ function MetricService($http, $window, AuthService) {
     service.getToUpdate = getToUpdate;
     service.submitMetric = submitMetric;
     service.newMetric=newMetric;
+    service.changeState = changeState;
 
 
     function submitMetric(metric){
@@ -1326,8 +1327,25 @@ function MetricService($http, $window, AuthService) {
                return message;
           }
      );
-
    }
+
+   function changeState(metric){
+     return $http.put('http://qips.sweng.uniroma2.it/metricapp-server/metric?onlychangestate=true', metric).then(
+         function(response) {
+              //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
+              console.log('SUCCESS PUT metric');
+              var message = response.data;
+              return message;
+         },
+         function(response) {
+              var message = response.data;
+              console.log('FAILURE PUT metric');
+              return message;
+         }
+    );
+  }
+
+
    function newMetric(metric){
      return $http.post('http://qips.sweng.uniroma2.it/metricapp-server/metric/', metric).then(
          function(response) {
@@ -3234,385 +3252,360 @@ angular.module('metricapp')
 MetricPageController.$inject = ['$scope','$filter','$routeParams', '$location','MetricService','AuthService','$window'];
 
 function MetricPageController($scope,$filter,$routeParams, $location, MetricService,AuthService, $window) {
-    var vm = this;
-    // this is for the scrolling
-    $('body').removeClass('modal-open');
+   var vm = this;
+   // this is for the scrolling
+   $('body').removeClass('modal-open');
 
-    vm.loading = true;
-    vm.modifying = false;
+   vm.loading = true;
+   vm.modifying = false;
 
-    vm.canIUpdateVar = false;
-    vm.isExpert= false;
-    vm.canIApprove=false;
-    vm.canIRequestChange=false;
-    vm.canISendForApproval=false;
+   vm.canIUpdateVar = false;
+   vm.isExpert= false;
+   vm.canIApprove=false;
+   vm.canIRequestChange=false;
+   vm.canISendForApproval=false;
 
 
-    vm.listOfSet=[{value:'integers', option:'Integers'},{value:'reals',option:'Reals'}];
-    vm.listOfScaleType = [{value:'nominalScale', option:'Nominal Scale'},{value:'ordinalScale',option:'Ordinal Scale'},{value:'intervalScale',option:'Interval Scale'},{value:'ratioScale',option:'Ratio Scale'},{value:'absoluteScale',option:'Absolute Scale'}]
+   vm.listOfSet=[{value:'integers', option:'Integers'},{value:'reals',option:'Reals'}];
+   vm.listOfScaleType = [{value:'nominalScale', option:'Nominal Scale'},{value:'ordinalScale',option:'Ordinal Scale'},{value:'intervalScale',option:'Interval Scale'},{value:'ratioScale',option:'Ratio Scale'},{value:'absoluteScale',option:'Absolute Scale'}];
 
-    vm.labelsForState = [
+   vm.labelsForState = [
       {state:'OnUpdate',label: "label label-primary label-form"},
       {state:'Pending',label: "label label-default label-form"},
       {state:'Approved',label: "label label-warning label-form"},
       {state:'Rejected',label: "label label-danger label-form"}];
 
 
-    vm.loadedMetric;
-    vm.newMetric;
-
-    vm.copyDialogToModel=copyDialogToModel;
-    vm.pushIfNotExists=pushIfNotExists;
-    vm.submitMetric=submitMetric;
-    vm.setLabelState = setLabelState;
-    vm.setRights = setRights;
-    _selectMetricToView();
 
 
+      vm.copyDialogToModel=copyDialogToModel;
+      vm.pushIfNotExists=pushIfNotExists;
+      vm.submitMetric=submitMetric;
+      vm.setLabelState = setLabelState;
+      vm.setRights = setRights;
+      vm.goToRead = goToRead;
+      vm.goToModify = goToModify;
+      vm.sendForApproval = sendForApproval;
+      vm.changeRequest = changeRequest;
+      vm.approve = approve;
+      vm.reject = reject;
 
-    /********************************************************************************
-   * @ngdoc method
-   * @name initMetric
-   * @description
-   * This function triggers other function when a metric is loaded
-   ********************************************************************************/
-    function initMetric(){
-      vm.copyDialogToModel();
-      vm.setLabelState();
-      vm.setRights();
-   }
-
-    /********************************************************************************
-   * @ngdoc method
-   * @name _selectMetricToView
-   * @description
-   * This function checks that in the url there's param id.
-   *If id is specified, the page is loaded with the metric with id specified.
-   * Otherwise page is loaded with metric in MetricService
-   ********************************************************************************/
-    function _selectMetricToView(){
-      if(angular.isUndefined($routeParams.id)){
-         vm.loadedMetric= MetricService.getToUpdate();
+      _selectMetricToView();
 
 
-         vm.loading=false;
-         initMetric();
-         return;
-      }else{
 
-         MetricService.getMetricsById($routeParams.id).then(
-            function(data){
-               vm.loadedMetric = data.metricsDTO[0];
-               vm.loading=false;
-
-               initMetric();
-
-            },function(data){
-               vm.error = true;
-            }
-         );
+      /********************************************************************************
+      * @ngdoc method
+      * @name initMetric
+      * @description
+      * This function triggers other function when a metric is loaded
+      ********************************************************************************/
+      function initMetric(){
+         vm.modifying=false;
+         vm.copyDialogToModel();
+         vm.setLabelState();
+         vm.setRights();
       }
-    }
 
+      /********************************************************************************
+      * @ngdoc method
+      * @name _selectMetricToView
+      * @description
+      * This function checks that in the url there's param id.
+      *If id is specified, the page is loaded with the metric with id specified.
+      * Otherwise page is loaded with metric in MetricService
+      ********************************************************************************/
+      function _selectMetricToView(){
+         if(angular.isUndefined($routeParams.id)){
+            vm.loadedMetric= MetricService.getToUpdate();
 
+            vm.loading=false;
+            initMetric();
+            return;
+         }else{
 
-    function copyDialogToModel(){
-      vm.newMetric =angular.copy(vm.loadedMetric);
+            MetricService.getMetricsById($routeParams.id).then(
+               function(data){
+                  vm.loadedMetric = data.metricsDTO[0];
+                  vm.loading=false;
 
-   }
-   /********************************************************************************
-  * @ngdoc method
-  * @name pushIfNotExists
-  * @description
-  * This function takes an element el, typically a string.
-  * Firstly it checks that el is not null and el is not already in array.
-  * Then, if it is not too long or too short it pushes el to array.
-  ********************************************************************************/
-   function pushIfNotExists(el, array){
-      if(array.indexOf(el)==-1 && !angular.isUndefined(el)){
-         if(el.length>1 && el.length<31){
-            array.push(el);
+                  initMetric();
+               },function(data){
+                  vm.error = true;
+               }
+            );
          }
       }
-   }
-
-   function setLabelState(){
-      vm.stateLabel = $filter('filter')(vm.labelsForState, function (d) {return d.state == vm.newMetric.metadata.state;})[0].label;
-   }
 
 
 
+      function copyDialogToModel(){
+         vm.newMetric =angular.copy(vm.loadedMetric);
+
+      }
+      /********************************************************************************
+      * @ngdoc method
+      * @name pushIfNotExists
+      * @description
+      * This function takes an element el, typically a string.
+      * Firstly it checks that el is not null and el is not already in array.
+      * Then, if it is not too long or too short it pushes el to array.
+      ********************************************************************************/
+      function pushIfNotExists(el, array){
+         if(array.indexOf(el)==-1 && !angular.isUndefined(el)){
+            if(el.length>1 && el.length<31){
+               array.push(el);
+            }
+         }
+      }
+
+      function setLabelState(){
+         vm.stateLabel = $filter('filter')(vm.labelsForState, function (d) {return d.state == vm.newMetric.metadata.state;})[0].label;
+      }
 
 
-   /********************************************************************************
-   * @ngdoc method
-   * @name submit
-   * @description
-   * Check if the metric in vm.dialog has metricatorId field of the logged user
-   ********************************************************************************/
-   function setRights(){
-      if(angular.isUndefined(vm.newMetric)){
+
+
+
+      /********************************************************************************
+      * @ngdoc method
+      * @name submit
+      * @description
+      * Check if the metric in vm.dialog has metricatorId field of the logged user
+      ********************************************************************************/
+      function setRights(){
          vm.canIUpdateVar = false;
          vm.isExpert= false;
          vm.canIApprove=false;
          vm.canIRequestChange=false;
          vm.canISendForApproval=false;
-         return;
-      }
-      var metric = vm.newMetric;
-
-      if(metric.metricatorId == AuthService.getUser().username && AuthService.getUser().role=='METRICATOR'){
-         if(metric.metadata.state=='OnUpdate'){
-            vm.canIUpdateVar = true;
-            vm.canISendForApproval=true;
+         if(angular.isUndefined(vm.newMetric)){
+            return;
          }
+         var metric = vm.newMetric;
+
+         if(metric.metricatorId == AuthService.getUser().username && AuthService.getUser().role=='METRICATOR'){
+            if(metric.metadata.state=='OnUpdate'){
+               vm.canIUpdateVar = true;
+               vm.canISendForApproval=true;
+            }
+            if(metric.metadata.state=='Rejected'){
+               vm.canIUpdateVar = true;
+            }
+            return;
+         }
+
+         if(AuthService.getUser().role=='EXPERT'){
+            vm.isExpert = true;
+            if(metric.metadata.state=='OnUpdate'){
+               vm.canIUpdateVar = true;
+               vm.canISendForApproval=true;
+            }
+            if(metric.metadata.state=='Pending'){
+               vm.canIApprove = true;
+            }
+            if(metric.metadata.state=='Approved'){
+               vm.canIRequestChange = true;
+            }
+            if(metric.metadata.state=='Rejected'){
+               vm.canIUpdateVar = true;
+            }
+         }
+      }
+
+      /********************************************************************************
+      * @ngdoc method
+      * @name submitMetric
+      * @description
+      * Submits a Metric
+      ********************************************************************************/
+      function submitMetric(metric) {
+         console.log(metric);
          if(metric.metadata.state=='Rejected'){
-            vm.canIUpdateVar = true;
+            metric.metadata.state='OnUpdate';
          }
-         return;
-      }
-
-      if(AuthService.getUser().role=='EXPERT'){
-         vm.isExpert = true;
-         if(metric.metadata.state=='OnUpdate'){
-            vm.canIUpdateVar = true;
-            vm.canISendForApproval=true;
-         }
-         if(metric.metadata.state=='Pending'){
-            vm.canIApprove = true;
-         }
-         if(metric.metadata.state=='Approved'){
-            vm.canIRequestChange = true;
-         }
-         if(metric.metadata.state=='Rejected'){
-            vm.canIUpdateVar = true;
-         }
-      }
-   }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name submitMetric
-    * @description
-    * Submits a Metric
-    ********************************************************************************/
-    function submitMetric(metric) {
-      console.log(vm.newMetric);
-
-        MetricService.submitMetric(metric).then(
+         MetricService.submitMetric(metric).then(
             function(message) {
                alert("Updated!");
 
-                vm.newMetric = undefined;
-                _selectMetricToView();
+               vm.newMetric = undefined;
+               _selectMetricToView();
 
             },
             function(message) {
-                alert("Error in updating");
-                vm.newMetric = undefined;
-                _selectMetricToView();
+               alert("Error in updating");
+               vm.newMetric = undefined;
+               _selectMetricToView();
             }
-        );
+         );
+      }
 
+      function goToRead(){
+         console.log("Go to read");
+         vm.modifying=false;
+         _selectMetricToView();
+      }
 
-    }
+      function goToModify(){
+         console.log("Go to modify");
+         vm.modifying=true;
+      }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name submitMeasurementGoal
-    * @description
-    * Get active measurement goals for a metricator.
-    ********************************************************************************/
-    function getMeasurementGoals(){
-        //TODO add method to retrieve last approved measurementGoal
-        //TODO add method to send for approval
-         MeasurementGoalService.getMeasurementGoals().then(
-            function(data) {
-                console.log(data.measurementGoals);
-                vm.measurementGoals = data.measurementGoals;
+      function sendForApproval(){
+         console.log("Send for approval");
+         vm.newMetric.metadata.state='Pending';
+         MetricService.changeState(vm.newMetric).then(
+            function(message) {
+               alert("Sended for approval!");
+               vm.goToRead();
             },
-            function(data) {
-                alert('Error retriving Measurement Goals');
+            function(message) {
+               alert("Error in sending");
+               vm.goToRead();
             }
-        );
-    }
+         );
+      }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name getMetricsByMeasurementGoal
-    * @description
-    * Get approved metrics by measurement goal.
-    ********************************************************************************/
-    function getMetricsByMeasurementGoal(){
+      function changeRequest(){
+         console.log("Change Request");
+         //TODO add release note
+         vm.newMetric.metadata.state='OnUpdate';
+         MetricService.changeState(vm.newMetric).then(
+            function(message) {
+               alert("Change Request!");
+               vm.goToRead();
+            },
+            function(message) {
+               alert("Error in sending");
+               vm.goToRead();
+            }
+         );
+      }
 
-        for(var i=0; i<vm.measurementGoalDialog.metrics.length;i++){
-            MetricService.getMetricsById(vm.measurementGoalDialog.metrics[i].instance).then(
-                function(data) {
-                    console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
-                    console.log(data.metricsDTO);
-                    vm.metricsDialog = data.metricsDTO;
-                },
-                function(data) {
-                    alert('Error retriving Metrics');
-                }
-            );
-        }
-    }
+      function approve(){
+         console.log("Approve");
+         //TODO add release note
+         vm.newMetric.metadata.state='Approved';
+         MetricService.changeState(vm.newMetric).then(
+            function(message) {
+               alert("Change Request!");
+               vm.goToRead();
+            },
+            function(message) {
+               alert("Error in sending");
+               vm.goToRead();
+            }
+         );
+      }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name getApprovedMetrics
-    * @description
-    * Get approved metrics.
-    ********************************************************************************/
-    function getApprovedMetrics(){
+      function reject(){
+         console.log("Reject");
+         //TODO add release note
+         vm.newMetric.metadata.state='Rejected';
+         MetricService.changeState(vm.newMetric).then(
+            function(message) {
+               alert("Change Request!");
+               vm.goToRead();
+            },
+            function(message) {
+               alert("Error in sending");
+               vm.goToRead();
+            }
+         );
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      /********************************************************************************
+      * @ngdoc method
+      * @name getApprovedMetrics
+      * @description
+      * Get approved metrics.
+      ********************************************************************************/
+      function getApprovedMetrics(){
          MetricService.getApprovedMetrics().then(
             function(data) {
-                console.log('SUCCESS GET APPROVED METRICS');
-                console.log(data.metricsDTO);
-                vm.externalloadedMetric = data.metricsDTO;
+               console.log('SUCCESS GET APPROVED METRICS');
+               console.log(data.metricsDTO);
+               vm.externalloadedMetric = data.metricsDTO;
 
             },
             function(data) {
-                alert('Error retriving Metrics');
+               alert('Error retriving Metrics');
             }
-        );
-    }
+         );
+      }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name submitMeasurementGoal
-    * @description
-    * Get active measurement goals for a metricator by some field.
-    ********************************************************************************/
-    function getMeasurementGoalsBy(keyword,field){
-         MeasurementGoalService.getMeasurementGoalsBy(keyword,field).then(
-            function(data) {
-                console.log(data.measurementGoals);
-                vm.measurementGoals = data.measurementGoals;
-            },
-            function(data) {
-                alert('Error retriving Measurement Goals');
-            }
-        );
-    }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name getOrganizationalGoal
-    * @description
-    * Get organizational goal.
-    ********************************************************************************/
-    function getOrganizationalGoalById(id){
-         MeasurementGoalService.getOrganizationalGoalById(id).then(
-            function(data) {
-                console.log("getOrganizationalGoalDialog");
-                console.log(data);
-                vm.organizationalGoalDialog = data;
-                //return data;//vm.organizationalGoalDialog;
-            },
-            function(data) {
-                alert('Error retriving Measurement Goals by state');
-            }
-        );
-    }
+      function cancelSubmit() {
+         $location.path('/measurementgoal');
+      }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name cancelSignup
-    * @description
-    * Cancels the ongoing submit.
-    ********************************************************************************/
-    function cancelSubmit() {
-        $location.path('/measurementgoal');
-    }
+      function setMeasurementGoalDialog(measurementGoalToAssignId){
+         vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
 
-    function setMeasurementGoalDialog(measurementGoalToAssignId){
-            vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
+         if(vm.measurementGoalDialog !== null){
+            setOrganizationalGoalDialog(vm.measurementGoalDialog.organizatoinalGoalId);
+         }
+      }
 
-            if(vm.measurementGoalDialog !== null){
-                setOrganizationalGoalDialog(vm.measurementGoalDialog.organizatoinalGoalId);
-            }
-    }
 
-    function setOrganizationalGoalDialog(organizationalGoalToAssignId){
-            if(organizationalGoalToAssignId !== null){
-                //vm.organizationalGoalDialog =
-                getOrganizationalGoalById(organizationalGoalToAssignId);
-                console.log(vm.organizationalGoalDialog);
-            }
-    }
+      function goToUpdateMeasurementGoal(){
+         MeasurementGoalService.toUpdateMeasurementGoal(vm.measurementGoalDialog);
+         $location.path('/measurementgoal');
+         console.log($location.path('/measurementgoal'));
+      }
 
-    function initOrganizationalGoalDialog(){
-        if(vm.measurementGoalDialog !== null){
-            setOrganizationalGoalDialog('1');//vm.measurementGoalDialog.organizatoinalGoalId);
-        }
-    }
-
-    function goToUpdateMeasurementGoal(){
-        MeasurementGoalService.toUpdateMeasurementGoal(vm.measurementGoalDialog);
-        $location.path('/measurementgoal');
-        console.log($location.path('/measurementgoal'));
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name addTagToMeasurementGoal
-    * @description
-    * Add tag to a measurement goal.
-    ********************************************************************************/
-    function addTagToMeasurementGoal(){
+      /********************************************************************************
+      * @ngdoc method
+      * @name addTagToMeasurementGoal
+      * @description
+      * Add tag to a measurement goal.
+      ********************************************************************************/
+      function addTagToMeasurementGoal(){
          vm.measurementGoalDialog.metadata.tags.push(vm.newTag);
-    }
+      }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name addTagToMeasurementGoal
-    * @description
-    * Remove tag from a measurement goal.
-    ********************************************************************************/
-    function removeTagFromMeasurementGoal(index){
-        vm.measurementGoalDialog.metadata.tags.splice(index, 1);
-    }
+      /********************************************************************************
+      * @ngdoc method
+      * @name addTagToMeasurementGoal
+      * @description
+      * Remove tag from a measurement goal.
+      ********************************************************************************/
+      function removeTagFromMeasurementGoal(index){
+         vm.measurementGoalDialog.metadata.tags.splice(index, 1);
+      }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name addMetricToMeasurementGoal
-    * @description
-    * Add metric to measurement goal.
-    ********************************************************************************/
-    function addMetricToMeasurementGoal(index){
-        for(var i=0; i<vm.metricsDialog.length; i++){
-            if(vm.externalloadedMetric[index].metadata.id == vm.metricsDialog[i].metadata.id){
-                $window.alert('You cannot add a metric twice!');
-                return true;
-            }
-        }
 
-        var pointerBus = {
-           objIdLocalToPhase : "",
-           typeObj : "Metric",
-           instance : vm.externalloadedMetric[index].metadata.id,
-           tags: []
-        };
-        vm.measurementGoalDialog.metrics.push(pointerBus);
-        vm.metricsDialog.push(vm.externalloadedMetric[index]);
-        $window.alert('Item added');
-        console.log(vm.measurementGoalDialog);
-        return false;
-    }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name _init
-    * @description
-    * Initializes the controller.
-    ********************************************************************************/
-    function _init() {
-        vm.loading = false;
-    }
 
-}
+
+   }
 
 })();
 
