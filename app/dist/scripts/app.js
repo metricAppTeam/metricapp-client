@@ -3216,6 +3216,9 @@ MetricPageController.$inject = ['$scope','$routeParams', '$location','MetricServ
 
 function MetricPageController($scope,$routeParams, $location, MetricService,AuthService, $window) {
     var vm = this;
+    // this is for the scrolling
+    $('body').removeClass('modal-open');
+    
     vm.loading = true;
 
     vm.listOfSet=['Integers','Reals'];
