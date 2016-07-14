@@ -57,7 +57,7 @@
                <div class="col-md-9">
                   <select ng-model="vm.newMetric.set" placeholder="{{vm.loadedMetric.set}}" class="form-control" >
                      <option selected>{{vm.loadedMetric.set}}</option>
-                     <option ng-repeat="option in vm.listOfSet" ng-value="option">{{option}}</option>
+                     <option ng-repeat="option in vm.listOfSet | filter:({value: '!'+vm.loadedMetric.set})" ng-value="option.value">{{option.option}}</option>
                   </select>
                </div>
             </div>
@@ -68,7 +68,7 @@
                <div class="col-md-9">
                   <select ng-model="vm.newMetric.scaleType" placeholder="{{vm.loadedMetric.scaleType}}" class="form-control" ngRequired="true" >
                      <option selected ng-value="{{vm.loadedMetric.scaleType}}">{{vm.loadedMetric.scaleType}}</option>
-                     <option ng-repeat="option in vm.listOfScaleType" ng-value="option.value">{{option.option}}</option>
+                     <option ng-repeat="scale in vm.listOfScaleType | filter:({value: '!'+vm.loadedMetric.scaleType})" ng-value="scale.value">{{scale.option}}</option>
                   </select>
                </div>
             </div>
@@ -77,16 +77,13 @@
          </div>
 
             <div class="block">
-               <h4>Maximum value</h4>
+               <h4>
+                  <input name="hasMax" type="checkbox"  ng-model="vm.newMetric.hasMax"/>
+                Maximum value </h4>
                <div class="panel panel-default">
                   <div class="panel-body">
                      <!-- FORM FIELD: hasmax -->
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Has max?:</label>
-                        <div class="col-md-9">
-                           <input name="hasMax" type="checkbox"  ng-model="vm.newMetric.hasMax"/>
-                        </div>
-                     </div>
+
 
                      <!-- FORM FIELD: Max-->
                      <div class="form-group" ng-show="vm.newMetric.hasMax">
@@ -99,7 +96,9 @@
                </div>
             </div>
             <div class="block">
-               <h4>Maximum value</h4>
+               <h4 >
+                  <input name="hasMin" type="checkbox"  ng-model="vm.newMetric.hasMin"/>
+                Minimum value </h4>
                <div class="panel panel-default">
                   <div class="panel-body">
                      <!-- FORM FIELD: hasMin -->
@@ -194,11 +193,16 @@
                <h4>Metadata</h4>
                <div class="panel panel-default">
                   <div class="panel-body">
-                     <div class="form-group"><label class="col-md-3 control-label">State: </label>
-                        <div class="col-md-9">
-                           <span class="label label-warning label-form"> {{vm.newMetric.metadata.state}}</span>
-                        </div>
-                     </div>
+                           <span disabled class="label label-primary label-form"> OnUpdate</span>
+                           <span class="label label-default label-form"> Pending</span>
+                           <span class="label label-danger label-form"> Rejected</span>
+                           <span class="label label-warning label-form"> Approved</span>
+                           <button type="button" class="btn btn-default" disabled="disabled">Default</button>
+
+                     <br>
+                     <br>
+                     <br>
+
                      <!-- FORM FIELD: Release Note -->
                      <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.releaseNote.$dirty || metricForm.metadata.releaseNote.$invalid }">
                         <label class="col-md-3 control-label">Release Note:</label>
@@ -292,16 +296,11 @@
          </div>
 
          <div class="block">
-            <h4>Metric's values</h4>
+            <h4 >
+               <input name="hasUserDefinedList" type="checkbox" ng-model="vm.newMetric.hasUserDefinedList"/>
+              Metric has user defined value list </h4>
             <div class="panel panel-default">
                <div class="panel-body">
-                  <!-- FORM FIELD: hasUserDefinedList -->
-                  <div class="form-group">
-                     <label class="col-md-3 control-label">Has user defined list?:</label>
-                     <div class="col-md-9">
-                        <input name="hasUserDefinedList" type="checkbox" placeholder="{{vm.loadedMetric.hasUserDefinedList}}" ng-model="vm.newMetric.hasUserDefinedList"/>
-                     </div>
-                  </div>
                   <!-- FORM FIELD: isordered -->
                   <div class="form-group" ng-show="vm.newMetric.hasUserDefinedList">
                      <label class="col-md-3 control-label">Is it ordered?:</label>
@@ -338,8 +337,8 @@
 
 
 
-         </div>
 
+         </div>
 
 
 

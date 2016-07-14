@@ -20,10 +20,11 @@ function MetricPageController($scope,$routeParams, $location, MetricService,Auth
     var vm = this;
     // this is for the scrolling
     $('body').removeClass('modal-open');
-    
-    vm.loading = true;
 
-    vm.listOfSet=['Integers','Reals'];
+    vm.loading = true;
+    vm.modifying = false;
+
+    vm.listOfSet=[{value:'integers', option:'Integers'},{value:'reals',option:'Reals'}];
     vm.listOfScaleType = [{value:'nominalScale', option:'Nominal Scale'},{value:'ordinalScale',option:'Ordinal Scale'},{value:'intervalScale',option:'Interval Scale'},{value:'ratioScale',option:'Ratio Scale'},{value:'absoluteScale',option:'Absolute Scale'}]
 
 
@@ -62,6 +63,8 @@ function MetricPageController($scope,$routeParams, $location, MetricService,Auth
                vm.loadedMetric = data.metricsDTO[0];
                vm.loading=false;
                vm.copyDialogToModel();
+
+
             },function(data){
                vm.error = true;
             }
@@ -120,22 +123,20 @@ function MetricPageController($scope,$routeParams, $location, MetricService,Auth
 
         MetricService.submitMetric(metric).then(
             function(message) {
-                alert(message);
-                //$location.path('/measurementgoal');
+               alert("Updated!");
+
+                vm.newMetric = undefined;
+                _selectMetricToView();
+
             },
             function(message) {
-                alert(message);
+                alert("Error in updating");
+                vm.newMetric = undefined;
+                _selectMetricToView();
             }
         );
-        /*
-        AuthService.signup(user, profile).then(
-            function(message) {
-                alert(message);
-                $location.path('/');
-            },
-            function(message) {
-                alert(message);
-            });*/
+
+
     }
 
     /********************************************************************************
