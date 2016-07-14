@@ -138,7 +138,7 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                     var lastRecipient = resolve.lastRecipient;
                     alert('MessagesController lastRecipient: ' + angular.toJson(lastRecipient));
                     vm.success = true;
-                    $location.path('/messages/' + lastRecipient);                    
+                    $location.path('/messages/' + lastRecipient);
                 },
                 function(reject) {
                     vm.errmsg = reject.errmsg;
@@ -148,6 +148,9 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                 vm.loading = false;
             });
         } else {
+            vm.currConversation = {
+                recipient: {username: $routeParams.username}
+            };
             _loadAllConversations();
             $scope.$watch('vm.buffer', function() {
                 vm.idx = 0;

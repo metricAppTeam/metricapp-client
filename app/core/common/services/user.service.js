@@ -63,8 +63,6 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
     * an error message, otherwise.
     ********************************************************************************/
     function getById(username) {
-        alert('UserService.getById->DB_USERS : ' + angular.toJson(DB_USERS));
-        //username = username.username || username;
         alert('UserService.getById:username='+username);
         return $q(function(resolve, reject) {
             setTimeout(function() {
@@ -88,13 +86,11 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
     * an error message, otherwise.
     ********************************************************************************/
     function getInArray(usernames) {
-        alert('UserService.getInArray->DB_USERS : ' + angular.toJson(DB_USERS));
         alert('UserService.getInArray:usernames='+angular.toJson(usernames));
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var users = {};
                 usernames.forEach(function(username) {
-                    alert('UserService.getInArray:username in usernames='+angular.toJson(username));
                     var USER = DB_USERS[username];
                     if (USER) {
                         users[username] = USER;

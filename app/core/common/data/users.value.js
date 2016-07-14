@@ -90,7 +90,7 @@ angular.module('metricapp')
         picture:    'uploads/users/metricator-ag.svg',
         bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
         website:    'http://gmarciani.com',
-        online:     false
+        online:     true
     },
 
     'metricator-af': {

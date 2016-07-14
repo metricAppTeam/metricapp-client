@@ -43,9 +43,9 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
     function sendMessage() {
         vm.loading = true;
         vm.success = false;
-        MessageService.sendMessage(vm.currConversation.recipient, vm.myMessage).then(
+        MessageService.sendMessage(vm.currConversation.recipient.username, vm.myMessage).then(
             function(resolve) {
-                var sentMessage = resolve.sentMessage;
+                var sentMessage = angular.copy(resolve.sentMessage);
                 vm.currConversation.messages.push(sentMessage);
                 vm.success = true;
             },
@@ -96,13 +96,13 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
         vm.loading = true;
         vm.success = false;
         vm.errmsg = null;
+        vm.orderBy = 'ts_create';
         if (!$routeParams.username) {
             return;
         }
         vm.currConversation = {
             recipient: {username: $routeParams.username}
         };
-        alert('ChatController._init(): vm.currConversation.recipient.username=' + vm.currConversation.recipient.username);
         _loadConversation(vm.currConversation.recipient.username);
     }
 
