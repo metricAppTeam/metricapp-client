@@ -315,7 +315,7 @@
 
                   <button class="btn btn-primary"  ng-show="vm.canIUpdateVar" ng-click="vm.goToModify()" ng-disabled=" vm.loading ">Modify Metric</button>
                   <div ng-show="vm.loading">Please Wait</div>
-                  <div ng-show="vm.newMetric.metadata.state!='OnUpdate'">To be updated a Metric Must be in state of OnUpdate</div>
+               
 
                   <button class="btn btn-primary" ng-click="vm.sendForApproval()" ng-show="vm.canISendForApproval" ng-disabled="vm.loading ">Send For Approval</button>
 
