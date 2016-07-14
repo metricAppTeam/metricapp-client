@@ -5,6 +5,8 @@
 * @name authcheck
 * @module metricapp
 * @requires $rootScope
+* @requires $cookies
+* @requires $http
 * @requires $location
 *
 * @description
@@ -25,7 +27,7 @@ function authcheck($rootScope, $cookies, $http, $location) {
     var failoverLocation = '/login';
 
     $rootScope.globals = $cookies.getObject('globals') || {};
-    
+
     if ($rootScope.globals.user) {
         $http.defaults.headers.common.Authorization =
         'Basic ' + $rootScope.globals.user.authdata;
