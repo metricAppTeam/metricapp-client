@@ -41,7 +41,8 @@
     "angular-morris-chart":"1.2.0",
     "angular-svg-round-progressbar":"0.3.6",
     "angular-bubbletree":"0.1.0",
-    "angular-nvd3":"1.0.7"
+    "angular-nvd3":"1.0.7",
+    "ngCytoscape":"0.0.6"
   },
   "private": true
 }
