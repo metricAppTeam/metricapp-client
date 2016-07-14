@@ -84,7 +84,7 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
         vm.success = false;
         MessageService.getAll().then(
             function(resolve) {
-                var conversations = resolve.conversations;
+                var conversations = angular.copy(resolve.conversations);
                 vm.toread = resolve.toread;
                 vm.news = vm.toread;
                 var recipients = [];
@@ -93,7 +93,7 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
                 });
                 return UserService.getInArray(recipients).then(
                     function(resolve) {
-                        var users = resolve.users;
+                        var users = angular.copy(resolve.users);
                         for (var i = 0; i < conversations.length; i++) {
                             var conversation = conversations[i];
                             var recipient = conversation.recipient;

@@ -50,8 +50,7 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
     }
 
     function setRead(recipient) {
-        //var recipientUsername = recipient.username || recipient;
-        alert('MessagesController._setRead:recipient=' + angular.toJson(recipient));
+        //alert('MessagesController._setRead:recipient=' + angular.toJson(recipient));
         for (var i = 0; i < vm.buffer.length; i++) {
             var conversation = vm.buffer[i];
             if (conversation.recipient.username === recipient) {
@@ -61,9 +60,7 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                 }
             }
         }
-        //MessageService.setReadById(recipient.username || recipient);
         MessageService.setReadById(recipient);
-        //$rootScope.$broadcast(MESSAGE_EVENTS.SET_READ, recipient.username || recipient);
         $rootScope.$broadcast(MESSAGE_EVENTS.SET_READ, recipient);
     }
 
@@ -86,21 +83,15 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
         vm.success = false;
         MessageService.getAll().then(
             function(resolve) {
-                var conversations = resolve.conversations;
+                var conversations = angular.copy(resolve.conversations);
                 vm.toread = resolve.toread;
-                conversations.forEach(function(conversation) {
-                    vm.data.push(conversation);
-                });
-                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
-                vm.success = true;
-                /*
                 var recipients = [];
                 conversations.forEach(function(conversation) {
                     recipients.push(conversation.recipient);
                 });
                 return UserService.getInArray(recipients).then(
                     function(resolve) {
-                        var users = resolve.users;
+                        var users = angular.copy(resolve.users);
                         for (var i = 0; i < conversations.length; i++) {
                             var conversation = conversations[i];
                             var recipient = conversation.recipient;
@@ -117,7 +108,6 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                         vm.success = false;
                     }
                 );
-                */
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
@@ -146,9 +136,9 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
             MessageService.getLastRecipient().then(
                 function(resolve) {
                     var lastRecipient = resolve.lastRecipient;
-                    alert('MessagesController lastRecipient: ' + lastRecipient);
-                    $location.path('/messages/' + lastRecipient);
+                    alert('MessagesController lastRecipient: ' + angular.toJson(lastRecipient));
                     vm.success = true;
+                    $location.path('/messages/' + lastRecipient);                    
                 },
                 function(reject) {
                     vm.errmsg = reject.errmsg;
