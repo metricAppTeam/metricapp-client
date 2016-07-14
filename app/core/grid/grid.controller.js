@@ -35,7 +35,7 @@ function GridController($scope, $rootScope, $location, $routeParams, $q,
 
     vm.updateGrid = updateGrid;
     vm.removeMember = removeMember;
-
+    
     _init();
 
     function updateGrid(grid) {
@@ -118,6 +118,10 @@ function GridController($scope, $rootScope, $location, $routeParams, $q,
         };
         _loadGrid(vm.currGrid.id);
     }
+
+    vm.count_questions = function (){
+        return 'ciao';
+    }    
 
 }
 
