@@ -14,6 +14,7 @@ angular.module('metricapp')
 .filter('datetimeFilter', datetimeFilter);
 
 function datetimeFilter() {
+
     function _normal(dateObj) {
         var now = new Date();
         var day = dateObj.getDate();
@@ -99,16 +100,23 @@ function datetimeFilter() {
         }
     }
 
+    function _onlyDate(dateObj) {
+        return dateObj.toLocaleDateString();
+    }
+
     return function(dateObj, mode) {
         if (!angular.isDate(dateObj)) {
             return dateObj;
         }
-        if (mode === 'normal') {
-            return _normal(dateObj);
-        } else if (mode === 'ago') {
-            return _ago(dateObj);
-        } else {
-            return _normal(dateObj);
+        switch(mode) {
+            case 'normal':
+                return _normal(dateObj);
+            case 'ago':
+                return _ago(dateObj);
+            case 'onlyDate':
+                return _onlyDate(dateObj);
+            default:
+                return _normal(dateObj);
         }
     };
 }
