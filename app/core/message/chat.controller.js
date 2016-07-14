@@ -66,7 +66,6 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
     }
 
     function _loadConversation(recipient) {
-        alert('ChatController._loadConversation:recipient=' + angular.toJson(recipient));
         vm.loading = true;
         vm.success = false;
         MessageService.getById(recipient).then(

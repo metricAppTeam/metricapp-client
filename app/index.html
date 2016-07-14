@@ -91,7 +91,7 @@
                             </div>
                         </div>
                     </li>
-                    <li ng-repeat="action in vm.actions">
+                    <li ng-repeat="action in vm.actions track by $index">
                         <a ng-href="{{action.href}}"><span class="fa fa-{{action.icon}}"></span><span class="xn-text">{{action.name}}</span></a>
                     </li>
                 </ul>
@@ -145,7 +145,7 @@
                                         <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="">
                                             <span class="contacts-title">No conversations yet</span>
                                         </a>
-                                        <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy: '-ts_update' track by conversation.recipient.username"
+                                        <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy:'-ts_update' track by conversation.recipient.username"
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': conversation.toread == 0,
                                         'status-unread': conversation.toread > 0}"
@@ -200,7 +200,7 @@
                                         <a ng-switch-when="true" ng-show="vm.notifications.length == 0" class="list-group-item list-group-item-message" href="">
                                             <span class="contacts-title">No notifications yet</span>
                                         </a>
-                                        <a ng-switch-when="true" ng-repeat="notification in vm.notifications | orderBy: '-ts_create' track by notification.id"
+                                        <a ng-switch-when="true" ng-repeat="notification in vm.notifications | orderBy:'-ts_create' track by notification.id"
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': notification.read,
                                         'status-unread': !notification.read}"

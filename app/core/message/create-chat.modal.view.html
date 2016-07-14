@@ -1,0 +1,77 @@
+<!-- START: MODAL CREATE-CHAT -->
+<div class="modal" id="modal-create-chat" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true"
+ng-controller="ChatCreateController as vm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="defModalHead">New Conversation <small ng-show="!vm.loading && vm.success && vm.selectedUser">with {{vm.selectedUser | userFullname}}</small></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form name="searchForm" class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <span class="fa fa-search"></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Who are you looking for?"
+                                                ng-model="vm.query"
+                                                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-primary"
+                                                    ng-disabled="!vm.query || vm.loading"
+                                                    ng-click="vm.search(vm.query)">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-switch="vm.loading">
+                    <div class="col-md-12">
+                        <p ng-switch-when="true">Loading users ...</p>
+                        <div ng-switch-when="false" ng-switch="vm.success">
+                            <p ng-switch-when="true" ng-if="vm.users.length == 0">No users yet.</p>
+                            <div ng-switch-when="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-body list-group list-group-contacts">
+                                        <a class="list-group-item" style="cursor:pointer;"
+                                        ng-repeat="user in vm.users | userFilterByName:vm.query | orderBy:vm.orderBy track by user.username"
+                                        ng-if="user.username !== globals.user.username"
+                                        ng-class="{'status-selected': user.username == vm.selectedUser}"
+                                        ng-href="" ng-click="vm.toggleSelectedUser(user)">
+                                            <img ng-src="{{user.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{user.username}}"/>
+                                            <span class="contacts-title">{{user | userFullname}}</span>
+                                            <p>{{user.role}}</p>
+                                            <div class="list-group-controls">
+                                                <span class="fa" ng-class="{'fa-check': user.username == vm.selectedUser.username}"></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                            </div>
+                            <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary"
+                ng-disabled="vm.loading || !vm.success || !vm.selectedUser"
+                ng-click="vm.createConversation(vm.selectedUser)"
+                data-dismiss="modal">Create</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: MODAL CREATE-CHAT -->

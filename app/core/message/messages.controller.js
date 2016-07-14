@@ -35,6 +35,8 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
     vm.setAllRead = setAllRead;
     vm.removeNews = removeNews;
 
+    vm.removeConversation = removeConversation;
+
     _init();
 
     function loadMore() {
@@ -75,6 +77,10 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
 
     function removeNews() {
         vm.news = 0;
+    }
+
+    function removeConversation(recipient) {
+        alert('remove conversation with:' + recipient);
     }
 
     function _loadAllConversations() {
@@ -135,7 +141,6 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
             MessageService.getLastRecipient().then(
                 function(resolve) {
                     var lastRecipient = resolve.lastRecipient;
-                    alert('MessagesController lastRecipient: ' + angular.toJson(lastRecipient));
                     vm.success = true;
                     $location.path('/messages/' + lastRecipient);
                 },

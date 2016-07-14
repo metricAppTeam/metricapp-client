@@ -35,6 +35,8 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
     service.getLastRecipient = getLastRecipient;
     service.sendMessage = sendMessage;
 
+    service.createConversation = createConversation;
+
     /********************************************************************************
     * @ngdoc method
     * @name getAll
@@ -189,18 +191,17 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
     * @description
     * Set as read all the conversations for authuser.
     * @returns {Boolean|Error} On success, a message;
-    * an error message, otherwise.
     ********************************************************************************/
     function setAllRead() {
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var authusername = AuthService.getUsername();
                 if (authusername) {
-                    var S_MAILBOX = DB_NOTIFICATIONS[authusername];
+                    var S_MAILBOX = DB_MESSAGES[authusername];
                     if (S_MAILBOX) {
-                        S_MAILBOX.forEach(function(CONVERSATION) {
-                            CONVERSATION.toread = 0;
-                        });
+                        for (var recipient in S_MAILBOX) {
+                            S_MAILBOX[recipient].toread = 0;
+                        }
                         resolve({msg: 'All conversations marked as read'});
                     } else {
                         reject({errmsg: 'Mailbox not found for user ' + authusername});
@@ -302,6 +303,43 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                         resolve({sentMessage: newMessage});
                     } else {
                         reject({errmsg: 'Inbox not found for user ' + authusername});
+                    }
+                } else {
+                    reject({errmsg: 'User not logged'});
+                }
+            }, 500);
+        });
+    }
+
+    function createConversation(recipient) {
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var S_MAILBOX = DB_MESSAGES[authusername];
+                    var R_MAILBOX = DB_MESSAGES[recipient];
+                    var now = new Date();
+                    if (S_MAILBOX && R_MAILBOX) {
+                        S_MAILBOX[recipient] = S_MAILBOX[recipient] || {
+                            sender: authusername,
+                            recipient: recipient,
+                            ts_fetch: now,
+                            ts_update: now,
+                            to_read: 0,
+                            conversation: []
+                        };
+                        R_MAILBOX[authusername] = R_MAILBOX[authusername] || {
+                            sender: recipient,
+                            recipient: authusername,
+                            ts_fetch: now,
+                            ts_update: now,
+                            to_read: 0,
+                            conversation: []
+                        };
+                        alert('DB_MESSAGES[recipient]=' + angular.toJson(DB_MESSAGES[recipient]));
+                        resolve({username:recipient});
+                    } else {
+                        reject({errmsg: 'Inbox not found for user ' + authusername + ' or user ' + recipient});
                     }
                 } else {
                     reject({errmsg: 'User not logged'});

@@ -9,12 +9,19 @@
                 <h2><span class="fa fa-globe"></span>
                     Messages
                     <span class="label label-success" ng-show="!vm.loading && vm.success && vm.toread == 0">Up to date</span>
-                    <span class="label label-danger" ng-show="!vm.loading && vm.success && vm.toread != 0">{{vm.toread}} to read</span>
+                    <span class="label label-danger" ng-show="!vm.loading && vm.success && vm.toread > 0">{{vm.toread}} to read</span>
                 </h2>
             </div>
             <div class="pull-right">
-                <button class="btn btn-danger"
-                data-toggle="modal" data-target="#modal-create-conversation"><span class="fa fa-pencil"></span> New</button>
+                <button class="btn btn-success" ng-disabled="vm.toread==0" ng-click="vm.setAllRead()">
+                    <span class="fa fa-check"></span> Mark all read
+                </button>
+                <button class="btn btn-danger" ng-click="vm.removeConversation(vm.currConversation.recipient.username)">
+                    <span class="fa fa-eraser"></span> Remove
+                </button>
+                <button class="btn btn-info" data-toggle="modal" data-target="#modal-create-chat">
+                    <span class="fa fa-pencil"></span> New
+                </button>
                 <button class="btn btn-default content-frame-right-toggle"><span class="fa fa-bars"></span></button>
             </div>
         </div>
@@ -28,7 +35,7 @@
                     <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="">
                         <span class="contacts-title">No conversations yet</span>
                     </a>
-                    <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | orderBy: '-ts_update' track by conversation.recipient.username"
+                    <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | filter:vm.query | orderBy:vm.orderBy track by conversation.recipient.username"
                     ng-href="#/messages/{{conversation.recipient.username}}" class="list-group-item list-group-item-message"
                     ng-class="{'active': conversation.recipient.username == vm.currConversation.recipient.username,
                     'status-read': conversation.toread == 0,
@@ -103,7 +110,7 @@
     </div>
     <!-- END: FRAME -->
 </div>
-<!-- START: DIALOG CREATE-CONVERSATION -->
-<!--<div ng-include="'dist/views/message/conversation.create.view.html'"></div>-->
-<!-- END: DIALOG CREATE-CONVERSATION -->
+<!-- START: DIALOG CREATE-CHAT -->
+<div ng-include="'dist/views/message/create-chat.modal.view.html'"></div>
+<!-- END: DIALOG CREATE-CHAT -->
 <!-- END: MESSAGES -->
