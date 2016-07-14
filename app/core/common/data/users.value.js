@@ -25,6 +25,7 @@ angular.module('metricapp')
         mobile:     '+39 12345678',
         picture:    'uploads/users/expert-gm.svg',
         bio:        'MSc Student in Computer Science Engineering at University of Rome Tro Vergata.',
+        website:    'http://gmarciani.com',
         online:     false
     },
 
@@ -40,6 +41,7 @@ angular.module('metricapp')
         mobile:     '+39 12345678',
         picture:    'uploads/users/expert-mp.svg',
         bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        website:    'http://gmarciani.com',
         online:     false
     },
 
@@ -55,6 +57,7 @@ angular.module('metricapp')
         mobile:     '+39 12345678',
         picture:    'uploads/users/expert-gc.svg',
         bio:        'Full Professor in Computer Science Engineering at University of Rome Tor Vergata.',
+        website:    'http://gmarciani.com',
         online:     false
     },
 
@@ -70,6 +73,7 @@ angular.module('metricapp')
         mobile:     '+39 12345678',
         picture:    'uploads/users/expert-mm.svg',
         bio:        'Associate Professor in Computer Science Engineering at University of Rome Tor Vergata.',
+        website:    'http://gmarciani.com',
         online:     false
     },
 
@@ -85,6 +89,7 @@ angular.module('metricapp')
         mobile:     '+39 12345678',
         picture:    'uploads/users/metricator-ag.svg',
         bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        website:    'http://gmarciani.com',
         online:     false
     },
 
@@ -100,6 +105,7 @@ angular.module('metricapp')
         mobile:     '+39 12345678',
         picture:    'uploads/users/metricator-af.svg',
         bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        website:    'http://gmarciani.com',
         online:     false
     },
 
@@ -115,6 +121,7 @@ angular.module('metricapp')
         mobile:     '+39 12345678',
         picture:    'uploads/users/questioner-mp.svg',
         bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        website:    'http://gmarciani.com',
         online:     false
     },
 
@@ -130,6 +137,7 @@ angular.module('metricapp')
         mobile:     '+39 12345678',
         picture:    'uploads/users/questioner-dn.svg',
         bio:        'MSc Student in Computer Science Engineering at University of Rome Tor Vergata.',
+        website:    'http://gmarciani.com',
         online:     false
     }
 
