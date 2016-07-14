@@ -91,6 +91,9 @@ function GridController($scope, $rootScope, $location, $routeParams, $q,
                         vm.currGrid.questions=angular.copy(resolve.questions.questions);
                         vm.currGrid.metrics=angular.copy(resolve.metrics.metrics);
                         vm.updtGrid = angular.copy(vm.currGrid);
+                        vm.num_questions = Object.keys(vm.currGrid.questions).length;
+                        vm.num_mgoals = Object.keys(vm.currGrid.mgoals).length;
+                        vm.num_metrics = Object.keys(vm.currGrid.metrics).length;
                         vm.success=true;
                     },
                     function(reject){

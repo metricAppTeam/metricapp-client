@@ -37,12 +37,13 @@
                                                 <h5><span class="fa fa-caret-down"></span> Update:</h5>
                                                 <p class="col-md-12">{{vm.currGrid.ts_update | datetimeFilter: 'normal'}}</p>
 
-                                                <h5># Measurement Goals: <span  class="text-info">manca counting{{vm.num_mgs}}</span></h5>
+                                                <h5># Measurement Goals: <span  class="text-info">{{vm.num_mgoals}}</span></h5>
 
-                                                <h5># Questions: <span class="text-info">manca counting questions{{vm.num_questions}}</span></h5>
+                                                <h5># Questions: <span class="text-info">{{vm.num_questions}}</span></h5>
 
-                                                <h5># Metrics: <span class="text-info">{{vm.num_questions}}</span></h5>
-                                                <h5 class="text-danger"># MGs to be assigned: <span>manca counting{{vm.num_metrics}}</span></h5>
+                                                <h5># Metrics: <span class="text-info">{{vm.num_metrics}}</span></h5>
+                                                
+                                                <h5 class="text-danger"># MGs to be assigned: <span>{{vm.num_mgoals}} DA CAMBIARE</span></h5>
                                         </form>
                                     </div>
                                 </div>
@@ -103,7 +104,7 @@
         </div>
     </div>
 
-    <div class="page-content-wrap">
+    <!--<div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">
             <div class="col-md-12">
                 <p ng-switch-when="true">Loading grid {{vm.currGrid.id}} ...</p>
@@ -127,12 +128,16 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
+    
     <!-- START: MODAL UPDATE GRID -->
     <div ng-include="'dist/views/grid/update-grid.modal.view.html'"></div>
     <!-- END: MODAL UPDATE GRID -->
     <!-- START MODAL: TEAM -->
     <div ng-include="'dist/views/grid/view-team.dialog.view.html'"></div>
     <!-- END MODAL: TEAM -->
+    <!-- START MODAL: ASSIGN MGS -->
+    <div ng-include="'dist/views/grid/assignmgs.dialog.view.html'"></div>
+    <!-- END MODAL: ASSIGN MGS -->
 </div>
 <!-- END: GRID -->
