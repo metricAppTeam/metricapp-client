@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 17:04:38
+* @Last Modified time: 2016-07-15 01:11:29
 */
 (function () { 'use strict';
 
@@ -37,6 +37,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.assumptions = MeasurementGoalService.getUpdateMeasurementGoal().assumptions;
     vm.organizationalGoal = MeasurementGoalService.getUpdateMeasurementGoal().organizationalGoal;
     vm.instanceProject = MeasurementGoalService.getUpdateMeasurementGoal().instanceProject;
+    vm.functionJavascript = vm.measurementGoalDialog.interpretationModel.functionJavascript;
 
     //vm.organizationalGoalDialog = {};
     //vm.metricsDialog = [];
@@ -78,7 +79,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Submits a MeasurementGoal.
     ********************************************************************************/
     function submitMeasurementGoal(state) {
-        
+
         var objectSubmit = (vm.object !== undefined) ? vm.object :  vm.measurementGoalDialog.object;
         var purposeSubmit = (vm.purpose !== undefined) ? vm.purpose :  vm.measurementGoalDialog.purpose;
         var viewPointSubmit = (vm.viewPoint !== undefined) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
@@ -523,6 +524,16 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         console.log(AuthService.getUser().username);
         console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !vm.measurementGoalDialog.metadata.state == 'Pending';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isChanged
+    * @description
+    * Is the Function Javascript changed.
+    ********************************************************************************/
+    function isChanged(){
+        return vm.functionJavascript !== vm.measurementGoalDialog.interpretationModel.functionJavascript;
     }
 
     /********************************************************************************
