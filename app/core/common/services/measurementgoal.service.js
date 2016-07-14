@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 12:01:53
+* @Last Modified time: 2016-07-14 11:27:03
 */
 (function() { 'use strict';
 
@@ -37,6 +37,8 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     service.getUpdateMeasurementGoal = getUpdateMeasurementGoal;
     service.getOrganizationalGoalById = getOrganizationalGoalById;
     service.getMeasurementGoalExternals = getMeasurementGoalExternals;
+    service.getExternalContextFactors = getExternalContextFactors;
+    service.getExternalAssumptions = getExternalAssumptions;
 
     /********************************************************************************
     * @ngdoc method
@@ -112,6 +114,56 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getExternalContextFactors
+    * @description
+    * Get external context factors.
+    ********************************************************************************/
+    function getExternalContextFactors() {
+
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/contextfactor/all').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET EXTERNAL CONTEXT FACTORS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getExternalAssumptions
+    * @description
+    * Get external assumptions.
+    ********************************************************************************/
+    function getExternalAssumptions() {
+
+        return $http.get('http://localhost:8080/metricapp-server-gitlab/assumption/all').then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET EXTERNAL ASSUMPTIONS');
                 console.log(message);
                 return message;
             }

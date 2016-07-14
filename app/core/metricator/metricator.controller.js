@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 20:01:09
+* @Last Modified time: 2016-07-13 20:09:14
 */
 (function () { 'use strict';
 
@@ -93,8 +93,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Get active measurement goals for a metricator.
     ********************************************************************************/
     function getMeasurementGoals(){
-        //TODO add method to retrieve last approved measurementGoal
-        //TODO add method to send for approval
+    
         for (var i=0; i<vm.states.length; i++){
             getMeasurementGoalsByState(i);
         }

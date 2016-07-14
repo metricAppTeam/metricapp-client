@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 19:45:30
+* @Last Modified time: 2016-07-14 11:13:27
 */
 (function () { 'use strict';
 
@@ -21,9 +21,9 @@ angular.module('metricapp')
 
 .controller('MeasurementGoalController', MeasurementGoalController);
 
-MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService','MetricService','$window'];
+MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService','MetricService','$window','AuthService'];
 
-function MeasurementGoalController($scope, $location, MeasurementGoalService, MetricService, $window) {
+function MeasurementGoalController($scope, $location, MeasurementGoalService, MetricService, $window, AuthService) {
 
     var vm = this;
 
@@ -47,7 +47,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
 
     vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.cancelSubmit = cancelSubmit;
-    vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
+    //vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
     vm.getOrganizationalGoalById = getOrganizationalGoalById;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
@@ -62,6 +62,9 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.addSomethingToMeasurementGoal = addSomethingToMeasurementGoal;
     vm.removeSomethingFromMeasurementGoal = removeSomethingFromMeasurementGoal;
     vm.isModifiable = isModifiable;
+    vm.isSubmittable = isSubmittable;
+    vm.getExternalContextFactors = getExternalContextFactors;
+    vm.getExternalAssumptions = getExternalAssumptions;
 
     //initOrganizationalGoalDialog();
     //getMetricsByMeasurementGoal();
@@ -209,6 +212,47 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             },
             function(data) {
                 alert('Error retriving Metrics');
+            }
+        );
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getExternalContextFactors
+    * @description
+    * Get external context factors.
+    ********************************************************************************/
+    function getExternalContextFactors(){
+         MeasurementGoalService.getExternalContextFactors().then(
+            function(data) {
+                console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
+                console.log(data.contextFactors);
+                vm.externalContextFactorDialog = data.contextFactors;
+                $("#modal_large_external_contextfactor").modal("show");
+
+            },
+            function(data) {
+                alert('Error retriving Context Factors');
+            }
+        );
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getExternalAssumptions
+    * @description
+    * Get external assumptions.
+    ********************************************************************************/
+    function getExternalAssumptions(){
+         MeasurementGoalService.getExternalAssumptions().then(
+            function(data) {
+                console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');
+                console.log(data.assumptions);
+                vm.externalAssumptionDialog = data.assumptions;
+                $("#modal_large_external_assumption").modal("show");
+            },
+            function(data) {
+                alert('Error retriving Assumptions');
             }
         );
     }
@@ -431,6 +475,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         }
 
         $window.alert('Item removed');
+        console.log("MEASUREMENT GOAL AFTER REMOVE");
         console.log(vm.measurementGoalDialog);
     }
 
@@ -447,6 +492,15 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username;
     }
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name isSubmittable
+    * @description
+    * Measurement Goal can be submitted.
+    ********************************************************************************/ 
+    function isSubmittable(){
+        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
+    }
 
     /********************************************************************************
     * @ngdoc method

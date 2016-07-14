@@ -93,6 +93,18 @@
             <!--END METRIC TAB-->                  
         </div>
 
+        <div class="form-group">
+            <!--START CONTEXT FACTOR TAB-->
+            <div ng-include="'dist/views/metricator/tab/tab.contextfactor.mgview.html'"></div>
+            <!--END CONTEXT FACTOR TAB-->                  
+        </div>        
+
+        <div class="form-group">
+            <!--START ASSUMPTION TAB-->
+            <div ng-include="'dist/views/metricator/tab/tab.assumption.mgview.html'"></div>
+            <!--END ASSUMPTION TAB-->                  
+        </div> 
+
         <!-- FORM ACTIONS: SUBMIT, CANCEL -->
         <div class="form-actions">
             <button class="btn btn-primary" type="submit" ng-disabled="measurementGoalForm.$invalid || vm.loading">Submit MeasurementGoal</button>
@@ -108,6 +120,20 @@
     <div class="modal" id="modal_large_external_metric" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div ng-include="'dist/views/metricator/modal/modal.external.metric.html'">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal_large_external_contextfactor" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div ng-include="'dist/views/metricator/modal/modal.external.contextfactor.html'">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal_large_external_assumption" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div ng-include="'dist/views/metricator/modal/modal.external.assumption.html'">
             </div>
         </div>
     </div>
