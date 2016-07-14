@@ -177,69 +177,81 @@
 
          </div>
          <div class="col-md-6 pull-right">
-            <!-- FORM FIELD: Release Note -->
-            <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }">
-               <label class="col-md-3 control-label">Release Note:</label>
-               <div class="col-md-9">
-                  <textarea class="form-control" name="releaseNote" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.releaseNote}}" ng-model="vm.newMetric.metadata.releaseNote" ng-class="{ 'error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" rows=5/>
-                  <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.releaseNote.$error" ng-show="metric.metadata.releaseNote.$dirty">
-                     <div>Error</div>
-                  </div>
-               </div>
-            </div>
+            <div class="block">
+               <h4>Metadata</h4>
+               <div class="panel panel-default">
+                  <div class="panel-body">
+                     <div class="form-group"><label class="col-md-3 control-label">State: </label>
+                        <div class="col-md-9">
+                           <span class="label label-warning label-form"> {{vm.newMetric.metadata.state}}</span>
+                        </div>
+                     </div>
+                     <!-- FORM FIELD: Release Note -->
+                     <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }">
+                        <label class="col-md-3 control-label">Release Note:</label>
+                        <div class="col-md-9">
+                           <textarea class="form-control" name="releaseNote" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.releaseNote}}" ng-model="vm.newMetric.metadata.releaseNote" ng-class="{ 'error': metricForm.metadata.releaseNote.$dirty && metricForm.metadata.releaseNote.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" rows=5/>
+                           <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.releaseNote.$error" ng-show="metric.metadata.releaseNote.$dirty">
+                              <div>Error</div>
+                           </div>
+                        </div>
+                     </div>
 
 
-            <!--FIELD: ID-->
-            <div class="form-group" ng-class="{ 'hash-error': metricForm.id.$dirty && metricForm.id.$invalid }">
-               <label class="col-md-3 control-label">Id:</label>
-               <div class="col-md-9">
-                  <input class="form-control" name="id" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.id}}" ng-model="vm.newMetric.metadata.id" ng-class="{ 'error': metricForm.metadata.id.$dirty && metricForm.metadata.id.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
-                  <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.id.$error" ng-show="metric.metadata.id.$dirty">
-                     <div>Error</div>
-                  </div>
-               </div>
-            </div>
+                     <!--FIELD: ID-->
+                     <div class="form-group" ng-class="{ 'hash-error': metricForm.id.$dirty && metricForm.id.$invalid }">
+                        <label class="col-md-3 control-label">Id:</label>
+                        <div class="col-md-9">
+                           <input class="form-control" name="id" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.id}}" ng-model="vm.newMetric.metadata.id" ng-class="{ 'error': metricForm.metadata.id.$dirty && metricForm.metadata.id.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+                           <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.id.$error" ng-show="metric.metadata.id.$dirty">
+                              <div>Error</div>
+                           </div>
+                        </div>
+                     </div>
 
-            <!--FIELD: Metricator ID-->
-            <div class="form-group" ng-class="{ 'hash-error': metricForm.metricatorId.$dirty && metricForm.metricatorId.$invalid }">
-               <label class="col-md-3 control-label">Metricator Id:</label>
-               <div class="col-md-9">
-                  <input class="form-control" name="metricatorId" type="text" role="textbox" placeholder="{{vm.loadedMetric.metricatorId}}" ng-model="vm.newMetric.metricatorId" ng-class="{ 'error': metricForm.metricatorId.$dirty && metricForm.metricatorId.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
-                  <div class="form-group-helper" role="alert" ng-messages="metricForm.metricatorId.$error" ng-show="metric.metricatorId.$dirty">
-                     <div>Error</div>
-                  </div>
-               </div>
-            </div>
+                     <!--FIELD: Metricator ID-->
+                     <div class="form-group" ng-class="{ 'hash-error': metricForm.metricatorId.$dirty && metricForm.metricatorId.$invalid }">
+                        <label class="col-md-3 control-label">Metricator Id:</label>
+                        <div class="col-md-9">
+                           <input class="form-control" name="metricatorId" type="text" role="textbox" placeholder="{{vm.loadedMetric.metricatorId}}" ng-model="vm.newMetric.metricatorId" ng-class="{ 'error': metricForm.metricatorId.$dirty && metricForm.metricatorId.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+                           <div class="form-group-helper" role="alert" ng-messages="metricForm.metricatorId.$error" ng-show="metric.metricatorId.$dirty">
+                              <div>Error</div>
+                           </div>
+                        </div>
+                     </div>
 
-            <!--FIELD: version-->
-            <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.version.$dirty && metricForm.metadata.version.$invalid }">
-               <label class="col-md-3 control-label">Version:</label>
-               <div class="col-md-9">
-                  <input class="form-control" name="version" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.version}}" ng-model="vm.newMetric.metadata.version" ng-class="{ 'error': metricForm.metadata.version.$dirty && metricForm.metadata.version.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
-                  <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.version.$error" ng-show="metric.metadata.version.$dirty">
-                     <div>Error</div>
-                  </div>
-               </div>
-            </div>
+                     <!--FIELD: version-->
+                     <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.version.$dirty && metricForm.metadata.version.$invalid }">
+                        <label class="col-md-3 control-label">Version:</label>
+                        <div class="col-md-9">
+                           <input class="form-control" name="version" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.version}}" ng-model="vm.newMetric.metadata.version" ng-class="{ 'error': metricForm.metadata.version.$dirty && metricForm.metadata.version.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+                           <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.version.$error" ng-show="metric.metadata.version.$dirty">
+                              <div>Error</div>
+                           </div>
+                        </div>
+                     </div>
 
-            <!--FIELD: creationDate-->
-            <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.creationDate.$dirty && metricForm.metadata.creationDate.$invalid }">
-               <label class="col-md-3 control-label">Creation Date:</label>
-               <div class="col-md-9">
-                  <input class="form-control" name="creationDate" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.creationDate}}" ng-model="vm.newMetric.metadata.creationDate" ng-class="{ 'error': metricForm.metadata.creationDate.$dirty && metricForm.metadata.creationDate.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
-                  <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.creationDate.$error" ng-show="metric.metadata.creationDate.$dirty">
-                     <div>Error</div>
-                  </div>
-               </div>
-            </div>
+                     <!--FIELD: creationDate-->
+                     <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.creationDate.$dirty && metricForm.metadata.creationDate.$invalid }">
+                        <label class="col-md-3 control-label">Creation Date:</label>
+                        <div class="col-md-9">
+                           <input class="form-control" name="creationDate" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.creationDate}}" ng-model="vm.newMetric.metadata.creationDate" ng-class="{ 'error': metricForm.metadata.creationDate.$dirty && metricForm.metadata.creationDate.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+                           <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.creationDate.$error" ng-show="metric.metadata.creationDate.$dirty">
+                              <div>Error</div>
+                           </div>
+                        </div>
+                     </div>
 
-            <!--FIELD: lastVersionDate-->
-            <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.lastVersionDate.$dirty && metricForm.metadata.lastVersionDate.$invalid }">
-               <label class="col-md-3 control-label">Last Update:</label>
-               <div class="col-md-9">
-                  <input class="form-control" name="lastVersionDate" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.lastVersionDate}}" ng-model="vm.newMetric.metadata.lastVersionDate" ng-class="{ 'error': metricForm.metadata.lastVersionDate.$dirty && metricForm.metadata.lastVersionDate.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
-                  <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.lastVersionDate.$error" ng-show="metric.metadata.lastVersionDate.$dirty">
-                     <div>Error</div>
+                     <!--FIELD: lastVersionDate-->
+                     <div class="form-group" ng-class="{ 'hash-error': metricForm.metadata.lastVersionDate.$dirty && metricForm.metadata.lastVersionDate.$invalid }">
+                        <label class="col-md-3 control-label">Last Update:</label>
+                        <div class="col-md-9">
+                           <input class="form-control" name="lastVersionDate" type="text" role="textbox" placeholder="{{vm.loadedMetric.metadata.lastVersionDate}}" ng-model="vm.newMetric.metadata.lastVersionDate" ng-class="{ 'error': metricForm.metadata.lastVersionDate.$dirty && metricForm.metadata.lastVersionDate.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" ng-readonly="true"/>
+                           <div class="form-group-helper" role="alert" ng-messages="metricForm.metadata.lastVersionDate.$error" ng-show="metric.metadata.lastVersionDate.$dirty">
+                              <div>Error</div>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
@@ -308,35 +320,35 @@
                            <div class="sortable-row" as-sortable ng-model="vm.newMetric.userDefinedList">
                               <div ng-repeat="item in vm.newMetric.userDefinedList" as-sortable-item="">
                                  <div class="btn btn-info btn-rounded" as-sortable-item-handle="">{{item}}<i ng-click="vm.newMetric.userDefinedList =  vm.newMetric.userDefinedList.slice(0,$index).concat(vm.newMetric.userDefinedList.slice($index+1))"
-                                 class="glyphicon glyphicon-remove-circle pull-right"></i></div>
+                                    class="glyphicon glyphicon-remove-circle pull-right"></i></div>
+                                 </div>
                               </div>
                            </div>
-                        </div>
 
+                        </div>
                      </div>
                   </div>
+               </div>
+            </div>
+
+
+
+         </div>
+
+
+
+
+
+         <div class="modal" id="modal_updatemetric" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+               <div ng-include="'dist/views/metricator/modal/modal.metric.html'">
                </div>
             </div>
          </div>
 
 
-
-      </div>
-
-
-
-
-
-      <div class="modal" id="modal_updatemetric" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
-         <div class="modal-dialog modal-lg">
-            <div ng-include="'dist/views/metricator/modal/modal.metric.html'">
-            </div>
-         </div>
-      </div>
-
-
-   </form>
-</div>
+      </form>
+   </div>
 
 
 
