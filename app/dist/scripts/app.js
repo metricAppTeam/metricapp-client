@@ -3212,9 +3212,9 @@ angular.module('metricapp')
 
 .controller('MetricPageController', MetricPageController);
 
-MetricPageController.$inject = ['$scope','$routeParams', '$location','MetricService','AuthService','$window'];
+MetricPageController.$inject = ['$scope','$filter','$routeParams', '$location','MetricService','AuthService','$window'];
 
-function MetricPageController($scope,$routeParams, $location, MetricService,AuthService, $window) {
+function MetricPageController($scope,$filter,$routeParams, $location, MetricService,AuthService, $window) {
     var vm = this;
     // this is for the scrolling
     $('body').removeClass('modal-open');
@@ -3222,8 +3222,15 @@ function MetricPageController($scope,$routeParams, $location, MetricService,Auth
     vm.loading = true;
     vm.modifying = false;
 
+
     vm.listOfSet=[{value:'integers', option:'Integers'},{value:'reals',option:'Reals'}];
     vm.listOfScaleType = [{value:'nominalScale', option:'Nominal Scale'},{value:'ordinalScale',option:'Ordinal Scale'},{value:'intervalScale',option:'Interval Scale'},{value:'ratioScale',option:'Ratio Scale'},{value:'absoluteScale',option:'Absolute Scale'}]
+
+    vm.labelsForState = [
+      {state:'OnUpdate',label: "label label-primary label-form"},
+      {state:'Pending',label: "label label-default label-form"},
+      {state:'Approved',label: "label label-warning label-form"},
+      {state:'Rejected',label: "label label-danger label-form"}];
 
 
     vm.loadedMetric;
@@ -3232,6 +3239,7 @@ function MetricPageController($scope,$routeParams, $location, MetricService,Auth
     vm.copyDialogToModel=copyDialogToModel;
     vm.pushIfNotExists=pushIfNotExists;
     vm.submitMetric=submitMetric;
+    vm.setLabelState = setLabelState;
     _selectMetricToView();
 
 
@@ -3252,6 +3260,7 @@ function MetricPageController($scope,$routeParams, $location, MetricService,Auth
          vm.loadedMetric= MetricService.getToUpdate();
 
          vm.copyDialogToModel();
+         vm.setLabelState();
          vm.loading=false;
          return;
       }else{
@@ -3261,7 +3270,7 @@ function MetricPageController($scope,$routeParams, $location, MetricService,Auth
                vm.loadedMetric = data.metricsDTO[0];
                vm.loading=false;
                vm.copyDialogToModel();
-
+               vm.setLabelState();
 
             },function(data){
                vm.error = true;
@@ -3274,6 +3283,7 @@ function MetricPageController($scope,$routeParams, $location, MetricService,Auth
 
     function copyDialogToModel(){
       vm.newMetric =angular.copy(vm.loadedMetric);
+
    }
    /********************************************************************************
   * @ngdoc method
@@ -3289,6 +3299,10 @@ function MetricPageController($scope,$routeParams, $location, MetricService,Auth
             array.push(el);
          }
       }
+   }
+
+   function setLabelState(){
+      vm.stateLabel = $filter('filter')(vm.labelsForState, function (d) {return d.state == vm.newMetric.metadata.state;})[0].label;
    }
 
 
