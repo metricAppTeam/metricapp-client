@@ -63,7 +63,7 @@
                      <div class="col-md-12">
                         <p ng-switch-when="true">Loading metrics ...</p>
                         <div ng-switch-when="false" ng-switch="vm.success">
-                           <p ng-switch-when="true" ng-if="vm.metrics.length == 0">No metrics yet.</p>
+                           <p ng-switch-when="true" ng-if="vm.metrics.length == 0">No results.</p>
                            <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
                               <ul>
                                  <div class="col-md-4" ng-repeat="metric in vm.metrics | filter:vm.query | orderBy:vm.orderBy:true track by metric.metadata.id">
@@ -111,7 +111,7 @@
                               </div>
                            </div>
                         </div>
-                        <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                        <p ng-show="!vm.success">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
                      </div>
                   </div>
                </div>

@@ -7066,7 +7066,7 @@ function create() {
            vm.metricator=true;
         }
         vm.loading = true;
-        vm.success = false;
+        vm.success = true;
         vm.errmsg = null;
         vm.data = [];
         vm.buffer = [];
