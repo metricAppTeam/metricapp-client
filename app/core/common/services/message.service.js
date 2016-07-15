@@ -293,13 +293,17 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                             content: content
                         };
 
-                        newMessage.id = R_CONVERSATION.messages[R_CONVERSATION.messages.length - 1].id + 1;
-                        R_CONVERSATION.messages.push(newMessage);
+                        var R_MESSAGES = R_CONVERSATION.messages;
+
+                        newMessage.id = (R_MESSAGES.length > 0) ? R_MESSAGES[R_MESSAGES.length-1].id+1:0;
+                        R_MESSAGES.push(newMessage);
                         R_CONVERSATION.ts_update = now;
                         R_CONVERSATION.toread++;
 
-                        newMessage.id = S_CONVERSATION.messages[S_CONVERSATION.messages.length - 1].id + 1;
-                        S_CONVERSATION.messages.push(newMessage);
+                        var S_MESSAGES = S_CONVERSATION.messages;
+
+                        newMessage.id = (S_MESSAGES.length > 0) ? R_MESSAGES[R_MESSAGES.length-1].id+1:0;
+                        S_MESSAGES.push(newMessage);
                         S_CONVERSATION.ts_update = now;
 
                         resolve({sentMessage: newMessage});
