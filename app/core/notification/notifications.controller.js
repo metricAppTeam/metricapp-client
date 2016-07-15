@@ -58,7 +58,7 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
             }
         }
         NotificationService.setReadById(notificationid);
-        $rootScope.$broadcast(NOTIFICATION_EVENTS.SET_READ, notificationid);
+        _broadcastSetRead(notificationid);
     }
 
     function setAllRead() {
@@ -68,7 +68,7 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
         vm.toread = 0;
         vm.news = 0;
         NotificationService.setAllRead();
-        $rootScope.$broadcast(NOTIFICATION_EVENTS.ALL_READ);
+        _broadcastAllRead();
     }
 
     function removeNews() {
@@ -117,11 +117,19 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
     }
 
     /********************************************************************************
-    * BRODCASTERS
+    * BROADCASTERS
     ********************************************************************************/
 
     function _broadcastNoNews() {
         $rootScope.$broadcast(NOTIFICATION_EVENTS.NO_NEWS);
+    }
+
+    function _broadcastAllRead() {
+        $rootScope.$broadcast(NOTIFICATION_EVENTS.ALL_READ);
+    }
+
+    function _broadcastSetRead(notificationid) {
+        $rootScope.$broadcast(NOTIFICATION_EVENTS.SET_READ, notificationid);
     }
 
     /********************************************************************************

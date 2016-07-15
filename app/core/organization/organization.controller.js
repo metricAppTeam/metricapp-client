@@ -56,7 +56,15 @@ function OrganizationController($scope, $location, $filter, UserService) {
         ).finally(function() {
             vm.loading = false;
         });
-  }
+    }
+
+    /********************************************************************************
+    * BROADCASTERS
+    ********************************************************************************/
+
+    /********************************************************************************
+    * INITIALIZER
+    ********************************************************************************/
 
     function _init() {
         vm.loading = true;
@@ -69,13 +77,23 @@ function OrganizationController($scope, $location, $filter, UserService) {
         vm.step = 4;
         vm.query = '';
         vm.orderBy = 'firstname';
+
         _loadAllUsers();
+
+        /****************************************************************************
+        * WATCHERS
+        ****************************************************************************/
+
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
             vm.users = vm.buffer.slice(vm.idx, e);
             vm.idx = e;
         });
+
+        /****************************************************************************
+        * LISTENERS
+        ****************************************************************************/
     }
 
 }
