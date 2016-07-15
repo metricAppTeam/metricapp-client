@@ -79,22 +79,30 @@ function datetimeFilter() {
 
     function _ago(dateObj) {
         var now = new Date();
-        if (dateObj.getDate() === now.getDate()) {
+        if (dateObj.getFullYear() !== now.getFullYear() ||
+            dateObj.getMonth() !== now.getMonth()) {
+                return _normal(dateObj);
+        }
+
+        if (dateObj.getDate() == now.getDate()) {
             if (dateObj.getHours() === now.getHours()) {
                 var minutesAgo = now.getMinutes() - dateObj.getMinutes();
                 if (minutesAgo === 0) {
-                    return 'now';
+                    var str = 'now';
                 } else {
-                    return minutesAgo + 'm' + ((minutesAgo > 1)?'s':'');
+                    var str = minutesAgo + 'm' + ((minutesAgo > 1)?'s':'');
                 }
+                return str;
             } else {
                 var hoursAgo = now.getHours() - dateObj.getHours();
-                return hoursAgo + 'h' + ((hoursAgo > 1)?'s':'');
+                var str = hoursAgo + 'h' + ((hoursAgo > 1)?'s':'');
+                return str;
             }
         } else if (dateObj.getDate() === new Date(now - 86400000)) {
             var hours = dateObj.getHours();
             var minutes = dateObj.getMinutes();
-            return 'Yesterday at ' + [hours,minutes].join(':');
+            var str = 'Yesterday at ' + [hours,minutes].join(':');
+            return str;
         } else {
             return _normal(dateObj);
         }
