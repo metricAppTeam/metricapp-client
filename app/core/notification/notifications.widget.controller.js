@@ -130,18 +130,34 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
         vm.step = 1;
         vm.query = '';
         vm.orderBy = '-ts_create';
+
         if (AuthService.isLogged()) {
             _loadAllNotifications();
         }
-        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
-            _loadAllNotifications();
-        });
+
+        /****************************************************************************
+        * WATCHERS
+        ****************************************************************************/
+
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
             vm.notifications = vm.buffer.slice(vm.idx, e);
             vm.idx = e;
         });
+
+        /****************************************************************************
+        * LISTENERS
+        ****************************************************************************/
+
+        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
+            _loadAllNotifications();
+        });
+
+        $scope.$on(NOTIFICATION_EVENTS.NO_NEWS, function() {
+            vm.news = 0;
+        });
+
         $scope.$on(NOTIFICATION_EVENTS.ALL_READ, function() {
             vm.buffer.forEach(function(notification) {
                 notification.read = true;
@@ -149,6 +165,7 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
             vm.toread = 0;
             vm.news = 0;
         });
+
         $scope.$on(NOTIFICATION_EVENTS.SET_READ, function(event, notificationid) {
             for (var i = 0; i < vm.buffer.length; i++) {
                 var notification = vm.buffer[i];
@@ -160,6 +177,10 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
                 }
             }
         });
+
+        /****************************************************************************
+        * BRODCASTERS
+        ****************************************************************************/
     }
 
 }

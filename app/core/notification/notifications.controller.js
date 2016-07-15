@@ -128,13 +128,24 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
         vm.step = 1;
         vm.query = '';
         vm.orderBy = '-ts_create';
+
         _loadAllNotifications();
+
+        /****************************************************************************
+        * WATCHERS
+        ****************************************************************************/
+
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
             vm.notifications = vm.buffer.slice(vm.idx, e);
             vm.idx = e;
         });
+
+        /****************************************************************************
+        * LISTENERS
+        ****************************************************************************/
+
         $scope.$on(NOTIFICATION_EVENTS.ALL_READ, function() {
             vm.buffer.forEach(function(notification) {
                 notification.read = true;
@@ -142,6 +153,7 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
             vm.toread = 0;
             vm.news = 0;
         });
+
         $scope.$on(NOTIFICATION_EVENTS.SET_READ, function(event, notificationid) {
             for (var i = 0; i < vm.buffer.length; i++) {
                 var notification = vm.buffer[i];
@@ -153,6 +165,12 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
                 }
             }
         });
+
+        /****************************************************************************
+        * BRODCASTERS
+        ****************************************************************************/
+
+        $rootScope.$broadcast(NOTIFICATION_EVENTS.NO_NEWS);
     }
 
 }
