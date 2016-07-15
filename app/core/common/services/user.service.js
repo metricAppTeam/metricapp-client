@@ -26,6 +26,7 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
 
     service.getAll = getAll;
     service.getById = getById;
+    service.isUser = isUser;
     service.getInArray = getInArray;
     service.getNFrom = getNFrom;
 
@@ -69,6 +70,28 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
                     resolve({user: USER});
                 } else {
                     reject({errmsg: 'User ' + angular.toJson(username) + ' not found'});
+                }
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getById
+    * @description
+    * Retrieves the specified user.
+    * @param {String} username The username of the user to retrieve.
+    * @returns {User|Error} On success, the user;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function isUser(username) {
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var USER = DB_USERS[username];
+                if (USER) {
+                    resolve();
+                } else {
+                    reject();
                 }
             }, 500);
         });
