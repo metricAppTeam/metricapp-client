@@ -26,34 +26,57 @@
             </div>
         </div>
         <!-- START: FRAME-RIGHT -->
-        <div class="content-frame-right" style="height:inherit;overflow-y:auto;">
-            <div class="list-group list-group-contacts list-group-messages border-bottom push-down-10" ng-switch="vm.loading">
-                <a ng-switch-when="true" class="list-group-item list-group-item-message" href="">
-                    <span class="contacts-title">Loading  messages ...</span>
-                </a>
-                <div ng-switch-when="false" ng-switch="vm.success">
-                    <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="">
-                        <span class="contacts-title">No conversations yet</span>
+        <div class="content-frame-right" style="height:inherit;">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form name="searchForm" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-search"></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Who are you looking for?"
+                                        ng-model="vm.query"
+                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                                        ng-change="vm.search(vm.query)"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div style="height:inherit;overflow-y:auto;">
+                <div class="list-group list-group-contacts list-group-messages border-bottom push-down-10" ng-switch="vm.loading">
+                    <a ng-switch-when="true" class="list-group-item list-group-item-message" href="">
+                        <span class="contacts-title">Loading  messages ...</span>
                     </a>
-                    <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | filter:vm.query | orderBy:vm.orderBy track by conversation.recipient.username"
-                    ng-href="#/messages/{{conversation.recipient.username}}" class="list-group-item list-group-item-message"
-                    ng-class="{'active': conversation.recipient.username == vm.currConversation.recipient.username,
-                    'status-read': conversation.toread == 0,
-                    'status-unread': conversation.toread > 0}">
-                        <div class="list-group-status"
-                        ng-class="{'status-online': conversation.recipient.online,
-                        'status-offline': !conversation.recipient.online}"></div>
-                        <img ng-src="{{conversation.recipient.picture}}" class="pull-left" alt="{{conversation.recipient.username}}">
-                        <div class="contacts-title">{{conversation.recipient | userFullnameFormat}}
-                            <span ng-show="conversation.toread > 0" class="label label-danger">{{conversation.toread}}</span>
-                        </div>
-                        <p>{{conversation.messages[conversation.messages.length - 1].content | excerptFormat:(conversation.toread > 0):30:28:'Not available'}}</p>
-                    </a>
-                    <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more"
-                    ng-click="vm.loadMore()" href="">Load More</a>
-                    <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
-                        <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>
-                    </a>
+                    <div ng-switch-when="false" ng-switch="vm.success">
+                        <a ng-switch-when="true" ng-show="vm.conversations.length == 0" class="list-group-item list-group-item-message" href="">
+                            <span class="contacts-title">No conversations yet</span>
+                        </a>
+                        <a ng-switch-when="true" ng-repeat="conversation in vm.conversations | conversationSearch:vm.query | orderBy:vm.orderBy track by conversation.recipient.username"
+                        ng-href="#/messages/{{conversation.recipient.username}}" class="list-group-item list-group-item-message"
+                        ng-class="{'active': conversation.recipient.username == vm.currConversation.recipient.username,
+                        'status-read': conversation.toread == 0,
+                        'status-unread': conversation.toread > 0}">
+                            <div class="list-group-status"
+                            ng-class="{'status-online': conversation.recipient.online,
+                            'status-offline': !conversation.recipient.online}"></div>
+                            <img ng-src="{{conversation.recipient.picture}}" class="pull-left" alt="{{conversation.recipient.username}}">
+                            <div class="contacts-title">{{conversation.recipient | userFullnameFormat}}
+                                <span ng-show="conversation.toread > 0" class="label label-danger">{{conversation.toread}}</span>
+                            </div>
+                            <p>{{conversation.messages[conversation.messages.length - 1].content | excerptFormat:(conversation.toread > 0):30:28:'No messages, yet.'}}</p>
+                        </a>
+                        <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more"
+                        ng-click="vm.loadMore()" href="">Load More</a>
+                        <a ng-switch-when="false" class="list-group-item list-group-item-message" href="#">
+                            <span class="contacts-title"><strong>Ooops!</strong> Something went wrong :-( {{vm.errmsg}}</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

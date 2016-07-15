@@ -5,10 +5,12 @@
 * @name ChatCreateController
 * @module metricapp
 * @requires $scope
+* @requires $rootScope
 * @requires $location
 * @requires $filter
 * @requires UserService
 * @requires MessageService
+* @requires MESSAGE_EVENTS
 *
 * @description
 * Realizes the control layer for `chat.create.modal.view`.
@@ -18,9 +20,9 @@ angular.module('metricapp')
 
 .controller('ChatCreateController', ChatCreateController);
 
-ChatCreateController.$inject = ['$scope', '$location', '$filter', 'UserService', 'MessageService'];
+ChatCreateController.$inject = ['$scope', '$rootScope', '$location', '$filter', 'UserService', 'MessageService', 'MESSAGE_EVENTS'];
 
-function ChatCreateController($scope, $location, $filter, UserService, MessageService) {
+function ChatCreateController($scope, $rootScope, $location, $filter, UserService, MessageService, MESSAGE_EVENTS) {
 
     var vm = this;
 
@@ -64,7 +66,7 @@ function ChatCreateController($scope, $location, $filter, UserService, MessageSe
             function(resolve) {
                 var username = resolve.username;
                 vm.success = true;
-                $rootScope.$broadcast(MESSAGE_EVENTS.CONVERSATION_CREATED);
+                //$rootScope.$broadcast(MESSAGE_EVENTS.CONVERSATION_CREATED);
                 $location.path('/messages/' + username);
             },
             function(reject) {
@@ -97,7 +99,7 @@ function ChatCreateController($scope, $location, $filter, UserService, MessageSe
         ).finally(function() {
             vm.loading = false;
         });
-  }
+    }
 
     function _init() {
         vm.loading = true;

@@ -202,8 +202,15 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
             }
         });
 
-        $scope.$on(MESSAGE_EVENTS.CONVERSATION_CREATED, function() {
-            _loadAllConversations();
+        $scope.$on(MESSAGE_EVENTS.CONVERSATION_CREATED, function(event, newConversation) {
+            for (var i = 0; i < vm.data.length; i++) {
+                var conversation = vm.data[i];
+                if (conversation.recipient.username === newConversation.recipient.username) {
+                    return;
+                }
+            }
+            vm.data.push(newConversation);
+            vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
         });
 
         /****************************************************************************
