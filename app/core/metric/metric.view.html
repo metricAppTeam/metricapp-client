@@ -1,25 +1,21 @@
 <!-- START: METRIC -->
-<div ng-controller="MetricPageController as vm">
-    <ul class="breadcrumb">
-        <li><a ng-href="#/home">Home</a></li>
-        <li><a ng-href="#/metrics">Metrics</a></li>
-        <li class="active"><a ng-href="#/metrics/{{vm.metric.metadata.id}}">Metric</a></li>
-    </ul>
-    <div class="page-title">
-        <h2><span class="fa fa-tasks"></span> Metric <small ng-show="!vm.loading && vm.success">{{vm.metric.name}}</small></h2>
+<div class="panel panel-default">
+    <div class="panel-body profile">
+       <div class="profile-data">
+            <div class="profile-data-name">{{user | userFullname}}</div>
+            <div class="profile-data-title">{{user.role}}</div>
+       </div>
+       <div class="profile-controls">
+            <a ng-href="#/profile/{{user.username}}" class="profile-control-left"><span class="fa fa-info"></span></a>
+            <a ng-href="#/messages/{{user.username}}" class="profile-control-right"><span class="fa fa-comment"></span></a>
+       </div>
     </div>
-    <div class="page-content-wrap">
-        <div class="row" ng-switch="vm.loading">
-            <div class="col-md-12">
-                <p ng-switch-when="true">Loading metric {{vm.metric.metadata.id}} ...</p>
-                <div ng-switch-when="false" ng-switch="vm.success">
-                    <ul ng-switch-when="true">
-                        <li ng-repeat="(key, value) in vm.currMetric">{{key}} = {{value}}</li>
-                    </ul>
-                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
-                </div>
-            </div>
-        </div>
+    <div class="panel-body">
+       <div class="contact-info">
+            <p><small>Mobile</small><br/>{{user.mobile}}</p>
+            <p><small>Email</small><br/>{{user.email}}</p>
+       </div>
     </div>
 </div>
+
 <!-- END: METRIC -->

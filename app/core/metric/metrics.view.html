@@ -39,7 +39,7 @@
                                        <div class="input-group-addon">
                                            <span class="fa fa-search"></span>
                                        </div>
-                                       <input type="text" class="form-control" placeholder="What Metric are you looking for?"
+                                       <input type="text" class="form-control" ng-click="vm.query=undefined" placeholder="What Metric are you looking for?"
                                        ng-model="vm.query"
                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
                                        <div class="input-group-btn">
@@ -63,12 +63,44 @@
                    <p ng-switch-when="true" ng-if="vm.metrics.length == 0">No metrics yet.</p>
                    <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
                        <ul>
-                           <li ng-repeat="metric in vm.metrics | filter:vm.query | orderBy:vm.orderBy track by metric.metadata.id">
-                              <a ng-href="#/metrics/{{metric.metadata.id}}">{{metric.name}}</a>
+                           <div class="col-md-4" ng-repeat="metric in vm.metrics | filter:vm.query | orderBy:vm.orderBy track by metric.metadata.id">
+                              <!--<a ng-href="#/metrics/{{metric.metadata.id}}">{{metric.name}}</a>
                               <ul>
+
                                    <li ng-repeat="(key, value) in metric">{{key}} = {{value}}</li>
-                              </ul>
-                           </li>
+                              </ul>-->
+
+
+                              <div class="panel panel-default ng-click="vm.goToRead(metric.metadata.id)"  ng-href="#/metrics/{{metric.metadata.id}}">
+                                  <div class="panel-body profile" >
+
+                                     <div class="profile-data">
+                                          <div class="profile-data-name">{{metric.name}}</div>
+                                          <div class="profile-data-title">{{metric.metadata.id}}</div>
+                                     </div>
+                                  </div>
+                                  <div class="panel-body">
+                                     <div class="contact-info">
+                                          <p><small>Metricator: </small>{{metric.metricatorId}}</p>
+                                          <p><small>Last Update: </small>{{metric.metadata.lastVersionDate}}</p>
+                                     </div>
+                                  </div>
+                              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           </div>
                        </ul>
                        <div class="row">
                            <div class="col-lg-1 col-centered">

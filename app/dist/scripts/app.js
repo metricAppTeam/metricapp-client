@@ -4280,6 +4280,30 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
   'use strict';
 
   angular.module('metricapp')
+      .directive('metrics', metrics);
+
+  function metrics() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/metric/metrics.view.html'
+    };
+  }
+
+  angular.module('metricapp')
+      .directive('widget', widget);
+
+  function widget() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/metric/metric.view.html'
+    };
+  }
+})();
+
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
       .directive('metricator', metricator);
 
   function metricator() {
@@ -6878,6 +6902,7 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
     vm.search = search;
     vm.reset=reset;
     vm.update=update;
+    vm.goToRead=goToRead;
 
     _init();
 
@@ -6888,6 +6913,10 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
             vm.idx = e;
         }
     }
+
+    function goToRead(id){
+      $location.path('#/metrics/'+id);
+   }
 
     function search(query) {
         vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
@@ -6956,7 +6985,7 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
         vm.metrics = [];
         vm.mine=false;
         vm.idx = 0;
-        vm.step = 4;
+        vm.step = 9;
         vm.query = '';
         vm.orderBy = 'name';
         if(vm.role=='METRICATOR'){

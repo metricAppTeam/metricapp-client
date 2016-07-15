@@ -27,6 +27,7 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
     vm.search = search;
     vm.reset=reset;
     vm.update=update;
+    vm.goToRead=goToRead;
 
     _init();
 
@@ -37,6 +38,10 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
             vm.idx = e;
         }
     }
+
+    function goToRead(id){
+      $location.path('#/metrics/'+id);
+   }
 
     function search(query) {
         vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
@@ -105,7 +110,7 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
         vm.metrics = [];
         vm.mine=false;
         vm.idx = 0;
-        vm.step = 4;
+        vm.step = 9;
         vm.query = '';
         vm.orderBy = 'name';
         if(vm.role=='METRICATOR'){
