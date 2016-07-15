@@ -14,7 +14,7 @@
 
          </div>
          <div class="pull-right">
-                    <button class="btn btn-danger"><span class="fa fa-pencil"></span> New</button>
+                    <button class="btn btn-danger" ng-show="vm.metricator" ng-click="vm.create()"><span class="fa fa-pencil"></span> New</button>
                     <button class="btn btn-info" ng-click="vm.reset()"
                     ><span class="fa fa-refresh"></span> Reset</button>
 
@@ -69,7 +69,7 @@
                            <div class="col-md-4" ng-repeat="metric in vm.metrics | filter:vm.query | orderBy:vm.orderBy:true track by metric.metadata.id">
 
 
-
+                              <a href="#/metrics/{{metric.metadata.id}}">
                               <div class="panel panel-default" style="height:170px;" >
                                   <div class="panel-body profile" >
 
@@ -79,7 +79,7 @@
                                      </div>
                                   </div>
                                   <div class="panel-body">
-                                     <div class="contact-info">
+                                     <div class="contact-info" style="color:black;">
                                           <p><small>Metricator: </small>{{metric.metricatorId}}</p>
                                           <p><small>Last Update: </small>{{metric.metadata.lastVersionDate}}</p>
                                           <p><small>State: </small><span ng-class="vm.getLabelState(metric.metadata.state)">{{metric.metadata.state}}</span></p>
@@ -89,8 +89,8 @@
 
                                   </div>
                               </div>
-
-
+</a>
+                              </div>                              </div>
 
 
 
@@ -106,7 +106,7 @@
                            </div>
                        </ul>
                        <div class="row">
-                           <div class="col-lg-1 col-centered">
+                           <div class="col-md-12 col-centered">
                               <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
                            </div>
                        </div>

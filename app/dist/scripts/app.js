@@ -6901,6 +6901,7 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
     vm.search = search;
     vm.reset=reset;
     vm.update=update;
+    vm.create=create;
     vm.openModal=openModal;
     vm.goToRead=goToRead;
     vm.getLabelState = getLabelState;
@@ -7035,6 +7036,20 @@ function _loadMyApprovedMetrics() {
       vm.loading = false;
  });
 }
+
+function create() {
+ MetricService.create().then(
+      function(resolve) {
+
+      },
+      function(reject) {
+
+      }
+ ).finally(function() {
+      vm.update();
+ });
+}
+
 
   function update(){
      _load();
