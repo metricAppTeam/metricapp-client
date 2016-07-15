@@ -66,7 +66,6 @@ function ChatCreateController($scope, $rootScope, $location, $filter, UserServic
             function(resolve) {
                 var username = resolve.username;
                 vm.success = true;
-                //$rootScope.$broadcast(MESSAGE_EVENTS.CONVERSATION_CREATED);
                 $location.path('/messages/' + username);
             },
             function(reject) {
@@ -101,6 +100,15 @@ function ChatCreateController($scope, $rootScope, $location, $filter, UserServic
         });
     }
 
+    /********************************************************************************
+    * BRODCASTERS
+    ********************************************************************************/
+
+
+    /********************************************************************************
+    * INITIALIZER
+    ********************************************************************************/
+
     function _init() {
         vm.loading = true;
         vm.success = false;
@@ -129,10 +137,6 @@ function ChatCreateController($scope, $rootScope, $location, $filter, UserServic
 
         /****************************************************************************
         * LISTENERS
-        ****************************************************************************/
-
-        /****************************************************************************
-        * BRODCASTERS
         ****************************************************************************/
     }
 

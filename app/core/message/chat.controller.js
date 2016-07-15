@@ -92,14 +92,28 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
         });
     }
 
+    /********************************************************************************
+    * BRODCASTERS
+    ********************************************************************************/
+
+
+    /********************************************************************************
+    * INITIALIZER
+    ********************************************************************************/
+
     function _init() {
         vm.loading = true;
         vm.success = false;
         vm.errmsg = null;
         vm.orderBy = 'ts_create';
+
         if (!$routeParams.username) {
+            vm.success = false;
+            vm.errmsg = 'No user selected'
+            vm.loading = false;
             return;
         }
+
         vm.currConversation = {
             recipient: {username: $routeParams.username}
         };
@@ -121,9 +135,7 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
             }
         });
 
-        /****************************************************************************
-        * BRODCASTERS
-        ****************************************************************************/
+
     }
 
 }

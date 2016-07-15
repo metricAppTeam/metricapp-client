@@ -120,6 +120,7 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                         }
                         vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                         vm.success = true;
+                        _brodcastNoNews();
                     },
                     function(reject) {
                         vm.errmsg = reject.errmsg;
@@ -136,6 +137,16 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
         });
     }
 
+    /********************************************************************************
+    * BRODCASTERS
+    ********************************************************************************/
+    function _brodcastNoNews() {
+        $rootScope.$broadcast(MESSAGE_EVENTS.NO_NEWS);
+    }
+
+    /********************************************************************************
+    * INITIALIZER
+    ********************************************************************************/
     function _init() {
         vm.loading = true;
         vm.success = false;
@@ -158,6 +169,7 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                     vm.success = true;
                     if (lastRecipient) {
                         $location.path('/messages/' + lastRecipient);
+                        _brodcastNoNews();
                     }
                 },
                 function(reject) {
@@ -175,6 +187,8 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
         };
 
         _loadAllConversations();
+
+        _brodcastNoNews();
 
         /****************************************************************************
         * WATCHERS
@@ -221,12 +235,6 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                 }
             }
         });
-
-        /****************************************************************************
-        * BRODCASTERS
-        ****************************************************************************/
-
-        $rootScope.$broadcast(MESSAGE_EVENTS.NO_NEWS);
     }
 
 }

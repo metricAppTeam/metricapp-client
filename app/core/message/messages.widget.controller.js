@@ -120,6 +120,15 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
         });
     }
 
+    /********************************************************************************
+    * BRODCASTERS
+    ********************************************************************************/
+
+
+    /********************************************************************************
+    * INITIALIZER
+    ********************************************************************************/
+
     function _init() {
         vm.loading = true;
         vm.success = false;
@@ -212,10 +221,7 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
             vm.data.push(newConversation);
             vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
         });
-
-        /****************************************************************************
-        * BRODCASTERS
-        ****************************************************************************/
+        
     }
 
 }

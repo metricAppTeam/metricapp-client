@@ -99,6 +99,7 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
                         });
                         vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                         vm.success = true;
+                        _broadcastNoNews();
                     },
                     function(reject) {
                         vm.errmsg = reject.errmsg;
@@ -114,6 +115,18 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
             vm.loading = false;
         });
     }
+
+    /********************************************************************************
+    * BRODCASTERS
+    ********************************************************************************/
+
+    function _broadcastNoNews() {
+        $rootScope.$broadcast(NOTIFICATION_EVENTS.NO_NEWS);
+    }
+
+    /********************************************************************************
+    * INITIALIZER
+    ********************************************************************************/
 
     function _init() {
         vm.loading = true;
@@ -166,11 +179,6 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
             }
         });
 
-        /****************************************************************************
-        * BRODCASTERS
-        ****************************************************************************/
-
-        $rootScope.$broadcast(NOTIFICATION_EVENTS.NO_NEWS);
     }
 
 }

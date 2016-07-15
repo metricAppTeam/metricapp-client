@@ -107,6 +107,15 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
         });
     }
 
+    /********************************************************************************
+    * BRODCASTERS
+    ********************************************************************************/
+
+
+    /********************************************************************************
+    * INITIALIZER
+    ********************************************************************************/
+
     function _init() {
         vm.loading = true;
         vm.success = false;
@@ -142,10 +151,6 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
         $scope.$on(USER_EVENTS.UPDATE_FAILURE, function(event) {
             _loadUser(vm.currUser.username);
         });
-
-        /****************************************************************************
-        * BRODCASTERS
-        ****************************************************************************/
     }
 
 }
