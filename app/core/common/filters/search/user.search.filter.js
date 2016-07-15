@@ -22,7 +22,8 @@ function userSearch() {
         }
         query.toLowerCase();
         users.forEach(function(user) {
-            if (user.firstname.toLowerCase().indexOf(query)>=0 || user.lastname.toLowerCase().indexOf(query)>=0) {
+            if (user.firstname.toLowerCase().indexOf(query)>=0 ||
+                user.lastname.toLowerCase().indexOf(query)>=0) {
                 result.push(user);
             }
         });

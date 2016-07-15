@@ -14,32 +14,19 @@ angular.module('metricapp')
 .filter('conversationSearch', conversationSearch);
 
 function conversationSearch() {
-    return function(users, query) {
+    return function(conversations, query) {
         var result = [];
         if (!query) {
-            return users;
+            return conversations;
         }
         query.toLowerCase();
-        users.forEach(function(user) {
-            if (user.firstname.toLowerCase().indexOf(query)>=0 || user.lastname.toLowerCase().indexOf(query)>=0) {
-                result.push(user);
+        conversations.forEach(function(conversation) {
+            if (conversation.recipient.firstname.toLowerCase().indexOf(query)>=0 ||
+                conversation.recipient.lastname.toLowerCase().indexOf(query)>=0) {
+                result.push(conversation);
             }
         });
         return result;
-    };
-}
-
-angular.module('metricapp')
-
-.filter('userFullname', userFullname);
-
-function userFullname() {
-    return function(user) {
-        if (!user) {
-            return user;
-        }
-        var fullname = [user.firstname, user.lastname].join(' ');
-        return fullname;
     };
 }
 
