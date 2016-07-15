@@ -2732,31 +2732,22 @@ MetricService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_METRI
 function MetricService($http,  $q, REST_SERVICE, AuthService, DB_METRICS,$window) {
 
     var service = this;
-    service.metricToUpdate;
-
-    service.getMetrics = getMetrics;
-    service.getApprovedMetrics = getApprovedMetrics;
-    service.getMetricsById = getMetricsById;
-    service.getMetricsByStateAndUser = getMetricsByStateAndUser;
-    service.getMetricsByUser = getMetricsByUser;
-    service.getMetricsByState = getMetricsByState;
-    service.toUpdateMetric = toUpdateMetric;
-    service.getToUpdate = getToUpdate;
-    service.submitMetric = submitMetric;
-    service.newMetric=newMetric;
-    service.changeState = changeState;
-
-
-//giacomo inizio
+    service.getAll =getAll
+    service.getAllApproved=getAllApproved
+    service.getById =getById
+    service.update=update
+    service.changeState=changeState
+    service.create=create
+    service.getAllMine=getAllMine
+    service.getByUser=getByUser
+    service.getById=getById
+    service.getAllApproved=getAllApproved
+    service.getByStateAndUser=getByStateAndUser
+    service.getMineByState=getMineByState
+    service.getByState=getByState
 
 
-service.getAll = getAll;
-service.getById = getById;
-service.getInArray = getInArray;
-service.getNFrom = getNFrom;
 
-service.create = create;
-service.update = update;
 
 /********************************************************************************
 * @ngdoc method
@@ -2769,11 +2760,48 @@ service.update = update;
 function getAll() {
     return $q(function(resolve, reject) {
         setTimeout(function() {
-            var metrics = [];
-            for (var metric in DB_METRICS) {
-                metrics.push(DB_METRICS[metric]);
-            }
-            resolve({metrics: metrics});
+           $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric').then(
+               function(response) {
+                   var message = angular.fromJson(response.data);
+                   console.log('SUCCESS GET METRICS');
+                   console.log(message);
+                   return message;
+               },
+               function(response) {
+                   var message = angular.fromJson(response.data);
+                   console.log('FAILURE GET METRICS');
+                   console.log(message);
+                   return message;
+               }
+           );
+        }, 500);
+    });
+}
+/********************************************************************************
+* @ngdoc method
+* @name getAll
+* @description
+* Retrieves all the metrics.
+* @returns {[Metric]|Error} On success, the metrics;
+* an error message, otherwise.
+********************************************************************************/
+function getAllApproved() {
+    return $q(function(resolve, reject) {
+        setTimeout(function() {
+           $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?approved=true').then(
+               function(response) {
+                   var message = angular.fromJson(response.data);
+                   console.log('SUCCESS GET METRICS');
+                   console.log(message);
+                   return message;
+               },
+               function(response) {
+                   var message = angular.fromJson(response.data);
+                   console.log('FAILURE GET METRICS');
+                   console.log(message);
+                   return message;
+               }
+           );
         }, 500);
     });
 }
@@ -2824,7 +2852,7 @@ function getInArray(metricids) {
     });}
 //giacomo fine
 
-    function submitMetric(metric){
+    function update(metric){
       return $http.put('http://qips.sweng.uniroma2.it/metricapp-server/metric/', metric).then(
           function(response) {
                //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
@@ -2857,7 +2885,7 @@ function getInArray(metricids) {
   }
 
 
-   function newMetric(){
+   function create(){
       var metric = {description:null, hasMax:false, hasMin:false, hasUserDefinedList:false,isOrdered:false,max:0,metadata:{creationDate:null,creatorId:AuthService.getUser().username,entityType:'Metric',id:null,lastVersionDate:null,releaseNote:null,state:'Created',tags:[],version:'0',versionBus:null},metricatorId:AuthService.getUser().username,min:0,name:null,scaleType:'ordinalScale',set:'integers',unit:null,userDefinedList:[]};
      return $http.post('http://qips.sweng.uniroma2.it/metricapp-server/metric/', metric).then(
          function(response) {
@@ -2884,7 +2912,7 @@ function getInArray(metricids) {
     * Get Metric by user.
     ********************************************************************************/
 
-    function getMetrics() {
+    function getAllMine() {
 
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+AuthService.getUser().username).then(
             function(response) {
@@ -2911,7 +2939,7 @@ function getInArray(metricids) {
         * Get Metric by user.
         ********************************************************************************/
 
-        function getMetricsByUser(username) {
+        function getByUser(username) {
 
             return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+username).then(
                 function(response) {
@@ -2938,7 +2966,7 @@ function getInArray(metricids) {
     * Get Metric by id
     ********************************************************************************/
 
-    function getMetricsById(metricId) {
+    function getById(metricId) {
 
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?id='+metricId).then(
             function(response) {
@@ -2981,78 +3009,6 @@ function getInArray(metricids) {
         });
     }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name create
-    * @description
-    * Creates a new metric.
-    * @param {Metric} metric The metric to create.
-    * @returns {JSON|Error} On success, the metricid of the successfully created metric
-    * and a success message;
-    * an error message, otherwise.
-    ********************************************************************************/
-    function create(metric) {
-        return $q(function(resolve, reject) {
-            var metricid = metric.metricid;
-            setTimeout(function() {
-                if (DB_METRICS[metricid]) {
-                    reject({errmsg: 'Metric ' + metricid + ' already registered'});
-                } else {
-                    DB_METRICS[metricid] = angular.copy(metric);
-                    resolve({metricid: metricid, msg: 'Thank you for creating ' + metricid});
-                }
-            }, 500);
-        });
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name update
-    * @description
-    * Updates the authuser profile.
-    * @param {Metric} metricAttrs The metric attributes to update.
-    * @returns {JSON} Insert description here.
-    ********************************************************************************/
-    function update(metricAttrs) {
-        return $q(function(resolve, reject) {
-            var metricid = metricAttrs.metricid;
-            setTimeout(function() {
-                var METRIC = DB_METRICS[metricid];
-                if (METRIC) {
-                    for (var attr in metricAttrs) {
-                        METRIC[attr] = angular.copy(metricAttrs[attr]);
-                    }
-                    resolve({metric: METRIC});
-                } else {
-                    reject({errmsg: 'Metric ' + metricid + ' not found'});
-                }
-            }, 500);
-        });
-    }
-/*
-    * @name getMetricsByMeasurementGoalId
-    * @description
-    * Get Metric by measurement goal.
-    ********************************************************************************/
-
-    function getMetricsByMeasurementGoalId(measurementGoalId) {
-
-        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/measurementgoal?id='+measurementGoalId).then(
-            function(response) {
-                var message = angular.fromJson(response.data);
-                console.log('SUCCESS GET METRICS');
-                console.log(message);
-                return message;
-            },
-            function(response) {
-                var message = angular.fromJson(response.data);
-                console.log('FAILURE GET METRICS');
-                console.log(message);
-                return message;
-            }
-        );
-
-    }
 
 
     /********************************************************************************
@@ -3062,7 +3018,7 @@ function getInArray(metricids) {
     * Get approved metric by state.
     ********************************************************************************/
 
-    function getApprovedMetrics() {
+    function getAllApproved() {
 
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?state=Approved').then(
             function(response) {
@@ -3081,7 +3037,7 @@ function getInArray(metricids) {
 
     }
 
-    function getMetricsByStateAndUser(state,user) {
+    function getByStateAndUser(state,user) {
 
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+user+'&state='+state).then(
             function(response) {
@@ -3100,7 +3056,26 @@ function getInArray(metricids) {
 
     }
 
-    function getMetricsByState(state) {
+    function getByState(state) {
+
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?state='+state).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRICS BY State and User VERSION');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    function getMineByState(state) {
 
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
@@ -3118,18 +3093,6 @@ function getInArray(metricids) {
         );
 
     }
-
-    function toUpdateMetric(toUpdate){
-       if(toUpdate.metricatorId == AuthService.getUser().username){
-          service.metricToUpdate = toUpdate;
-       }
-   }
-
-   function getToUpdate(){
-      return service.metricToUpdate;
-   }
-
-
 }
 
 })();
@@ -5925,7 +5888,7 @@ function HomeController($rootScope, $scope, $location, $timeout, AuthService) {
     function _loadHome() {
         vm.loading = true;
         vm.success = false;
-       vm.currUser = AuthService.getUser();
+        vm.currUser = AuthService.getUser();
         vm.success = true;
         vm.loading = false;
     }
@@ -7075,67 +7038,103 @@ angular.module('metricapp')
 
 .controller('MetricDashboardController', MetricDashboardController);
 
-MetricDashboardController.$inject = ['$scope', '$location','MetricService','AuthService','$window'];
+MetricDashboardController.$inject = ['$scope', '$filter','$location','MetricService','AuthService','$window'];
 
-function MetricDashboardController($scope, $location, MetricService,AuthService, $window) {
-    var vm = this;
-    vm.results = {
-        metrics : []
-    };
+function MetricDashboardController($scope, $filter ,$location, MetricService,AuthService, $window) {
+   var vm = this;
 
-    vm.userId = AuthService.getUser().username;
+   vm.loadMore = loadMore;
+   vm.search = search;
 
-    vm.getMetrics = getMetrics;
-    vm.goToUpdateMetric = goToUpdateMetric;
-    vm.setMetricDialog = setMetricDialog;
-    vm.update=update;
-    vm.isMine=isMine;
-    vm.goToUpdateMetric = goToUpdateMetric;
-    vm.newMetric = newMetric;
 
-    vm.update();
+   _init();
 
-    vm.modal = 'metric';
-    vm.metricDialog = vm.results.metrics;
 
-    _init();
+   vm.goToUpdateMetric = goToUpdateMetric;
+   vm.setMetricDialog = setMetricDialog;
+   vm.update=update;
+   vm.newMetric = newMetric;
+
+   vm.update();
+
+   vm.modal = 'metric';
+   vm.metricDialog;
 
 
 
-    function newMetric(){
-      MetricService.newMetric().then(
+
+
+   function newMetric(){
+      MetricService.create().then(
          function(data){vm.update();},function(data){vm.update();}
       );
    }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name submit
-    * @description
-    * Get active metrics for a metricator.
-    ********************************************************************************/
-    function getMetrics(){
+   function loadMore() {
+      if (vm.idx < vm.buffer.length) {
+         var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+         vm.metrics = vm.metrics.concat(vm.buffer.slice(vm.idx, e));
+         vm.idx = e;
+      }
+   }
 
-         MetricService.getMetrics().then(
-            function(data) {
-                console.log(data.metricsDTO);
-                vm.results.metrics= data.metricsDTO;
-            },
-            function(data) {
-                alert('Error retriving Metrics');
-            }
-        );
-    }
+   function search(query) {
+      vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+   }
+
+   function _load(){
+      if(vm.mine){
+         _loadAllMyMetrics();
+      }else{
+         _loadAllMetrics();
+      }
+   }
+
+   function _loadAllMyMetrics() {
+      vm.loading = true;
+      vm.success = false;
+      MetricService.getAllMine().then(
+         function(resolve) {
+            vm.data = angular.copy(resolve.metricsDTO);
+            vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+            vm.success = true;
+         },
+         function(reject) {
+            vm.errmsg = reject.errmsg;
+            vm.success = false;
+         }
+      ).finally(function() {
+         vm.loading = false;
+      });
+   }
 
 
+   function _loadAllMetrics() {
+      vm.loading = true;
+      vm.success = false;
+      MetricService.getAll().then(
+         function(resolve) {
+            vm.data = angular.copy(resolve.metricsDTO);
+            vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+            vm.success = true;
+         },
+         function(reject) {
+            vm.errmsg = reject.errmsg;
+            vm.success = false;
+         }
+      ).finally(function() {
+         vm.loading = false;
+      });
+   }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @description
-    * update active metrics for the current user id
-    ********************************************************************************/
-    function update(){
-      vm.getMetrics();
+
+   /********************************************************************************
+   * @ngdoc method
+   * @description
+   * update active metrics for the current user id
+   ********************************************************************************/
+   function update(){
+      _load();
    }
 
    /********************************************************************************
@@ -7144,14 +7143,7 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
    * @description
    * Check if the metric in vm.dialog has metricatorId field of the logged user
    ********************************************************************************/
-   function isMine(){
-      if (vm.metricDialog.metricatorId == vm.userId){
-         console.log(vm.userId+ " has rights to update metric of "+ vm.metricDialog.metricatorId );
-         return true;
-      }else{
-         return false;
-      }
-   }
+
 
 
    /********************************************************************************
@@ -7160,37 +7152,62 @@ function MetricDashboardController($scope, $location, MetricService,AuthService,
    * @description
    * This function is needed by modal when a metricator wants to change a metric
    ********************************************************************************/
-    function goToUpdateMetric(){
-        MetricService.toUpdateMetric(vm.metricDialog);
-        console.log("Going to Update Metric");
-        $window.location.href ='#/metric?id='+vm.metricDialog.metadata.id;
-
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name submit
-    * @description
-    * This function is called to set the vm.metricDialog. When a model is opened, the metric
-    * displayed is the metric in vm.metricDialog. this method is generally called by ng-click
-    * of the table
-    ********************************************************************************/
-    function setMetricDialog(metricToAssignId){
-       vm.metricDialog = vm.results.metrics[metricToAssignId];
+   function goToUpdateMetric(){
+      console.log("Going to Update Metric");
+      $window.location.href ='#/metric?id='+vm.metricDialog.metadata.id;
 
    }
 
+   /********************************************************************************
+   * @ngdoc method
+   * @name submit
+   * @description
+   * This function is called to set the vm.metricDialog. When a model is opened, the metric
+   * displayed is the metric in vm.metricDialog. this method is generally called by ng-click
+   * of the table
+   ********************************************************************************/
+   function setMetricDialog(metricToAssignId){
+      vm.metricDialog = vm.data[metricToAssignId];
+
+   }
+
+
+
+/********************************************************************************
+* @ngdoc method
+* @name _init
+* @description
+* Initializes the controller.
+********************************************************************************/
+function _init() {
+   vm.userId = AuthService.getUser().username;
+   vm.role = AuthService.getUser().role;
+   vm.loading = true;
+   vm.success = false;
+   vm.errmsg = null;
+   vm.data = [];
+   vm.buffer = [];
+   vm.metrics = [];
+   vm.idx = 0;
+   vm.step = 4;
+   vm.query = '';
+   vm.orderBy = 'name';
+   if(vm.role == 'METRICATOR'){
+      vm.mine = true;
+   }
+   else{
+      vm.mine=false;
+   }
+   _load();
+   vm.buffer=vm.data;
+   $scope.$watch('vm.buffer', function() {
+      vm.idx = 0;
+      var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+      vm.metrics = vm.buffer.slice(vm.idx, e);
+      vm.idx = e;
+   });
 }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name _init
-    * @description
-    * Initializes the controller.
-    ********************************************************************************/
-    function _init(){
-    }
-
+}
 })();
 
 /*
