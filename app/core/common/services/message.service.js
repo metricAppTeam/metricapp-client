@@ -262,6 +262,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var authusername = AuthService.getUsername();
+                // NEED TO CHECK IF RECIPIENT IS A VALID USER.
                 if (authusername) {
                     var S_MAILBOX = DB_MESSAGES[authusername];
                     var R_MAILBOX = DB_MESSAGES[recipient];
@@ -308,7 +309,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
 
                         resolve({sentMessage: newMessage});
                     } else {
-                        reject({errmsg: 'Inbox not found for user ' + authusername});
+                        reject({errmsg: 'Mailbox not found for user ' + authusername});
                     }
                 } else {
                     reject({errmsg: 'User not logged'});
