@@ -2,7 +2,7 @@
 
 /************************************************************************************
 * @ngdoc filter
-* @name excerptFilter
+* @name excerptFormat
 * @module metricapp
 *
 * @description
@@ -11,9 +11,9 @@
 
 angular.module('metricapp')
 
-.filter('excerptFilter',excerptFilter);
+.filter('excerptFormat', excerptFormat);
 
-function excerptFilter(){
+function excerptFormat(){
   return function(string, condition, lenTrue, lenFalse, fallbackString){
     if(!string){
       return fallbackString;

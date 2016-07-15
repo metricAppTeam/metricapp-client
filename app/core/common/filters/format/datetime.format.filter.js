@@ -2,7 +2,7 @@
 
 /************************************************************************************
 * @ngdoc filter
-* @name datetimeFilter
+* @name dateFormat
 * @module metricapp
 *
 * @description
@@ -11,9 +11,9 @@
 
 angular.module('metricapp')
 
-.filter('datetimeFilter', datetimeFilter);
+.filter('dateFormat', dateFormat);
 
-function datetimeFilter() {
+function dateFormat() {
 
     function _normal(dateObj) {
         var now = new Date();

@@ -2,18 +2,19 @@
 
 /************************************************************************************
 * @ngdoc filter
-* @name userFilter
+* @name userSearch
 * @module metricapp
 *
 * @description
-* Realizes filters for users to use inside ng-repeat and composite attributes.
+* A query filter for searchboxes about users.
+* This filter filters by firstname and lastname.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.filter('userFilterByName', userFilterByName);
+.filter('userSearch', userSearch);
 
-function userFilterByName() {
+function userSearch() {
     return function(users, query) {
         var result = [];
         if (!query) {
@@ -26,20 +27,6 @@ function userFilterByName() {
             }
         });
         return result;
-    };
-}
-
-angular.module('metricapp')
-
-.filter('userFullname', userFullname);
-
-function userFullname() {
-    return function(user) {
-        if (!user) {
-            return user;
-        }
-        var fullname = [user.firstname, user.lastname].join(' ');
-        return fullname;
     };
 }
 
