@@ -9,11 +9,15 @@
 * - ALL_READ:
 * - SET_READ:
 * - MESSAGE_SENT:
+* - MESSAGE_RECEIVED:
+* - CONVERSATION_CREATED:
+* - CONVERSATION_REMOVED:
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .constant('MESSAGE_EVENTS', {
+    NO_NEWS:                'message.nonews',
     ALL_READ:               'message.all.read',
     SET_READ:               'message.set.read',
     MESSAGE_SENT:           'message.message.sent',
