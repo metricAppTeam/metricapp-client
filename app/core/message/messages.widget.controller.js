@@ -181,14 +181,13 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
         });
 
         $scope.$on(MESSAGE_EVENTS.CONVERSATION_REMOVED, function(event, recipient) {
-            /*for (var i = 0; i < vm.data.length; i++) {
+            for (var i = 0; i < vm.data.length; i++) {
                 var conversation = vm.data[i];
                 if (conversation.recipient.username === recipient) {
                     vm.data.splice(i, 1);
                     vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                 }
-            }*/
-            _loadAllConversations();
+            }
         });
 
         $scope.$on(MESSAGE_EVENTS.CONVERSATION_CREATED, function() {
