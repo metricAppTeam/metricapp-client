@@ -1,17 +1,17 @@
 <!-- START: METRIC -->
-<div ng-controller="MetricController as vm">
+<div ng-controller="MetricPageController as vm">
     <ul class="breadcrumb">
         <li><a ng-href="#/home">Home</a></li>
         <li><a ng-href="#/metrics">Metrics</a></li>
-        <li class="active"><a ng-href="#/metrics/{{vm.currMetric.id}}">Metric</a></li>
+        <li class="active"><a ng-href="#/metrics/{{vm.metric.metadata.id}}">Metric</a></li>
     </ul>
     <div class="page-title">
-        <h2><span class="fa fa-tasks"></span> Metric <small ng-show="!vm.loading && vm.success">{{vm.currMetric.name}}</small></h2>
+        <h2><span class="fa fa-tasks"></span> Metric <small ng-show="!vm.loading && vm.success">{{vm.metric.name}}</small></h2>
     </div>
     <div class="page-content-wrap">
         <div class="row" ng-switch="vm.loading">
             <div class="col-md-12">
-                <p ng-switch-when="true">Loading metric {{vm.currMetric.id}} ...</p>
+                <p ng-switch-when="true">Loading metric {{vm.metric.metadata.id}} ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <ul ng-switch-when="true">
                         <li ng-repeat="(key, value) in vm.currMetric">{{key}} = {{value}}</li>

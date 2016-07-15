@@ -56,9 +56,8 @@ function MetricService($http,  $q, REST_SERVICE, AuthService, DB_METRICS,$window
 * an error message, otherwise.
 ********************************************************************************/
 function getAll() {
-    return $q(function(resolve, reject) {
-        setTimeout(function() {
-           $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric').then(
+
+          return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric').then(
                function(response) {
                    var message = angular.fromJson(response.data);
                    console.log('SUCCESS GET METRICS');
@@ -72,8 +71,8 @@ function getAll() {
                    return message;
                }
            );
-        }, 500);
-    });
+
+
 }
 /********************************************************************************
 * @ngdoc method
@@ -84,9 +83,7 @@ function getAll() {
 * an error message, otherwise.
 ********************************************************************************/
 function getAllApproved() {
-    return $q(function(resolve, reject) {
-        setTimeout(function() {
-           $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?approved=true').then(
+          return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?approved=true').then(
                function(response) {
                    var message = angular.fromJson(response.data);
                    console.log('SUCCESS GET METRICS');
@@ -100,31 +97,9 @@ function getAllApproved() {
                    return message;
                }
            );
-        }, 500);
-    });
-}
+    }
 
-/********************************************************************************
-* @ngdoc method
-* @name getById
-* @description
-* Retrieves the specified metric.
-* @param {String} metricid The metricid of the metric to retrieve.
-* @returns {Metric|Error} On success, the metric;
-* an error message, otherwise.
-********************************************************************************/
-function getById(metricid) {
-    return $q(function(resolve, reject) {
-        setTimeout(function() {
-            var METRIC = DB_METRICS[metricid];
-            if (METRIC) {
-                resolve({metric: METRIC});
-            } else {
-                reject({errmsg: 'Metric ' + metricid + ' not found'});
-            }
-        }, 500);
-    });
-}
+
 
 /********************************************************************************
 * @ngdoc method
@@ -222,6 +197,26 @@ function getInArray(metricids) {
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET METRICS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+
+    function getById(id) {
+
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?id='+id).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET METRIC');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET METRIC');
                 console.log(message);
                 return message;
             }

@@ -82,15 +82,13 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
       * Otherwise page is loaded with metric in MetricService
       ********************************************************************************/
       function _selectMetricToView(){
-         if(angular.isUndefined($routeParams.id)){
-            vm.loadedMetric= MetricService.getToUpdate();
-
-            vm.loading=false;
-            initMetric();
-            return;
-         }else{
-
-            MetricService.getMetricsById($routeParams.id).then(
+         if (!$routeParams.metricid) {
+             $location.path('/metrics');
+         }
+         vm.currMetricId = {
+             id: $routeParams.metricid
+         };
+            MetricService.getById(vm.currMetricId.id).then(
                function(data){
                   vm.loadedMetric = data.metricsDTO[0];
                   vm.loading=false;
@@ -100,7 +98,7 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
                   vm.error = true;
                }
             );
-         }
+
       }
 
 

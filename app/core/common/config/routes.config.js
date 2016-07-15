@@ -128,14 +128,12 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/metric/metrics.view.html'
     })
     .when('/metrics/:metricid', {
-        templateUrl: 'dist/views/metric/metric.view.html'
+        templateUrl: 'dist/views/metric/metricpage.view.html'
     })
 
     // ERRORS
 
-    .when('/metricDashboard', {
-        templateUrl: 'dist/views/metricator/metricDashboard.view.html'
-    })
+
     .when('/401', {
         templateUrl: 'dist/views/error/error401.view.html'
     })
@@ -147,9 +145,6 @@ function routes($routeProvider, $locationProvider) {
     })
     .when('/measurementgoal', {
         templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
-    })
-    .when('/metric', {
-      templateUrl: 'dist/views/metric/metricpage.view.html'
     })
     .when('/measurementgoalsearch', {
         templateUrl: 'dist/views/measurementgoal/measurementgoalsearch.view.html'

@@ -17,14 +17,16 @@ angular.module('metricapp')
 
 .controller('MetricsController', MetricsController);
 
-MetricsController.$inject = ['$scope', '$location', '$filter', 'MetricService'];
+MetricsController.$inject = ['$scope', '$location', '$filter', 'MetricService','AuthService'];
 
-function MetricsController($scope, $location, $filter, MetricService) {
+function MetricsController($scope, $location, $filter, MetricService,AuthService) {
 
     var vm = this;
 
     vm.loadMore = loadMore;
     vm.search = search;
+    vm.reset=reset;
+    vm.update=update;
 
     _init();
 
@@ -40,12 +42,25 @@ function MetricsController($scope, $location, $filter, MetricService) {
         vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
     }
 
+    function reset(){
+      _init();
+   }
+
+   function _load(){
+      if(vm.mine){
+         _loadMyMetrics();
+      }
+      else{
+         _loadAllMetrics();
+      }
+   }
+
     function _loadAllMetrics() {
         vm.loading = true;
         vm.success = false;
         MetricService.getAll().then(
             function(resolve) {
-                vm.data = angular.copy(resolve.metrics);
+                vm.data = angular.copy(resolve.metricsDTO);
                 vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                 vm.success = true;
             },
@@ -58,18 +73,45 @@ function MetricsController($scope, $location, $filter, MetricService) {
         });
   }
 
+  function _loadMyMetrics() {
+     vm.loading = true;
+     vm.success = false;
+     MetricService.getAllMine().then(
+          function(resolve) {
+              vm.data = angular.copy(resolve.metricsDTO);
+              vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+              vm.success = true;
+          },
+          function(reject) {
+              vm.errmsg = reject.errmsg;
+              vm.success = false;
+          }
+     ).finally(function() {
+          vm.loading = false;
+     });
+}
+
+  function update(){
+     _load();
+ }
+
     function _init() {
+        vm.userId = AuthService.getUser().username;
         vm.loading = true;
         vm.success = false;
         vm.errmsg = null;
         vm.data = [];
         vm.buffer = [];
         vm.metrics = [];
+        vm.mine=false;
         vm.idx = 0;
         vm.step = 4;
         vm.query = '';
         vm.orderBy = 'name';
-        _loadAllMetrics();
+        if(vm.role=='METRICATOR'){
+           vm.mine=true;
+        }
+        _load();
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
