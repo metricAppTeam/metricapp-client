@@ -14,9 +14,12 @@
 angular.module('metricapp')
 
 .constant('MESSAGE_EVENTS', {
-    ALL_READ:     'message.all.read',
-    SET_READ:     'message.set.read',
-    MESSAGE_SENT: 'message.message.sent'
+    ALL_READ:               'message.all.read',
+    SET_READ:               'message.set.read',
+    MESSAGE_SENT:           'message.message.sent',
+    MESSAGE_RECEIVED:       'message.message.received',
+    CONVERSATION_CREATED:   'message.conversation.created',
+    CONVERSATION_REMOVED:   'message.conversation.removed'
 });
 
 })();
