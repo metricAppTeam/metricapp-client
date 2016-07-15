@@ -100,7 +100,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                                 ts_fetch: Date.now(),
                                 ts_update: Date.now(),
                                 to_read: 0,
-                                conversation: []
+                                messages: []
                             };
                             S_MAILBOX[recipient] = angular.copy(NEW_CONVERSATION);
                             resolve({conversation: NEW_CONVERSATION});
@@ -274,7 +274,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                             ts_fetch: now,
                             ts_update: now,
                             to_read: 0,
-                            conversation: []
+                            messages: []
                         };
                         R_MAILBOX[authusername] = R_MAILBOX[authusername] || {
                             sender: recipient,
@@ -282,7 +282,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                             ts_fetch: now,
                             ts_update: now,
                             to_read: 0,
-                            conversation: []
+                            messages: []
                         };
                         var S_CONVERSATION = S_MAILBOX[recipient];
                         var R_CONVERSATION = R_MAILBOX[authusername];
@@ -293,6 +293,9 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                             author: authusername,
                             content: content
                         };
+
+                        alert(angular.toJson(S_CONVERSATION));
+                        alert(angular.toJson(R_CONVERSATION));
 
                         var R_MESSAGES = R_CONVERSATION.messages;
 
@@ -333,7 +336,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                             ts_fetch: now,
                             ts_update: now,
                             to_read: 0,
-                            conversation: []
+                            messages: []
                         };
                         R_MAILBOX[authusername] = R_MAILBOX[authusername] || {
                             sender: recipient,
@@ -341,7 +344,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                             ts_fetch: now,
                             ts_update: now,
                             to_read: 0,
-                            conversation: []
+                            messages: []
                         };
                         alert('DB_MESSAGES[recipient]=' + angular.toJson(DB_MESSAGES[recipient]));
                         resolve({username:recipient});
