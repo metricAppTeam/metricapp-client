@@ -46,7 +46,8 @@ angular.module('metricapp')
 
 .constant('EXPERT_ACTIONS', [
     {name: 'Grids', href: '#/grids', icon: 'codepen'},
-    {name: 'Teams', href: '#/teams', icon: 'users'}
+    {name: 'Teams', href: '#/teams', icon: 'users'},
+    {name: 'Metrics', 				href: '#/metrics',             icon:'fa fa-tasks'         }
 ]);
 
 })();
@@ -67,8 +68,7 @@ angular.module('metricapp')
 .constant('METRICATOR_ACTIONS', [
 
 
-    {name: 'Profile', 				href: '#/profile',				icon: 'user'   },
-    {name: 'Dashboard', 			href: '#/metricator'						         },
+    {name: 'MeasurementGoals', 			href: '#/metricator'						         },
     {name: 'Metrics', 				href: '#/metrics',             icon:'fa fa-tasks'         },
     {name: 'Search MG', 			href: '#/measurementgoalsearch'			     	}
 
@@ -90,7 +90,9 @@ angular.module('metricapp')
 angular.module('metricapp')
 
 .constant('QUESTIONER_ACTIONS', [
-    {name: 'Action', href: '#/questioner_action', icon: 'cog'}
+    {name: 'Action', href: '#/questioner_action', icon: 'cog'},
+    {name: 'Metrics', 				href: '#/metrics',             icon:'fa fa-tasks'         }
+
 ]);
 
 })();
