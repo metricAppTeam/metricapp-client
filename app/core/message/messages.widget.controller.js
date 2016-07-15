@@ -120,8 +120,36 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
         });
     }
 
+    function _getConversation(recipient) {
+        vm.loading = true;
+        vm.success = false;
+        MessageService.getById(recipient).then(
+            function(resolve) {
+                var conversation = angular.copy(resolve.conversation);
+                return UserService.getById(conversation.recipient).then(
+                    function(resolve) {
+                        conversation.recipient = angular.copy(resolve.user);
+                        vm.data.push(conversation);
+                        vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                        vm.success = true;
+                    },
+                    function(reject) {
+                        vm.errmsg = reject.errmsg;
+                        vm.success = false;
+                    }
+                );
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
+    }
+
     /********************************************************************************
-    * BRODCASTERS
+    * BROADCASTERS
     ********************************************************************************/
 
 
@@ -166,6 +194,42 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
             _loadAllConversations();
         });
 
+/*
+        $scope.$on(MESSAGE_EVENTS.CONVERSATION_CREATED, function(event, newConversation) {
+            for (var i = 0; i < vm.data.length; i++) {
+                var conversation = vm.data[i];
+                if (conversation.recipient.username === newConversation.recipient.username) {
+                    return;
+                }
+            }
+            vm.data.push(newConversation);
+            vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+        });
+        */
+
+        $scope.$on(MESSAGE_EVENTS.CONVERSATION_REMOVED, function(event, recipient) {
+            for (var i = 0; i < vm.data.length; i++) {
+                var conversation = vm.data[i];
+                if (conversation.recipient.username === recipient) {
+                    vm.data.splice(i, 1);
+                    vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                }
+            }
+        });
+
+        $scope.$on(MESSAGE_EVENTS.MESSAGE_SENT, function(event, recipient, message) {
+            for (var i = 0; i < vm.data.length; i++) {
+                var conversation = vm.data[i];
+                if (conversation.recipient.username === recipient) {
+                    conversation.messages.push(message);
+                    conversation.ts_update = message.ts_create;
+                    vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                    return;
+                }
+            }
+            _getConversation(recipient);
+        });
+
         $scope.$on(MESSAGE_EVENTS.NO_NEWS, function() {
             vm.news = 0;
         });
@@ -190,38 +254,6 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
             }
         });
 
-        $scope.$on(MESSAGE_EVENTS.MESSAGE_SENT, function(event, recipient, message) {
-            for (var i = 0; i < vm.data.length; i++) {
-                var conversation = vm.data[i];
-                if (conversation.recipient.username === recipient) {
-                    conversation.messages.push(message);
-                    conversation.ts_update = message.ts_create;
-                    vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
-                }
-            }
-        });
-
-        $scope.$on(MESSAGE_EVENTS.CONVERSATION_REMOVED, function(event, recipient) {
-            for (var i = 0; i < vm.data.length; i++) {
-                var conversation = vm.data[i];
-                if (conversation.recipient.username === recipient) {
-                    vm.data.splice(i, 1);
-                    vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
-                }
-            }
-        });
-
-        $scope.$on(MESSAGE_EVENTS.CONVERSATION_CREATED, function(event, newConversation) {
-            for (var i = 0; i < vm.data.length; i++) {
-                var conversation = vm.data[i];
-                if (conversation.recipient.username === newConversation.recipient.username) {
-                    return;
-                }
-            }
-            vm.data.push(newConversation);
-            vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
-        });
-        
     }
 
 }

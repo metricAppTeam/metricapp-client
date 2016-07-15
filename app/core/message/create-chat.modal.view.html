@@ -67,7 +67,7 @@ ng-controller="ChatCreateController as vm">
             <div class="modal-footer">
                 <button class="btn btn-primary"
                 ng-disabled="vm.loading || !vm.success || !vm.selectedUser"
-                ng-click="vm.createConversation(vm.selectedUser)"
+                ng-href="/messages/{{vm.selectedUser}}"
                 data-dismiss="modal">Create</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.close()">Close</button>
             </div>

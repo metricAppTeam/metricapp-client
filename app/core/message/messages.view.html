@@ -16,7 +16,7 @@
                 <button class="btn btn-success" ng-disabled="vm.toread==0" ng-click="vm.setAllRead()">
                     <span class="fa fa-check"></span> Mark all read
                 </button>
-                <button class="btn btn-danger" ng-click="vm.removeConversation(vm.currConversation.recipient.username)">
+                <button class="btn btn-danger" ng-disabled="vm.conversations.length == 0" ng-click="vm.removeConversation(vm.currConversation.recipient.username)">
                     <span class="fa fa-eraser"></span> Remove
                 </button>
                 <button class="btn btn-info" data-toggle="modal" data-target="#modal-create-chat">

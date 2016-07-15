@@ -48,7 +48,7 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
                 var sentMessage = angular.copy(resolve.sentMessage);
                 vm.currConversation.messages.push(sentMessage);
                 vm.success = true;
-                $rootScope.$broadcast(MESSAGE_EVENTS.MESSAGE_SENT, vm.currConversation.recipient.username, sentMessage);
+                _brodcastMessageSent(vm.currConversation.recipient.username, sentMessage);
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
@@ -62,7 +62,8 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
 
     function _setRead(recipient) {
         MessageService.setReadById(recipient);
-        $rootScope.$broadcast(MESSAGE_EVENTS.SET_READ, recipient);
+        _broadcastConversationRead(recipient);
+
     }
 
     function _loadConversation(recipient) {
@@ -93,9 +94,15 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
     }
 
     /********************************************************************************
-    * BRODCASTERS
+    * BROADCASTERS
     ********************************************************************************/
 
+    function _broadcastConversationRead(recipient) {
+        $rootScope.$broadcast(MESSAGE_EVENTS.SET_READ, recipient);
+    }
+    function _brodcastMessageSent(recipient, sentMessage) {
+        $rootScope.$broadcast(MESSAGE_EVENTS.MESSAGE_SENT, recipient, sentMessage);
+    }
 
     /********************************************************************************
     * INITIALIZER
@@ -109,7 +116,7 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
 
         if (!$routeParams.username) {
             vm.success = false;
-            vm.errmsg = 'No user selected'
+            vm.errmsg = 'No user selected';
             vm.loading = false;
             return;
         }

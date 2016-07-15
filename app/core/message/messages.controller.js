@@ -84,7 +84,7 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
         vm.success = false;
         MessageService.removeConversation(recipient).then(
             function(resolve) {
-                $rootScope.$broadcast(MESSAGE_EVENTS.CONVERSATION_REMOVED, recipient);
+                _broadcastConversationRemoved(recipient);
                 vm.success = true;
             },
             function(reject) {
@@ -120,7 +120,35 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                         }
                         vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                         vm.success = true;
-                        _brodcastNoNews();
+                        _broadcastNoNews();
+                    },
+                    function(reject) {
+                        vm.errmsg = reject.errmsg;
+                        vm.success = false;
+                    }
+                );
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
+    }
+
+    function _getConversation(recipient) {
+        vm.loading = true;
+        vm.success = false;
+        MessageService.getById(recipient).then(
+            function(resolve) {
+                var conversation = angular.copy(resolve.conversation);
+                return UserService.getById(conversation.recipient).then(
+                    function(resolve) {
+                        conversation.recipient = angular.copy(resolve.user);
+                        vm.data.push(conversation);
+                        vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                        vm.success = true;
                     },
                     function(reject) {
                         vm.errmsg = reject.errmsg;
@@ -138,10 +166,15 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
     }
 
     /********************************************************************************
-    * BRODCASTERS
+    * BROADCASTERS
     ********************************************************************************/
-    function _brodcastNoNews() {
+
+    function _broadcastNoNews() {
         $rootScope.$broadcast(MESSAGE_EVENTS.NO_NEWS);
+    }
+
+    function _broadcastConversationRemoved(recipient) {
+        $rootScope.$broadcast(MESSAGE_EVENTS.CONVERSATION_REMOVED, recipient);
     }
 
     /********************************************************************************
@@ -161,15 +194,12 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
         vm.toread = 0;
 
         if (!$routeParams.username) {
-            vm.loading = true;
-            vm.success = false;
             MessageService.getLastRecipient().then(
                 function(resolve) {
                     var lastRecipient = resolve.lastRecipient;
-                    vm.success = true;
                     if (lastRecipient) {
                         $location.path('/messages/' + lastRecipient);
-                        _brodcastNoNews();
+                        vm.success = true;
                     }
                 },
                 function(reject) {
@@ -182,13 +212,18 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
             return;
         }
 
-        vm.currConversation = {
-            recipient: {username: $routeParams.username}
-        };
+        UserService.isUser($routeParams.username).then(
+            function(resolve) {
+                vm.currConversation = {
+                    recipient: {username: $routeParams.username}
+                };
 
-        _loadAllConversations();
-
-        _brodcastNoNews();
+                _loadAllConversations();
+            },
+            function(reject) {
+                $location.path('/404');
+            }
+        );
 
         /****************************************************************************
         * WATCHERS
@@ -204,6 +239,19 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
         /****************************************************************************
         * LISTENERS
         ****************************************************************************/
+
+        $scope.$on(MESSAGE_EVENTS.MESSAGE_SENT, function(event, recipient, message) {
+            for (var i = 0; i < vm.data.length; i++) {
+                var conversation = vm.data[i];
+                if (conversation.recipient.username === recipient) {
+                    conversation.messages.push(message);
+                    conversation.ts_update = message.ts_create;
+                    vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                    return;
+                }
+            }
+            _getConversation(recipient);
+        });
 
         $scope.$on(MESSAGE_EVENTS.ALL_READ, function() {
             vm.buffer.forEach(function(notification) {
@@ -221,17 +269,6 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                         conversation.toread = 0;
                         vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                     }
-                }
-            }
-        });
-
-        $scope.$on(MESSAGE_EVENTS.MESSAGE_SENT, function(event, recipient, message) {
-            for (var i = 0; i < vm.data.length; i++) {
-                var conversation = vm.data[i];
-                if (conversation.recipient.username === recipient) {
-                    conversation.messages.push(message);
-                    conversation.ts_update = message.ts_create;
-                    vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                 }
             }
         });
