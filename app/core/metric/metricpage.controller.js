@@ -194,7 +194,7 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          if(metric.metadata.state=='Rejected' || metric.metadata.state=='Created'){
             metric.metadata.state='OnUpdate';
          }
-         MetricService.submitMetric(metric).then(
+         MetricService.update(metric).then(
             function(message) {
                alert("Updated!");
 

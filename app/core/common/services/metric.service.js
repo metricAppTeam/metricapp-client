@@ -30,19 +30,18 @@ MetricService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_METRI
 function MetricService($http,  $q, REST_SERVICE, AuthService, DB_METRICS,$window) {
 
     var service = this;
-    service.getAll =getAll
-    service.getAllApproved=getAllApproved
-    service.getById =getById
-    service.update=update
-    service.changeState=changeState
-    service.create=create
-    service.getAllMine=getAllMine
-    service.getByUser=getByUser
-    service.getById=getById
-    service.getAllApproved=getAllApproved
-    service.getByStateAndUser=getByStateAndUser
-    service.getMineByState=getMineByState
-    service.getByState=getByState
+    service.getAll =getAll;
+    service.getById =getById;
+    service.update=update;
+    service.changeState=changeState;
+    service.create=create;
+    service.getAllMine=getAllMine;
+    service.getByUser=getByUser;
+    service.getById=getById;
+    service.getAllApproved=getAllApproved;
+    service.getByStateAndUser=getByStateAndUser;
+    service.getMineByState=getMineByState;
+    service.getByState=getByState;
 
 
 

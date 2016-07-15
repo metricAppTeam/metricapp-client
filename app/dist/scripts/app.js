@@ -2727,19 +2727,18 @@ MetricService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_METRI
 function MetricService($http,  $q, REST_SERVICE, AuthService, DB_METRICS,$window) {
 
     var service = this;
-    service.getAll =getAll
-    service.getAllApproved=getAllApproved
-    service.getById =getById
-    service.update=update
-    service.changeState=changeState
-    service.create=create
-    service.getAllMine=getAllMine
-    service.getByUser=getByUser
-    service.getById=getById
-    service.getAllApproved=getAllApproved
-    service.getByStateAndUser=getByStateAndUser
-    service.getMineByState=getMineByState
-    service.getByState=getByState
+    service.getAll =getAll;
+    service.getById =getById;
+    service.update=update;
+    service.changeState=changeState;
+    service.create=create;
+    service.getAllMine=getAllMine;
+    service.getByUser=getByUser;
+    service.getById=getById;
+    service.getAllApproved=getAllApproved;
+    service.getByStateAndUser=getByStateAndUser;
+    service.getMineByState=getMineByState;
+    service.getByState=getByState;
 
 
 
@@ -6688,7 +6687,7 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          if(metric.metadata.state=='Rejected' || metric.metadata.state=='Created'){
             metric.metadata.state='OnUpdate';
          }
-         MetricService.submitMetric(metric).then(
+         MetricService.update(metric).then(
             function(message) {
                alert("Updated!");
 
@@ -6902,7 +6901,16 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
     vm.search = search;
     vm.reset=reset;
     vm.update=update;
+    vm.openModal=openModal;
     vm.goToRead=goToRead;
+    vm.getLabelState = getLabelState;
+
+    vm.labelsForState = [
+       {state:'OnUpdate',label: "label label-primary label-form"},
+       {state:'Pending',label: "label label-default label-form"},
+       {state:'Created',label: "label label-default label-form"},
+       {state:'Approved',label: "label label-warning label-form"},
+       {state:'Rejected',label: "label label-danger label-form"}];
 
     _init();
 
@@ -6915,23 +6923,38 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
     }
 
     function goToRead(id){
+      console.log('go to '+'#/metrics/'+id);
       $location.path('#/metrics/'+id);
    }
 
     function search(query) {
-        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy,true);
     }
 
     function reset(){
       _init();
    }
 
+
+       function openModal(metric){
+         vm.metricDialog=metric;
+         vm.modal=true;
+      }
+
    function _load(){
       if(vm.mine){
+         if(!vm.approved){
          _loadMyMetrics();
+      }else{
+         _loadMyApprovedMetrics();
+      }
       }
       else{
+         if(!vm.approved){
          _loadAllMetrics();
+      }else{
+         _loadAllApprovedMetrics();
+      }
       }
    }
 
@@ -6941,7 +6964,7 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
         MetricService.getAll().then(
             function(resolve) {
                 vm.data = angular.copy(resolve.metricsDTO);
-                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy,true);
                 vm.success = true;
             },
             function(reject) {
@@ -6949,8 +6972,8 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
                 vm.success = false;
             }
         ).finally(function() {
-            vm.loading = false;
-        });
+            vm.loading = false;}
+        );
   }
 
   function _loadMyMetrics() {
@@ -6959,7 +6982,7 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
      MetricService.getAllMine().then(
           function(resolve) {
               vm.data = angular.copy(resolve.metricsDTO);
-              vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+              vm.buffer = $filter('orderBy')(vm.data, vm.orderBy,true);
               vm.success = true;
           },
           function(reject) {
@@ -6971,12 +6994,59 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
      });
 }
 
+function _loadAllApprovedMetrics() {
+    vm.loading = true;
+    vm.success = false;
+    MetricService.getAllApproved().then(
+        function(resolve) {
+            vm.data = angular.copy(resolve.metricsDTO);
+            vm.buffer = $filter('orderBy')(vm.data, vm.orderBy,true);
+            vm.success = true;
+        },
+        function(reject) {
+            vm.errmsg = reject.errmsg;
+            vm.success = false;
+        }
+    ).finally(function() {
+        vm.loading = false;
+    });
+}
+
+function _loadMyApprovedMetrics() {
+ vm.loading = true;
+ vm.success = false;
+ MetricService.getAllApproved().then(
+      function(resolve) {
+         vm.data = [];
+          var temp = angular.copy(resolve.metricsDTO);
+          for (var m in temp){
+             if (m.metricator == vm.user){
+                vm.data.push(angular.copy(temp[m]));
+             }
+          }
+          vm.buffer = $filter('orderBy')(vm.data, vm.orderBy,true);
+          vm.success = true;
+      },
+      function(reject) {
+          vm.errmsg = reject.errmsg;
+          vm.success = false;
+      }
+ ).finally(function() {
+      vm.loading = false;
+ });
+}
+
   function update(){
      _load();
  }
 
     function _init() {
         vm.userId = AuthService.getUser().username;
+        vm.role = AuthService.getUser().role;
+        vm.metricator=false;
+        if(vm.role == 'METRICATOR'){
+           vm.metricator=true;
+        }
         vm.loading = true;
         vm.success = false;
         vm.errmsg = null;
@@ -6984,10 +7054,12 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
         vm.buffer = [];
         vm.metrics = [];
         vm.mine=false;
+        vm.modal=false;
         vm.idx = 0;
         vm.step = 9;
         vm.query = '';
-        vm.orderBy = 'name';
+        vm.approved=false;
+        vm.orderBy = 'metadata.lastVersionDate';
         if(vm.role=='METRICATOR'){
            vm.mine=true;
         }
@@ -6998,6 +7070,10 @@ function MetricsController($scope, $location, $filter, MetricService,AuthService
             vm.metrics = vm.buffer.slice(vm.idx, e);
             vm.idx = e;
         });
+    }
+
+    function getLabelState(state){
+      return $filter('filter')(vm.labelsForState, function (d) {return d.state == state;})[0].label;
     }
 
 }
