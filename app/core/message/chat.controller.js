@@ -104,6 +104,13 @@ function ChatController($scope, $rootScope, $location, $routeParams, $filter, Me
             recipient: {username: $routeParams.username}
         };
         _loadConversation(vm.currConversation.recipient.username);
+
+        $scope.$on(MESSAGE_EVENTS.CONVERSATION_REMOVED, function(event, recipient) {
+            if (vm.currConversation.recipient.username === recipient) {
+                $location.path('/messages');
+                vm.currConversation = {};
+            }
+        });
     }
 
 }

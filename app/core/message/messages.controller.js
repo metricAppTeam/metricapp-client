@@ -80,7 +80,20 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
     }
 
     function removeConversation(recipient) {
-        alert('remove conversation with:' + recipient);
+        vm.loading = true;
+        vm.success = false;
+        MessageService.removeConversation(recipient).then(
+            function(resolve) {
+                $rootScope.$broadcast(MESSAGE_EVENTS.CONVERSATION_REMOVED, recipient);
+                vm.success = true;
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
     }
 
     function _loadAllConversations() {
@@ -142,7 +155,9 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                 function(resolve) {
                     var lastRecipient = resolve.lastRecipient;
                     vm.success = true;
-                    $location.path('/messages/' + lastRecipient);
+                    if (lastRecipient) {
+                        $location.path('/messages/' + lastRecipient);
+                    }
                 },
                 function(reject) {
                     vm.errmsg = reject.errmsg;
@@ -155,35 +170,42 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
             vm.currConversation = {
                 recipient: {username: $routeParams.username}
             };
+
             _loadAllConversations();
+
             $scope.$watch('vm.buffer', function() {
                 vm.idx = 0;
                 var e = Math.min(vm.idx + vm.step, vm.buffer.length);
                 vm.conversations = vm.buffer.slice(vm.idx, e);
                 vm.idx = e;
             });
+
             $scope.$on(MESSAGE_EVENTS.ALL_READ, function() {
                 vm.buffer.forEach(function(notification) {
                     notification.read = true;
                 });
                 vm.toread = 0;
             });
+
             $scope.$on(MESSAGE_EVENTS.SET_READ, function(event, recipient) {
-                for (var i = 0; i < vm.buffer.length; i++) {
-                    var conversation = vm.buffer[i];
+                for (var i = 0; i < vm.data.length; i++) {
+                    var conversation = vm.data[i];
                     if (conversation.recipient.username === recipient) {
                         if (conversation.toread > 0) {
                             vm.toread -= conversation.toread;
                             conversation.toread = 0;
+                            vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                         }
                     }
                 }
             });
             $scope.$on(MESSAGE_EVENTS.MESSAGE_SENT, function(event, recipient, message) {
-                for (var i = 0; i < vm.buffer.length; i++) {
-                    var conversation = vm.buffer[i];
+                for (var i = 0; i < vm.data.length; i++) {
+                    var conversation = vm.data[i];
                     if (conversation.recipient.username === recipient) {
                         conversation.messages.push(message);
+                        conversation.ts_update = message.ts_create;
+                        vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                     }
                 }
             });

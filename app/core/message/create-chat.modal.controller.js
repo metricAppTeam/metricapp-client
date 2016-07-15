@@ -64,6 +64,7 @@ function ChatCreateController($scope, $location, $filter, UserService, MessageSe
             function(resolve) {
                 var username = resolve.username;
                 vm.success = true;
+                $rootScope.$broadcast(MESSAGE_EVENTS.CONVERSATION_CREATED);
                 $location.path('/messages/' + username);
             },
             function(reject) {

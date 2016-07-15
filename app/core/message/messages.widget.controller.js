@@ -133,42 +133,66 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
         vm.step = 1;
         vm.query = '';
         vm.orderBy = '-ts_update';
+
         if (AuthService.isLogged()) {
             _loadAllConversations();
         }
+
         $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
             _loadAllConversations();
         });
+
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
             vm.conversations = vm.buffer.slice(vm.idx, e);
             vm.idx = e;
         });
+
         $scope.$on(MESSAGE_EVENTS.ALL_READ, function() {
             vm.buffer.forEach(function(notification) {
                 notification.read = true;
             });
             vm.toread = 0;
         });
+
         $scope.$on(MESSAGE_EVENTS.SET_READ, function(event, recipient) {
-            for (var i = 0; i < vm.buffer.length; i++) {
-                var conversation = vm.buffer[i];
+            for (var i = 0; i < vm.data.length; i++) {
+                var conversation = vm.data[i];
                 if (conversation.recipient.username === recipient) {
                     if (conversation.toread > 0) {
                         vm.toread -= conversation.toread;
                         conversation.toread = 0;
+                        vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                     }
                 }
             }
         });
+
         $scope.$on(MESSAGE_EVENTS.MESSAGE_SENT, function(event, recipient, message) {
-            for (var i = 0; i < vm.buffer.length; i++) {
-                var conversation = vm.buffer[i];
+            for (var i = 0; i < vm.data.length; i++) {
+                var conversation = vm.data[i];
                 if (conversation.recipient.username === recipient) {
                     conversation.messages.push(message);
+                    conversation.ts_update = message.ts_create;
+                    vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
                 }
             }
+        });
+
+        $scope.$on(MESSAGE_EVENTS.CONVERSATION_REMOVED, function(event, recipient) {
+            /*for (var i = 0; i < vm.data.length; i++) {
+                var conversation = vm.data[i];
+                if (conversation.recipient.username === recipient) {
+                    vm.data.splice(i, 1);
+                    vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                }
+            }*/
+            _loadAllConversations();
+        });
+
+        $scope.$on(MESSAGE_EVENTS.CONVERSATION_CREATED, function() {
+            _loadAllConversations();
         });
     }
 

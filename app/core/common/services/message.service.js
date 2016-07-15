@@ -36,6 +36,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
     service.sendMessage = sendMessage;
 
     service.createConversation = createConversation;
+    service.removeConversation = removeConversation;
 
     /********************************************************************************
     * @ngdoc method
@@ -295,6 +296,7 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                         newMessage.id = R_CONVERSATION.messages[R_CONVERSATION.messages.length - 1].id + 1;
                         R_CONVERSATION.messages.push(newMessage);
                         R_CONVERSATION.ts_update = now;
+                        R_CONVERSATION.toread++;
 
                         newMessage.id = S_CONVERSATION.messages[S_CONVERSATION.messages.length - 1].id + 1;
                         S_CONVERSATION.messages.push(newMessage);
@@ -340,6 +342,35 @@ function MessageService($http, $q, $cookies, $filter, REST_SERVICE, AuthService,
                         resolve({username:recipient});
                     } else {
                         reject({errmsg: 'Inbox not found for user ' + authusername + ' or user ' + recipient});
+                    }
+                } else {
+                    reject({errmsg: 'User not logged'});
+                }
+            }, 500);
+        });
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name removeConversation
+    * @description
+    * Removes the specified conversation for authuser.
+    * @param {String} recipient The username of the recipient whose conversation to
+    * remove.
+    * @returns {Conversation|Error} On success, a message;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function removeConversation(recipient) {
+        return $q(function(resolve,reject) {
+            setTimeout(function() {
+                var authusername = AuthService.getUsername();
+                if (authusername) {
+                    var S_MAILBOX = DB_MESSAGES[authusername];
+                    if (S_MAILBOX) {
+                        delete S_MAILBOX[recipient];
+                        resolve({recipient:recipient, msg: 'Conversation with ' + recipient + ' removed for user ' + authusername});
+                    } else {
+                        reject({errmsg: 'Mailbox not found for user ' + authusername});
                     }
                 } else {
                     reject({errmsg: 'User not logged'});
