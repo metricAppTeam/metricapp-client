@@ -159,7 +159,7 @@
                                                 <small>{{conversation.messages[conversation.messages.length - 1].ts_create | dateFormat:'ago'}}</small>
                                                 <span class="label label-danger" ng-show="conversation.toread > 0">{{conversation.toread}}</span>
                                             </span>
-                                            <p>{{conversation.messages[conversation.messages.length - 1].content | excerptFormat:(conversation.toread > 0):50:45:'Not available'}}</p>
+                                            <p>{{conversation.messages[conversation.messages.length - 1].content | excerptFormat:(conversation.toread > 0):50:45:'No message, yet.'}}</p>
                                         </a>
                                         <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more"
                                         ng-click="vm.loadMore()" href="">Load More</a>
