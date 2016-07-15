@@ -146,7 +146,7 @@ function _loadMyApprovedMetrics() {
          vm.data = [];
           var temp = angular.copy(resolve.metricsDTO);
           for (var m in temp){
-             if (m.metricator == vm.user){
+             if (temp[m].metricatorId == vm.user){
                 vm.data.push(angular.copy(temp[m]));
              }
           }
