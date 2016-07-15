@@ -14,9 +14,9 @@ angular.module('metricapp')
 
 .controller('MetricPageController', MetricPageController);
 
-MetricPageController.$inject = ['$scope','$filter','$routeParams', '$location','MetricService','AuthService','$window'];
+MetricPageController.$inject = ['$scope','$filter','$routeParams', '$location','MetricService','AuthService','$window','FlashService'];
 
-function MetricPageController($scope,$filter,$routeParams, $location, MetricService,AuthService, $window) {
+function MetricPageController($scope,$filter,$routeParams, $location, MetricService,AuthService, $window,FlashService) {
    var vm = this;
    // this is for the scrolling
    $('body').removeClass('modal-open');
@@ -196,14 +196,12 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          }
          MetricService.update(metric).then(
             function(message) {
-               alert("Updated!");
 
                vm.newMetric = undefined;
                _selectMetricToView();
 
             },
             function(message) {
-               alert("Error in updating");
                vm.newMetric = undefined;
                _selectMetricToView();
             }
@@ -226,11 +224,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          vm.newMetric.metadata.state='Pending';
          MetricService.changeState(vm.newMetric).then(
             function(message) {
-               alert("Sended for approval!");
                vm.goToRead();
             },
             function(message) {
-               alert("Error in sending");
                vm.goToRead();
             }
          );
@@ -242,11 +238,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          vm.newMetric.metadata.state='OnUpdate';
          MetricService.changeState(vm.newMetric).then(
             function(message) {
-               alert("Change Request!");
                vm.goToRead();
             },
             function(message) {
-               alert("Error in sending");
                vm.goToRead();
             }
          );
@@ -258,11 +252,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          vm.newMetric.metadata.state='Approved';
          MetricService.changeState(vm.newMetric).then(
             function(message) {
-               alert("Change Request!");
                vm.goToRead();
             },
             function(message) {
-               alert("Error in sending");
                vm.goToRead();
             }
          );
@@ -274,11 +266,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          vm.newMetric.metadata.state='Rejected';
          MetricService.changeState(vm.newMetric).then(
             function(message) {
-               alert("Change Request!");
                vm.goToRead();
             },
             function(message) {
-               alert("Error in sending");
                vm.goToRead();
             }
          );
@@ -326,7 +316,6 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
 
             },
             function(data) {
-               alert('Error retriving Metrics');
             }
          );
       }

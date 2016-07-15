@@ -2723,10 +2723,10 @@ angular.module('metricapp')
 
 //MetricatorService.$inject = [
 //    '$http', '$rootScope', '$cookies', '$window'];
-MetricService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_METRICS', '$window'];
+MetricService.$inject = ['$http', '$q', 'REST_SERVICE', 'AuthService', 'DB_METRICS', '$window', 'FlashService'];
 
 //function MetricatorService($http, $rootScope, $cookies, $window) {
-function MetricService($http,  $q, REST_SERVICE, AuthService, DB_METRICS,$window) {
+function MetricService($http,  $q, REST_SERVICE, AuthService, DB_METRICS,$window,FlashService) {
 
     var service = this;
     service.getAll =getAll;
@@ -2758,14 +2758,13 @@ function getAll() {
           return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric').then(
                function(response) {
                    var message = angular.fromJson(response.data);
-                   console.log('SUCCESS GET METRICS');
-                   console.log(message);
+                   console.log('SUCCESS GET ALL METRICS');
                    return message;
                },
                function(response) {
                    var message = angular.fromJson(response.data);
-                   console.log('FAILURE GET METRICS');
-                   console.log(message);
+                   console.log('FAILURE GET ALL METRICS');
+                   FlashService.danger('Error in retrieving Metrics');
                    return message;
                }
            );
@@ -2791,7 +2790,7 @@ function getAllApproved() {
                function(response) {
                    var message = angular.fromJson(response.data);
                    console.log('FAILURE GET METRICS');
-                   console.log(message);
+                   FlashService.danger('Error in retrieving Metrics');
                    return message;
                }
            );
@@ -2829,11 +2828,13 @@ function getInArray(metricids) {
                //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                console.log('SUCCESS PUT metric');
                var message = response.data;
+               FlashService.success('Metric updated: '+message.metricsDTO[0].name);
                return message;
           },
           function(response) {
                var message = response.data;
                console.log('FAILURE PUT metric');
+               FlashService.danger('Error in updating Metric');
                return message;
           }
      );
@@ -2845,11 +2846,13 @@ function getInArray(metricids) {
               //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
               console.log('SUCCESS PUT metric');
               var message = response.data;
+              FlashService.success('Metric updated');
               return message;
          },
          function(response) {
               var message = response.data;
               console.log('FAILURE PUT metric');
+              FlashService.danger('Error in updating Metric');
               return message;
          }
     );
@@ -2864,11 +2867,13 @@ function getInArray(metricids) {
               console.log('SUCCESS POST metric');
               var message = response.data;
               mmetric = message.metricsDTO[0];
+              FlashService.success('Metric created!');
               return message;
          },
          function(response) {
               var message = response.data;
               console.log('FAILURE POST metric');
+              FlashService.danger('Error in creating Metrics');
               return message;
          }
     );
@@ -2889,13 +2894,12 @@ function getInArray(metricids) {
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
-                console.log(message);
                 return message;
             },
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET METRICS');
-                console.log(message);
+                FlashService.danger('Error in retrieving Metrics');
                 return message;
             }
         );
@@ -2916,6 +2920,7 @@ function getInArray(metricids) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET METRIC');
                 console.log(message);
+                FlashService.danger('Error in retrieving Metrics');
                 return message;
             }
         );
@@ -2943,6 +2948,7 @@ function getInArray(metricids) {
                     var message = angular.fromJson(response.data);
                     console.log('FAILURE GET METRICS');
                     console.log(message);
+                    FlashService.danger('Error in retrieving Metrics');
                     return message;
                 }
             );
@@ -2970,6 +2976,7 @@ function getInArray(metricids) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET METRICS BY ID');
                 console.log(message);
+                FlashService.danger('Error in retrieving Metrics');
                 return message;
             }
         );
@@ -3021,6 +3028,7 @@ function getInArray(metricids) {
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET METRICS');
+                FlashService.danger('Error in retrieving Metrics');
                 console.log(message);
                 return message;
             }
@@ -3041,6 +3049,7 @@ function getInArray(metricids) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET METRICS');
                 console.log(message);
+                FlashService.danger('Error in retrieving Metrics');
                 return message;
             }
         );
@@ -3060,6 +3069,7 @@ function getInArray(metricids) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET METRICS');
                 console.log(message);
+                FlashService.danger('Error in retrieving Metrics');
                 return message;
             }
         );
@@ -3079,6 +3089,7 @@ function getInArray(metricids) {
                 var message = angular.fromJson(response.data);
                 console.log('FAILURE GET METRICS');
                 console.log(message);
+                FlashService.danger('Error in retrieving Metrics');
                 return message;
             }
         );
@@ -6509,9 +6520,9 @@ angular.module('metricapp')
 
 .controller('MetricPageController', MetricPageController);
 
-MetricPageController.$inject = ['$scope','$filter','$routeParams', '$location','MetricService','AuthService','$window'];
+MetricPageController.$inject = ['$scope','$filter','$routeParams', '$location','MetricService','AuthService','$window','FlashService'];
 
-function MetricPageController($scope,$filter,$routeParams, $location, MetricService,AuthService, $window) {
+function MetricPageController($scope,$filter,$routeParams, $location, MetricService,AuthService, $window,FlashService) {
    var vm = this;
    // this is for the scrolling
    $('body').removeClass('modal-open');
@@ -6691,14 +6702,12 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          }
          MetricService.update(metric).then(
             function(message) {
-               alert("Updated!");
 
                vm.newMetric = undefined;
                _selectMetricToView();
 
             },
             function(message) {
-               alert("Error in updating");
                vm.newMetric = undefined;
                _selectMetricToView();
             }
@@ -6721,11 +6730,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          vm.newMetric.metadata.state='Pending';
          MetricService.changeState(vm.newMetric).then(
             function(message) {
-               alert("Sended for approval!");
                vm.goToRead();
             },
             function(message) {
-               alert("Error in sending");
                vm.goToRead();
             }
          );
@@ -6737,11 +6744,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          vm.newMetric.metadata.state='OnUpdate';
          MetricService.changeState(vm.newMetric).then(
             function(message) {
-               alert("Change Request!");
                vm.goToRead();
             },
             function(message) {
-               alert("Error in sending");
                vm.goToRead();
             }
          );
@@ -6753,11 +6758,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          vm.newMetric.metadata.state='Approved';
          MetricService.changeState(vm.newMetric).then(
             function(message) {
-               alert("Change Request!");
                vm.goToRead();
             },
             function(message) {
-               alert("Error in sending");
                vm.goToRead();
             }
          );
@@ -6769,11 +6772,9 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
          vm.newMetric.metadata.state='Rejected';
          MetricService.changeState(vm.newMetric).then(
             function(message) {
-               alert("Change Request!");
                vm.goToRead();
             },
             function(message) {
-               alert("Error in sending");
                vm.goToRead();
             }
          );
@@ -6821,7 +6822,6 @@ function MetricPageController($scope,$filter,$routeParams, $location, MetricServ
 
             },
             function(data) {
-               alert('Error retriving Metrics');
             }
          );
       }
