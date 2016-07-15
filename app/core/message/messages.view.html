@@ -40,6 +40,7 @@
                                         <input type="text" class="form-control" placeholder="Who are you looking for?"
                                         ng-model="vm.query"
                                         ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                                        ng-disabled="vm.loading || !vm.success"
                                         ng-change="vm.search(vm.query)"/>
                                     </div>
                                 </div>

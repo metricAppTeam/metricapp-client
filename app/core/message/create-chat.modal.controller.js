@@ -30,8 +30,8 @@ function ChatCreateController($scope, $rootScope, $location, $filter, UserServic
     vm.search = search;
 
     vm.toggleSelectedUser = toggleSelectedUser;
-    //vm.createConversation = createConversation;
     vm.close = close;
+    vm.createConversation = createConversation;
 
     _init();
 
@@ -44,6 +44,7 @@ function ChatCreateController($scope, $rootScope, $location, $filter, UserServic
     }
 
     function search(query) {
+        vm.selectedUser = null;
         vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
     }
 
@@ -57,6 +58,10 @@ function ChatCreateController($scope, $rootScope, $location, $filter, UserServic
                 vm.selectedUser = user;
             }
         }
+    }
+
+    function createConversation(user) {
+        $location.path('/messages/'+user.username);
     }
 /*
     function createConversation(user) {

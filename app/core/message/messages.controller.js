@@ -62,7 +62,8 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
             }
         }
         MessageService.setReadById(recipient);
-        $rootScope.$broadcast(MESSAGE_EVENTS.SET_READ, recipient);
+        _broadcastConversationRead(recipient);
+
     }
 
     function setAllRead() {
@@ -115,6 +116,10 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                             var recipient = conversation.recipient;
                             conversation.recipient = angular.copy(users[recipient]);
                             if (conversation.recipient) {
+                                if (conversation.recipient.username === vm.currConversation.recipient.username) {
+                                    vm.toread -= conversation.toread;
+                                    conversation.toread = 0;
+                                }
                                 vm.data.push(conversation);
                             }
                         }
@@ -173,6 +178,10 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
         $rootScope.$broadcast(MESSAGE_EVENTS.NO_NEWS);
     }
 
+    function _broadcastConversationRead(recipient) {
+        $rootScope.$broadcast(MESSAGE_EVENTS.SET_READ, recipient);
+    }
+
     function _broadcastConversationRemoved(recipient) {
         $rootScope.$broadcast(MESSAGE_EVENTS.CONVERSATION_REMOVED, recipient);
     }
@@ -217,7 +226,6 @@ function MessagesController($scope, $rootScope, $location, $routeParams, $filter
                 vm.currConversation = {
                     recipient: {username: $routeParams.username}
                 };
-
                 _loadAllConversations();
             },
             function(reject) {

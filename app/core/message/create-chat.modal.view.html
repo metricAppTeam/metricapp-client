@@ -21,12 +21,9 @@ ng-controller="ChatCreateController as vm">
                                                 </div>
                                                 <input type="text" class="form-control" placeholder="Who are you looking for?"
                                                 ng-model="vm.query"
-                                                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-primary"
-                                                    ng-disabled="!vm.query || vm.loading"
-                                                    ng-click="vm.search(vm.query)">Search</button>
-                                                </div>
+                                                ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
+                                                ng-disabled="vm.loading || !vm.success"
+                                                ng-change="vm.search(vm.query)"/>
                                             </div>
                                         </div>
                                     </div>
@@ -65,10 +62,10 @@ ng-controller="ChatCreateController as vm">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary"
+                <a type="button" class="btn btn-primary"
                 ng-disabled="vm.loading || !vm.success || !vm.selectedUser"
-                ng-href="/messages/{{vm.selectedUser}}"
-                data-dismiss="modal">Create</button>
+                href="" ng-click="vm.createConversation(vm.selectedUser)"
+                data-dismiss="modal">Create</a>
                 <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.close()">Close</button>
             </div>
         </div>
