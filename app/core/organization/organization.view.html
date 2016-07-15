@@ -45,7 +45,7 @@
                     <p>No contacts yet</p>
                 </div>
                 <div ng-switch-when="true">
-                    <div class="col-md-3" ng-repeat="user in vm.users | userFilterByName:vm.query | orderBy:vm.orderBy track by user.username">
+                    <div class="col-md-3" ng-repeat="user in vm.users | userSearch:vm.query | orderBy:vm.orderBy track by user.username">
                         <div class="panel panel-default">
                             <div class="panel-body profile">
                                 <div class="profile-image">

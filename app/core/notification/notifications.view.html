@@ -60,7 +60,7 @@
                                 ng-href="#/{{notification.scope}}/{{notification.artifact_id}}" ng-click="vm.setRead(notification.id)">
                                     <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
                                     <span class="contacts-title">
-                                        {{notification.author | userFullname}} <small>{{notification.ts_create | datetimeFilter:'ago'}}</small>
+                                        {{notification.author | userFullnameFormat}} <small>{{notification.ts_create | dateFormat:'ago'}}</small>
                                         <p>{{notification.name}}</p>
                                     </span>
                                     <div class="list-group-controls">

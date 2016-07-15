@@ -44,10 +44,10 @@
                         ng-class="{'status-online': conversation.recipient.online,
                         'status-offline': !conversation.recipient.online}"></div>
                         <img ng-src="{{conversation.recipient.picture}}" class="pull-left" alt="{{conversation.recipient.username}}">
-                        <div class="contacts-title">{{conversation.recipient | userFullname}}
+                        <div class="contacts-title">{{conversation.recipient | userFullnameFormat}}
                             <span ng-show="conversation.toread > 0" class="label label-danger">{{conversation.toread}}</span>
                         </div>
-                        <p>{{conversation.messages[conversation.messages.length - 1].content | excerptFilter:(conversation.toread > 0):30:28:'Not available'}}</p>
+                        <p>{{conversation.messages[conversation.messages.length - 1].content | excerptFormat:(conversation.toread > 0):30:28:'Not available'}}</p>
                     </a>
                     <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more"
                     ng-click="vm.loadMore()" href="">Load More</a>
@@ -61,7 +61,7 @@
         <!-- START: FRAME-BODY -->
         <div class="content-frame-body content-frame-body-left" ng-controller="ChatController as vm">
             <div class="conversation-title-recipient" ng-show="!vm.loading && vm.success && vm.currConversation.recipient">
-                <h4>{{vm.currConversation.recipient | userFullname}}</h4>
+                <h4>{{vm.currConversation.recipient | userFullnameFormat}}</h4>
             </div>
             <div class="messages messages-img" style="height:65vh;overflow-y:auto;" scroll-glue>
                 <div ng-repeat="message in vm.currConversation.messages | orderBy: vm.orderBy track by message.id"
@@ -81,10 +81,10 @@
                     <div class="text">
                         <div class="heading">
                             <a ng-if="message.author == globals.user.username"
-                            ng-href="#/profile/{{globals.user.username.username}}">{{globals.user | userFullname}}</a>
+                            ng-href="#/profile/{{globals.user.username.username}}">{{globals.user | userFullnameFormat}}</a>
                             <a ng-if="message.author == vm.currConversation.recipient.username"
-                            ng-href="#/profile/{{vm.currConversation.recipient.username}}">{{vm.currConversation.recipient | userFullname}}</a>
-                            <span class="date">{{message.ts_create | datetimeFilter:'normal'}}</span>
+                            ng-href="#/profile/{{vm.currConversation.recipient.username}}">{{vm.currConversation.recipient | userFullnameFormat}}</a>
+                            <span class="date">{{message.ts_create | dateFormat:'normal'}}</span>
                         </div>
                         {{message.content}}
                     </div>

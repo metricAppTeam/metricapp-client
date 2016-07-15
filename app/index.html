@@ -155,11 +155,11 @@
                                             'status-offline': !conversation.recipient.online}"></div>
                                             <img ng-src="{{conversation.recipient.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{conversation.recipient.username}}"/>
                                             <span class="contacts-title">
-                                                {{conversation.recipient | userFullname}}
-                                                <small>{{conversation.messages[conversation.messages.length - 1].ts_create | datetimeFilter:'ago'}}</small>
+                                                {{conversation.recipient | userFullnameFormat}}
+                                                <small>{{conversation.messages[conversation.messages.length - 1].ts_create | dateFormat:'ago'}}</small>
                                                 <span class="label label-danger" ng-show="conversation.toread > 0">{{conversation.toread}}</span>
                                             </span>
-                                            <p>{{conversation.messages[conversation.messages.length - 1].content | excerptFilter:(conversation.toread > 0):50:45:'Not available'}}</p>
+                                            <p>{{conversation.messages[conversation.messages.length - 1].content | excerptFormat:(conversation.toread > 0):50:45:'Not available'}}</p>
                                         </a>
                                         <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more"
                                         ng-click="vm.loadMore()" href="">Load More</a>
@@ -207,8 +207,8 @@
                                         ng-href="#/{{notification.scope}}/{{notification.artifact_id}}" ng-click="vm.setRead(notification.id)">
                                             <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
                                             <span class="contacts-title">
-                                                {{notification.author | userFullname}}
-                                                <small>{{notification.ts_create | datetimeFilter:'ago'}}</small>
+                                                {{notification.author | userFullnameFormat}}
+                                                <small>{{notification.ts_create | dateFormat:'ago'}}</small>
                                                 <p>{{notification.name}}</p>
                                             </span>
                                         </a>

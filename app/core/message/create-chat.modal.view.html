@@ -5,7 +5,7 @@ ng-controller="ChatCreateController as vm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="defModalHead">New Conversation <small ng-show="!vm.loading && vm.success && vm.selectedUser">with {{vm.selectedUser | userFullname}}</small></h4>
+                <h4 class="modal-title" id="defModalHead">New Conversation <small ng-show="!vm.loading && vm.success && vm.selectedUser">with {{vm.selectedUser | userFullnameFormat}}</small></h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -44,12 +44,12 @@ ng-controller="ChatCreateController as vm">
                                 <div class="panel panel-default">
                                     <div class="panel-body list-group list-group-contacts">
                                         <a class="list-group-item" style="cursor:pointer;"
-                                        ng-repeat="user in vm.users | userFilterByName:vm.query | orderBy:vm.orderBy track by user.username"
+                                        ng-repeat="user in vm.users | userSEarch:vm.query | orderBy:vm.orderBy track by user.username"
                                         ng-if="user.username !== globals.user.username"
                                         ng-class="{'status-selected': user.username == vm.selectedUser}"
                                         ng-href="" ng-click="vm.toggleSelectedUser(user)">
                                             <img ng-src="{{user.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{user.username}}"/>
-                                            <span class="contacts-title">{{user | userFullname}}</span>
+                                            <span class="contacts-title">{{user | userFullnameFormat}}</span>
                                             <p>{{user.role}}</p>
                                             <div class="list-group-controls">
                                                 <span class="fa" ng-class="{'fa-check': user.username == vm.selectedUser.username}"></span>
