@@ -7053,6 +7053,7 @@ function create() {
 
   function update(){
      _load();
+     vm.search(vm.query);
  }
 
     function _init() {
