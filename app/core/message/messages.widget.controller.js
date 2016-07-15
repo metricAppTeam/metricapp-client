@@ -138,15 +138,27 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
             _loadAllConversations();
         }
 
-        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
-            _loadAllConversations();
-        });
+        /****************************************************************************
+        * WATCHERS
+        ****************************************************************************/
 
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
             vm.conversations = vm.buffer.slice(vm.idx, e);
             vm.idx = e;
+        });
+
+        /****************************************************************************
+        * LISTENERS
+        ****************************************************************************/
+
+        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
+            _loadAllConversations();
+        });
+
+        $scope.$on(MESSAGE_EVENTS.NO_NEWS, function() {
+            vm.news = 0;
         });
 
         $scope.$on(MESSAGE_EVENTS.ALL_READ, function() {
@@ -193,6 +205,10 @@ function MessagesWidgetController($scope, $rootScope, $location, $routeParams, $
         $scope.$on(MESSAGE_EVENTS.CONVERSATION_CREATED, function() {
             _loadAllConversations();
         });
+
+        /****************************************************************************
+        * BRODCASTERS
+        ****************************************************************************/
     }
 
 }

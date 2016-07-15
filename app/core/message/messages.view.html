@@ -3,7 +3,7 @@
         <li><a ng-href="#/home">Home</a></li>
         <li class="active"><a ng-href="#/messages">Messages</a></li>
     </ul>
-    <div class="content-frame" style="height:85vh;">
+    <div class="content-frame" style="height:75vh;">
         <div class="content-frame-top">
             <div class="page-title">
                 <h2><span class="fa fa-globe"></span>
@@ -61,9 +61,9 @@
         <!-- START: FRAME-BODY -->
         <div class="content-frame-body content-frame-body-left" ng-controller="ChatController as vm">
             <div class="conversation-title-recipient" ng-show="!vm.loading && vm.success && vm.currConversation.recipient">
-                <h4>{{vm.currConversation.recipient | userFullnameFormat}}</h4>
+                <h4>{{vm.currConversation.recipient | userFullnameFormat | textFallback:vm.errmsg}}</h4>
             </div>
-            <div class="messages messages-img" style="height:65vh;overflow-y:auto;" scroll-glue>
+            <div class="messages messages-img" style="height:60vh;overflow-y:auto;" scroll-glue>
                 <div ng-repeat="message in vm.currConversation.messages | orderBy: vm.orderBy track by message.id"
                 class="item item-visible" ng-class="{'in': message.author != globals.user.username}">
                     <div class="image">

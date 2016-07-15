@@ -44,7 +44,7 @@ ng-controller="ChatCreateController as vm">
                                 <div class="panel panel-default">
                                     <div class="panel-body list-group list-group-contacts">
                                         <a class="list-group-item" style="cursor:pointer;"
-                                        ng-repeat="user in vm.users | userSEarch:vm.query | orderBy:vm.orderBy track by user.username"
+                                        ng-repeat="user in vm.users | userSearch:vm.query | orderBy:vm.orderBy track by user.username"
                                         ng-if="user.username !== globals.user.username"
                                         ng-class="{'status-selected': user.username == vm.selectedUser}"
                                         ng-href="" ng-click="vm.toggleSelectedUser(user)">

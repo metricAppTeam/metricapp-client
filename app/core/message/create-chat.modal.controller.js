@@ -111,13 +111,27 @@ function ChatCreateController($scope, $location, $filter, UserService, MessageSe
         vm.query = '';
         vm.orderBy = 'firstname';
         vm.selectedUser = null;
+
         _loadAllUsers();
+
+        /****************************************************************************
+        * WATCHERS
+        ****************************************************************************/
+
         $scope.$watch('vm.buffer', function() {
             vm.idx = 0;
             var e = Math.min(vm.idx + vm.step, vm.buffer.length);
             vm.users = vm.buffer.slice(vm.idx, e);
             vm.idx = e;
         });
+
+        /****************************************************************************
+        * LISTENERS
+        ****************************************************************************/
+
+        /****************************************************************************
+        * BRODCASTERS
+        ****************************************************************************/
     }
 
 }
