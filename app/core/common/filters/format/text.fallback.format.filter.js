@@ -17,6 +17,8 @@ function textFallback() {
     return function(obj, fallbackString) {
         if (!obj) {
             return fallbackString;
+        } else {
+            return obj;
         }
     };
 }
