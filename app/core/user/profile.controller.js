@@ -120,18 +120,32 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
             }
             return;
         }
+
         vm.currUser = {
             username: $routeParams.username
         };
+
         _loadUser(vm.currUser.username);
+
+        /****************************************************************************
+        * WATCHERS
+        ****************************************************************************/
+
+        /****************************************************************************
+        * LISTENERS
+        ****************************************************************************/
+
         $scope.$on(USER_EVENTS.UPDATE_SUCCESS, function(event, user) {
-            alert('ProfileController:USER_EVENTS.UPDATE_SUCCESS');
             vm.currUser = angular.copy(user);
         });
+
         $scope.$on(USER_EVENTS.UPDATE_FAILURE, function(event) {
-            alert('ProfileController:USER_EVENTS.UPDATE_FAILURE');
             _loadUser(vm.currUser.username);
         });
+
+        /****************************************************************************
+        * BRODCASTERS
+        ****************************************************************************/
     }
 
 }
