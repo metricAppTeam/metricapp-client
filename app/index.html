@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="body-full-height" ng-app="metricapp" ng-strict-di>
+<html lang="en" class="body-full-height"  ng-app="metricapp" ng-strict-di>
     <head>
         <!-- META: NAVIGATION -->
         <base href="/">
@@ -94,6 +94,14 @@
                     <li ng-repeat="action in vm.actions">
                         <a ng-href="{{action.href}}"><span class="fa fa-{{action.icon}}"></span><span class="xn-text">{{action.name}}</span></a>
                     </li>
+
+		    <li><a href="/metricator">Metricator</a></li>
+                    <div ng-repeat="action in vm.getActionsForRole(globals.user.role)">
+                        <li>
+                            <a href="{{action.href}}"><span class="fa fa-cog"></span><span class="xn-text">{{action.name}}</span></a>
+                        </li>
+                    </div>
+
                 </ul>
                 <!-- END X-NAVIGATION -->
             </div>
@@ -273,9 +281,11 @@
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/daterangepicker/daterangepicker.js"></script>
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins/datatables/jquery.dataTables.min.js"></script>
 
+
         <!-- THEME: MAIN SCRIPTS -->
         <script type="text/javascript" src="vendors/joli-admin/joli/js/plugins.js"></script>
         <script type="text/javascript" src="vendors/joli-admin/joli/js/actions.js"></script>
+        <script type="text/javascript" src="vendors/joli-admin/joli/js/settings.js"></script>
 
         <!-- ANGULAR SCRIPTS -->
         <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
@@ -284,10 +294,13 @@
         <script type="text/javascript" src="vendors/angular-messages/angular-messages.min.js"></script>
         <script type="text/javascript" src="vendors/angular-flash-alert/dist/angular-flash.min.js"></script>
         <script type="text/javascript" src="vendors/angular-mocks/angular-mocks.js"></script>
+        <script type="text/javascript" src="vendors/angular-smart-table/dist/smart-table.js"></script>
+
 
         <!-- ANGULAR - NvD3 Js - ChartJs - Angular Chart [Graph and Charts] -->
         <script type="text/javascript" src="vendors/d3/d3.min.js"></script>
         <script type="text/javascript" src="vendors/nvd3/build/nv.d3.min.js"></script>
+        <script type='text/javascript' src='vendors/d3/d3.min.js'></script>
         <script type="text/javascript" src="vendors/angular-chart/angular-chart.min.js"></script>
         <script type="text/javascript" src="vendors/angular-nvd3/dist/angular-nvd3.min.js"></script>
         <script type="text/javascript" src="vendors/chartjs/dist/Chart.min.js"></script>
@@ -299,8 +312,17 @@
         <script type="text/javascript" src="vendors/cytoscape/dist/cytoscape.min.js"></script>
         <script type="text/javascript" src="vendors/ngCytoscape/dist/ngCytoscape.min.js"></script>
 
+        <!-- ace editor js -->
+        <script type="text/javascript" src="vendors/ace-builds/src-min/ace.js"></script>
+        <script type="text/javascript" src="vendors/angular-ui-ace/ui-ace.js"></script>
+
+        <!-- sortable lists -->
+        <script type="text/javascript" src="vendors/ng-sortable/dist/ng-sortable.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="vendors/ng-sortable/dist/ng-sortable.min.css">
+
         <!-- APP SCRIPTS -->
         <script type="text/javascript" src="dist/scripts/app.js"></script>
+
 
         <!-- EXPORT EXCEL FILE FROM TABLE -->
         <script src="https://rawgithub.com/eligrey/FileSaver.js/master/FileSaver.js" type="text/javascript"></script>

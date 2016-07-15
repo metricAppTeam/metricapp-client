@@ -104,6 +104,7 @@ function routes($routeProvider, $locationProvider) {
     .when('/teams', {
         templateUrl: 'dist/views/teams/teams.view.html'
     })
+
     */
 
     // MEASUREMENT GOALS
@@ -131,6 +132,10 @@ function routes($routeProvider, $locationProvider) {
     })
 
     // ERRORS
+
+    .when('/metricDashboard', {
+        templateUrl: 'dist/views/metricator/metricDashboard.view.html'
+    })
     .when('/401', {
         templateUrl: 'dist/views/error/error401.view.html'
     })
@@ -139,6 +144,18 @@ function routes($routeProvider, $locationProvider) {
     })
     .when('/500', {
         templateUrl: 'dist/views/error/error500.view.html'
+    })
+    .when('/measurementgoal', {
+        templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
+    })
+    .when('/metric', {
+      templateUrl: 'dist/views/metric/metricpage.view.html'
+    })
+    .when('/measurementgoalsearch', {
+        templateUrl: 'dist/views/measurementgoal/measurementgoalsearch.view.html'
+    })
+    .when('/metricator', {
+        templateUrl: 'dist/views/metricator/metricator.view.html'
     })
     .otherwise({
         redirectTo: '/404'

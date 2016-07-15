@@ -73,8 +73,8 @@ angular.module('metricapp')
         online:     false
     },
 
-    'metricator-ag': {
-        username:   'metricator-ag',
+    'metricator': {
+        username:   'metricator',
         password:   'password',
         role:       'METRICATOR',
         firstname:  'Andrea',

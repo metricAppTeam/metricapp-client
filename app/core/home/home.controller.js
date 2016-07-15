@@ -28,7 +28,7 @@ function HomeController($rootScope, $scope, $location, $timeout, AuthService) {
     function _loadHome() {
         vm.loading = true;
         vm.success = false;
-        vm.currUser = AuthService.getUser();
+       vm.currUser = AuthService.getUser();
         vm.success = true;
         vm.loading = false;
     }

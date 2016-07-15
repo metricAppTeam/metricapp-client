@@ -1,0 +1,139 @@
+<!-- METRICATOR'S HOME-->
+<!-- PAGE TITLE -->
+<div class="page-title">
+	<h2><span class="fa fa-arrow-circle-o-left"></span> Metricator's Dashboard</h2>
+</div>
+<!-- END PAGE TITLE -->
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+
+<div class="row">
+<div class="col-md-12">
+
+<div ng-controller="MetricatorController as vm">
+<!-- START DEFAULT DATATABLE -->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Active Measurement Goals</h3>
+        <ul class="panel-controls">
+            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+            <li><a ng-click="vm.getMeasurementGoals()" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+            <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+            <!--<table ng-repeat="result in vm.results" class="table datatable">-->
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>CreationDate</th>
+                        <th>LastVersionDate</th>
+                        <th>ReleaseNote</th>
+                        <th>State</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--<tr ng-repeat="measurementGoal in result">-->
+                    <tr ng-repeat="measurementGoal in vm.measurementGoals">
+                        <td>
+                        <!--#modal_large vm.setModal($parent.$index) id="modal_button"-->
+                    <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMeasurementGoalDialog($parent.$index,$index)">{{measurementGoal.metadata.id}}</button>-->
+                    <!--<button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.getMeasurementGoalExternals($index)">{{vm.measurementGoalDialog.metadata.id}}</button>-->
+                    <button class="btn btn-default btn-rounded" ng-click="vm.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
+                        </td>
+                        <td>{{measurementGoal.metadata.entityType}}</td>
+                        <td>{{measurementGoal.metadata.creationDate}}</td>
+                        <td>{{measurementGoal.metadata.lastVersionDate}}</td>
+                        <td>{{measurementGoal.metadata.releaseNote}}</td>
+                        <td>{{measurementGoal.metadata.state}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- BEGIN MEASUREMENT GOAL MODAL DIALOG -->
+
+    <div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div ng-include="'dist/views/metricator/modal/modal.measurementgoal.html'"></div>
+            </div>
+    </div>
+
+    <!--<div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div ng-switch="vm.modal">
+                    <div ng-switch-when="measurementGoal">
+                        <div ng-include="'dist/views/metricator/modal/modal.measurementgoal.html'"></div>
+                    </div>
+                    <div ng-switch-when="question">
+                        <div ng-include="'dist/views/metricator/modal/modal.question.html'"></div>
+                    </div>
+                    <div ng-switch-when="metric">
+                        <div ng-include="'dist/views/metricator/modal/modal.metric.html'"></div>
+                    </div>
+                    <div ng-switch-default="ng-switch-default">
+                        <div ng-include="'dist/views/metricator/modal/modal.metric.html'"></div>
+                    </div>
+                </div>
+            </div>
+    </div>-->
+    <!-- END MEASUREMENT GOAL MODAL DIALOG -->
+
+     <!-- BEGIN METRIC MODAL DIALOG
+
+            <div class="modal" id="modal_metric" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+    </div>
+    </div>
+     END METRIC MODAL DIALOG -->
+
+         <!-- BEGIN QUESTION MODAL DIALOG
+
+            <div class="modal" id="modal_question" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="largeModalHead">Question</h4>
+            </div>
+            <div class="modal-body">
+            <h2>Question</h2>
+            <ul class="list-group border-bottom">
+                <h4>Focus</h4>
+                    <li class="list-group-item">{{vm.questionDialog.focus}}</li>
+                    <h4>Subject</h4>
+                    <li class="list-group-item">{{vm.questionDialog.subject}</li>
+                    <h4>Description</h4>
+                    <li class="list-group-item">{{vm.questionDialog.description}}</li>
+                    <h4>Tags</h4>
+                    <li class="list-group-item" ng-repeat="tag in vm.questionDialog.tags">{{tag}}</li>
+                    <h4>State</h4>
+                    <li class="list-group-item">{{vm.questionDialog.state}}</li>
+                    <h4>Last Version Date</h4>
+                    <li class="list-group-item">{{vm.questionDialog.lastVersionDate}}</li>
+                    <h4>Creation Date</h4>
+                    <li class="list-group-item">{{vm.questionDialog.creationDate}}</li>
+                    <h4>Release Note</h4>
+                    <li class="list-group-item">
+                        <div class="panel-body scroll" style="height: 30px;">
+                            <p>{{vm.questionDialog.releaseNote}}
+                        </div>
+                    </li>
+            </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>       </div>
+        </div>
+    </div>
+    </div>
+    END METRIC MODAL DIALOG -->
+
+</div>
+<!-- END DEFAULT DATATABLE -->
+</div>
+</div>
+</div>
