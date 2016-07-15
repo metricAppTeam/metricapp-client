@@ -159,7 +159,7 @@
                                                 <small>{{conversation.messages[conversation.messages.length - 1].ts_create | datetimeFilter:'ago'}}</small>
                                                 <span class="label label-danger" ng-show="conversation.toread > 0">{{conversation.toread}}</span>
                                             </span>
-                                            <p>{{conversation.messages[conversation.messages.length - 1].content.toString().substring(0, (conversation.toread > 0) ? 50 : 45)}}...</p>
+                                            <p>{{conversation.messages[conversation.messages.length - 1].content | excerptFilter:(conversation.toread > 0):50:45:'Not available'}}</p>
                                         </a>
                                         <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more"
                                         ng-click="vm.loadMore()" href="">Load More</a>
@@ -292,6 +292,9 @@
         <script type="text/javascript" src="vendors/angular-messages/angular-messages.min.js"></script>
         <script type="text/javascript" src="vendors/angular-flash-alert/dist/angular-flash.min.js"></script>
         <script type="text/javascript" src="vendors/angular-mocks/angular-mocks.js"></script>
+
+        <!-- ANGULAR 3rd PARTY SCRIPTS -->
+        <script type="text/javascript" src="vendors/ng-scroll-glue/dist/ng-scroll-glue.min.js"></script>
 
         <!-- ANGULAR - NvD3 Js - ChartJs - Angular Chart [Graph and Charts] -->
         <script type="text/javascript" src="vendors/d3/d3.min.js"></script>

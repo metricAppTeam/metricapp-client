@@ -60,7 +60,7 @@
         <!-- END: FRAME-RIGHT -->
         <!-- START: FRAME-BODY -->
         <div class="content-frame-body content-frame-body-left" ng-controller="ChatController as vm">
-            <div class="messages messages-img" style="height:65vh;overflow-y:auto;">
+            <div class="messages messages-img" style="height:65vh;overflow-y:auto;" scroll-glue>
                 <div ng-repeat="message in vm.currConversation.messages | orderBy: vm.orderBy track by message.id"
                 class="item item-visible" ng-class="{'in': message.author != globals.user.username}">
                     <div class="image">
