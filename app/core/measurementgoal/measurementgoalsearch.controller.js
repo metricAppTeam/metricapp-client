@@ -15,10 +15,10 @@ angular.module('metricapp')
 
 .controller('MeasurementGoalSearchController', MeasurementGoalSearchController);
 
-MeasurementGoalSearchController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window'];
+MeasurementGoalSearchController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window', 'MeasurementGoalModalService'];
 
-function MeasurementGoalSearchController($scope, $location, MetricService, MeasurementGoalService, $window) {
-
+function MeasurementGoalSearchController($scope, $location, MetricService, MeasurementGoalService, $window, MeasurementGoalModalService) {
+    //TODO add footer controllers
     var vm = this;
     vm.measurementGoals = [];
     vm.metrics = [];
@@ -117,7 +117,7 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
                 vm.assumptions = data.assumptions;
                 vm.organizationalGoal = data.organizationalGoal;
                 vm.instanceProject = data.instanceProject;
-                $("#modal_large").modal("show");
+                //$("#modal_large").modal("show");
             },
             function(data) {
                 alert('Error retriving Metrics');
@@ -128,6 +128,20 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
     function setMeasurementGoalDialog(measurementGoalToAssignId){
         vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
         getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
+        
+        //Send to MeasurementGoalService to open a modal
+        var toUpdate = {
+            measurementGoal : vm.measurementGoalDialog,
+            metrics : vm.metrics,
+            contextFactors : vm.contextFactors,
+            assumptions : vm.assumptions,
+            organizationalGoal : vm.organizationalGoal,
+            instanceProject : vm.instanceProject
+        };
+
+        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
+        MeasurementGoalModalService.openMeasurementGoalModal();
+
         //var goalid = $routeParams.goalid;
         //vm.currMGoal = {
         //    id: goalid;

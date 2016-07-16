@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 19:38:37
+* @Last Modified time: 2016-07-16 02:00:00
 */
 (function() { 'use strict';
 
@@ -40,6 +40,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     service.getExternalContextFactors = getExternalContextFactors;
     service.getExternalAssumptions = getExternalAssumptions;
     service.countMeasurementGoalsByState = countMeasurementGoalsByState;
+    service.addSomethingToMeasurementGoal = addSomethingToMeasurementGoal;
 
     /********************************************************************************
     * @ngdoc method
@@ -72,13 +73,13 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
         	focus: measurementGoal.focus,
         	metadata: metadata};*/
                 
-        console.log("POST MEASUREMENT GOAL");        
+        console.log("PUT MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
         //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
 
-        return $http.put('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', measurementGoal).then(
+        return $http.put('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal/', measurementGoal).then(
             function(response) {
                 //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
@@ -103,7 +104,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     function countMeasurementGoalsByState(state) {
         console.log('GET Measurement Goals with userid='+AuthService.getUser().username+'&state='+state);
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal/count/?userid='+AuthService.getUser().username+'&state='+state).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal/count/?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -131,7 +132,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     function getMeasurementGoals(state) {
         console.log('GET Measurement Goals with userid='+AuthService.getUser().username+'&state='+state);
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid='+AuthService.getUser().username+'&state='+state).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -156,7 +157,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     ********************************************************************************/
     function getExternalContextFactors() {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/contextfactor/all').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/contextfactor/all').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
@@ -181,7 +182,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     ********************************************************************************/
     function getExternalAssumptions() {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/assumption/all').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/assumption/all').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');
@@ -207,7 +208,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     
     function getMeasurementGoalExternals(measurementGoalId) {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/measurementgoal?id='+measurementGoalId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -233,7 +234,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     
     function getOrganizationalGoalById(organizationalGoalId) {
         
-        //return $http.get('http://localhost:8080/metricapp-server-gitlab/external/organizationalgoal?id='+organizationalGoalId).then(
+        //return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id='+organizationalGoalId).then(
         
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').then(
             function(response) {
@@ -264,7 +265,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     
     function getMeasurementGoalsBy(keyword,field) {
         
-        return $http.get("http://localhost:8080/metricapp-server-gitlab/measurementgoal?" + field + "=" + keyword).then(
+        return $http.get("http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal?" + field + "=" + keyword).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -279,6 +280,171 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
             }
         );
 
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name addSomethingToMeasurementGoal
+    * @description
+    * Add something to measurement goal.
+    ********************************************************************************/
+    /*function addSomethingToMeasurementGoal(typeObject, id){
+
+        var toAdd = [];
+        var dialog = [];
+
+        switch(typeObject) {
+            case 'Metric':
+                toAdd = vm.metrics;
+                dialog = vm.externalMetricDialog;
+                break;
+            case 'Question':
+                toAdd = vm.questions;
+                dialog = vm.externalQuestionDialog;
+                break;
+            case 'ContextFactor':
+                toAdd = vm.contextFactors;
+                dialog = vm.externalContextFactorDialog;
+                break;
+            case 'Assumption':
+                toAdd = vm.assumptions;
+                dialog = vm.externalAssumptionDialog;
+                break;
+        }
+
+        if (typeObject == 'Metric' || typeObject == 'Question') {
+            console.log('METRIC OR QUESTION UPDATE');
+            for(var i=0; i<toAdd.length; i++){
+                if(dialog[index].metadata.id == toAdd[i].metadata.id){
+                    $window.alert('You cannot add an item twice!');
+                    return true;
+                }
+            }
+        }
+        else {
+            console.log('CONTEXTFACTOR OR ASSUMPTION UPDATE');
+            console.log(dialog[index]);
+            for(var i=0; i<toAdd.length; i++){
+                if(dialog[index].id == toAdd[i].id){
+                    $window.alert('You cannot add an item twice!');
+                    return true;
+                }
+            }
+        }
+
+        var pointerBus = {
+           objIdLocalToPhase : "",
+           typeObj : typeObject,
+           instance : dialog[index].metadata.id,
+           busVersion : "",
+           tags: []
+        };
+
+        switch(typeObject) {
+            case 'Metric':
+                vm.measurementGoalDialog.metrics.push(pointerBus);
+                vm.metrics.push(dialog[index]);
+                break;
+            case 'Question':
+                vm.measurementGoalDialog.questions.push(pointerBus);
+                vm.questions.push(dialog[index]);
+                break;
+            case 'ContextFactor':
+                vm.measurementGoalDialog.contextFactors.push(pointerBus);
+                vm.contextFactors.push(dialog[index]);
+                break;
+            case 'Assumption':
+                vm.measurementGoalDialog.assumptions.push(pointerBus);
+                vm.assumptions.push(dialog[index]);
+                break;
+        }
+        
+        $window.alert('Item added');
+        console.log(vm.measurementGoalDialog);
+        return false;
+    }*/
+    function addSomethingToMeasurementGoal(typeObject, obj){
+
+        var objId = (obj.metadata==undefined) ? obj.id : obj.metadata.id;
+
+        var pointerBus = {
+           objIdLocalToPhase : "",
+           typeObj : typeObject,
+           instance : objId,
+           busVersion : "",
+           tags: []
+        };
+
+    	switch(typeObject) {
+            case 'Metric':
+                if (checkDouble(service.measurementGoalToUpdate.metrics,obj)){
+                	service.measurementGoalToUpdate.metrics.push(obj);
+                    service.measurementGoalToUpdate.measurementGoal.metrics.push(pointerBus);
+                	return true;
+                }
+                else{
+                	return false;
+                } 
+                break;
+            case 'Question':
+                if (checkDouble(service.measurementGoalToUpdate.questions,obj)){
+                	service.measurementGoalToUpdate.questions.push(obj);
+                    service.measurementGoalToUpdate.measurementGoal.questions.push(pointerBus);
+                	return true;
+                }
+                else{
+                	return false;
+                }
+                break;
+            case 'ContextFactor':
+                if (checkDouble(service.measurementGoalToUpdate.contextFactors,obj)){
+                	service.measurementGoalToUpdate.contextFactors.push(obj);
+                    service.measurementGoalToUpdate.measurementGoal.contextFactors.push(pointerBus);
+                    return true;
+                }
+                else{
+                	return false;
+                }
+                break;
+            case 'Assumption':
+            	if (checkDouble(service.measurementGoalToUpdate.assumptions,obj)){
+                	service.measurementGoalToUpdate.assumptions.push(obj);
+                    service.measurementGoalToUpdate.measurementGoal.assumptions.push(pointerBus);
+                    return true;
+                }
+                else{
+                	return false;
+                }
+                break;
+        }
+    }
+
+    function checkDouble(toCheck, item){
+    	//return (dialog.indexOf(obj) !== -1);
+        
+        if (item.metadata == undefined){
+            for (var j=0, len = toCheck.length; j<len ; j++){
+                if (toCheck[j].metadata == undefined){
+                    if (toCheck[j].id == item.id) return false;    
+                }
+                else{
+                    if (toCheck[j].metadata.id == item.id) return false;                            
+                }
+                    
+            }
+        }
+        else {
+            for (var j=0, len = toCheck.length; j<len ; j++){   
+                if (toCheck[j].metadata == undefined){
+                    if (toCheck[j].id == item.id) return false;    
+                }
+                else{
+                    if (toCheck[j].metadata.id == item.id) return false;                            
+                }    
+            }
+        }
+        
+    	return true;
     }
 
     /********************************************************************************
@@ -303,5 +469,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     }
 
 }
+
+
 
 })();

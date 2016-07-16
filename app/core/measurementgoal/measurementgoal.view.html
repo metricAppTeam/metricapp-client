@@ -3,7 +3,7 @@
     
     <!-- FORM: MEASUREMENTGOAL -->
     <div class="row">
-    <div class="col-md-6 pull-left">
+    <div class="col-md-6 pull-left padding-2">
     <h2>Measurement Goal</h2>
     <form name="measurementGoalForm" role="form" class="form-horizontal" ng-submit="vm.submitMeasurementGoal(null)" novalidate="novalidate">
         <!-- FORM FIELD: OBJECT -->
@@ -106,21 +106,64 @@
             </div>
         </div>  
 
-        <div class="form-group">
+        <div class="form-group col-md-12 col-xs-12">
             <!--START METRIC TAB-->
-            <div ng-include="'dist/views/metricator/tab/tab.metric.mgview.html'"></div>
+            <!--<div ng-include="'dist/views/metricator/tab/tab.metric.mgview.html'"></div>-->
+
+            <div class="row"><span class="btn btn-primary pull-right"><a ng-click="vm.getApprovedMetrics()">Add Metric</a><i ng-click="vm.getMetricsToUpdate()" 
+	                    class="glyphicon glyphicon-refresh pull-right"></i></span></div>
+            <div class="row">
+	            <label class="col-md-3 col-xs-12 control-label">Metrics</label>
+            </div>
+            <br>
+            <div class="row">
+	            <span 
+	                class="btn btn-info btn-rounded" ng-repeat="metric in vm.metrics" ng-click="vm.setMetricDialog($index)">
+	                {{metric.metadata.id}}
+	                <i ng-click="vm.removeSomethingFromMeasurementGoal('Metric',$index)" 
+	                    class="glyphicon glyphicon-remove-circle pull-right"></i>
+	            </span>
+            </div>
             <!--END METRIC TAB-->                  
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-md-12 col-xs-12">
             <!--START CONTEXT FACTOR TAB-->
-            <div ng-include="'dist/views/metricator/tab/tab.contextfactor.mgview.html'"></div>
+            <!--<div ng-include="'dist/views/metricator/tab/tab.contextfactor.mgview.html'"></div>-->
+            <div class="row"><span class="btn btn-primary pull-right"><a ng-click="vm.getExternalContextFactors()">Add Context Factor</a><i ng-click="vm.getContextFactorsToUpdate()" 
+                        class="glyphicon glyphicon-refresh pull-right"></i></span></div>
+            <div class="row">
+                <label class="col-md-3 col-xs-12 control-label">Context Factors</label>
+            </div>
+            <br>
+            <div class="row">
+                <span 
+                    class="btn btn-info btn-rounded" ng-repeat="contextFactor in vm.contextFactors" ng-click="vm.setContextFactorDialog($index)">
+                    {{contextFactor.metadata.id}}0000000000
+                    <i ng-click="vm.removeSomethingFromMeasurementGoal('ContextFactor',$index)" 
+                        class="glyphicon glyphicon-remove-circle pull-right"></i>
+                </span>
+            </div>
             <!--END CONTEXT FACTOR TAB-->                  
         </div>        
 
-        <div class="form-group">
+        <div class="form-group col-md-12 col-xs-12">
             <!--START ASSUMPTION TAB-->
-            <div ng-include="'dist/views/metricator/tab/tab.assumption.mgview.html'"></div>
+            <!--<div ng-include="'dist/views/metricator/tab/tab.assumption.mgview.html'"></div>-->
+            <div class="row"><span class="btn btn-primary pull-right"><a ng-click="vm.getExternalAssumptions()">Add Assumption</a><i ng-click="vm.getAssumptionsToUpdate()" 
+                        class="glyphicon glyphicon-refresh pull-right"></i></span></div>
+            <div class="row">
+                <label class="col-md-3 col-xs-12 control-label">Assumptions</label>
+            </div>
+            <br>
+            <div class="row">
+                <span 
+                    class="btn btn-info btn-rounded" ng-repeat="assumption in vm.assumptions" ng-click="vm.setAssumptionDialog($index)">
+                    {{assumption.metadata.id}}000000000
+                    <i ng-click="vm.removeSomethingFromMeasurementGoal('Assumption',$index)" 
+                        class="glyphicon glyphicon-remove-circle pull-right"></i>
+                </span>
+            </div>
             <!--END ASSUMPTION TAB-->                  
         </div> 
 

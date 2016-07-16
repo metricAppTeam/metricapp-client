@@ -20,7 +20,8 @@ angular.module('metricapp',[
     'ngMockE2E',
     'nvd3',
     'angular.morris-chart',
-    'ui.ace'
+    'ui.ace',
+    'ui.bootstrap'
 ]);
 
 })();
@@ -310,7 +311,7 @@ angular.module('metricapp')
 * @Author: alessandro.fazio
 * @Date:   2016-07-13 11:01:31
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 11:17:22
+* @Last Modified time: 2016-07-15 11:06:46
 */
 (function() { 'use strict';
 
@@ -333,7 +334,7 @@ angular.module('metricapp')
 
 .constant('STATES', {
     CREATED:   'Created',
-    ONUPDATEWAITINGQUESTIONS: 'OnUpdatedWaitingQuestions',
+    ONUPDATEWAITINGQUESTIONS: 'OnUpdateWaitingQuestions',
     ONUPDATEQUESTIONERENDPOINT: 'OnUpdateQuestionerEndpoint',
     PENDING: 'Pending',
     REJECTED: 'Rejected',
@@ -726,6 +727,217 @@ function Error500Interceptor($q, $location) {
 
 })();
 
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 12:46:59
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:10:28
+*/
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.service('AssumptionModalService', AssumptionModalService);
+
+AssumptionModalService.$inject = ['$window', '$uibModal'];
+
+function AssumptionModalService($window, $uibModal) {
+
+	var service = this;
+	service.openAssumptionModal = openAssumptionModal;
+    service.openExternalAssumptionModal = openExternalAssumptionModal;
+
+	function openAssumptionModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.assumption.html',
+            controller: 'AssumptionModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+    function openExternalAssumptionModal(){
+         var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.external.assumption.html',
+            controller: 'ExternalAssumptionModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+    };
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 12:46:59
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:11:05
+*/
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.service('ContextFactorModalService', ContextFactorModalService);
+
+ContextFactorModalService.$inject = ['$window', '$uibModal'];
+
+function ContextFactorModalService($window, $uibModal) {
+
+	var service = this;
+	service.openContextFactorModal = openContextFactorModal;
+    service.openExternalContextFactorModal = openExternalContextFactorModal;
+
+	function openContextFactorModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.contextfactor.html',
+            controller: 'ContextFactorModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+	function openExternalContextFactorModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.external.contextfactor.html',
+            controller: 'ExternalContextFactorModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 12:46:59
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-15 13:23:59
+*/
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.service('MeasurementGoalModalService', MeasurementGoalModalService);
+
+MeasurementGoalModalService.$inject = ['$window', '$uibModal'];
+
+function MeasurementGoalModalService($window, $uibModal) {
+
+	var service = this;
+	service.openMeasurementGoalModal = openMeasurementGoalModal;
+
+	function openMeasurementGoalModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.measurementgoal.html',
+            controller: 'MeasurementGoalModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+}
+
+})();
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.service('MetricModalService', MetricModalService);
+
+MetricModalService.$inject = ['$window', '$uibModal'];
+
+function MetricModalService($window, $uibModal) {
+
+	var service = this;
+	service.openMetricModal = openMetricModal;
+	service.openExternalMetricModal = openExternalMetricModal;
+
+	function openMetricModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.metric.html',
+            controller: 'MetricModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+	function openExternalMetricModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.external.metric.html',
+            controller: 'ExternalMetricModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+}
+
+})();
 (function() { 'use strict';
 
 /************************************************************************************
@@ -802,6 +1014,88 @@ function ActionService(EXPERT_ACTIONS, METRICATOR_ACTIONS, QUESTIONER_ACTIONS) {
 
 })();
 
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-06-14 16:21:06
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:29:30
+*/
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc service
+* @name AssumptionService
+* @module metricapp
+* @requires $http
+* @requires $rootScope
+* @requires $cookies
+*
+* @description
+* Service for Assumption.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.service('AssumptionService', AssumptionService);
+
+AssumptionService.$inject = [
+    '$http', '$rootScope', '$cookies', '$window', 'AuthService'];
+
+function AssumptionService($http, $rootScope, $cookies, $window, AuthService) {
+
+    var service = this;
+
+    service.assumptionDialog = {};
+    service.storeAssumption = storeAssumption;
+    service.storeExternalAssumption = storeExternalAssumption;
+    service.getAssumptionDialog = getAssumptionDialog;
+    service.getExternalAssumptionDialog = getExternalAssumptionDialog;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name storeAssumption
+    * @description
+    * Store Assumption
+    * @param {Assumption} to store.
+    ********************************************************************************/
+    function storeAssumption(toUpdate){
+        service.assumptionDialog = toUpdate;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name storeExternalAssumption
+    * @description
+    * Store external Assumption
+    * @param {Assumption} to store.
+    ********************************************************************************/
+    function storeExternalAssumption(toUpdate){
+        service.externalAssumptionDialog = toUpdate;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getAssumption
+    * @description
+    * Get Assumption
+    ********************************************************************************/
+    function getAssumptionDialog(){
+        return service.assumptionDialog;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getExternalAssumptionDialog
+    * @description
+    * Get ExternalAssumption Dialog
+    ********************************************************************************/
+    function getExternalAssumptionDialog(){
+        return service.externalAssumptionDialog;
+    }
+
+}
+
+})();
 (function() { 'use strict';
 
 /************************************************************************************
@@ -904,12 +1198,12 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
     * @returns {User} THe authuser stored into the cookie.
     ********************************************************************************/
     function getUser() {
-        console.log('GET-USER cookie');
+        //console.log('GET-USER cookie');
         var user = $cookies.getObject('globals').user;
-        console.log('GET-COOKIE globals.user WITH ' +
-        'username=' + user.username + ' & ' +
-        'role=' + user.role + ' & ' +
-        'authdata=' + user.authdata);
+        //console.log('GET-COOKIE globals.user WITH ' +
+        //'username=' + user.username + ' & ' +
+        //'role=' + user.role + ' & ' +
+        //'authdata=' + user.authdata);
         return user;
     }
 
@@ -968,6 +1262,88 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
 
 })();
 
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-06-14 16:21:06
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:14:57
+*/
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc service
+* @name ContextFactorService
+* @module metricapp
+* @requires $http
+* @requires $rootScope
+* @requires $cookies
+*
+* @description
+* Service for ContextFactor.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.service('ContextFactorService', ContextFactorService);
+
+ContextFactorService.$inject = [
+    '$http', '$rootScope', '$cookies', '$window', 'AuthService'];
+
+function ContextFactorService($http, $rootScope, $cookies, $window, AuthService) {
+
+    var service = this;
+
+    service.contextFactorDialog = {};
+    service.storeContextFactor = storeContextFactor;
+    service.getContextFactorDialog = getContextFactorDialog;
+    service.getExternalContextFactorDialog = getExternalContextFactorDialog;
+    service.storeExternalContextFactor = storeExternalContextFactor;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name storeContextFactor
+    * @description
+    * Store a ContextFactor
+    * @param {ContextFactor} to store.
+    ********************************************************************************/
+    function storeContextFactor(toUpdate){
+        service.contextFactorDialog = toUpdate;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name storeExternalContextFactor
+    * @description
+    * Store external ContextFactor
+    * @param {ContextFactor} to store.
+    ********************************************************************************/
+    function storeExternalContextFactor(toUpdate){
+        service.externalContextFactorDialog = toUpdate;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getContextFactorDialog
+    * @description
+    * Get ContextFactor Dialog
+    ********************************************************************************/
+    function getContextFactorDialog(){
+        return service.contextFactorDialog;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getExternalContextFactorDialog
+    * @description
+    * Get ExternalContextFactor Dialog
+    ********************************************************************************/
+    function getExternalContextFactorDialog(){
+        return service.externalContextFactorDialog;
+    }
+
+}
+
+})();
 (function() { 'use strict';
 
 /************************************************************************************
@@ -1097,7 +1473,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 19:38:37
+* @Last Modified time: 2016-07-16 02:00:00
 */
 (function() { 'use strict';
 
@@ -1135,6 +1511,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     service.getExternalContextFactors = getExternalContextFactors;
     service.getExternalAssumptions = getExternalAssumptions;
     service.countMeasurementGoalsByState = countMeasurementGoalsByState;
+    service.addSomethingToMeasurementGoal = addSomethingToMeasurementGoal;
 
     /********************************************************************************
     * @ngdoc method
@@ -1167,13 +1544,13 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
         	focus: measurementGoal.focus,
         	metadata: metadata};*/
                 
-        console.log("POST MEASUREMENT GOAL");        
+        console.log("PUT MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
         //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
 
-        return $http.put('http://localhost:8080/metricapp-server-gitlab/measurementgoal/', measurementGoal).then(
+        return $http.put('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal/', measurementGoal).then(
             function(response) {
                 //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
@@ -1198,7 +1575,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     function countMeasurementGoalsByState(state) {
         console.log('GET Measurement Goals with userid='+AuthService.getUser().username+'&state='+state);
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal/count/?userid='+AuthService.getUser().username+'&state='+state).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal/count/?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -1226,7 +1603,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     function getMeasurementGoals(state) {
         console.log('GET Measurement Goals with userid='+AuthService.getUser().username+'&state='+state);
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/measurementgoal?userid='+AuthService.getUser().username+'&state='+state).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -1251,7 +1628,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     ********************************************************************************/
     function getExternalContextFactors() {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/contextfactor/all').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/contextfactor/all').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
@@ -1276,7 +1653,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     ********************************************************************************/
     function getExternalAssumptions() {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/assumption/all').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/assumption/all').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');
@@ -1302,7 +1679,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     
     function getMeasurementGoalExternals(measurementGoalId) {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/measurementgoal?id='+measurementGoalId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -1328,7 +1705,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     
     function getOrganizationalGoalById(organizationalGoalId) {
         
-        //return $http.get('http://localhost:8080/metricapp-server-gitlab/external/organizationalgoal?id='+organizationalGoalId).then(
+        //return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id='+organizationalGoalId).then(
         
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').then(
             function(response) {
@@ -1359,7 +1736,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     
     function getMeasurementGoalsBy(keyword,field) {
         
-        return $http.get("http://localhost:8080/metricapp-server-gitlab/measurementgoal?" + field + "=" + keyword).then(
+        return $http.get("http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal?" + field + "=" + keyword).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -1374,6 +1751,171 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
             }
         );
 
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name addSomethingToMeasurementGoal
+    * @description
+    * Add something to measurement goal.
+    ********************************************************************************/
+    /*function addSomethingToMeasurementGoal(typeObject, id){
+
+        var toAdd = [];
+        var dialog = [];
+
+        switch(typeObject) {
+            case 'Metric':
+                toAdd = vm.metrics;
+                dialog = vm.externalMetricDialog;
+                break;
+            case 'Question':
+                toAdd = vm.questions;
+                dialog = vm.externalQuestionDialog;
+                break;
+            case 'ContextFactor':
+                toAdd = vm.contextFactors;
+                dialog = vm.externalContextFactorDialog;
+                break;
+            case 'Assumption':
+                toAdd = vm.assumptions;
+                dialog = vm.externalAssumptionDialog;
+                break;
+        }
+
+        if (typeObject == 'Metric' || typeObject == 'Question') {
+            console.log('METRIC OR QUESTION UPDATE');
+            for(var i=0; i<toAdd.length; i++){
+                if(dialog[index].metadata.id == toAdd[i].metadata.id){
+                    $window.alert('You cannot add an item twice!');
+                    return true;
+                }
+            }
+        }
+        else {
+            console.log('CONTEXTFACTOR OR ASSUMPTION UPDATE');
+            console.log(dialog[index]);
+            for(var i=0; i<toAdd.length; i++){
+                if(dialog[index].id == toAdd[i].id){
+                    $window.alert('You cannot add an item twice!');
+                    return true;
+                }
+            }
+        }
+
+        var pointerBus = {
+           objIdLocalToPhase : "",
+           typeObj : typeObject,
+           instance : dialog[index].metadata.id,
+           busVersion : "",
+           tags: []
+        };
+
+        switch(typeObject) {
+            case 'Metric':
+                vm.measurementGoalDialog.metrics.push(pointerBus);
+                vm.metrics.push(dialog[index]);
+                break;
+            case 'Question':
+                vm.measurementGoalDialog.questions.push(pointerBus);
+                vm.questions.push(dialog[index]);
+                break;
+            case 'ContextFactor':
+                vm.measurementGoalDialog.contextFactors.push(pointerBus);
+                vm.contextFactors.push(dialog[index]);
+                break;
+            case 'Assumption':
+                vm.measurementGoalDialog.assumptions.push(pointerBus);
+                vm.assumptions.push(dialog[index]);
+                break;
+        }
+        
+        $window.alert('Item added');
+        console.log(vm.measurementGoalDialog);
+        return false;
+    }*/
+    function addSomethingToMeasurementGoal(typeObject, obj){
+
+        var objId = (obj.metadata==undefined) ? obj.id : obj.metadata.id;
+
+        var pointerBus = {
+           objIdLocalToPhase : "",
+           typeObj : typeObject,
+           instance : objId,
+           busVersion : "",
+           tags: []
+        };
+
+    	switch(typeObject) {
+            case 'Metric':
+                if (checkDouble(service.measurementGoalToUpdate.metrics,obj)){
+                	service.measurementGoalToUpdate.metrics.push(obj);
+                    service.measurementGoalToUpdate.measurementGoal.metrics.push(pointerBus);
+                	return true;
+                }
+                else{
+                	return false;
+                } 
+                break;
+            case 'Question':
+                if (checkDouble(service.measurementGoalToUpdate.questions,obj)){
+                	service.measurementGoalToUpdate.questions.push(obj);
+                    service.measurementGoalToUpdate.measurementGoal.questions.push(pointerBus);
+                	return true;
+                }
+                else{
+                	return false;
+                }
+                break;
+            case 'ContextFactor':
+                if (checkDouble(service.measurementGoalToUpdate.contextFactors,obj)){
+                	service.measurementGoalToUpdate.contextFactors.push(obj);
+                    service.measurementGoalToUpdate.measurementGoal.contextFactors.push(pointerBus);
+                    return true;
+                }
+                else{
+                	return false;
+                }
+                break;
+            case 'Assumption':
+            	if (checkDouble(service.measurementGoalToUpdate.assumptions,obj)){
+                	service.measurementGoalToUpdate.assumptions.push(obj);
+                    service.measurementGoalToUpdate.measurementGoal.assumptions.push(pointerBus);
+                    return true;
+                }
+                else{
+                	return false;
+                }
+                break;
+        }
+    }
+
+    function checkDouble(toCheck, item){
+    	//return (dialog.indexOf(obj) !== -1);
+        
+        if (item.metadata == undefined){
+            for (var j=0, len = toCheck.length; j<len ; j++){
+                if (toCheck[j].metadata == undefined){
+                    if (toCheck[j].id == item.id) return false;    
+                }
+                else{
+                    if (toCheck[j].metadata.id == item.id) return false;                            
+                }
+                    
+            }
+        }
+        else {
+            for (var j=0, len = toCheck.length; j<len ; j++){   
+                if (toCheck[j].metadata == undefined){
+                    if (toCheck[j].id == item.id) return false;    
+                }
+                else{
+                    if (toCheck[j].metadata.id == item.id) return false;                            
+                }    
+            }
+        }
+        
+    	return true;
     }
 
     /********************************************************************************
@@ -1399,12 +1941,14 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
 
 }
 
+
+
 })();
 /*
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 21:01:10
+* @Last Modified time: 2016-07-15 23:01:16
 */
 (function() { 'use strict';
 
@@ -1433,11 +1977,17 @@ MetricService.$inject = ['$http', '$window', 'AuthService'];
 function MetricService($http, $window, AuthService) {
 
     var service = this;
+    service.metricDialog = {};
+    service.externalMetricDialog = [];
 
     service.getMetrics = getMetrics;
     service.getApprovedMetrics = getApprovedMetrics;
     service.getMetricsById = getMetricsById;
     service.countMetricsByState = countMetricsByState;
+    service.storeMetric = storeMetric;
+    service.storeExternalMetric = storeExternalMetric;
+    service.getMetricDialog = getMetricDialog;
+    service.getExternalMetricDialog = getExternalMetricDialog;
 
     /********************************************************************************
     * @ngdoc method
@@ -1448,7 +1998,7 @@ function MetricService($http, $window, AuthService) {
 
     function getMetrics() {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?userid=metricator').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -1474,7 +2024,7 @@ function MetricService($http, $window, AuthService) {
     function countMetricsByState(state) {
         console.log('GET Metrics with userid='+AuthService.getUser().username+'&state='+state);
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric/count?userid='+AuthService.getUser().username+'&state='+state).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric/count?userid='+AuthService.getUser().username+'&state='+state).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -1501,7 +2051,7 @@ function MetricService($http, $window, AuthService) {
 
     function getMetricsById(metricId) {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?id='+metricId).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?id='+metricId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -1527,7 +2077,7 @@ function MetricService($http, $window, AuthService) {
 
     function getMetricsByMeasurementGoalId(measurementGoalId) {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/measurementgoal?id='+measurementGoalId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS');
@@ -1544,6 +2094,47 @@ function MetricService($http, $window, AuthService) {
 
     }
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMetricDialog
+    * @description
+    * Get Metric Dialog stored
+    ********************************************************************************/
+    function getMetricDialog(){
+        return service.metricDialog;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getExternalMetricDialog
+    * @description
+    * Get External Metric Dialog stored
+    ********************************************************************************/
+    function getExternalMetricDialog(){
+        return service.externalMetricDialog;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name storeMetric
+    * @description
+    * Store a Metric
+    * @param {Metric} to store.
+    ********************************************************************************/
+    function storeMetric(toStore){
+        service.metricDialog = toStore;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name storeExternalMetric
+    * @description
+    * Store an External Metric
+    * @param {Metric} to store.
+    ********************************************************************************/
+    function storeExternalMetric(toStore){
+        service.externalMetricDialog = toStore;
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -1554,7 +2145,7 @@ function MetricService($http, $window, AuthService) {
 
     function getApprovedMetrics() {
         
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/metric?state=Approved').then(
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?state=Approved').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET METRICS BY APPROVED VERSION');
@@ -1902,6 +2493,34 @@ function UserService($http, REST_SERVICE) {
 
 })();
 
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('questionModal', questionModal);
+
+  function questionModal() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/metricator/modal/modal.measurementgoal.html'
+    };
+  }
+
+})();
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('questionModal', questionModal);
+
+  function questionModal() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/questioner/questionModal.view.html'
+    };
+  }
+
+})();
 (function () {
   'use strict';
 
@@ -2661,7 +3280,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-15 01:11:29
+* @Last Modified time: 2016-07-16 01:30:36
 */
 (function () { 'use strict';
 
@@ -2680,13 +3299,13 @@ angular.module('metricapp')
 
 .controller('MeasurementGoalController', MeasurementGoalController);
 
-MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService','MetricService','$window','AuthService', 'STATES'];
+MeasurementGoalController.$inject = ['$scope', '$location','MeasurementGoalService','MetricService','$window','AuthService', 'STATES', 'MetricModalService', 'ContextFactorService', 'AssumptionService', 'ContextFactorModalService', 'AssumptionModalService'];
 
-function MeasurementGoalController($scope, $location, MeasurementGoalService, MetricService, $window, AuthService, STATES) {
+function MeasurementGoalController($scope, $location, MeasurementGoalService, MetricService, $window, AuthService, STATES, MetricModalService, ContextFactorService, AssumptionService, ContextFactorModalService, AssumptionModalService) {
 
     var vm = this;
 
-    $('body').removeClass('modal-open');
+    //$('body').removeClass('modal-open');
     vm.measurementGoals = [];
 
     //Initialize some transition variables
@@ -2700,7 +3319,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
 
     //vm.organizationalGoalDialog = {};
     //vm.metricsDialog = [];
-    vm.externalMetricDialog = [];
+    vm.externalMetricDialog = MetricService.getExternalMetricDialog();//[];
     vm.externalQuestionDialog = [];
     vm.externalContextFactorDialog = [];
     vm.externalAssumptionDialog = [];
@@ -2712,6 +3331,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
     vm.setOrganizationalGoalDialog = setOrganizationalGoalDialog;
+    vm.setMetricDialog = setMetricDialog;
     vm.initOrganizationalGoalDialog = initOrganizationalGoalDialog;
     vm.addTagToMeasurementGoal = addTagToMeasurementGoal;
     vm.removeTagFromMeasurementGoal = removeTagFromMeasurementGoal;
@@ -2719,13 +3339,18 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.getApprovedMetrics = getApprovedMetrics;
     vm.addMetricToMeasurementGoal = addMetricToMeasurementGoal;
     vm.removeMetricFromMeasurementGoal = removeMetricFromMeasurementGoal;
-    vm.addSomethingToMeasurementGoal = addSomethingToMeasurementGoal;
+    //vm.addSomethingToMeasurementGoal = addSomethingToMeasurementGoal;
     vm.removeSomethingFromMeasurementGoal = removeSomethingFromMeasurementGoal;
     vm.isModifiable = isModifiable;
     vm.isSubmittable = isSubmittable;
     vm.getExternalContextFactors = getExternalContextFactors;
     vm.getExternalAssumptions = getExternalAssumptions;
     vm.sendForApproval = sendForApproval;
+    vm.getMetricsToUpdate = getMetricsToUpdate;
+    vm.getContextFactorsToUpdate = getContextFactorsToUpdate;
+    vm.getAssumptionsToUpdate = getAssumptionsToUpdate;
+    vm.setContextFactorDialog = setContextFactorDialog;
+    vm.setAssumptionDialog = setAssumptionDialog;
 
     //initOrganizationalGoalDialog();
     //getMetricsByMeasurementGoal();
@@ -2743,7 +3368,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         var purposeSubmit = (vm.purpose !== undefined) ? vm.purpose :  vm.measurementGoalDialog.purpose;
         var viewPointSubmit = (vm.viewPoint !== undefined) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
         var qualityFocusSubmit = (vm.qualityFocus !== undefined) ? vm.qualityFocus :  vm.measurementGoalDialog.qualityFocus;
-        var functionJavascriptSubmit = (vm.functionJavascript !== undefined) ? vm.functionJavascript :  vm.measurementGoalDialog.interpretationModel.functionJavascript;
+        //var functionJavascriptSubmit = (vm.functionJavascript !== undefined) ? vm.functionJavascript :  vm.measurementGoalDialog.interpretationModel.functionJavascript;
         var queryNoSQLSubmit = (vm.queryNoSQL !== undefined) ? vm.queryNoSQL :  vm.measurementGoalDialog.interpretationModel.queryNoSQL;
         var releaseNoteSubmit = (vm.sendMessage !== undefined) ? vm.sendMessage :  vm.measurementGoalDialog.metadata.releaseNote;
         var stateSubmit = (state != null) ? state :  vm.measurementGoalDialog.metadata.state;
@@ -2764,7 +3389,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             contextFactors : vm.measurementGoalDialog.contextFactors,
             assumptions : vm.measurementGoalDialog.assumptions,
             interpretationModel : {
-                functionJavascript : functionJavascriptSubmit,
+                functionJavascript : vm.measurementGoalDialog.interpretationModel.functionJavascript,
                 queryNoSQL : queryNoSQLSubmit
             },
             metadata : {
@@ -2780,6 +3405,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 lastVersionDate : vm.measurementGoalDialog.metadata.lastVersionDate
             }
         };
+
         MeasurementGoalService.submitMeasurementGoal(measurementGoal, state).then(
             function(message) {
                 //alert(message);
@@ -2802,6 +3428,17 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             });*/
     }
 
+    function getMetricsToUpdate() {
+    	vm.metrics = MeasurementGoalService.getUpdateMeasurementGoal().metrics;
+    }
+
+    function getContextFactorsToUpdate() {
+    	vm.contextFactors = MeasurementGoalService.getUpdateMeasurementGoal().contextFactors;
+    }
+
+    function getAssumptionsToUpdate() {
+    	vm.assumptions = MeasurementGoalService.getUpdateMeasurementGoal().assumptions;
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -2882,18 +3519,27 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Get approved metrics.
     ********************************************************************************/
     function getApprovedMetrics(){
-         MetricService.getApprovedMetrics().then(
-            function(data) {
-                console.log('SUCCESS GET APPROVED METRICS');
-                console.log(data.metricsDTO);
-                vm.externalMetricDialog = data.metricsDTO;
-                $("#modal_large_external_metric").modal("show");
 
-            },
-            function(data) {
-                alert('Error retriving Metrics');
-            }
-        );
+    	if (vm.externalMetricDialog.length === 0){
+	        MetricService.getApprovedMetrics().then(
+	            function(data) {
+	                console.log('SUCCESS GET APPROVED METRICS');
+	                console.log(data.metricsDTO);
+	                //vm.externalMetricDialog = data.metricsDTO;
+	                MetricService.storeExternalMetric(data.metricsDTO);
+    			    MetricModalService.openExternalMetricModal();
+
+	                //$("#modal_large_external_metric").modal("show");
+	                //TODO Transfer to MeasurementGoalDialogService
+	            },
+	            function(data) {
+	                alert('Error retriving Metrics');
+	            }
+	        );
+     	}
+     	else {
+     		MetricModalService.openExternalMetricModal();
+     	}
     }
 
     /********************************************************************************
@@ -2907,12 +3553,13 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             function(data) {
                 console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
                 console.log(data);
-                vm.externalContextFactorDialog = data;
-                $("#modal_large_external_contextfactor").modal("show");
-
+                //vm.externalContextFactorDialog = data;
+                //$("#modal_large_external_contextfactor").modal("show");
+                ContextFactorService.storeExternalContextFactor(data);
+			    ContextFactorModalService.openExternalContextFactorModal();
             },
             function(data) {
-                alert('Error retriving Context Factors');
+                alert('Error retrieving Context Factors');
             }
         );
     }
@@ -2928,11 +3575,13 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             function(data) {
                 console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');
                 console.log(data);
-                vm.externalAssumptionDialog = data;
-                $("#modal_large_external_assumption").modal("show");
+                //vm.externalAssumptionDialog = data;
+                //$("#modal_large_external_assumption").modal("show");
+                AssumptionService.storeExternalAssumption(data);
+			    AssumptionModalService.openExternalAssumptionModal();
             },
             function(data) {
-                alert('Error retriving Assumptions');
+                alert('Error retrieving Assumptions');
             }
         );
     }
@@ -2974,6 +3623,27 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 setOrganizationalGoalDialog(vm.measurementGoalDialog.organizatoinalGoalId);
             }
     }
+
+    function setMetricDialog(metricToAssignId){
+            MetricService.storeMetric(vm.metrics[metricToAssignId]);
+            MetricModalService.openMetricModal();
+    }
+
+    function setContextFactorDialog(contextFactorToAssignId){
+            ContextFactorService.storeContextFactor(vm.contextFactors[contextFactorToAssignId]);
+            ContextFactorModalService.openContextFactorModal();
+    }
+
+    function setAssumptionDialog(assumptionToAssignId){
+            AssumptionService.storeAssumption(vm.assumptions[assumptionToAssignId]);
+            AssumptionModalService.openAssumptionModal();
+    }
+
+
+    //function setExternalMetricDialog(metricToAssignId){
+    //        MetricService.storeExternalMetric();
+    //        MetricModalService.openExternalMetricModal();
+    //}
 
     function setOrganizationalGoalDialog(organizationalGoalToAssignId){
             if(organizationalGoalToAssignId !== null){
@@ -3045,90 +3715,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
 
     /********************************************************************************
     * @ngdoc method
-    * @name addSomethingToMeasurementGoal
-    * @description
-    * Add something to measurement goal.
-    ********************************************************************************/
-    function addSomethingToMeasurementGoal(typeObject, index){
-
-        var toAdd = [];
-        var dialog = [];
-
-        switch(typeObject) {
-            case 'Metric':
-                toAdd = vm.metrics;
-                dialog = vm.externalMetricDialog;
-                break;
-            case 'Question':
-                toAdd = vm.questions;
-                dialog = vm.externalQuestionDialog;
-                break;
-            case 'ContextFactor':
-                toAdd = vm.contextFactors;
-                dialog = vm.externalContextFactorDialog;
-                break;
-            case 'Assumption':
-                toAdd = vm.assumptions;
-                dialog = vm.externalAssumptionDialog;
-                break;
-        }
-
-        if (typeObject == 'Metric' || typeObject == 'Question') {
-            console.log('METRIC OR QUESTION UPDATE');
-            for(var i=0; i<toAdd.length; i++){
-                if(dialog[index].metadata.id == toAdd[i].metadata.id){
-                    $window.alert('You cannot add an item twice!');
-                    return true;
-                }
-            }
-        }
-        else {
-            console.log('CONTEXTFACTOR OR ASSUMPTION UPDATE');
-            console.log(dialog[index]);
-            for(var i=0; i<toAdd.length; i++){
-                if(dialog[index].id == toAdd[i].id){
-                    $window.alert('You cannot add an item twice!');
-                    return true;
-                }
-            }
-        }
-
-        var pointerBus = {
-           objIdLocalToPhase : "",
-           typeObj : typeObject,
-           instance : dialog[index].metadata.id,
-           busVersion : "",
-           tags: []
-        };
-
-        switch(typeObject) {
-            case 'Metric':
-                vm.measurementGoalDialog.metrics.push(pointerBus);
-                vm.metrics.push(dialog[index]);
-                break;
-            case 'Question':
-                vm.measurementGoalDialog.questions.push(pointerBus);
-                vm.questions.push(dialog[index]);
-                break;
-            case 'ContextFactor':
-                vm.measurementGoalDialog.contextFactors.push(pointerBus);
-                vm.contextFactors.push(dialog[index]);
-                break;
-            case 'Assumption':
-                vm.measurementGoalDialog.assumptions.push(pointerBus);
-                vm.assumptions.push(dialog[index]);
-                break;
-        }
-        
-        $window.alert('Item added');
-        console.log(vm.measurementGoalDialog);
-        return false;
-    }
-
-
-
-    /********************************************************************************
-    * @ngdoc method
     * @name removeMetricFromMeasurementGoal
     * @description
     * Remove metric from measurement goal.
@@ -3179,9 +3765,9 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Measurement Goal can be updated.
     ********************************************************************************/
     function isModifiable(){
-        console.log(vm.measurementGoalDialog.metricatorId);
-        console.log(AuthService.getUser().username);
-        console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
+        //console.log(vm.measurementGoalDialog.metricatorId);
+        //console.log(AuthService.getUser().username);
+        //console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !vm.measurementGoalDialog.metadata.state == 'Pending';
     }
 
@@ -3236,10 +3822,10 @@ angular.module('metricapp')
 
 .controller('MeasurementGoalSearchController', MeasurementGoalSearchController);
 
-MeasurementGoalSearchController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window'];
+MeasurementGoalSearchController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window', 'MeasurementGoalModalService'];
 
-function MeasurementGoalSearchController($scope, $location, MetricService, MeasurementGoalService, $window) {
-
+function MeasurementGoalSearchController($scope, $location, MetricService, MeasurementGoalService, $window, MeasurementGoalModalService) {
+    //TODO add footer controllers
     var vm = this;
     vm.measurementGoals = [];
     vm.metrics = [];
@@ -3338,7 +3924,7 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
                 vm.assumptions = data.assumptions;
                 vm.organizationalGoal = data.organizationalGoal;
                 vm.instanceProject = data.instanceProject;
-                $("#modal_large").modal("show");
+                //$("#modal_large").modal("show");
             },
             function(data) {
                 alert('Error retriving Metrics');
@@ -3349,6 +3935,20 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
     function setMeasurementGoalDialog(measurementGoalToAssignId){
         vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
         getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
+        
+        //Send to MeasurementGoalService to open a modal
+        var toUpdate = {
+            measurementGoal : vm.measurementGoalDialog,
+            metrics : vm.metrics,
+            contextFactors : vm.contextFactors,
+            assumptions : vm.assumptions,
+            organizationalGoal : vm.organizationalGoal,
+            instanceProject : vm.instanceProject
+        };
+
+        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
+        MeasurementGoalModalService.openMeasurementGoalModal();
+
         //var goalid = $routeParams.goalid;
         //vm.currMGoal = {
         //    id: goalid;
@@ -3451,7 +4051,7 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 16:47:54
+* @Last Modified time: 2016-07-15 13:45:37
 */
 (function () { 'use strict';
 
@@ -3470,9 +4070,9 @@ angular.module('metricapp')
 
 .controller('MetricatorController', MetricatorController);
 
-MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window','STATES', 'AuthService'];
+MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window','STATES', 'AuthService', 'MeasurementGoalModalService'];
 
-function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window, STATES, AuthService) {
+function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window, STATES, AuthService, MeasurementGoalModalService) {
 
     var vm = this;
 
@@ -3487,7 +4087,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     //    metrics : [],
     //    questions : []
     //};
-    vm.states = [STATES.ONUPDATEQUESTIONERENDPOINT, STATES.CREATED];
+    vm.states = [STATES.ONUPDATEQUESTIONERENDPOINT, STATES.ONUPDATEWAITINGQUESTIONS];
     vm.measurementGoals = [undefined,undefined];
     vm.metrics = [];
     vm.contextFactors = [];
@@ -3543,7 +4143,6 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Get active measurement goals for a metricator.
     ********************************************************************************/
     function getMeasurementGoals(){
-    
         for (var i=0; i<vm.states.length; i++){
             getMeasurementGoalsByState(i);
         }
@@ -3584,11 +4183,33 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 vm.organizationalGoal = data.organizationalGoal;
                 vm.instanceProject = data.instanceProject;
 
-                $("#modal_large").modal("show");
+                /*var toUpdate = {
+	            	measurementGoal : vm.measurementGoalDialog,
+	            	metrics : vm.metrics,
+	            	contextFactors : vm.contextFactors,
+	            	assumptions : vm.assumptions,
+	            	organizationalGoal : vm.organizationalGoal,
+	            	instanceProject : vm.instanceProject
+	        	};*/
+
+	        	var toUpdate = {
+	            	measurementGoal : vm.measurementGoalDialog,
+	            	metrics : data.metrics,
+	            	contextFactors : data.contextFactors,
+	            	assumptions : data.assumptions,
+	            	organizationalGoal : data.organizationalGoal,
+	            	instanceProject : data.instanceProject
+	        	}; 	
+
+	        	//Send to MeasurementGoalService to open a modal
+        		MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
+	        	MeasurementGoalModalService.openMeasurementGoalModal();
+                //It's not necessary, now we have angular modal
+                //$("#modal_large").modal("show");
             },
             function(data) {
                 alert('Error retriving Externals');
-            }
+        	}
         );
     };
 
@@ -3626,9 +4247,15 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     };*/
 
     function setMeasurementGoalDialog(parentIndex,measurementGoalToAssignId){
-        //TODO add parent index
         vm.measurementGoalDialog = vm.measurementGoals[parentIndex][measurementGoalToAssignId];
-        getMeasurementGoalExternals(vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id);
+        getMeasurementGoalExternals(vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id);//.then(
+
+        //function (toUpdate) {
+
+        //},
+        //function (toUpdate) {
+        //	console.log("Exit from setMeasurementGoalDialog with failure status");
+        //});
         //var goalid = $routeParams.goalid;
         //vm.currMGoal = {
         //    id: goalid;
@@ -3725,9 +4352,9 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Measurement Goal can be updated.
     ********************************************************************************/
     function isModifiable(){
-        console.log(vm.measurementGoalDialog.metricatorId);
-        console.log(AuthService.getUser().username);
-        console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
+        //console.log(vm.measurementGoalDialog.metricatorId);
+        //console.log(AuthService.getUser().username);
+        //console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username;
     }
 
@@ -3821,6 +4448,411 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
 
 })();
 
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 13:03:51
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:06:59
+*/
+
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('AssumptionModalCtrl', AssumptionModalCtrl);
+
+AssumptionModalCtrl.$inject = ['$window', '$uibModal', 'AssumptionService', '$uibModalInstance'];
+
+function AssumptionModalCtrl($window, $uibModal, AssumptionService, $uibModalInstance) {
+
+	var vm = this;
+
+	vm.assumptionDialog = AssumptionService.getAssumptionDialog();
+    vm.setAssumptionDialog = setAssumptionDialog;
+    //vm.addAssumptionToMeasurementGoal = setAssumptionDialog;
+
+    vm.closeModal = function(){
+        $uibModalInstance.dismiss("closing");            
+    };
+
+    function setAssumptionDialog(assumptionToAssignId){
+            AssumptionService.storeAssumption(vm.externalAssumptionDialog[assumptionToAssignId]);
+            AssumptionModalService.openAssumptionModal();
+    }
+
+    /*function addAssumptionToMeasurementGoal(obj){
+        console.log("Adding item");
+        if (MeasurementGoalService.addSomethingToMeasurementGoal('Assumption',obj)){
+            $window.alert('Item added');
+        }
+        else {
+            $window.alert('You cannot add this item');
+        }
+        
+    }*/
+
+    /*ctrl.editQuestion = function(question){
+        $uibModalInstance.dismiss("closing");
+        QuestionStorageFactory.setQuestion(question);
+        $location.path('/questionUpdate');
+    };*/
+
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 13:03:51
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:06:45
+*/
+
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('ContextFactorModalCtrl', ContextFactorModalCtrl);
+
+ContextFactorModalCtrl.$inject = ['$window', '$uibModal', 'ContextFactorService', '$uibModalInstance'];
+
+function ContextFactorModalCtrl($window, $uibModal, ContextFactorService, $uibModalInstance) {
+
+	var vm = this;
+
+	vm.contextFactorDialog = ContextFactorService.getContextFactorDialog();
+    console.log('vm.contextFactorDialog');
+    console.log(vm.contextFactorDialog);
+
+    vm.setContextFactorDialog = setContextFactorDialog;
+    //vm.addContextFactorToMeasurementGoal = addContextFactorToMeasurementGoal;
+
+    vm.closeModal = function(){
+        $uibModalInstance.dismiss("closing");            
+    };
+
+    function setContextFactorDialog(contextFactorToAssignId){
+            ContextFactorService.storeContextFactor(vm.contextFactorDialog[contextFactorToAssignId]);
+            ContextFactorModalService.openContextFactorModal();
+    }
+
+    /*function addContextFactorToMeasurementGoal(obj){
+        console.log("Adding item");
+        if (MeasurementGoalService.addSomethingToMeasurementGoal('ContextFactor',obj)){
+            $window.alert('Item added');
+        }
+        else {
+            $window.alert('You cannot add this item');
+        }
+        
+    }
+    */
+
+    /*ctrl.editQuestion = function(question){
+        $uibModalInstance.dismiss("closing");
+        QuestionStorageFactory.setQuestion(question);
+        $location.path('/questionUpdate');
+    };*/
+
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-16 00:04:59
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:05:43
+*/
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 23:57:25
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:03:28
+*/
+
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('ExternalAssumptionModalCtrl', ExternalAssumptionModalCtrl);
+
+ExternalAssumptionModalCtrl.$inject = ['$window', '$uibModal', 'AssumptionService', '$uibModalInstance', 'AssumptionModalService', 'MeasurementGoalService'];
+
+function ExternalAssumptionModalCtrl($window, $uibModal, AssumptionService, $uibModalInstance, AssumptionModalService, MeasurementGoalService) {
+
+	var vm = this;
+
+	vm.externalAssumptionDialog = AssumptionService.getExternalAssumptionDialog();
+	
+	//console.log("External Metric Dialog");
+	//console.log(vm.externalAssumptionDialog);
+
+	vm.closeModal = closeModal;
+	vm.setAssumptionDialog = setAssumptionDialog;
+	vm.addAssumptionToMeasurementGoal = addAssumptionToMeasurementGoal;
+
+	
+    function closeModal(){
+        $uibModalInstance.dismiss("closing");            
+    };
+
+    function setAssumptionDialog(assumptionToAssignId){
+            AssumptionService.storeAssumption(vm.externalAssumptionDialog[assumptionToAssignId]);
+            AssumptionModalService.openAssumptionModal();
+    }
+
+    function addAssumptionToMeasurementGoal(obj){
+    	console.log("Adding item");
+    	if (MeasurementGoalService.addSomethingToMeasurementGoal('Assumption',obj)){
+    		$window.alert('Item added');
+    	}
+    	else {
+    		$window.alert('You cannot add this item');
+    	}
+    	
+    }
+
+    /*ctrl.editQuestion = function(question){
+        $uibModalInstance.dismiss("closing");
+        QuestionStorageFactory.setQuestion(question);
+        $location.path('/questionUpdate');
+    };*/
+
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 23:57:25
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:03:28
+*/
+
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('ExternalContextFactorModalCtrl', ExternalContextFactorModalCtrl);
+
+ExternalContextFactorModalCtrl.$inject = ['$window', '$uibModal', 'ContextFactorService', '$uibModalInstance', 'ContextFactorModalService', 'MeasurementGoalService'];
+
+function ExternalContextFactorModalCtrl($window, $uibModal, ContextFactorService, $uibModalInstance, ContextFactorModalService, MeasurementGoalService) {
+
+	var vm = this;
+
+	vm.externalContextFactorDialog = ContextFactorService.getExternalContextFactorDialog();
+	
+	//console.log("External Metric Dialog");
+	//console.log(vm.externalContextFactorDialog);
+
+	vm.closeModal = closeModal;
+	vm.setContextFactorDialog = setContextFactorDialog;
+	vm.addContextFactorToMeasurementGoal = addContextFactorToMeasurementGoal;
+
+	
+    function closeModal(){
+        $uibModalInstance.dismiss("closing");            
+    };
+
+    function setContextFactorDialog(contextFactorToAssignId){
+            ContextFactorService.storeContextFactor(vm.externalContextFactorDialog[contextFactorToAssignId]);
+            ContextFactorModalService.openContextFactorModal();
+    }
+
+    function addContextFactorToMeasurementGoal(obj){
+    	console.log("Adding item");
+    	if (MeasurementGoalService.addSomethingToMeasurementGoal('ContextFactor',obj)){
+    		$window.alert('Item added');
+    	}
+    	else {
+    		$window.alert('You cannot add this item');
+    	}
+    	
+    }
+
+    /*ctrl.editQuestion = function(question){
+        $uibModalInstance.dismiss("closing");
+        QuestionStorageFactory.setQuestion(question);
+        $location.path('/questionUpdate');
+    };*/
+
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 13:03:51
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-15 13:39:26
+*/
+
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('ExternalMetricModalCtrl', ExternalMetricModalCtrl);
+
+ExternalMetricModalCtrl.$inject = ['$window', '$uibModal', 'MetricService', '$uibModalInstance', 'MetricModalService', 'MeasurementGoalService'];
+
+function ExternalMetricModalCtrl($window, $uibModal, MetricService, $uibModalInstance, MetricModalService, MeasurementGoalService) {
+
+	var vm = this;
+
+	vm.externalMetricDialog = MetricService.getExternalMetricDialog();
+	
+	//console.log("External Metric Dialog");
+	//console.log(vm.externalMetricDialog);
+
+	vm.closeModal = closeModal;
+	vm.setMetricDialog = setMetricDialog;
+	vm.addMetricToMeasurementGoal = addMetricToMeasurementGoal;
+
+	
+    function closeModal(){
+        $uibModalInstance.dismiss("closing");            
+    };
+
+    function setMetricDialog(metricToAssignId){
+            MetricService.storeMetric(vm.externalMetricDialog[metricToAssignId]);
+            MetricModalService.openMetricModal();
+    }
+
+    function addMetricToMeasurementGoal(obj){
+    	console.log("Adding item");
+    	if (MeasurementGoalService.addSomethingToMeasurementGoal('Metric',obj)){
+    		$window.alert('Item added');
+    	}
+    	else {
+    		$window.alert('You cannot add this item');
+    	}
+    	
+    }
+
+    /*ctrl.editQuestion = function(question){
+        $uibModalInstance.dismiss("closing");
+        QuestionStorageFactory.setQuestion(question);
+        $location.path('/questionUpdate');
+    };*/
+
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 13:03:51
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-15 13:39:26
+*/
+
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('MeasurementGoalModalCtrl', MeasurementGoalModalCtrl);
+
+MeasurementGoalModalCtrl.$inject = ['$window', '$uibModal', 'MeasurementGoalService', '$uibModalInstance', 'AuthService', '$location'];
+
+function MeasurementGoalModalCtrl($window, $uibModal, MeasurementGoalService, $uibModalInstance, AuthService, $location) {
+
+	var vm = this;
+
+	vm.measurementGoalDialog = MeasurementGoalService.getUpdateMeasurementGoal().measurementGoal;
+    vm.metrics = MeasurementGoalService.getUpdateMeasurementGoal().metrics;
+	vm.contextFactors = MeasurementGoalService.getUpdateMeasurementGoal().contextFactors;
+	vm.assumptions = MeasurementGoalService.getUpdateMeasurementGoal().assumptions;
+	vm.organizationalGoal = MeasurementGoalService.getUpdateMeasurementGoal().organizationalGoal;
+	vm.instanceProject = MeasurementGoalService.getUpdateMeasurementGoal().instanceProject;
+	vm.functionJavascript = vm.measurementGoalDialog.interpretationModel.functionJavascript;
+	vm.isModifiable = isModifiable;
+    vm.isSubmittable = isSubmittable;
+    vm.closeModal = closeModal;
+    vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
+
+    function closeModal(){
+        $uibModalInstance.dismiss("closing");            
+    };
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isModifiable
+    * @description
+    * Measurement Goal can be updated.
+    ********************************************************************************/
+    function isModifiable(){
+       return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !(vm.measurementGoalDialog.metadata.state == 'Pending');
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isSubmittable
+    * @description
+    * Measurement Goal can be submitted.
+    ********************************************************************************/ 
+    function isSubmittable(){
+        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name goToUpdateMeasurementGoal
+    * @description
+    * Go to update a Measurement Goal.
+    ********************************************************************************/ 
+    function goToUpdateMeasurementGoal(){
+    	closeModal();
+    	$location.path('/measurementgoal');
+    }
+
+    /*ctrl.editQuestion = function(question){
+        $uibModalInstance.dismiss("closing");
+        QuestionStorageFactory.setQuestion(question);
+        $location.path('/questionUpdate');
+    };*/
+
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 13:03:51
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-15 13:39:26
+*/
+
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('MetricModalCtrl', MetricModalCtrl);
+
+MetricModalCtrl.$inject = ['$window', '$uibModal', 'MetricService', '$uibModalInstance'];
+
+function MetricModalCtrl($window, $uibModal, MetricService, $uibModalInstance) {
+
+	var vm = this;
+
+	vm.metricDialog = MetricService.getMetricDialog();
+	vm.closeModal = closeModal;
+
+    function closeModal(){
+        $uibModalInstance.dismiss("closing");            
+    };
+
+    /*ctrl.editQuestion = function(question){
+        $uibModalInstance.dismiss("closing");
+        QuestionStorageFactory.setQuestion(question);
+        $location.path('/questionUpdate');
+    };*/
+
+
+}
+
+})();
 (function() {  'use strict';
 
 /************************************************************************************

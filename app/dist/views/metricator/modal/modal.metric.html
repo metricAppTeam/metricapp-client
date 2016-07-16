@@ -1,10 +1,10 @@
 <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" ng-click="vm.closeModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="largeModalHead">Metric</h4>
             </div>
             <div class="modal-body">
-            <h2>Metric</h2>
+            <h2>{{vm.metricDialog.name}}</h2>
             <ul class="list-group border-bottom">
                 <h4>Has Max</h4>
                     <li class="list-group-item">{{vm.metricDialog.hasMax}}</li>
@@ -41,6 +41,6 @@
             </ul>                           
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>       
+                <button type="button" class="btn btn-default" ng-show="vm.isToAdd" ng-click="vm.addMetricToMeasurementGoal()">Add</button> <button type="button" class="btn btn-default" ng-click="vm.closeModal()">Close</button>       
             </div>
 </div>

@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 16:47:54
+* @Last Modified time: 2016-07-15 13:45:37
 */
 (function () { 'use strict';
 
@@ -21,9 +21,9 @@ angular.module('metricapp')
 
 .controller('MetricatorController', MetricatorController);
 
-MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window','STATES', 'AuthService'];
+MetricatorController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window','STATES', 'AuthService', 'MeasurementGoalModalService'];
 
-function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window, STATES, AuthService) {
+function MetricatorController($scope, $location, MetricService, MeasurementGoalService, $window, STATES, AuthService, MeasurementGoalModalService) {
 
     var vm = this;
 
@@ -38,7 +38,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     //    metrics : [],
     //    questions : []
     //};
-    vm.states = [STATES.ONUPDATEQUESTIONERENDPOINT, STATES.CREATED];
+    vm.states = [STATES.ONUPDATEQUESTIONERENDPOINT, STATES.ONUPDATEWAITINGQUESTIONS];
     vm.measurementGoals = [undefined,undefined];
     vm.metrics = [];
     vm.contextFactors = [];
@@ -94,7 +94,6 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Get active measurement goals for a metricator.
     ********************************************************************************/
     function getMeasurementGoals(){
-    
         for (var i=0; i<vm.states.length; i++){
             getMeasurementGoalsByState(i);
         }
@@ -135,11 +134,33 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 vm.organizationalGoal = data.organizationalGoal;
                 vm.instanceProject = data.instanceProject;
 
-                $("#modal_large").modal("show");
+                /*var toUpdate = {
+	            	measurementGoal : vm.measurementGoalDialog,
+	            	metrics : vm.metrics,
+	            	contextFactors : vm.contextFactors,
+	            	assumptions : vm.assumptions,
+	            	organizationalGoal : vm.organizationalGoal,
+	            	instanceProject : vm.instanceProject
+	        	};*/
+
+	        	var toUpdate = {
+	            	measurementGoal : vm.measurementGoalDialog,
+	            	metrics : data.metrics,
+	            	contextFactors : data.contextFactors,
+	            	assumptions : data.assumptions,
+	            	organizationalGoal : data.organizationalGoal,
+	            	instanceProject : data.instanceProject
+	        	}; 	
+
+	        	//Send to MeasurementGoalService to open a modal
+        		MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
+	        	MeasurementGoalModalService.openMeasurementGoalModal();
+                //It's not necessary, now we have angular modal
+                //$("#modal_large").modal("show");
             },
             function(data) {
                 alert('Error retriving Externals');
-            }
+        	}
         );
     };
 
@@ -177,9 +198,15 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     };*/
 
     function setMeasurementGoalDialog(parentIndex,measurementGoalToAssignId){
-        //TODO add parent index
         vm.measurementGoalDialog = vm.measurementGoals[parentIndex][measurementGoalToAssignId];
-        getMeasurementGoalExternals(vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id);
+        getMeasurementGoalExternals(vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id);//.then(
+
+        //function (toUpdate) {
+
+        //},
+        //function (toUpdate) {
+        //	console.log("Exit from setMeasurementGoalDialog with failure status");
+        //});
         //var goalid = $routeParams.goalid;
         //vm.currMGoal = {
         //    id: goalid;
@@ -276,9 +303,9 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Measurement Goal can be updated.
     ********************************************************************************/
     function isModifiable(){
-        console.log(vm.measurementGoalDialog.metricatorId);
-        console.log(AuthService.getUser().username);
-        console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
+        //console.log(vm.measurementGoalDialog.metricatorId);
+        //console.log(AuthService.getUser().username);
+        //console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username;
     }
 

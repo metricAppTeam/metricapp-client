@@ -20,7 +20,8 @@ angular.module('metricapp',[
     'ngMockE2E',
     'nvd3',
     'angular.morris-chart',
-    'ui.ace'
+    'ui.ace',
+    'ui.bootstrap'
 ]);
 
 })();

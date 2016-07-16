@@ -100,12 +100,12 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
     * @returns {User} THe authuser stored into the cookie.
     ********************************************************************************/
     function getUser() {
-        console.log('GET-USER cookie');
+        //console.log('GET-USER cookie');
         var user = $cookies.getObject('globals').user;
-        console.log('GET-COOKIE globals.user WITH ' +
-        'username=' + user.username + ' & ' +
-        'role=' + user.role + ' & ' +
-        'authdata=' + user.authdata);
+        //console.log('GET-COOKIE globals.user WITH ' +
+        //'username=' + user.username + ' & ' +
+        //'role=' + user.role + ' & ' +
+        //'authdata=' + user.authdata);
         return user;
     }
 

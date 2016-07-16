@@ -64,7 +64,7 @@
                     <tbody>
                         <tr ng-repeat="measurementGoal in vm.measurementGoals">
                             <td>
-                                <button class="btn btn-default btn-rounded" data-toggle="modal" data-target="#modal_large" ng-click="vm.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
+                                <button class="btn btn-default btn-rounded" data-toggle="modal" ng-click="vm.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
                             </td>     
                             <td>{{measurementGoal.metadata.entityType}}</td>
                             <td>{{measurementGoal.metadata.creationDate}}</td>

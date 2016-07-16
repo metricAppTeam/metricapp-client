@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-07-13 11:01:31
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-13 11:17:22
+* @Last Modified time: 2016-07-15 11:06:46
 */
 (function() { 'use strict';
 
@@ -25,7 +25,7 @@ angular.module('metricapp')
 
 .constant('STATES', {
     CREATED:   'Created',
-    ONUPDATEWAITINGQUESTIONS: 'OnUpdatedWaitingQuestions',
+    ONUPDATEWAITINGQUESTIONS: 'OnUpdateWaitingQuestions',
     ONUPDATEQUESTIONERENDPOINT: 'OnUpdateQuestionerEndpoint',
     PENDING: 'Pending',
     REJECTED: 'Rejected',
