@@ -25,7 +25,8 @@ angular.module('metricapp',[
     'angular-svg-round-progress',
     'angular-bubbletree',
     'angularChart',
-    'ngCytoscape'
+    'ngCytoscape',
+    'ui.bootstrap'
 ]);
 
 })();

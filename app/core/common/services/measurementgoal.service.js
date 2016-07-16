@@ -85,7 +85,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         //submit).then(
 
 
-        return $http.post('http://localhost:8080/metricapp-server/measurementgoal/', submit).then(
+        return $http.post('http://localhost:8080/measurementgoal/', submit).then(
             function(response) {
                 //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
@@ -112,7 +112,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     function getMeasurementGoals() {
 
 
-        return $http.get('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').then(
+        return $http.get('http://localhost:8080/measurementgoal?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -138,7 +138,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     function getMeasurementGoalExternals(measurementGoalId) {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
+        return $http.get('http://localhost:8080-gitlab/external/measurementgoal?id='+measurementGoalId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -164,9 +164,9 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     function getOrganizationalGoalById(organizationalGoalId) {
 
-        //return $http.get('http://localhost:8080/metricapp-server-gitlab/external/organizationalgoal?id='+organizationalGoalId).then(
+        //return $http.get('http://localhost:8080-gitlab/external/organizationalgoal?id='+organizationalGoalId).then(
 
-        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').then(
+        return $http.get('http://qips.sweng.uniroma2.it/external/organizationalgoal?id=1').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET ORGANIZATIONAL GOAL');
@@ -195,7 +195,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     function getMeasurementGoalsBy(keyword,field) {
 
-        return $http.get("http://localhost:8080/metricapp-server/measurementgoal?" + field + "=" + keyword).then(
+        return $http.get("http://localhost:8080/measurementgoal?" + field + "=" + keyword).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');

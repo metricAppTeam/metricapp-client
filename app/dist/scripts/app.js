@@ -25,7 +25,8 @@ angular.module('metricapp',[
     'angular-svg-round-progress',
     'angular-bubbletree',
     'angularChart',
-    'ngCytoscape'
+    'ngCytoscape',
+    'ui.bootstrap'
 ]);
 
 })();
@@ -90,8 +91,11 @@ angular.module('metricapp')
 angular.module('metricapp')
 
 .constant('QUESTIONER_ACTIONS', [
-    {name: 'Action', href: '#/questioner_action', icon: 'cog'},
-    {name: 'Metrics', 				href: '#/metrics',             icon:'fa fa-tasks'         }
+    {name: 'Profile', href: '#/profile', icon: 'user'},
+    {name: 'Measurement Goals', href: '#/questionerMeasurementGoalList', icon: 'list'},
+    {name: 'Search Questions', href: '#/questionSearch', icon: 'list'},
+    {name: 'Create New Question', href: '#/questionCreation', icon: 'plus'},
+    {name: 'Question list', href: '#/questionList', icon: 'list'}
 
 ]);
 
@@ -118,6 +122,34 @@ angular.module('metricapp')
     {name: 'Organization',  href: '#/organization', icon: 'sitemap'},
     {name: 'Messages',      href: '#/messages',     icon: 'comments'}
 ]);
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc constant
+* @name STATES
+* @module metricapp
+* @description
+* Defines constants related to entity states.
+* - EXPERT:
+* - QUESTIONER:
+* - METRICATOR:
+************************************************************************************/
+
+angular.module('metricapp')
+
+.constant('STATES', {
+    CREATED:    		'Created',
+    ONUPDATE: 			'OnUpdate',
+    PENDING: 			'Pending',
+    APPROVED:   		'Approved',
+    ONUPDATEWAITING: 	'OnUpdateWaitingQuestions',
+    ONUPDATEENDPOINT: 	'OnUpdateQuestionerEndpoint',  
+    REJECTED:   		'Rejected', 
+    SUSPENDED:  		'Suspended'
+});
 
 })();
 
@@ -1620,6 +1652,32 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/question/question.view.html'
     })
 
+	// QUESTIONER
+	.when('/questionCreation', {
+        templateUrl: 'dist/views/questioner/questionerCreate/questionCreation.view.html'
+    })
+    .when('/questionSearch', {
+        templateUrl: 'dist/views/questioner/questionerSearch/questionSearch.view.html'
+    })
+    .when('/questionUpdate', {
+        templateUrl: 'dist/views/questioner/questionerUpdate/questionUpdate.view.html'
+    })
+    .when('/questionList', {
+        templateUrl: 'dist/views/questioner/questionerList/questionList.view.html'
+    })
+    .when('/questions/:questionId', {
+        templateUrl: 'dist/views/questioner/questionDetails.view.html'  
+    })
+    .when('/measurementGoalQuestionList', {
+        templateUrl: 'dist/views/questioner/measurementGoal/measurementGoalQuestionsList.view.html'
+    })
+    .when('/measurementGoalAddExistingQuestion', {
+        templateUrl: 'dist/views/questioner/measurementGoal/measurementGoalAddExistingQuestion.view.html'
+    })
+    .when('/questionerMeasurementGoalList', {
+        templateUrl: 'dist/views/questioner/measurementGoal/measurementGoalList.view.html'
+    })
+
     // METRICS
     .when('/metrics', {
         templateUrl: 'dist/views/metric/metrics.view.html'
@@ -1721,7 +1779,7 @@ function Error404Interceptor($q, $location) {
 
         responseError: function(response) {            
             if (response.status === 404) {
-            	if (response.measurementGoals !== null || response.metrics !==null) {
+            	if (response.measurementGoals !== null || response.metrics !==null || response.questions !== null) {
 	                return response;
             	}
             	else {
@@ -1775,6 +1833,170 @@ function Error500Interceptor($q, $location) {
 
 })();
 
+(function() {'use strict';
+
+/* Services */
+
+/*
+ http://docs.angularjs.org/api/ngResource.$resource
+
+ Default ngResources are defined as
+
+ 'get':    {method:'GET'},
+ 'save':   {method:'POST'},
+ 'query':  {method:'GET', isArray:true},
+ 'remove': {method:'DELETE'},
+ 'delete': {method:'DELETE'}
+
+ */
+
+var services = angular.module('metricapp');
+
+services.factory('QuestionsCrudFactory', ['$http', '$window', 'STATES', function($http, $window, STATES){
+	var factory = {};
+	
+	factory.STATES = STATES;
+
+	factory.create = function(question){
+		//var questionJSON = JSON.stringify(question);			
+		return $http.post("http://localhost:8080/question", question);
+	};
+
+	factory.update = function(question){
+		return $http.put("http://localhost:8080/question?id=" + question.metadata.id, question);
+	};
+
+	factory.delete = function(questionId){
+		return $http.delete("http://localhost:8080/question?id=" + questionId);
+	};
+
+	factory.getAll = function(){
+
+		var config = {
+			params: {
+				id: "all"
+			}
+		};
+		return $http.get("http://localhost:8080/question", config);
+	};
+
+	factory.getRecent = function(questioner){
+
+		var config = {
+			params: {
+				questionerId: questioner,
+				recent: "true"
+			}
+		};
+		//$window.alert("Getting all questions in repository");
+		return $http.get("http://localhost:8080/question", config);
+	};
+
+	factory.get = function(keyword, field){ 
+
+		var url = "http://localhost:8080/question?" + field[0] + "=" + keyword[0]; 
+		var i = 0;
+		for (i=1; i<field.length; i++){
+			url += + "&" + field[i] + "=" + keyword[i];
+		}
+		
+		return $http.get(url);
+	};
+
+	factory.getInArray = function(questions){
+         
+         var i;
+         var response = [];
+         for(i=0; i<questions.length; i++){
+
+         	factory.get([questions[i].metadata.id], ["id"]).then(
+         		function(data){
+         			response.push(data.data.questionList[0]);
+         		},
+         		function(data){
+         			$window.alert("Error retrieving question " + questions[i].metadata.id);
+         		}
+     		);
+
+         }
+
+         return response;
+    };
+
+	factory.getMetrics = function(id){
+		return $http.get("http://localhost:8080/metric?id=" + id);
+	};
+
+	factory.count = function(state, questioner){
+
+		var config = {
+			params: {
+				userid: questioner,
+				state: state
+			}
+		};
+
+		return $http.get("http://localhost:8080/question/count", config);
+
+	};
+
+	factory.countMeasurementGoalsByQuestionerIdAndState = function(questionerId, state){
+        var url = "http://localhost:8080/measurementgoal/count?questionerId=" + questionerId + "&state=" + state;
+        return $http.get(url);
+    }
+
+	return factory;
+}]);
+})();
+(function() {'use strict';
+
+
+var services = angular.module('metricapp');
+
+
+services.factory('QuestionStorageFactory', ['$window', function($window){
+	var factory = {};
+	var savedQuestion = {};
+	var savedQuestioner = {};
+	var savedMetric = {};
+	var savedMG = {};
+
+	factory.setQuestioner = function(questioner){
+		savedQuestioner = questioner;
+	};
+
+	factory.getQuestioner = function(){
+		return savedQuestioner;
+	};
+
+	factory.setQuestion = function(question){
+		savedQuestion = question;
+	};
+
+	factory.getQuestion = function(){
+		return savedQuestion;
+	};
+
+	factory.getMeasurementGoal = function(){
+		return savedMG;
+	};
+
+	factory.setMeasurementGoal = function(MG){
+		savedMG = MG;
+	};
+
+	factory.setMetric = function(metric){
+		savedMetric = metric;
+	};
+
+	factory.getMetric = function(metric){
+		return savedMetric;
+	};
+
+	return factory;
+
+}]);
+})();
 (function() { 'use strict';
 
 /************************************************************************************
@@ -2362,7 +2584,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
         //submit).then(
 
 
-        return $http.post('http://localhost:8080/metricapp-server/measurementgoal/', submit).then(
+        return $http.post('http://localhost:8080/measurementgoal/', submit).then(
             function(response) {
                 //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
@@ -2389,7 +2611,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
     function getMeasurementGoals() {
 
 
-        return $http.get('http://localhost:8080/metricapp-server/measurementgoal?userid=metricator').then(
+        return $http.get('http://localhost:8080/measurementgoal?userid=metricator').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -2415,7 +2637,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     function getMeasurementGoalExternals(measurementGoalId) {
 
-        return $http.get('http://localhost:8080/metricapp-server-gitlab/external/measurementgoal?id='+measurementGoalId).then(
+        return $http.get('http://localhost:8080-gitlab/external/measurementgoal?id='+measurementGoalId).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -2441,9 +2663,9 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     function getOrganizationalGoalById(organizationalGoalId) {
 
-        //return $http.get('http://localhost:8080/metricapp-server-gitlab/external/organizationalgoal?id='+organizationalGoalId).then(
+        //return $http.get('http://localhost:8080-gitlab/external/organizationalgoal?id='+organizationalGoalId).then(
 
-        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').then(
+        return $http.get('http://qips.sweng.uniroma2.it/external/organizationalgoal?id=1').then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET ORGANIZATIONAL GOAL');
@@ -2472,7 +2694,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window) {
 
     function getMeasurementGoalsBy(keyword,field) {
 
-        return $http.get("http://localhost:8080/metricapp-server/measurementgoal?" + field + "=" + keyword).then(
+        return $http.get("http://localhost:8080/measurementgoal?" + field + "=" + keyword).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -4186,6 +4408,101 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
 
 })();
 
+(function() {'use strict';
+
+
+var services = angular.module('metricapp');
+
+
+services.factory('QuestionModalFactory', ['$window', '$uibModal', function($window, $uibModal){
+	var factory = {};
+
+	factory.openQuestionModal = function(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/questioner/questionerModal/questionModal.view.html',
+            controller: 'QuestionModalCtrl',
+            controllerAs: 'qstModal',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+	return factory;
+
+}]);
+})();
+(function() {'use strict';
+
+
+var services = angular.module('metricapp');
+
+
+services.factory('QuestionerMeasurementGoalModalFactory', ['$window', '$uibModal', function($window, $uibModal){
+	var factory = {};
+
+	factory.openMeasurementGoalModal = function(){
+
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/questioner/questionerModal/measurementGoalModal.view.html',
+            controller: 'QuestionerMeasurementGoalModalCtrl',
+            controllerAs: 'mgModal',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+	return factory;
+
+}]);
+})();
+
+(function() {'use strict';
+
+
+var services = angular.module('metricapp');
+
+
+services.factory('QuestionerMetricModalFactory', ['$window', '$uibModal', function($window, $uibModal){
+	var factory = {};
+
+	factory.openMetricModal = function(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/questioner/questionerModal/metricModal.view.html',
+            controller: 'QuestionerMetricModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+	return factory;
+
+}]);
+})();
 (function () {
   'use strict';
 
@@ -4302,6 +4619,20 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
 
 })();
 
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('questionerDashboard', questionerDashboard);
+
+  function questionerDashboard() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/questioner/questionerDashboard.view.html'
+    };
+  }
+
+})();
 (function () {
   'use strict';
 
@@ -4554,6 +4885,76 @@ function mUnique($http, $q) {
 
 })();
 
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('questionCreate', questionCreate);
+
+  function questionCreate() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/questioner/questionCreation.view.html'
+    };
+  }
+
+})();
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('questionList', questionList);
+
+  function questionList() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/questioner/questionList.view.html'
+    };
+  }
+
+})();
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('questionModal', questionModal);
+
+  function questionModal() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/questioner/questionModal.view.html'
+    };
+  }
+
+})();
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('questionSearch', questionSearch);
+
+  function questionSearch() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/questioner/questionSearch.view.html'
+    };
+  }
+
+})();
+(function () {
+  'use strict';
+
+  angular.module('metricapp')
+      .directive('questionUpdate', questionUpdate);
+
+  function questionUpdate() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/questioner/questionUpdate.view.html'
+    };
+  }
+
+})();
 (function() { 'use strict';
 
 /************************************************************************************
@@ -5268,148 +5669,119 @@ function ChatsWidgetController($scope, $location, MessageService, UserService, A
 
 /************************************************************************************
 * @ngdoc controller
-* @name Error401Controller
+* @name HomeController
+* @module metricapp
+* @requires $rootScope
+* @requires $scope
 * @requires $location
 * @requires AuthService
 *
 * @description
-* Handles the 401 error.
-* Realizes the control layer for `401.view`.
+* Realizes the control layer for `home.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('Error401Controller', Error401Controller);
+.controller('HomeController', HomeController);
 
-Error401Controller.$inject = ['$window', '$location'];
+HomeController.$inject = ['$rootScope', '$scope', '$location', '$timeout', 'AuthService'];
 
-function Error401Controller($window, $location) {
-
-    var vm = this;
-
-    vm.goHome = goHome;
-    vm.goBack = goBack;
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name goHome
-    * @description
-    * Changes `$location` to the Home.
-    ********************************************************************************/
-    function goHome() {
-        $location.path('/home');
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name goBack
-    * @description
-    * Changes `$location` to the previous page in history.
-    ********************************************************************************/
-    function goBack() {
-        $window.history.back();
-    }
-
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name Error404Controller
-* @requires $location
-* @requires AuthService
-*
-* @description
-* Handles the 404 error.
-* Realizes the control layer for `404.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('Error404Controller', Error404Controller);
-
-Error404Controller.$inject = ['$window', '$location'];
-
-function Error404Controller($window, $location) {
+function HomeController($rootScope, $scope, $location, $timeout, AuthService) {
 
     var vm = this;
 
-    vm.goHome = goHome;
-    vm.goBack = goBack;
+    _init();
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name goHome
-    * @description
-    * Changes `$location` to the Home.
-    ********************************************************************************/
-    function goHome() {
-        $location.path('/home');
+    function _loadHome() {
+        vm.loading = true;
+        vm.success = false;
+        vm.currUser = AuthService.getUser();
+        vm.success = true;
+        vm.loading = false;
     }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name goBack
-    * @description
-    * Changes `$location` to the previous page in history.
-    ********************************************************************************/
-    function goBack() {
-        $window.history.back();
+    /******************************************************
+    *
+    *
+    * EXPERT SECTION ON HOME
+    *
+    *
+    *******************************************************/
+
+    //Active and Inactive Users
+    vm.active_questioners = 10;
+    vm.active_metricators = 15;
+    vm.active_experts = 1;
+    vm.inactive_questioners = 3;
+    vm.inactive_metricators = 2;
+    vm.inactive_experts = 0;
+
+    //Active Tasks
+    vm.active_tasks = 10;
+
+    //Active Teams
+    vm.active_teams = 2;
+
+    //Total Users
+    vm.total_active_users = vm.active_questioners + vm.active_metricators + vm.active_experts;
+    vm.total_inactive_users = vm.inactive_experts + vm.inactive_metricators + vm.inactive_questioners;
+    vm.total_users = vm.total_inactive_users + vm.total_active_users;
+
+    //Active Users chart
+    vm.active_users_chart_data = [
+        {label: 'Metricators', value: vm.active_questioners},
+        {label: 'Questioners', value: vm.active_metricators},
+        {label: 'Experts',     value: vm.active_experts}
+    ];
+
+    //Active Users Trend Chart
+    vm.trend_active_users = [
+        { y: 'Q2/15', questioners: 19,  metricators: 29 },
+        { y: 'Q3/15', questioners: 30,  metricators: 35 },
+        { y: 'Q1/16', questioners: 55,  metricators: 45 },
+        { y: 'Q2/16', questioners: 78,  metricators: 80 }
+    ];
+
+    //Projects Box
+    vm.projects = [
+        {name: 'ISSR Project',status: 'active',progress: 30},
+        {name: 'ISSR Project2',status: 'active',progress: 70}
+    ];
+
+    //Date() for clock
+    vm.date = new Date();
+
+    vm.exportDataXLS = function () {
+        var blob = new Blob([document.getElementById('exportable').innerHTML], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
+        });
+        saveAs(blob, 'Report.xls');
+    };
+
+    /******************************************************
+    *
+    *
+    * QUESTIONER SECTION ON HOME
+    *
+    *
+    *******************************************************/
+
+
+    /******************************************************
+    *
+    *
+    * METRICATOR SECTION ON HOME
+    *
+    *
+    *******************************************************/
+
+
+    function _init() {
+        vm.loading = true;
+        vm.success = false;
+        vm.errmsg = null;
+        _loadHome();
     }
-
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name Error500Controller
-* @requires $location
-* @requires AuthService
-*
-* @description
-* Handles the 500 error.
-* Realizes the control layer for `500.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('Error500Controller', Error500Controller);
-
-Error500Controller.$inject = ['$window', '$location'];
-
-function Error500Controller($window, $location) {
-
-    var vm = this;
-
-    vm.goHome = goHome;
-    vm.goBack = goBack;
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name goHome
-    * @description
-    * Changes `$location` to the Home.
-    ********************************************************************************/
-    function goHome() {
-        $location.path('/home');
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name goBack
-    * @description
-    * Changes `$location` to the previous page in history.
-    ********************************************************************************/
-    function goBack() {
-        $window.history.back();
-    }
-
 }
 
 })();
@@ -5848,119 +6220,148 @@ function GridsController($scope, $location, $filter, GridService, UserService, R
 
 /************************************************************************************
 * @ngdoc controller
-* @name HomeController
-* @module metricapp
-* @requires $rootScope
-* @requires $scope
+* @name Error401Controller
 * @requires $location
 * @requires AuthService
 *
 * @description
-* Realizes the control layer for `home.view`.
+* Handles the 401 error.
+* Realizes the control layer for `401.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('HomeController', HomeController);
+.controller('Error401Controller', Error401Controller);
 
-HomeController.$inject = ['$rootScope', '$scope', '$location', '$timeout', 'AuthService'];
+Error401Controller.$inject = ['$window', '$location'];
 
-function HomeController($rootScope, $scope, $location, $timeout, AuthService) {
+function Error401Controller($window, $location) {
 
     var vm = this;
 
-    _init();
+    vm.goHome = goHome;
+    vm.goBack = goBack;
 
-    function _loadHome() {
-        vm.loading = true;
-        vm.success = false;
-        vm.currUser = AuthService.getUser();
-        vm.success = true;
-        vm.loading = false;
+    /********************************************************************************
+    * @ngdoc method
+    * @name goHome
+    * @description
+    * Changes `$location` to the Home.
+    ********************************************************************************/
+    function goHome() {
+        $location.path('/home');
     }
 
-    /******************************************************
-    *
-    *
-    * EXPERT SECTION ON HOME
-    *
-    *
-    *******************************************************/
-
-    //Active and Inactive Users
-    vm.active_questioners = 10;
-    vm.active_metricators = 15;
-    vm.active_experts = 1;
-    vm.inactive_questioners = 3;
-    vm.inactive_metricators = 2;
-    vm.inactive_experts = 0;
-
-    //Active Tasks
-    vm.active_tasks = 10;
-
-    //Active Teams
-    vm.active_teams = 2;
-
-    //Total Users
-    vm.total_active_users = vm.active_questioners + vm.active_metricators + vm.active_experts;
-    vm.total_inactive_users = vm.inactive_experts + vm.inactive_metricators + vm.inactive_questioners;
-    vm.total_users = vm.total_inactive_users + vm.total_active_users;
-
-    //Active Users chart
-    vm.active_users_chart_data = [
-        {label: 'Metricators', value: vm.active_questioners},
-        {label: 'Questioners', value: vm.active_metricators},
-        {label: 'Experts',     value: vm.active_experts}
-    ];
-
-    //Active Users Trend Chart
-    vm.trend_active_users = [
-        { y: 'Q2/15', questioners: 19,  metricators: 29 },
-        { y: 'Q3/15', questioners: 30,  metricators: 35 },
-        { y: 'Q1/16', questioners: 55,  metricators: 45 },
-        { y: 'Q2/16', questioners: 78,  metricators: 80 }
-    ];
-
-    //Projects Box
-    vm.projects = [
-        {name: 'ISSR Project',status: 'active',progress: 30},
-        {name: 'ISSR Project2',status: 'active',progress: 70}
-    ];
-
-    //Date() for clock
-    vm.date = new Date();
-
-    vm.exportDataXLS = function () {
-        var blob = new Blob([document.getElementById('exportable').innerHTML], {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
-        });
-        saveAs(blob, 'Report.xls');
-    };
-
-    /******************************************************
-    *
-    *
-    * QUESTIONER SECTION ON HOME
-    *
-    *
-    *******************************************************/
-
-
-    /******************************************************
-    *
-    *
-    * METRICATOR SECTION ON HOME
-    *
-    *
-    *******************************************************/
-
-
-    function _init() {
-        vm.loading = true;
-        vm.success = false;
-        vm.errmsg = null;
-        _loadHome();
+    /********************************************************************************
+    * @ngdoc method
+    * @name goBack
+    * @description
+    * Changes `$location` to the previous page in history.
+    ********************************************************************************/
+    function goBack() {
+        $window.history.back();
     }
+
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name Error404Controller
+* @requires $location
+* @requires AuthService
+*
+* @description
+* Handles the 404 error.
+* Realizes the control layer for `404.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('Error404Controller', Error404Controller);
+
+Error404Controller.$inject = ['$window', '$location'];
+
+function Error404Controller($window, $location) {
+
+    var vm = this;
+
+    vm.goHome = goHome;
+    vm.goBack = goBack;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name goHome
+    * @description
+    * Changes `$location` to the Home.
+    ********************************************************************************/
+    function goHome() {
+        $location.path('/home');
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name goBack
+    * @description
+    * Changes `$location` to the previous page in history.
+    ********************************************************************************/
+    function goBack() {
+        $window.history.back();
+    }
+
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name Error500Controller
+* @requires $location
+* @requires AuthService
+*
+* @description
+* Handles the 500 error.
+* Realizes the control layer for `500.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('Error500Controller', Error500Controller);
+
+Error500Controller.$inject = ['$window', '$location'];
+
+function Error500Controller($window, $location) {
+
+    var vm = this;
+
+    vm.goHome = goHome;
+    vm.goBack = goBack;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name goHome
+    * @description
+    * Changes `$location` to the Home.
+    ********************************************************************************/
+    function goHome() {
+        $location.path('/home');
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name goBack
+    * @description
+    * Changes `$location` to the previous page in history.
+    ********************************************************************************/
+    function goBack() {
+        $window.history.back();
+    }
+
 }
 
 })();
@@ -7074,6 +7475,152 @@ function create() {
 
 })();
 
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name MGoalController
+* @module metricapp
+* @requires $scope
+* @requires $location
+* @requires $routeParams
+* @requires MGoalService
+*
+* @description
+* Realizes the control layer for `mgoal.view` and `update-mgoal.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('MGoalController', MGoalController);
+
+MGoalController.$inject = ['$scope', '$location', '$routeParams', 'MGoalService'];
+
+function MGoalController($scope, $location, $routeParams, MGoalService) {
+
+    var vm = this;
+
+    _init();
+
+    function _loadMGoal(goalid) {
+        vm.loading = true;
+        vm.success = false;
+        MGoalService.getById(goalid).then(
+            function(resolve) {
+                vm.currMGoal = angular.copy(resolve.mgoal);
+                vm.updtMGoal = angular.copy(vm.currMGoal);
+                vm.success = true;
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
+    }
+
+    function _init() {
+        vm.loading = true;
+        vm.success = false;
+        vm.errmsg = null;
+        if (!$routeParams.goalid) {
+            $location.path('/mgoals');
+            return;
+        }
+        vm.currMGoal = {
+            id: $routeParams.goalid
+        };
+        _loadMGoal(vm.currMGoal.id);
+    }
+}
+
+})();
+
+(function() {  'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name MGoalsController
+* @module metricapp
+* @requires $scope
+* @requires $location
+* @requires $filter
+* @requires MGoalService
+*
+* @description
+* Realizes the control layer for `mgoals.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('MGoalsController', MGoalsController);
+
+MGoalsController.$inject = ['$scope', '$location', '$filter', 'MGoalService'];
+
+function MGoalsController($scope, $location, $filter, MGoalService) {
+
+    var vm = this;
+
+    vm.loadMore = loadMore;
+    vm.search = search;
+
+    _init();
+
+    function loadMore() {
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.mgoals = vm.mgoals.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
+    }
+
+    function search(query) {
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+    }
+
+    function _loadAllMGoals() {
+        vm.loading = true;
+        vm.success = false;
+        MGoalService.getAll().then(
+            function(resolve) {
+                vm.data = angular.copy(resolve.mgoals);
+                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                vm.success = true;
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
+  }
+
+    function _init() {
+        vm.loading = true;
+        vm.success = false;
+        vm.errmsg = null;
+        vm.data = [];
+        vm.buffer = [];
+        vm.mgoals = [];
+        vm.idx = 0;
+        vm.step = 4;
+        vm.query = '';
+        vm.orderBy = 'name';
+        _loadAllMGoals();
+        $scope.$watch('vm.buffer', function() {
+            vm.idx = 0;
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.mgoals = vm.buffer.slice(vm.idx, e);
+            vm.idx = e;
+        });
+    }
+
+}
+
+})();
+
 /*
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
@@ -7322,152 +7869,6 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
 
         //mtc.getMeasurementGoals();
     }
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name MGoalController
-* @module metricapp
-* @requires $scope
-* @requires $location
-* @requires $routeParams
-* @requires MGoalService
-*
-* @description
-* Realizes the control layer for `mgoal.view` and `update-mgoal.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('MGoalController', MGoalController);
-
-MGoalController.$inject = ['$scope', '$location', '$routeParams', 'MGoalService'];
-
-function MGoalController($scope, $location, $routeParams, MGoalService) {
-
-    var vm = this;
-
-    _init();
-
-    function _loadMGoal(goalid) {
-        vm.loading = true;
-        vm.success = false;
-        MGoalService.getById(goalid).then(
-            function(resolve) {
-                vm.currMGoal = angular.copy(resolve.mgoal);
-                vm.updtMGoal = angular.copy(vm.currMGoal);
-                vm.success = true;
-            },
-            function(reject) {
-                vm.errmsg = reject.errmsg;
-                vm.success = false;
-            }
-        ).finally(function() {
-            vm.loading = false;
-        });
-    }
-
-    function _init() {
-        vm.loading = true;
-        vm.success = false;
-        vm.errmsg = null;
-        if (!$routeParams.goalid) {
-            $location.path('/mgoals');
-            return;
-        }
-        vm.currMGoal = {
-            id: $routeParams.goalid
-        };
-        _loadMGoal(vm.currMGoal.id);
-    }
-}
-
-})();
-
-(function() {  'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name MGoalsController
-* @module metricapp
-* @requires $scope
-* @requires $location
-* @requires $filter
-* @requires MGoalService
-*
-* @description
-* Realizes the control layer for `mgoals.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('MGoalsController', MGoalsController);
-
-MGoalsController.$inject = ['$scope', '$location', '$filter', 'MGoalService'];
-
-function MGoalsController($scope, $location, $filter, MGoalService) {
-
-    var vm = this;
-
-    vm.loadMore = loadMore;
-    vm.search = search;
-
-    _init();
-
-    function loadMore() {
-        if (vm.idx < vm.buffer.length) {
-            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.mgoals = vm.mgoals.concat(vm.buffer.slice(vm.idx, e));
-            vm.idx = e;
-        }
-    }
-
-    function search(query) {
-        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
-    }
-
-    function _loadAllMGoals() {
-        vm.loading = true;
-        vm.success = false;
-        MGoalService.getAll().then(
-            function(resolve) {
-                vm.data = angular.copy(resolve.mgoals);
-                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
-                vm.success = true;
-            },
-            function(reject) {
-                vm.errmsg = reject.errmsg;
-                vm.success = false;
-            }
-        ).finally(function() {
-            vm.loading = false;
-        });
-  }
-
-    function _init() {
-        vm.loading = true;
-        vm.success = false;
-        vm.errmsg = null;
-        vm.data = [];
-        vm.buffer = [];
-        vm.mgoals = [];
-        vm.idx = 0;
-        vm.step = 4;
-        vm.query = '';
-        vm.orderBy = 'name';
-        _loadAllMGoals();
-        $scope.$watch('vm.buffer', function() {
-            vm.idx = 0;
-            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.mgoals = vm.buffer.slice(vm.idx, e);
-            vm.idx = e;
-        });
-    }
-
-}
 
 })();
 
@@ -8007,6 +8408,156 @@ function QuestionsController($scope, $location, $filter, QuestionService) {
 
 })();
 
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name PageController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('QuestionDetailsCtrl', QuestionDetailsCtrl);
+
+QuestionDetailsCtrl.$inject = ['$location', '$window', 'QuestionStorageFactory', 'QuestionsCrudFactory', '$routeParams'];
+
+function QuestionDetailsCtrl($location, $window, QuestionStorageFactory, QuestionsCrudFactory, $routeParams) {
+
+        var ctrl = this;
+        ctrl.questionDialog = {};
+
+        QuestionsCrudFactory.get([$routeParams.questionId], ["id"]).then(
+        		function(data){
+        			console.log(data);
+        			ctrl.questionDialog = data.data.questionList[0];
+        		},
+
+        		function(data){
+        			$window.alert("Error retrieving question");
+        		}
+        	);
+            
+    }
+
+})();
+
+(function() {'use strict';
+
+	angular.module('metricapp')
+
+	.controller('QuestionerCtrl', QuestionerCtrl);
+
+	QuestionerCtrl.$inject = ['AuthService', 'QuestionStorageFactory', 'QuestionsCrudFactory', '$window'];
+
+	function QuestionerCtrl(AuthService, QuestionStorageFactory, QuestionsCrudFactory, $window) {
+
+	    var ctrl = this;    
+
+	    ctrl.user = AuthService.getUser();
+	    QuestionStorageFactory.setQuestioner(ctrl.user);
+
+	    ctrl.date = new Date();
+
+	    ctrl.messagesInbox = 12;
+
+	    ctrl.onUpdateQuestions = -1;
+	    ctrl.approvedQuestions = -1;
+	    ctrl.rejectedQuestions = -1;
+
+	    ctrl.approvedMeasurementGoals = -1;
+	    ctrl.waitingForQuestionsMeasurementGoals = -1;
+
+	    ctrl.countQuestionsOnUpdate = countQuestionsOnUpdate;
+	    ctrl.countQuestionsApproved = countQuestionsApproved;
+	    ctrl.countQuestionsRejected = countQuestionsRejected;
+
+	    ctrl.countMeasurmentGoalsApproved = countMeasurmentGoalsApproved;
+	    ctrl.countMeasurmentGoalsWaitingForQuestion = countMeasurmentGoalsWaitingForQuestion;
+
+	    countQuestionsOnUpdate();
+	    countQuestionsApproved();
+	    countQuestionsRejected();
+
+	    countMeasurmentGoalsWaitingForQuestion();
+	    countMeasurmentGoalsApproved();
+
+	    function countQuestionsOnUpdate(){
+	        QuestionsCrudFactory.count(QuestionsCrudFactory.STATES.ONUPDATE, QuestionStorageFactory.getQuestioner().username).then( 
+	            function(data) {
+	                ctrl.onUpdateQuestions = data.data.count;
+	                //$window.alert(JSON.stringify(ctrl.onUpdateQuestions));
+	            },
+	            function(data) {
+	                alert('Error retrieving onUpdate Questions');
+	            }
+	        );
+   	 	}
+
+   	 	function countQuestionsApproved(){
+	        QuestionsCrudFactory.count(QuestionsCrudFactory.STATES.APPROVED, QuestionStorageFactory.getQuestioner().username).then( 
+	            function(data) {
+	                ctrl.approvedQuestions = data.data.count;
+	                //$window.alert(JSON.stringify(ctrl.approvedQuestions));
+	            },
+	            function(data) {
+	                alert('Error retrieving approved Questions');
+	            }
+	        );
+   	 	}
+
+   	 	function countQuestionsRejected(){
+	        QuestionsCrudFactory.count(QuestionsCrudFactory.STATES.REJECTED, QuestionStorageFactory.getQuestioner().username).then( 
+	            function(data) {
+	                ctrl.rejectedQuestions = data.data.count;
+	                //$window.alert(JSON.stringify(ctrl.rejectedQuestions));
+	            },
+	            function(data) {
+	                alert('Error retrieving rejected Questions');
+	            }
+	        );
+   	 	}
+
+   	 	function countMeasurmentGoalsApproved(){
+   	 		
+ 			QuestionsCrudFactory.countMeasurementGoalsByQuestionerIdAndState(
+ 				QuestionStorageFactory.getQuestioner().username, QuestionsCrudFactory.STATES.APPROVED).then(
+	            function(response) {
+	                console.log('SUCCESS GET MEASUREMENT GOALS');
+	                console.log(response);
+	                ctrl.approvedMeasurementGoals = response.data.count;
+	            },
+	            function(response) {
+	                console.log('FAILURE GET MEASUREMENT GOALS');
+	                console.log(response);
+	            }
+	        );
+   	 	}
+
+   	 	function countMeasurmentGoalsWaitingForQuestion(){
+   	 		QuestionsCrudFactory.countMeasurementGoalsByQuestionerIdAndState(
+   	 			QuestionStorageFactory.getQuestioner().username, QuestionsCrudFactory.STATES.ONUPDATEWAITING).then(
+	            function(response) {
+	                console.log('SUCCESS GET MEASUREMENT GOALS');
+	                console.log(response);
+	                ctrl.waitingForQuestionsMeasurementGoals = response.data.count;
+	            },
+	            function(response) {
+	                console.log('FAILURE GET MEASUREMENT GOALS');
+	                console.log(response);
+	            }
+	        );
+   	 	}
+
+}
+
+})();
 (function() { 'use strict';
 
 /************************************************************************************
@@ -8587,6 +9138,733 @@ function TopbarController($scope, $location, AuthService, AUTH_EVENTS) {
         $scope.$on(AUTH_EVENTS.LOGOUT_SUCCESS, _render);
     }
 
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name PageController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('QuestionerMeasurementGoalListCtrl', QuestionerMeasurementGoalListCtrl);
+
+QuestionerMeasurementGoalListCtrl.$inject = ['$location', '$window', 'MeasurementGoalService', 
+	'QuestionStorageFactory', 'QuestionerMeasurementGoalModalFactory'];
+
+function QuestionerMeasurementGoalListCtrl($location, $window, MeasurementGoalService, QuestionStorageFactory, MeasurementGoalModalFactory) {
+
+    var ctrl = this;
+
+    ctrl.getMeasurementGoals = function(){
+       MeasurementGoalService.getMeasurementGoalsBy(QuestionStorageFactory.getQuestioner().username, "questionerId").then(
+            function(data) {
+                console.log(data);
+                ctrl.measurementGoals = data.measurementGoals;
+            },
+            function(data) {
+                alert('Error retrieving Measurement Goals');
+            }
+        );
+    };
+
+    ctrl.open = function (index) {
+        QuestionStorageFactory.setMeasurementGoal(ctrl.measurementGoals[index]);
+        MeasurementGoalModalFactory.openMeasurementGoalModal();
+    };
+
+	this.getMeasurementGoals();
+    
+
+}
+
+})();
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('QuestionMeasurementGoalAddCtrl', QuestionMeasurementGoalAddCtrl);
+
+QuestionMeasurementGoalAddCtrl.$inject = ['$location', 'QuestionsCrudFactory', 'MeasurementGoalService',
+ 'QuestionStorageFactory', 'QuestionModalFactory', '$window'];
+
+function QuestionMeasurementGoalAddCtrl($location, QuestionsCrudFactory, MeasurementGoalService,
+     QuestionStorageFactory, QuestionModalFactory, $window) {
+
+    var ctrl = this;
+
+    ctrl.questions = [];
+
+    ctrl.mgDialog = QuestionStorageFactory.getMeasurementGoal();
+    
+    _init();
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get active metrics for a metricator.
+    ********************************************************************************/
+    ctrl.getQuestions = function(){
+         
+     	QuestionsCrudFactory.get([QuestionsCrudFactory.STATES.APPROVED], ["state"]).then(
+     		function(data){
+     			ctrl.questions = data.data.questionList;
+     		},
+     		function(data){
+     			$window.alert("Error retrieving question " + ctrl.mgDialog.questions[i].instance);
+     		}
+ 		);
+
+    };
+    
+    ctrl.open = function (index) {
+        QuestionStorageFactory.setQuestion(ctrl.questions[index]);
+        QuestionModalFactory.openQuestionModal();
+    };
+
+    ctrl.addToMeasurementGoal = function(index){
+
+    	var i;
+    	for(i=0; i<ctrl.mgDialog.questions.length; i++){
+    		if(ctrl.questions[index].metadata.id == ctrl.mgDialog.questions[i].instance){
+    			$window.alert("The question is already present in the Measurement Goal");
+    			return; 
+    		}
+    	}
+
+        var questionInstance = {
+            busVersion : "",
+            instance : ctrl.questions[index].metadata.id,
+            objIdLocalToPhase : "",
+            tags: ctrl.questions[index].metadata.tags,
+            typeObj: "Question"
+        };
+
+        $window.alert("this should insert the question in the MG");
+        ctrl.mgDialog.questions.push(questionInstance);
+        $window.alert(JSON.stringify(ctrl.mgDialog));
+        var message = MeasurementGoalService.submitMeasurementGoal(ctrl.mgDialog);
+
+        
+    };
+
+
+    function _init(){
+        //
+    }
+
+    this.getQuestions();
+}
+
+})();
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('QuestionMeasurementGoalListCtrl', QuestionMeasurementGoalListCtrl);
+
+QuestionMeasurementGoalListCtrl.$inject = ['$location', 'QuestionsCrudFactory', 'MeasurementGoalService',
+ 'QuestionStorageFactory', 'QuestionModalFactory', '$window', 'QuestionerMetricModalFactory'];
+
+function QuestionMeasurementGoalListCtrl($location, QuestionsCrudFactory, MeasurementGoalService,
+     QuestionStorageFactory, QuestionModalFactory, $window, QuestionerMetricModalFactory) {
+
+    var ctrl = this;
+
+    ctrl.questions = [];
+    ctrl.metrics = [];
+
+    ctrl.mgDialog = QuestionStorageFactory.getMeasurementGoal();
+    
+    _init();
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get active metrics for a metricator.
+    ********************************************************************************/
+    ctrl.getQuestions = function(){
+         
+         var i;
+         for(i=0; i<ctrl.mgDialog.questions.length; i++){
+
+         	QuestionsCrudFactory.get([ctrl.mgDialog.questions[i].instance], ["id"]).then(
+         		function(data){
+         			ctrl.questions.push(data.data.questionList[0]);
+         		},
+         		function(data){
+         			$window.alert("Error retrieving question " + ctrl.mgDialog.questions[i].instance);
+         		}
+     		);
+
+         }
+    };
+
+    ctrl.getMetrics = function(){
+
+        var i;
+        for(i=0; i<ctrl.mgDialog.metrics.length; i++){
+
+            //This will be the Metric Service for retrieveng them from the server
+            QuestionsCrudFactory.getMetrics([ctrl.mgDialog.metrics[i].instance]).then(
+                function(data){
+                    ctrl.metrics.push(data.data.metricsDTO[0]);
+                },
+                function(data){
+                    $window.alert("Error retrieving question " + ctrl.mgDialog.questions[i].instance);
+                }
+            );
+
+        }
+
+    };
+    
+    ctrl.openQuestion = function (index) {
+        QuestionStorageFactory.setQuestion(ctrl.questions[index]);
+        QuestionModalFactory.openQuestionModal();
+    };
+
+    ctrl.openMetric = function(index){
+        QuestionStorageFactory.setMetric(ctrl.metrics[index]);
+        QuestionerMetricModalFactory.openMetricModal();  
+    };
+
+    function _init(){
+        //
+    }
+
+    ctrl.getMeasurementGoalData = function(mgId){
+        var message = MeasurementGoalService.getWholeMeasurementGoalById(mgId);
+
+        $window.alert(JSON.stringify(message.data));
+        $window.alert(JSON.stringify(message.data.questions));
+        $window.alert(JSON.stringify(message.data.metrics));
+
+        ctrl.questions = message.questions;
+        ctrl.metrics = message.metrics;
+    };
+
+
+    // this.getMeasurementGoalData(ctrl.mgDialog.metadata.id);
+    this.getQuestions();
+    this.getMetrics();
+}
+
+})();
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name PageController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
+************************************************************************************/
+
+angular.module("metricapp")
+.controller("QuestionCreationCtrl", QuestionCreationCtrl);
+
+QuestionCreationCtrl.$inject = ['$window', '$http', 'QuestionsCrudFactory', 'QuestionStorageFactory', 
+    'QuestionModalFactory', '$location'];
+
+function QuestionCreationCtrl($window, $http, QuestionsCrudFactory, QuestionStorageFactory, 
+    QuestionModalFactory, $location) {
+
+    var ctrl = this;
+
+    ctrl.question = {
+        description: null,
+        focus: null,
+        subject: null,
+        questionerId: QuestionStorageFactory.getQuestioner().username,
+        metadata: {
+            id: null,
+            creatorId: null,
+            creationDate: null,
+            lastVersionDate: null,
+            releaseNote: null,
+            state: QuestionsCrudFactory.STATES.CREATED,
+            entityType: "Question",
+            tags: []
+        }
+    };
+
+    ctrl.clearForm = function() {
+        ctrl.question = {
+            description: null,
+            focus: null,
+            subject: null,
+            questionerId: QuestionStorageFactory.getQuestioner().username,
+            metadata: {
+                id: null,
+                creatorId: null,
+                creationDate: null,
+                lastVersionDate: null,
+                releaseNote: null,
+                state: QuestionsCrudFactory.STATES.CREATED,
+                entityType: "Question",
+                tags: []
+            }
+        };            
+
+        //ctrl.question.creatorId = QuestionStorageFactory.getQuestioner().username;
+    };
+    
+    // callback for ng-click 'createNewQuestion':
+    ctrl.createNewQuestion = function () {
+        QuestionsCrudFactory.create(ctrl.question).then(
+            function(data, status){
+                $window.alert("Question Submitted!");
+                QuestionStorageFactory.setQuestion(data.data.questionList[0]);
+                QuestionModalFactory.openQuestionModal();
+                $location.path("/home");
+            },
+            
+            function(data, status){
+                alert("Error in submitting Question");
+            }
+        );
+
+    };
+
+    ctrl.getTags = function(){
+        return ctrl.question.metadata.tags.join();
+    };
+
+    ctrl.addTagToQuestion = function() {
+        ctrl.question.metadata.tags.push(ctrl.newTag);
+    };
+
+    ctrl.removeTagFromQuestion = function(index){
+        ctrl.question.metadata.tags.splice(index, 1);
+    };
+};
+
+})();
+
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.controller('QuestionListCtrl', QuestionListCtrl);
+
+QuestionListCtrl.$inject = ['AuthService', '$location', 'QuestionsCrudFactory',
+ 'QuestionStorageFactory', 'QuestionModalFactory', '$window'];
+
+function QuestionListCtrl(AuthService, $location, QuestionsCrudFactory,
+     QuestionStorageFactory, QuestionModalFactory, $window) {
+
+    var ctrl = this;    
+
+    ctrl.getQuestions = getQuestions;
+    ctrl.questions = [];
+
+    ctrl.questionDialog = null;
+
+    ctrl.getQuestions();
+    _init();
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get active metrics for a metricator.
+    ********************************************************************************/
+    function getQuestions(){
+         QuestionsCrudFactory.get([QuestionStorageFactory.getQuestioner().username], ["questionerId"]).then(
+            function(data) {
+                console.log(data.data.questionList);
+                ctrl.questions = data.data.questionList;
+            },
+            function(data) {
+                alert('Error retrieving Questions');
+            }
+        );
+    }
+
+    // function countOnUpdate(){
+    //     QuestionsCrudFactory.count(QuestionsCrudFactory.STATES.ONUPDATE, QuestionStorageFactory.getQuestioner().username).then( 
+    //         function(data) {
+    //             ctrl.count = data.data.count;
+    //             $window.alert(ctrl.count);
+    //         },
+    //         function(data) {
+    //             alert('Error retrieving Questions');
+    //         }
+    //     );
+    // }
+
+    ctrl.open = function (index) {
+        QuestionStorageFactory.setQuestion(ctrl.questions[index]);
+        QuestionModalFactory.openQuestionModal();
+    };
+
+    function _init(){
+        //
+    }
+
+}
+
+})();
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name PageController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('QuestionModalCtrl', QuestionModalCtrl);
+
+QuestionModalCtrl.$inject = ['$location', '$uibModalInstance', '$window', 'QuestionsCrudFactory', 'QuestionStorageFactory'];
+
+function QuestionModalCtrl($location, $uibModalInstance, $window, QuestionsCrudFactory, QuestionStorageFactory) {
+
+        var ctrl = this;
+
+        ctrl.questionDialog = QuestionStorageFactory.getQuestion();
+
+        ctrl.deleteQuestion = function (questionId, index) {
+        //     $uibModalInstance.dismiss("closing");
+        //     QuestionsCrudFactory.delete(questionId).then(
+        //         function(data, status){
+        //             $window.alert("deleted " + questionId);
+        //             ctrl.questions.splice(index, 1);
+        //         },  
+                
+        //         function(data, status){
+        //             $window.alert(status);
+        //         }
+        //     );
+
+        };
+
+        ctrl.closeModal = function(){
+            $uibModalInstance.dismiss("closing");            
+        };
+
+        ctrl.editQuestion = function(question){
+            $uibModalInstance.dismiss("closing");
+            QuestionStorageFactory.setQuestion(question);
+            $location.path('/questionUpdate');
+        };
+
+        ctrl.sendForApproval = function(){
+
+            $uibModalInstance.dismiss("closing");
+            if(ctrl.questionDialog.metadata.state == QuestionsCrudFactory.STATES.CREATED || 
+                ctrl.questionDialog.metadata.state == QuestionsCrudFactory.STATES.ONUPDATE || 
+                ctrl.questionDialog.metadata.state == QuestionsCrudFactory.STATES.REJECTED){
+                
+                ctrl.questionDialog.metadata.state = QuestionsCrudFactory.STATES.PENDING;
+
+                QuestionsCrudFactory.update(ctrl.questionDialog).then(
+                    function(data, status){
+                        $window.alert("Question sent for approval");
+                        $location.path('/questionList');
+                    },
+                    
+                    function(data, status){
+                        $window.alert("Error: status " + status);
+                    }
+                );
+
+            }
+            else if(ctrl.questionDialog.metadata.state == QuestionsCrudFactory.STATES.APPROVED){
+                $window.alert("The question has already been approved");
+            }
+            else{
+                $window.alert("The Question cannot be sent for approval");
+            }
+            
+
+        };
+            
+    }
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name PageController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('QuestionerMeasurementGoalModalCtrl', QuestionerMeasurementGoalModalCtrl);
+
+QuestionerMeasurementGoalModalCtrl.$inject = ['$location', '$uibModalInstance', '$window', 'MeasurementGoalService', 'QuestionStorageFactory', 
+    'QuestionsCrudFactory'];
+
+function QuestionerMeasurementGoalModalCtrl($location, $uibModalInstance, $window, MeasurementGoalService, QuestionStorageFactory, 
+    QuestionsCrudFactory) {
+
+        var ctrl = this;
+
+        ctrl.mgDialog = QuestionStorageFactory.getMeasurementGoal();
+        ctrl.stateIsWaiting = ctrl.mgDialog.metadata.state == QuestionsCrudFactory.STATES.ONUPDATEWAITING;
+        ctrl.showReleaseNote = false;
+
+        ctrl.closeModal = function(){
+            $uibModalInstance.dismiss("closing");            
+            ctrl.mgDialog.metadata.releaseNote = ctrl.oldReleaseNote;
+        };
+
+        ctrl.showQuestions = function(){
+        	$uibModalInstance.dismiss("closing"); 
+        	QuestionStorageFactory.setMeasurementGoal(ctrl.mgDialog);
+        	$location.path('/measurementGoalQuestionList');
+        };
+
+        ctrl.addExistingQuestion = function(){
+        	$uibModalInstance.dismiss("closing");
+        	QuestionStorageFactory.setMeasurementGoal(ctrl.mgDialog); 
+        	$location.path('/measurementGoalAddExistingQuestion');
+        };
+
+        ctrl.askForQuestionEndpoint = function(){
+            ctrl.mgDialog.metadata.state = QuestionsCrudFactory.STATES.ONUPDATEENDPOINT;
+            MeasurementGoalService.submitGoalService(ctrl.mgDialog);
+            ctrl.oldReleaseNote = ctrl.mgDialog.metadata.releaseNote;
+            ctrl.stateIsWaiting = false;
+            ctrl.showReleaseNote = false;
+        };
+
+        ctrl.inputReleaseNote = function(){
+            ctrl.showReleaseNote = true;
+            ctrl.oldReleaseNote = angular.copy(ctrl.mgDialog.metadata.releaseNote);
+        };
+
+    }
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name PageController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('QuestionerMetricModalCtrl', QuestionerMetricModalCtrl);
+
+QuestionerMetricModalCtrl.$inject = ['$location', '$uibModalInstance', '$window', 'QuestionsCrudFactory', 'QuestionStorageFactory'];
+
+function QuestionerMetricModalCtrl($location, $uibModalInstance, $window, QuestionsCrudFactory, QuestionStorageFactory) {
+
+        var ctrl = this;
+        ctrl.report = "";
+
+        ctrl.metricDialog = QuestionStorageFactory.getMetric();
+
+        ctrl.closeModal = function(){
+            $uibModalInstance.dismiss("closing");            
+        };
+
+        ctrl.sendReport = function(){
+            $uibModalInstance.dismiss("closing");
+            ctrl.metricDialog.metadata.releaseNote = report;
+            $window.alert("This should send the following report to the GQM Expert");
+            $window.alert(ctrl.metricDialog.metadata.releaseNote);
+            //Send Report to GQM Expert
+        };
+
+    }
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name PageController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('QuestionSearchCtrl', QuestionSearchCtrl);
+
+QuestionSearchCtrl.$inject = ['$location', '$window', 'QuestionsCrudFactory', 'QuestionStorageFactory', 'QuestionModalFactory'];
+
+function QuestionSearchCtrl($location, $window, QuestionsCrudFactory, QuestionStorageFactory, QuestionModalFactory) {
+
+        var ctrl = this;
+
+        // QuestionsCrudFactory.getAll().then(
+        //     function(data, status){
+        //         ctrl.questions = data.data.questionList;
+        //     },
+            
+        //     function(data, status){
+        //         $window.alert(data.data.error);
+        //         ctrl.questions = null;
+        //     }
+        // );
+        
+
+        ctrl.searchBy = function(keyword, searchField){
+            QuestionsCrudFactory.get([keyword], [searchField]).then(
+                function(data, status){
+                    ctrl.questions = data.data.questionList;
+                },
+
+                function(data, status){
+                    $window.alert(status);
+                }
+            );
+        };
+
+        ctrl.open = function (index) {
+
+            QuestionStorageFactory.setQuestion(ctrl.questions[index]);
+            QuestionModalFactory.openQuestionModal();
+
+        };
+
+    }
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name PageController
+* @module metricapp
+* @requires $scope
+* @requires $location
+*
+* @description
+* Manages the navbar for all users.
+* Realizes the control layer for {navbar.view}.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller("QuestionUpdateCtrl", QuestionUpdateCtrl);
+
+QuestionUpdateCtrl.$inject = ['$window', '$location', 'QuestionStorageFactory', 'QuestionsCrudFactory'];
+
+function QuestionUpdateCtrl($window, $location, QuestionStorageFactory, QuestionsCrudFactory){
+
+    var ctrl = this;
+    
+    ctrl.question = angular.copy(QuestionStorageFactory.getQuestion());
+    ctrl.isCommitted = false;
+
+    ctrl.reset = function(){
+        ctrl.question = angular.copy(QuestionStorageFactory.getQuestion());   
+    };
+
+    ctrl.updateQuestion = function(){
+
+        if(ctrl.question.metadata.state == QuestionsCrudFactory.STATES.CREATED){
+            ctrl.question.metadata.state = QuestionsCrudFactory.STATES.ONUPDATE;
+        }
+        else if(ctrl.question.metadata.state == QuestionsCrudFactory.STATES.REJECTED){
+            ctrl.question.meteadata.state = QuestionsCrudFactory.STATES.ONUPDATE;
+        }
+
+        $window.alert(ctrl.question.metadata.state);
+        QuestionsCrudFactory.update(ctrl.question).then(
+            function(data, status){
+                QuestionStorageFactory.setQuestion(data.data.questionList[0]);
+                ctrl.question = angular.copy(QuestionStorageFactory.getQuestion());
+                $window.alert("update committed");
+                ctrl.isCommitted = true;
+            },
+            
+            function(data, status){
+                $window.alert("Error: status " + status);
+            }
+        );
+    };
+
+    // ctrl.finalizeQuestion = function(){
+
+    //     if(ctrl.question.metadata.state == QuestionsCrudFactory.STATES.CREATED || !ctrl.isCommitted){
+    //         $window.alert("You have to commit the update first!");
+    //         return;
+    //     }
+    //     else if(ctrl.question.metadata.state == QuestionsCrudFactory.STATES.ONUPDATE){
+    //         ctrl.question.metadata.state = QuestionsCrudFactory.STATES.PENDING;
+    //     }
+        
+    //     QuestionsCrudFactory.update(ctrl.question).then(
+    //         function(data, status){
+    //             $window.alert("Question Finalized");
+    //             $location.path('/dashboardQuestioner');
+    //         },
+            
+    //         function(data, status){
+    //             $window.alert("Error: status " + status);
+    //         }
+    //     );
+    // };
+
+    ctrl.getTags = function(){
+        return ctrl.question.metadata.tags.join();
+    };
+
+    ctrl.addTagToQuestion = function() {
+        ctrl.question.metadata.tags.push(ctrl.newTag);
+    };
+
+    ctrl.removeTagFromQuestion = function(index){
+        ctrl.question.metadata.tags.splice(index, 1);
+    };
+
+    ctrl.getStates = function(){
+        return QuestionsCrudFactory.STATES;
+    };
 }
 
 })();

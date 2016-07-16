@@ -11,7 +11,7 @@
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <div ng-switch-when="true" ng-switch="globals.user.role">
                         <p ng-switch-when="EXPERT"><viewexpertdashboard></viewexpertdashboard></p>
-                        <p ng-switch-when="QUESTIONER">You have QUESTIONER rights.</p>
+                        <p ng-switch-when="QUESTIONER"><questioner-dashboard></questioner-dashboard></p>
                         <p ng-switch-when="METRICATOR">You have METRICATOR rights.</p>
                         <p ng-switch-default="ng-switch-default">You have no rights.</p>
                     </div>

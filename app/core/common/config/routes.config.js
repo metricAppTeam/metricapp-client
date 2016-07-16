@@ -123,6 +123,32 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/question/question.view.html'
     })
 
+	// QUESTIONER
+	.when('/questionCreation', {
+        templateUrl: 'dist/views/questioner/questionerCreate/questionCreation.view.html'
+    })
+    .when('/questionSearch', {
+        templateUrl: 'dist/views/questioner/questionerSearch/questionSearch.view.html'
+    })
+    .when('/questionUpdate', {
+        templateUrl: 'dist/views/questioner/questionerUpdate/questionUpdate.view.html'
+    })
+    .when('/questionList', {
+        templateUrl: 'dist/views/questioner/questionerList/questionList.view.html'
+    })
+    .when('/questions/:questionId', {
+        templateUrl: 'dist/views/questioner/questionDetails.view.html'  
+    })
+    .when('/measurementGoalQuestionList', {
+        templateUrl: 'dist/views/questioner/measurementGoal/measurementGoalQuestionsList.view.html'
+    })
+    .when('/measurementGoalAddExistingQuestion', {
+        templateUrl: 'dist/views/questioner/measurementGoal/measurementGoalAddExistingQuestion.view.html'
+    })
+    .when('/questionerMeasurementGoalList', {
+        templateUrl: 'dist/views/questioner/measurementGoal/measurementGoalList.view.html'
+    })
+
     // METRICS
     .when('/metrics', {
         templateUrl: 'dist/views/metric/metrics.view.html'

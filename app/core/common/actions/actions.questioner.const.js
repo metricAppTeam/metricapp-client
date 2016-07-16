@@ -12,8 +12,11 @@
 angular.module('metricapp')
 
 .constant('QUESTIONER_ACTIONS', [
-    {name: 'Action', href: '#/questioner_action', icon: 'cog'},
-    {name: 'Metrics', 				href: '#/metrics',             icon:'fa fa-tasks'         }
+    {name: 'Profile', href: '#/profile', icon: 'user'},
+    {name: 'Measurement Goals', href: '#/questionerMeasurementGoalList', icon: 'list'},
+    {name: 'Search Questions', href: '#/questionSearch', icon: 'list'},
+    {name: 'Create New Question', href: '#/questionCreation', icon: 'plus'},
+    {name: 'Question list', href: '#/questionList', icon: 'list'}
 
 ]);
 
