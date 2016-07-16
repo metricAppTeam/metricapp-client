@@ -67,6 +67,9 @@ function routes($routeProvider, $locationProvider) {
     .when('/measurementgoal', {
         templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
     })
+    .when('/measurementgoal/:measurementgoalid', {
+        templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
+    })
     .when('/metricatordashboard', {
         templateUrl: 'dist/views/home/metricatordashboard/metricatordashboard.view.html'
     })

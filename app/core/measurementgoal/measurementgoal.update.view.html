@@ -1,0 +1,211 @@
+<!-- FORM: MEASUREMENTGOAL -->
+<div class="row">
+<div class="col-md-6 pull-left padding-2">
+<h2>Measurement Goal</h2>
+<form name="measurementGoalForm" role="form" class="form-horizontal" ng-submit="vm.submitMeasurementGoal(null)" novalidate="novalidate">
+    <!-- FORM FIELD: OBJECT -->
+    <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.object.$dirty && measurementGoalForm.object.$invalid }">
+        <label class="col-md-3 control-label">Object:</label>
+        <div class="col-md-9">
+            <input class="form-control" name="object" type="text" role="textbox" placeholder="{{vm.measurementGoalDialog.object}}" ng-model="vm.object" ng-class="{ 'error': measurementGoalForm.object.$dirty && measurementGoalForm.object.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="200"/>
+            <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.object.$error" ng-show="measurementGoalForm.object.$dirty">
+                <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+            </div>
+        </div>
+    </div>
+    <!-- FORM FIELD: PURPOSE -->
+    <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.purpose.$dirty && measurementGoalForm.purpose.$invalid }">
+        <label class="col-md-3 control-label">Purpose:</label>
+        <div class="col-md-9">
+            <input class="form-control" name="purpose" type="text" role="textbox" placeholder="{{vm.measurementGoalDialog.purpose}}" ng-model="vm.purpose" ng-class="{ 'error': measurementGoalForm.purpose.$dirty && measurementGoalForm.purpose.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="200"/>
+            <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.purpose.$error" ng-show="measurementGoalForm.purpose.$dirty">
+                <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+            </div>
+        </div>
+    </div>
+    <!-- FORM FIELD: VIEWPOINT -->
+    <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.viewPoint.$dirty && measurementGoalForm.viewPoint.$invalid }">
+        <label class="col-md-3 control-label">ViewPoint:</label>
+        <div class="col-md-9">
+            <input class="form-control" name="viewPoint" type="text" role="textbox" placeholder="{{vm.measurementGoalDialog.viewPoint}}" ng-model="vm.viewPoint" ng-class="{ 'error': measurementGoalForm.viewPoint.$dirty && measurementGoalForm.viewPoint.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="200"/>
+            <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.viewPoint.$error" ng-show="measurementGoalForm.viewPoint.$dirty">
+                <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+            </div>
+        </div>
+    </div>
+    <!-- FORM FIELD: FOCUS -->
+    <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.qualityFocus.$dirty && measurementGoalForm.qualityFocus.$invalid }">
+        <label class="col-md-3 control-label">Focus:</label>
+        <div class="col-md-9">
+            <input class="form-control" name="qualityFocus" type="text" role="textbox" placeholder="{{vm.measurementGoalDialog.qualityFocus}}" ng-model="vm.qualityFocus" ng-class="{ 'error': measurementGoalForm.qualityFocus.$dirty && measurementGoalForm.qualityFocus.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="200"/>
+            <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.qualityFocus.$error" ng-show="measurementGoalForm.qualityFocus.$dirty">
+                <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+            </div>
+        </div>
+    </div>
+    <!-- FORM FIELD: FUNCTION JAVASCRIPT -->
+    <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }">
+        <label class="col-md-3 control-label">Interpretation Model:</label>
+        <div class="col-md-9">
+            <!--<div 
+            style=".ace_editor { height: 200px; }>-->
+            <div ui-ace="{
+            mode: 'javascript',
+            useWrapMode : true
+            }" style="height: 200px;" ng-minlength="10" class="editor form-control" name="functionJavascript" ng-model="vm.measurementGoalDialog.interpretationModel.functionJavascript" ng-class="{ 'error': measurementGoalForm.functionJavascript.$dirty && measurementGoalForm.functionJavascript.$invalid }"> </div>
+            <!--</div>-->
+            <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.functionJavascript.$error" ng-show="measurementGoalForm.functionJavascript.$dirty">
+                <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+            </div>
+        </div>
+    </div>
+    <!-- FORM FIELD: QUERY NOSQL -->
+    <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.queryNoSQL.$dirty && measurementGoalForm.queryNoSQL.$invalid }">
+        <label class="col-md-3 control-label">Query NoSQL:</label>
+        <div class="col-md-9">
+            <input class="form-control" name="queryNoSQL" type="text" role="textbox" placeholder="{{vm.measurementGoalDialog.interpretationModel.queryNoSQL}}" ng-model="vm.queryNoSQL" ng-class="{ 'error': measurementGoalForm.queryNoSQL.$dirty && measurementGoalForm.queryNoSQL.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="5"/>
+            <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.queryNoSQL.$error" ng-show="measurementGoalForm.queryNoSQL.$dirty">
+                <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORM FIELD: RELEASENOTE -->
+    <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Release Note</label>
+        <div class="col-md-6 col-xs-12">
+            <textarea name="inputDescription" class="form-control" rows="5"
+                ng-minlength="10" 
+                placeholder="{{vm.measurementGoalDialog.metadata.releaseNote}}"
+                ng-model="vm.sendMessage" ng-class="{ 'error': measurementGoalForm.releaseNote.$dirty && measurementGoalForm.releaseNote.$invalid }" ng-model-options="{ updateOn: 'blur' }" ng-minlength="5" required="required"/>
+                <div class="form-group-helper" role="alert" ng-messages="measurementGoalForm.releaseNote.$error" ng-show="measurementGoalForm.releaseNote.$dirty">
+                    <div ng-messages-include="dist/views/home/measurementgoal.message.html"></div>
+                </div>      
+        </div>
+    </div>
+
+    <!-- FORM FIELD: TAGS -->
+    <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">Tags</label>
+        <div class="col-md-6 col-xs-12">
+            <span 
+                class="btn btn-info btn-rounded" ng-repeat="tag in vm.measurementGoalDialog.metadata.tags">
+                {{tag}}
+                <i ng-click="vm.removeTagFromMeasurementGoal($index)" 
+                    class="glyphicon glyphicon-remove-circle pull-right"></i>
+            </span>
+        </div>
+    </div>
+    <!-- FORM FIELD: NEW TAG -->
+    <div class="form-group">
+        <label class="col-md-3 col-xs-12 control-label">New Tag</label>
+        <div class="col-md-6 col-xs-12">
+            <input type="text" ng-model="vm.newTag">
+            <a ng-click="vm.addTagToMeasurementGoal()"class="btn btn-primary">Add</a>
+        </div>
+    </div>  
+
+    <div class="form-group col-md-12 col-xs-12">
+        <!--START METRIC TAB-->
+        <!--<div ng-include="'dist/views/metricator/tab/tab.metric.mgview.html'"></div>-->
+
+        <div class="row"><span class="btn btn-primary pull-right"><a ng-click="vm.getApprovedMetrics()">Add Metric</a><i ng-click="vm.getMetricsToUpdate()" 
+                    class="glyphicon glyphicon-refresh pull-right"></i></span></div>
+        <div class="row">
+            <label class="col-md-3 col-xs-12 control-label">Metrics</label>
+        </div>
+        <br>
+        <div class="row">
+            <span 
+                class="btn btn-info btn-rounded" ng-repeat="metric in vm.metrics" ng-click="vm.setMetricDialog($index)">
+                {{metric.metadata.id}}
+                <i ng-click="vm.removeSomethingFromMeasurementGoal('Metric',$index)" 
+                    class="glyphicon glyphicon-remove-circle pull-right"></i>
+            </span>
+        </div>
+        <!--END METRIC TAB-->                  
+    </div>
+
+    <div class="form-group col-md-12 col-xs-12">
+        <!--START CONTEXT FACTOR TAB-->
+        <!--<div ng-include="'dist/views/metricator/tab/tab.contextfactor.mgview.html'"></div>-->
+        <div class="row"><span class="btn btn-primary pull-right"><a ng-click="vm.getExternalContextFactors()">Add Context Factor</a><i ng-click="vm.getContextFactorsToUpdate()" 
+                    class="glyphicon glyphicon-refresh pull-right"></i></span></div>
+        <div class="row">
+            <label class="col-md-3 col-xs-12 control-label">Context Factors</label>
+        </div>
+        <br>
+        <div class="row">
+            <span 
+                class="btn btn-info btn-rounded" ng-repeat="contextFactor in vm.contextFactors" ng-click="vm.setContextFactorDialog($index)">
+                {{contextFactor.metadata.id}}
+                <i ng-click="vm.removeSomethingFromMeasurementGoal('ContextFactor',$index)" 
+                    class="glyphicon glyphicon-remove-circle pull-right"></i>
+            </span>
+        </div>
+        <!--END CONTEXT FACTOR TAB-->                  
+    </div>        
+
+    <div class="form-group col-md-12 col-xs-12">
+        <!--START ASSUMPTION TAB-->
+        <!--<div ng-include="'dist/views/metricator/tab/tab.assumption.mgview.html'"></div>-->
+        <div class="row"><span class="btn btn-primary pull-right"><a ng-click="vm.getExternalAssumptions()">Add Assumption</a><i ng-click="vm.getAssumptionsToUpdate()" 
+                    class="glyphicon glyphicon-refresh pull-right"></i></span></div>
+        <div class="row">
+            <label class="col-md-3 col-xs-12 control-label">Assumptions</label>
+        </div>
+        <br>
+        <div class="row">
+            <span 
+                class="btn btn-info btn-rounded" ng-repeat="assumption in vm.assumptions" ng-click="vm.setAssumptionDialog($index)">
+                {{assumption.metadata.id}}
+                <i ng-click="vm.removeSomethingFromMeasurementGoal('Assumption',$index)" 
+                    class="glyphicon glyphicon-remove-circle pull-right"></i>
+            </span>
+        </div>
+        <!--END ASSUMPTION TAB-->                  
+    </div> 
+
+    <!-- FORM ACTIONS: SUBMIT, CANCEL -->
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit" ng-disabled="measurementGoalForm.$invalid || vm.loading || measurementGoalForm.$pristine">Update MeasurementGoal</button>
+    </div>
+</form>
+</div>
+
+<div class="col-md-5 pull-right">
+      <h2>Organizational Goal</h2>
+      <!--START ORGANIZATIONAL GOAL TAB-->
+      <div class="panel-info" ng-include="'dist/views/metricator/tab/tab.body.organizationalgoal.html'"></div>                          
+      <!--END ORGANIZATIONAL GOAL TAB-->
+</div>
+</div>
+
+<!--
+<div class="modal" id="modal_large_external_metric" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div ng-include="'dist/views/metricator/modal/modal.external.metric.html'">
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal_large_external_contextfactor" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div ng-include="'dist/views/metricator/modal/modal.external.contextfactor.html'">
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal_large_external_assumption" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div ng-include="'dist/views/metricator/modal/modal.external.assumption.html'">
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal_large_measurementgoal" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div ng-include="'dist/views/metricator/modal/modal.measurementgoal.html'">
+        </div>
+    </div>
+</div>-->

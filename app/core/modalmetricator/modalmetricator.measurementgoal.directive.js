@@ -2,12 +2,12 @@
   'use strict';
 
   angular.module('metricapp')
-      .directive('questionModal', questionModal);
+      .directive('modalmeasurementgoal', modalmeasurementgoal);
 
-  function questionModal() {
+  function modalmeasurementgoal() {
     return {
       restrict: 'E',
-      templateUrl: 'dist/views/questioner/questionModal.view.html'
+      templateUrl: 'dist/views/metricator/modal/modal.body.measurementgoal.html'
     };
   }
 

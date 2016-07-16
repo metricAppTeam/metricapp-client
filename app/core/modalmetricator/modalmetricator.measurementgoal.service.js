@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-07-15 12:46:59
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-15 13:23:59
+* @Last Modified time: 2016-07-16 12:39:46
 */
 (function() {'use strict';
 
@@ -20,7 +20,7 @@ function MeasurementGoalModalService($window, $uibModal) {
 	function openMeasurementGoalModal(){
 	     var modalInstance = $uibModal.open({
 
-            templateUrl: 'dist/views/metricator/modal/modal.measurementgoal.html',
+            templateUrl: 'dist/views/metricator/modal/modal.wrapper.measurementgoal.html',
             controller: 'MeasurementGoalModalCtrl',
             controllerAs: 'vm',
             size: 'lg'

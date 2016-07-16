@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-15 13:45:37
+* @Last Modified time: 2016-07-16 13:19:38
 */
 (function () { 'use strict';
 
@@ -48,7 +48,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     vm.measurementGoalDialog = {};
     //vm.metricDialog = null;
 
-    vm.modal = "";
+    vm.modalIds = [];
 
     /*
     vm.measurementGoalDialog = {
@@ -124,10 +124,10 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Get measurement goals externals.
     ********************************************************************************/
     function getMeasurementGoalExternals(externalId){
+
          MeasurementGoalService.getMeasurementGoalExternals(externalId).then(
             function(data) {
                 //console.log(data.measurementGoals);
-                //TODO add check if variable is undefined
                 vm.metrics = data.metrics;
                 vm.contextFactors = data.contextFactors;
                 vm.assumptions = data.assumptions;
@@ -152,11 +152,14 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
 	            	instanceProject : data.instanceProject
 	        	}; 	
 
+                vm.modalIds.push([externalId,toUpdate]);
+
 	        	//Send to MeasurementGoalService to open a modal
         		MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
 	        	MeasurementGoalModalService.openMeasurementGoalModal();
                 //It's not necessary, now we have angular modal
                 //$("#modal_large").modal("show");
+                console.log("Retrieving Externals");
             },
             function(data) {
                 alert('Error retriving Externals');
@@ -199,7 +202,21 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
 
     function setMeasurementGoalDialog(parentIndex,measurementGoalToAssignId){
         vm.measurementGoalDialog = vm.measurementGoals[parentIndex][measurementGoalToAssignId];
-        getMeasurementGoalExternals(vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id);//.then(
+        var toSearchId = vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id;
+        var doubleInCache = false;
+
+        //if(vm.modalIds.indexOf(toSearchId) === -1)
+        for (var t=0, length = vm.modalIds.length; t<length; t++){
+            if (vm.modalIds[t][0] === toSearchId){
+                //Send to MeasurementGoalService to open a modal
+                MeasurementGoalService.toUpdateMeasurementGoal(vm.modalIds[t][1]);
+                MeasurementGoalModalService.openMeasurementGoalModal();
+                doubleInCache = true;
+            }
+        }
+
+        if (!doubleInCache) getMeasurementGoalExternals(toSearchId);//.then(
+
 
         //function (toUpdate) {
 
