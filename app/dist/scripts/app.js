@@ -601,7 +601,7 @@ function routes($routeProvider, $locationProvider) {
     .when('/metricator', {
         templateUrl: 'dist/views/metricator/metricator.view.html'
     })
-    .when('/measurementgoal/sendforapproval', {
+    .when('/measurementgoalapproval', {
         templateUrl: 'dist/views/measurementgoal/measurementgoal.sendforapproval.view.html'
     })
     .otherwise({
@@ -1476,7 +1476,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 02:00:00
+* @Last Modified time: 2016-07-16 16:36:58
 */
 (function() { 'use strict';
 
@@ -1549,6 +1549,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
                 
         console.log("PUT MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
+        //return false;
         //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(
@@ -3301,7 +3302,7 @@ function HomeController($rootScope, $scope, $location, AuthService, ActionServic
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 14:13:47
+* @Last Modified time: 2016-07-16 16:28:24
 */
 (function () { 'use strict';
 
@@ -3391,7 +3392,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         var releaseNoteSubmit = (vm.sendMessage !== undefined) ? vm.sendMessage :  vm.measurementGoalDialog.metadata.releaseNote;
         var stateSubmit = (state != null) ? state :  vm.measurementGoalDialog.metadata.state;
 
-
         var measurementGoal = {
             userid : vm.measurementGoalDialog.userid,
         	name : vm.name,
@@ -3470,6 +3470,18 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         
         //} 
         submitMeasurementGoal('Pending');
+        /*var toUpdate = {
+            measurementGoal : vm.measurementGoalDialog,
+            metrics : vm.metrics,
+            contextFactors : vm.contextFactors,
+            assumptions : vm.assumptions,
+            organizationalGoal : vm.organizationalGoal,
+            instanceProject : vm.instanceProject
+        };*/
+
+//        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
+        
+//        $location.path('/measurementgoal/sendforapproval');
     }
 
 
@@ -3500,9 +3512,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         vm.assumptions = MeasurementGoalService.getUpdateMeasurementGoal().assumptions;
         vm.organizationalGoal = MeasurementGoalService.getUpdateMeasurementGoal().organizationalGoal;
         vm.instanceProject = MeasurementGoalService.getUpdateMeasurementGoal().instanceProject;        
-    
-        console.log('vm.organizationalGoal');
-        console.log(vm.organizationalGoal);
     }
 
     /********************************************************************************
@@ -3529,26 +3538,29 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             };
 
             //Retrieve Measurement Goal Details
-            MeasurementGoalService.getById(vm.currMeasurementGoalId.id).then(
+            MeasurementGoalService.getMeasurementGoalsBy(vm.currMeasurementGoalId.id,'id').then(
                 function(data){
                     vm.measurementGoalDialog = data.measurementGoals[0];
                     
                     //Retrieve Measurement Goal Externals
-                    MeasurementGoalService.getMeasurementGoalExternals(vm.currMeasurementGoalId).then(
+                    MeasurementGoalService.getMeasurementGoalExternals(vm.currMeasurementGoalId.id).then(
                         function (response) {
-                            vm.metrics = data.metrics;
-                            vm.contextFactors = data.contextFactors;
-                            vm.assumptions = data.assumptions;
-                            vm.organizationalGoal = data.organizationalGoal;
-                            vm.instanceProject = data.instanceProject;
+                            console.log('Success in read to get Measurement Goal Externals');
+                            console.log(response);
+
+                            vm.metrics = response.metrics;
+                            vm.contextFactors = response.contextFactors;
+                            vm.assumptions = response.assumptions;
+                            vm.organizationalGoal = response.organizationalGoal;
+                            vm.instanceProject = response.instanceProject;
 
                             var toUpdate = {
                                 measurementGoal : vm.measurementGoalDialog,
-                                metrics : vm.metrics,
-                                contextFactors : vm.contextFactors,
-                                assumptions : vm.assumptions,
-                                organizationalGoal : vm.organizationalGoal,
-                                instanceProject : vm.instanceProject
+                                metrics : response.metrics,
+                                contextFactors : response.contextFactors,
+                                assumptions : response.assumptions,
+                                organizationalGoal : response.organizationalGoal,
+                                instanceProject : response.instanceProject
                             };
 
                             MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
@@ -3861,7 +3873,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         //console.log(vm.measurementGoalDialog.metricatorId);
         //console.log(AuthService.getUser().username);
         //console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
-        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !vm.measurementGoalDialog.metadata.state == 'Pending';
+        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !(vm.measurementGoalDialog.metadata.state == 'Pending');
     }
 
     /********************************************************************************
@@ -4144,7 +4156,7 @@ function MessageController($scope, $location, MESSAGE_STATE) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 13:19:38
+* @Last Modified time: 2016-07-16 16:15:49
 */
 (function () { 'use strict';
 
@@ -4485,6 +4497,8 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Send Measurement Goal for approval.
     ********************************************************************************/ 
     function sendForApproval(){
+
+        console.log("Send For Approval");
         var toUpdate = {
             measurementGoal : vm.measurementGoalDialog,
             metrics : vm.metrics,
@@ -4855,7 +4869,7 @@ function ExternalMetricModalCtrl($window, $uibModal, MetricService, $uibModalIns
 * @Author: alessandro.fazio
 * @Date:   2016-07-15 13:03:51
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-15 13:39:26
+* @Last Modified time: 2016-07-16 16:35:17
 */
 
 (function() {'use strict';
@@ -4881,6 +4895,7 @@ function MeasurementGoalModalCtrl($window, $uibModal, MeasurementGoalService, $u
     vm.isSubmittable = isSubmittable;
     vm.closeModal = closeModal;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
+    vm.sendForApproval = sendForApproval;
 
     function closeModal(){
         $uibModalInstance.dismiss("closing");            
@@ -4915,6 +4930,17 @@ function MeasurementGoalModalCtrl($window, $uibModal, MeasurementGoalService, $u
     function goToUpdateMeasurementGoal(){
     	closeModal();
     	$location.path('/measurementgoal');
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name sendForApproval
+    * @description
+    * Send MeasurementGoal For Approval.
+    ********************************************************************************/ 
+    function sendForApproval(){
+        closeModal();
+        $location.path('/measurementgoalapproval');
     }
 
     /*ctrl.editQuestion = function(question){

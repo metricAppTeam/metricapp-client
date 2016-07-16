@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 02:00:00
+* @Last Modified time: 2016-07-16 16:36:58
 */
 (function() { 'use strict';
 
@@ -75,6 +75,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
                 
         console.log("PUT MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
+        //return false;
         //$window.alert(JSON.stringify(submit));
         //$http.post
         //submit).then(

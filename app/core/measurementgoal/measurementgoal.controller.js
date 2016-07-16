@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 14:13:47
+* @Last Modified time: 2016-07-16 16:45:45
 */
 (function () { 'use strict';
 
@@ -92,7 +92,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         var releaseNoteSubmit = (vm.sendMessage !== undefined) ? vm.sendMessage :  vm.measurementGoalDialog.metadata.releaseNote;
         var stateSubmit = (state != null) ? state :  vm.measurementGoalDialog.metadata.state;
 
-
         var measurementGoal = {
             userid : vm.measurementGoalDialog.userid,
         	name : vm.name,
@@ -129,8 +128,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             function(message) {
                 //alert(message);
                 vm.measurementGoalDialog = message.measurementGoals[0];
-                $("#modal_large_measurementgoal").modal("show");
-                //$location.path('/measurementgoal');
+                //$("#modal_large_measurementgoal").modal("show");
+                $location.path('/metricator');
             },
             function(message) {
                 alert(message);
@@ -171,6 +170,18 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         
         //} 
         submitMeasurementGoal('Pending');
+        /*var toUpdate = {
+            measurementGoal : vm.measurementGoalDialog,
+            metrics : vm.metrics,
+            contextFactors : vm.contextFactors,
+            assumptions : vm.assumptions,
+            organizationalGoal : vm.organizationalGoal,
+            instanceProject : vm.instanceProject
+        };*/
+
+//        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
+        
+//        $location.path('/measurementgoal/sendforapproval');
     }
 
 
@@ -201,9 +212,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         vm.assumptions = MeasurementGoalService.getUpdateMeasurementGoal().assumptions;
         vm.organizationalGoal = MeasurementGoalService.getUpdateMeasurementGoal().organizationalGoal;
         vm.instanceProject = MeasurementGoalService.getUpdateMeasurementGoal().instanceProject;        
-    
-        console.log('vm.organizationalGoal');
-        console.log(vm.organizationalGoal);
     }
 
     /********************************************************************************
@@ -230,26 +238,29 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             };
 
             //Retrieve Measurement Goal Details
-            MeasurementGoalService.getById(vm.currMeasurementGoalId.id).then(
+            MeasurementGoalService.getMeasurementGoalsBy(vm.currMeasurementGoalId.id,'id').then(
                 function(data){
                     vm.measurementGoalDialog = data.measurementGoals[0];
                     
                     //Retrieve Measurement Goal Externals
-                    MeasurementGoalService.getMeasurementGoalExternals(vm.currMeasurementGoalId).then(
+                    MeasurementGoalService.getMeasurementGoalExternals(vm.currMeasurementGoalId.id).then(
                         function (response) {
-                            vm.metrics = data.metrics;
-                            vm.contextFactors = data.contextFactors;
-                            vm.assumptions = data.assumptions;
-                            vm.organizationalGoal = data.organizationalGoal;
-                            vm.instanceProject = data.instanceProject;
+                            console.log('Success in read to get Measurement Goal Externals');
+                            console.log(response);
+
+                            vm.metrics = response.metrics;
+                            vm.contextFactors = response.contextFactors;
+                            vm.assumptions = response.assumptions;
+                            vm.organizationalGoal = response.organizationalGoal;
+                            vm.instanceProject = response.instanceProject;
 
                             var toUpdate = {
                                 measurementGoal : vm.measurementGoalDialog,
-                                metrics : vm.metrics,
-                                contextFactors : vm.contextFactors,
-                                assumptions : vm.assumptions,
-                                organizationalGoal : vm.organizationalGoal,
-                                instanceProject : vm.instanceProject
+                                metrics : response.metrics,
+                                contextFactors : response.contextFactors,
+                                assumptions : response.assumptions,
+                                organizationalGoal : response.organizationalGoal,
+                                instanceProject : response.instanceProject
                             };
 
                             MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
@@ -562,7 +573,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         //console.log(vm.measurementGoalDialog.metricatorId);
         //console.log(AuthService.getUser().username);
         //console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
-        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !vm.measurementGoalDialog.metadata.state == 'Pending';
+        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !(vm.measurementGoalDialog.metadata.state == 'Pending');
     }
 
     /********************************************************************************

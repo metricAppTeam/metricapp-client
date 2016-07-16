@@ -1,7 +1,7 @@
 <!-- FORM: MEASUREMENTGOAL -->
 <div class="row">
 <div class="col-md-6 pull-left padding-2">
-<h2>Measurement Goal</h2>
+<h2><a ng-href="#/measurementgoal/{{vm.measurementGoalDialog.metadata.id}}">Measurement Goal</a></h2>
 <form name="measurementGoalForm" role="form" class="form-horizontal" ng-submit="vm.submitMeasurementGoal(null)" novalidate="novalidate">
     <!-- FORM FIELD: OBJECT -->
     <div class="form-group" ng-class="{ 'hash-error': measurementGoalForm.object.$dirty && measurementGoalForm.object.$invalid }">
@@ -178,7 +178,6 @@
       <!--START ORGANIZATIONAL GOAL TAB-->
       <div class="panel-info" ng-include="'dist/views/metricator/tab/tab.body.organizationalgoal.html'"></div>                          
       <!--END ORGANIZATIONAL GOAL TAB-->
-</div>
 </div>
 
 <!--

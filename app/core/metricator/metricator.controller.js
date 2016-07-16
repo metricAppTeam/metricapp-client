@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 13:19:38
+* @Last Modified time: 2016-07-16 16:15:49
 */
 (function () { 'use strict';
 
@@ -343,6 +343,8 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Send Measurement Goal for approval.
     ********************************************************************************/ 
     function sendForApproval(){
+
+        console.log("Send For Approval");
         var toUpdate = {
             measurementGoal : vm.measurementGoalDialog,
             metrics : vm.metrics,

@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-07-15 13:03:51
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-15 13:39:26
+* @Last Modified time: 2016-07-16 16:35:17
 */
 
 (function() {'use strict';
@@ -28,6 +28,7 @@ function MeasurementGoalModalCtrl($window, $uibModal, MeasurementGoalService, $u
     vm.isSubmittable = isSubmittable;
     vm.closeModal = closeModal;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
+    vm.sendForApproval = sendForApproval;
 
     function closeModal(){
         $uibModalInstance.dismiss("closing");            
@@ -62,6 +63,17 @@ function MeasurementGoalModalCtrl($window, $uibModal, MeasurementGoalService, $u
     function goToUpdateMeasurementGoal(){
     	closeModal();
     	$location.path('/measurementgoal');
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name sendForApproval
+    * @description
+    * Send MeasurementGoal For Approval.
+    ********************************************************************************/ 
+    function sendForApproval(){
+        closeModal();
+        $location.path('/measurementgoalapproval');
     }
 
     /*ctrl.editQuestion = function(question){
