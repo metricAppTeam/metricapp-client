@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-07-15 13:03:51
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 16:35:17
+* @Last Modified time: 2016-07-16 19:33:26
 */
 
 (function() {'use strict';
@@ -25,10 +25,13 @@ function MeasurementGoalModalCtrl($window, $uibModal, MeasurementGoalService, $u
 	vm.instanceProject = MeasurementGoalService.getUpdateMeasurementGoal().instanceProject;
 	vm.functionJavascript = vm.measurementGoalDialog.interpretationModel.functionJavascript;
 	vm.isModifiable = isModifiable;
-    vm.isSubmittable = isSubmittable;
+    vm.isForApproval = isForApproval;
+    vm.isToReject = isToReject;
+    vm.isToSuspend = isToSuspend;
+    vm.isToApprove = isToApprove;
     vm.closeModal = closeModal;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
-    vm.sendForApproval = sendForApproval;
+    vm.changeState = changeState;
 
     function closeModal(){
         $uibModalInstance.dismiss("closing");            
@@ -41,17 +44,65 @@ function MeasurementGoalModalCtrl($window, $uibModal, MeasurementGoalService, $u
     * Measurement Goal can be updated.
     ********************************************************************************/
     function isModifiable(){
-       return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !(vm.measurementGoalDialog.metadata.state == 'Pending');
+       
+        //Check if is mine
+        if (AuthService.getUser().role != 'METRICATOR' ||
+            vm.measurementGoalDialog.metricatorId != AuthService.getUser().username) 
+            return false;
+
+        //Check if there's a transitional state
+        if (vm.measurementGoalDialog.metadata.state == 'Created' ||
+            vm.measurementGoalDialog.metadata.state == 'Pending' || 
+            vm.measurementGoalDialog.metadata.state == 'Suspended')
+            return false;
+
+        return true;
     }
 
     /********************************************************************************
     * @ngdoc method
-    * @name isSubmittable
+    * @name isForApproval
     * @description
-    * Measurement Goal can be submitted.
+    * Measurement Goal can be sent for approval.
     ********************************************************************************/ 
-    function isSubmittable(){
-        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
+    function isForApproval(){
+        return AuthService.getUser().role == 'METRICATOR' &&
+        vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && 
+        vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isToReject
+    * @description
+    * Measurement Goal can be rejected.
+    ********************************************************************************/ 
+    function isToReject(){
+        return AuthService.getUser().role == 'EXPERT' && 
+        vm.measurementGoalDialog.metadata.state == 'Pending';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isToApproved
+    * @description
+    * Measurement Goal can be approved.
+    ********************************************************************************/ 
+    function isToApprove(){
+        return AuthService.getUser().role == 'EXPERT' && 
+        vm.measurementGoalDialog.metadata.state == 'Pending';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isToSuspend
+    * @description
+    * Measurement Goal can be suspended.
+    ********************************************************************************/ 
+    function isToSuspend(){
+        return AuthService.getUser().role == 'EXPERT' && 
+        vm.measurementGoalDialog.metadata.state == 'Approved'
+        vm.measurementGoalDialog.metadata.state == 'Rejected';
     }
 
     /********************************************************************************
@@ -67,13 +118,13 @@ function MeasurementGoalModalCtrl($window, $uibModal, MeasurementGoalService, $u
 
     /********************************************************************************
     * @ngdoc method
-    * @name sendForApproval
+    * @name changeState
     * @description
-    * Send MeasurementGoal For Approval.
+    * Send MeasurementGoal to change state.
     ********************************************************************************/ 
-    function sendForApproval(){
+    function changeState(){
         closeModal();
-        $location.path('/measurementgoalapproval');
+        $location.path('/measurementgoalchangestate');
     }
 
     /*ctrl.editQuestion = function(question){

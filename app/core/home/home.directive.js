@@ -11,4 +11,15 @@
     };
   }
 
+  angular.module('metricapp')
+      .directive('viewmetricatordashboard', viewmetricatordashboard);
+
+  function viewmetricatordashboard() {
+    return {
+      restrict: 'E',
+      templateUrl: 'dist/views/home/metricatordashboard/metricatordashboard.view.html'
+    };
+  }
+
+
 })();

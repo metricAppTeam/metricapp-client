@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 16:36:58
+* @Last Modified time: 2016-07-16 19:51:55
 */
 (function() { 'use strict';
 
@@ -15,7 +15,7 @@
 * @requires $cookies
 *
 * @description
-* Submits a MeasurementGoal.
+* Service for MeasurementGoal.
 ************************************************************************************/
 
 angular.module('metricapp')
@@ -35,7 +35,6 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     service.getMeasurementGoalsBy = getMeasurementGoalsBy;
     service.toUpdateMeasurementGoal = toUpdateMeasurementGoal;
     service.getUpdateMeasurementGoal = getUpdateMeasurementGoal;
-    service.getOrganizationalGoalById = getOrganizationalGoalById;
     service.getMeasurementGoalExternals = getMeasurementGoalExternals;
     service.getExternalContextFactors = getExternalContextFactors;
     service.getExternalAssumptions = getExternalAssumptions;
@@ -49,40 +48,22 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     * Submits a MeasurementGoal.
     * @param {MeasurementGoal} Measurement Goal to submit.
     ********************************************************************************/
-    function submitMeasurementGoal(measurementGoal, state) {
+    function submitMeasurementGoal(measurementGoal) {
         console.log('SUBMIT measurementGoal WITH ' +
         'name= '  + measurementGoal.name + ' & ' +	
         'object=' + measurementGoal.object + ' & ' +
         'purpose=' + measurementGoal.purpose + ' & ' +
         'viewPoint=' + measurementGoal.viewPoint + ' & ' +
         'focus=' + measurementGoal.focus);
-
-        /*var metadata = {
-        	tags:['saassad','sadsadsad','sadsadsad'],
-  			creatorId:'3',
-      		state:'Created',
-      		releaseNote:'sakjbsakjabskjsa'
-        };
-
-        var submit = {
-        	userId: '26',
-        	name: 'name',
-        	object: measurementGoal.object,
-        	purpose: measurementGoal.purpose,
-        	viewPoint: measurementGoal.viewPoint,
-        	focus: measurementGoal.focus,
-        	metadata: metadata};*/
                 
         console.log("PUT MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
-        //return false;
-        //$window.alert(JSON.stringify(submit));
-        //$http.post
-        //submit).then(
+        
+        //TODO leave here
+        return false;
 
         return $http.put('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal/', measurementGoal).then(
             function(response) {
-                //var message = "Success!, id: "+ angular.fromJson(response.data).measurementGoals[0].metadata.id;
                 console.log('SUCCESS GET measurementGoal');
                 var message = response.data;
                 return message;
@@ -125,7 +106,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
 
     /********************************************************************************
     * @ngdoc method
-    * @name submitMeasurementGoal
+    * @name getMeasurementGoals
     * @description
     * Get measurement goals.
     ********************************************************************************/
@@ -228,42 +209,12 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
 
     /********************************************************************************
     * @ngdoc method
-    * @name submitMeasurementGoal
-    * @description
-    * Get measurement goals.
-    ********************************************************************************/
-    
-    function getOrganizationalGoalById(organizationalGoalId) {
-        
-        //return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id='+organizationalGoalId).then(
-        
-        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/organizationalgoal?id=1').then(
-            function(response) {
-                var message = angular.fromJson(response.data);
-                console.log('SUCCESS GET ORGANIZATIONAL GOAL');
-                console.log(message);
-                return message;
-            },
-            function(response) {
-                var message = angular.fromJson(response.data);
-                console.log('FAILURE GET ORGANIZATIONAL GOAL');
-                console.log(message);
-                return message;
-            }
-        );
-
-    }
-
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name submitMeasurementGoal
+    * @name getMeasurementGoalsBy
     * @description
     * Get a measurement goal
     * @param {MeasurementGoal} field key.
     * @param {MeasurementGoal} field value .
     ********************************************************************************/
-    
     function getMeasurementGoalsBy(keyword,field) {
         
         return $http.get("http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal?" + field + "=" + keyword).then(
@@ -289,81 +240,6 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     * @description
     * Add something to measurement goal.
     ********************************************************************************/
-    /*function addSomethingToMeasurementGoal(typeObject, id){
-
-        var toAdd = [];
-        var dialog = [];
-
-        switch(typeObject) {
-            case 'Metric':
-                toAdd = vm.metrics;
-                dialog = vm.externalMetricDialog;
-                break;
-            case 'Question':
-                toAdd = vm.questions;
-                dialog = vm.externalQuestionDialog;
-                break;
-            case 'ContextFactor':
-                toAdd = vm.contextFactors;
-                dialog = vm.externalContextFactorDialog;
-                break;
-            case 'Assumption':
-                toAdd = vm.assumptions;
-                dialog = vm.externalAssumptionDialog;
-                break;
-        }
-
-        if (typeObject == 'Metric' || typeObject == 'Question') {
-            console.log('METRIC OR QUESTION UPDATE');
-            for(var i=0; i<toAdd.length; i++){
-                if(dialog[index].metadata.id == toAdd[i].metadata.id){
-                    $window.alert('You cannot add an item twice!');
-                    return true;
-                }
-            }
-        }
-        else {
-            console.log('CONTEXTFACTOR OR ASSUMPTION UPDATE');
-            console.log(dialog[index]);
-            for(var i=0; i<toAdd.length; i++){
-                if(dialog[index].id == toAdd[i].id){
-                    $window.alert('You cannot add an item twice!');
-                    return true;
-                }
-            }
-        }
-
-        var pointerBus = {
-           objIdLocalToPhase : "",
-           typeObj : typeObject,
-           instance : dialog[index].metadata.id,
-           busVersion : "",
-           tags: []
-        };
-
-        switch(typeObject) {
-            case 'Metric':
-                vm.measurementGoalDialog.metrics.push(pointerBus);
-                vm.metrics.push(dialog[index]);
-                break;
-            case 'Question':
-                vm.measurementGoalDialog.questions.push(pointerBus);
-                vm.questions.push(dialog[index]);
-                break;
-            case 'ContextFactor':
-                vm.measurementGoalDialog.contextFactors.push(pointerBus);
-                vm.contextFactors.push(dialog[index]);
-                break;
-            case 'Assumption':
-                vm.measurementGoalDialog.assumptions.push(pointerBus);
-                vm.assumptions.push(dialog[index]);
-                break;
-        }
-        
-        $window.alert('Item added');
-        console.log(vm.measurementGoalDialog);
-        return false;
-    }*/
     function addSomethingToMeasurementGoal(typeObject, obj){
 
         var objId = (obj.metadata==undefined) ? obj.id : obj.metadata.id;
@@ -420,9 +296,8 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
         }
     }
 
-    function checkDouble(toCheck, item){
-    	//return (dialog.indexOf(obj) !== -1);
-        
+    function _checkDouble(toCheck, item){
+
         if (item.metadata == undefined){
             for (var j=0, len = toCheck.length; j<len ; j++){
                 if (toCheck[j].metadata == undefined){
@@ -450,7 +325,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
 
     /********************************************************************************
     * @ngdoc method
-    * @name submitMeasurementGoal
+    * @name toUpdateMeasurementGoal
     * @description
     * Update a measurement goal, when a controller asks for it to show a form
     * @param {MeasurementGoal} measurement goal to update.
@@ -461,7 +336,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
 
     /********************************************************************************
     * @ngdoc method
-    * @name submitMeasurementGoal
+    * @name getUpdateMeasurementGoal
     * @description
     * Get measurement goal to update
     ********************************************************************************/

@@ -18,7 +18,7 @@ angular.module('metricapp')
 MeasurementGoalSearchController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window', 'MeasurementGoalModalService'];
 
 function MeasurementGoalSearchController($scope, $location, MetricService, MeasurementGoalService, $window, MeasurementGoalModalService) {
-    //TODO add footer controllers
+
     var vm = this;
     vm.measurementGoals = [];
     vm.metrics = [];
@@ -141,13 +141,6 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
 
         MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
         MeasurementGoalModalService.openMeasurementGoalModal();
-
-        //var goalid = $routeParams.goalid;
-        //vm.currMGoal = {
-        //    id: goalid;
-        //}
-        //;
-        //_loadMGoal(vm.currMGoal.id);
     };
 
     function goToUpdateMeasurementGoal(){

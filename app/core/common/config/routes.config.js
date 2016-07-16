@@ -79,7 +79,7 @@ function routes($routeProvider, $locationProvider) {
     .when('/metricator', {
         templateUrl: 'dist/views/metricator/metricator.view.html'
     })
-    .when('/measurementgoalapproval', {
+    .when('/measurementgoalchangestate', {
         templateUrl: 'dist/views/measurementgoal/measurementgoal.sendforapproval.view.html'
     })
     .otherwise({

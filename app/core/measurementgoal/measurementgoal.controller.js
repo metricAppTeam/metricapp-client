@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 16:45:45
+* @Last Modified time: 2016-07-16 20:21:57
 */
 (function () { 'use strict';
 
@@ -27,53 +27,119 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
 
     var vm = this;
 
-    //$('body').removeClass('modal-open');
     vm.measurementGoals = [];
 
     //Initialize some transition variables
-    
-    //TODO ????
-    //vm.functionJavascript = vm.measurementGoalDialog.interpretationModel.functionJavascript;
-
-    //vm.organizationalGoalDialog = {};
-    //vm.metricsDialog = [];
-    vm.externalMetricDialog = MetricService.getExternalMetricDialog();//[];
+    vm.externalMetricDialog = MetricService.getExternalMetricDialog();
     vm.externalQuestionDialog = [];
     vm.externalContextFactorDialog = [];
     vm.externalAssumptionDialog = [];
 
     vm.submitMeasurementGoal = submitMeasurementGoal;
-    vm.cancelSubmit = cancelSubmit;
-    //vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
-    //vm.getOrganizationalGoalById = getOrganizationalGoalById;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
-    //vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
-    //vm.setOrganizationalGoalDialog = setOrganizationalGoalDialog;
     vm.setMetricDialog = setMetricDialog;
-    //vm.initOrganizationalGoalDialog = initOrganizationalGoalDialog;
     vm.addTagToMeasurementGoal = addTagToMeasurementGoal;
     vm.removeTagFromMeasurementGoal = removeTagFromMeasurementGoal;
-    vm.getMetricsByMeasurementGoal = getMetricsByMeasurementGoal;
+    //vm.getMetricsByMeasurementGoal = getMetricsByMeasurementGoal;
     vm.getApprovedMetrics = getApprovedMetrics;
-    vm.addMetricToMeasurementGoal = addMetricToMeasurementGoal;
-    vm.removeMetricFromMeasurementGoal = removeMetricFromMeasurementGoal;
-    //vm.addSomethingToMeasurementGoal = addSomethingToMeasurementGoal;
+    //vm.addMetricToMeasurementGoal = addMetricToMeasurementGoal;
+    //vm.removeMetricFromMeasurementGoal = removeMetricFromMeasurementGoal;
     vm.removeSomethingFromMeasurementGoal = removeSomethingFromMeasurementGoal;
     vm.isModifiable = isModifiable;
-    vm.isSubmittable = isSubmittable;
+    //vm.isSubmittable = isSubmittable;
     vm.getExternalContextFactors = getExternalContextFactors;
     vm.getExternalAssumptions = getExternalAssumptions;
-    vm.sendForApproval = sendForApproval;
     vm.getMetricsToUpdate = getMetricsToUpdate;
     vm.getContextFactorsToUpdate = getContextFactorsToUpdate;
     vm.getAssumptionsToUpdate = getAssumptionsToUpdate;
     vm.setContextFactorDialog = setContextFactorDialog;
     vm.setAssumptionDialog = setAssumptionDialog;
+    vm.commitChangeState = commitChangeState;
+    vm.isForApproval = isForApproval;
+    vm.isToApprove = isToApprove;
+    vm.isToSuspend = isToSuspend;
+    vm.isToReject = isToReject;
 
-    //initOrganizationalGoalDialog();
-    //getMetricsByMeasurementGoal();
     _init();
     _selectMeasurementGoalToView();
+
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name _selectMeasurementGoalToView
+    * @description
+    * This function initializes MeasurementGoalDialog
+    ********************************************************************************/
+    function _initMeasurementGoalDialog(){
+        vm.measurementGoalDialog = MeasurementGoalService.getUpdateMeasurementGoal().measurementGoal;
+        vm.metrics = MeasurementGoalService.getUpdateMeasurementGoal().metrics;
+        vm.contextFactors = MeasurementGoalService.getUpdateMeasurementGoal().contextFactors;
+        vm.assumptions = MeasurementGoalService.getUpdateMeasurementGoal().assumptions;
+        vm.organizationalGoal = MeasurementGoalService.getUpdateMeasurementGoal().organizationalGoal;
+        vm.instanceProject = MeasurementGoalService.getUpdateMeasurementGoal().instanceProject;        
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name _selectMeasurementGoalToView
+    * @description
+    * This function checks that in the url there's param id.
+    * If id is specified, the page is loaded with the Measurement Goal id specified.
+    * Otherwise page is loaded with Measurement Goal in MeasurementGoalService
+    ********************************************************************************/
+    function _selectMeasurementGoalToView(){
+        if (!$routeParams.measurementgoalid) {
+            //Can modify
+            vm.modifying = true;
+            _initMeasurementGoalDialog();
+        }
+        else {
+            //Only for readers
+            vm.modifying = false;
+
+            vm.currMeasurementGoalId = {
+                id: $routeParams.measurementgoalid
+            };
+
+            //Retrieve Measurement Goal Details
+            MeasurementGoalService.getMeasurementGoalsBy(vm.currMeasurementGoalId.id,'id').then(
+                function(data){
+                    vm.measurementGoalDialog = data.measurementGoals[0];
+                    
+                    //Retrieve Measurement Goal Externals
+                    MeasurementGoalService.getMeasurementGoalExternals(vm.currMeasurementGoalId.id).then(
+                        function (response) {
+                            console.log('Success in read to get Measurement Goal Externals');
+                            console.log(response);
+
+                            vm.metrics = response.metrics;
+                            vm.contextFactors = response.contextFactors;
+                            vm.assumptions = response.assumptions;
+                            vm.organizationalGoal = response.organizationalGoal;
+                            vm.instanceProject = response.instanceProject;
+
+                            var toUpdate = {
+                                measurementGoal : vm.measurementGoalDialog,
+                                metrics : response.metrics,
+                                contextFactors : response.contextFactors,
+                                assumptions : response.assumptions,
+                                organizationalGoal : response.organizationalGoal,
+                                instanceProject : response.instanceProject
+                            };
+                            MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
+                        },
+                        function (response) {
+                            console.log('Failure get Measurement Goal Externals');
+                            console.log(response);
+                        }
+                    );
+                },function(data){
+                    vm.error = true;
+                }
+            );
+        }
+    }
+
 
     /********************************************************************************
     * @ngdoc method
@@ -83,7 +149,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     ********************************************************************************/
     function submitMeasurementGoal(state) {
 
-        var objectSubmit = (vm.object !== undefined) ? vm.object :  vm.measurementGoalDialog.object;
+        /*var objectSubmit = (vm.object !== undefined) ? vm.object :  vm.measurementGoalDialog.object;
         var purposeSubmit = (vm.purpose !== undefined) ? vm.purpose :  vm.measurementGoalDialog.purpose;
         var viewPointSubmit = (vm.viewPoint !== undefined) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
         var qualityFocusSubmit = (vm.qualityFocus !== undefined) ? vm.qualityFocus :  vm.measurementGoalDialog.qualityFocus;
@@ -122,28 +188,20 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 creationDate : vm.measurementGoalDialog.metadata.creationDate,
                 lastVersionDate : vm.measurementGoalDialog.metadata.lastVersionDate
             }
-        };
+        };*/
 
-        MeasurementGoalService.submitMeasurementGoal(measurementGoal, state).then(
+        if (state !== undefined) vm.measurementGoalDialog.metadata.state = state;
+
+        MeasurementGoalService.submitMeasurementGoal(vm.measurementGoalDialog).then(
             function(message) {
-                //alert(message);
                 vm.measurementGoalDialog = message.measurementGoals[0];
-                //$("#modal_large_measurementgoal").modal("show");
+                $window.alert('Measurement Goal Submitted');
                 $location.path('/metricator');
             },
             function(message) {
                 alert(message);
             }
         );
-        /*
-        AuthService.signup(user, profile).then(
-            function(message) {
-                alert(message);
-                $location.path('/');
-            },
-            function(message) {
-                alert(message);
-            });*/
     }
 
     function getMetricsToUpdate() {
@@ -160,30 +218,80 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
 
     /********************************************************************************
     * @ngdoc method
+    * @name commitChangeState
+    * @description
+    * This function commits a new state for MeasurementGoal
+    ********************************************************************************/
+    function commitChangeState(state) {
+        switch (state) {
+            case STATES.PENDING : 
+                _sendForApproval();
+                break;
+            case STATES.APPROVED : 
+                _approve();
+                break;
+            case STATES.REJECTED : 
+                _reject();
+                break;
+            case STATES.SUSPENDED : 
+                _suspend();
+                break;
+            case STATES.ONUPDATEWAITINGQUESTIONS :
+                _assign();
+                break;
+               
+        }
+    }
+
+    /********************************************************************************
+    * @ngdoc method
     * @name sendForApproval
     * @description
     * Sends a MeasurementGoal for approval.
     ********************************************************************************/
-    function sendForApproval() {
-        //if (vm.sendMessage !== undefined) {
-        //    vm.measurementGoalDialog.metadata.releaseNote = vm.sendMessage;
-        
-        //} 
-        submitMeasurementGoal('Pending');
-        /*var toUpdate = {
-            measurementGoal : vm.measurementGoalDialog,
-            metrics : vm.metrics,
-            contextFactors : vm.contextFactors,
-            assumptions : vm.assumptions,
-            organizationalGoal : vm.organizationalGoal,
-            instanceProject : vm.instanceProject
-        };*/
-
-//        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
-        
-//        $location.path('/measurementgoal/sendforapproval');
+    function _sendForApproval() {
+        submitMeasurementGoal(STATES.PENDING);
     }
 
+    /********************************************************************************
+    * @ngdoc method
+    * @name reject
+    * @description
+    * Reject a MeasurementGoal.
+    ********************************************************************************/
+    function _reject() {
+        submitMeasurementGoal(STATES.REJECTED);
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name reject
+    * @description
+    * Assign a MeasurementGoal.
+    ********************************************************************************/
+    function _assign() {
+        submitMeasurementGoal(STATES.ONUPDATEWAITINGQUESTIONS);    
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name approve
+    * @description
+    * Approve a MeasurementGoal.
+    ********************************************************************************/
+    function _approve() {
+        submitMeasurementGoal(STATES.APPROVED);    
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name suspend
+    * @description
+    * Suspend a MeasurementGoal.
+    ********************************************************************************/
+    function _suspend() {
+        submitMeasurementGoal(STATES.SUSPENDED);
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -192,8 +300,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Get active measurement goals for a metricator.
     ********************************************************************************/
     function getMeasurementGoals(){
-        //TODO add method to retrieve last approved measurementGoal
-        //TODO add method to send for approval
          MeasurementGoalService.getMeasurementGoals().then(
             function(data) {
                 console.log(data.measurementGoals);
@@ -205,82 +311,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         );
     }
 
-    function _initMeasurementGoalDialog(){
-        vm.measurementGoalDialog = MeasurementGoalService.getUpdateMeasurementGoal().measurementGoal;
-        vm.metrics = MeasurementGoalService.getUpdateMeasurementGoal().metrics;
-        vm.contextFactors = MeasurementGoalService.getUpdateMeasurementGoal().contextFactors;
-        vm.assumptions = MeasurementGoalService.getUpdateMeasurementGoal().assumptions;
-        vm.organizationalGoal = MeasurementGoalService.getUpdateMeasurementGoal().organizationalGoal;
-        vm.instanceProject = MeasurementGoalService.getUpdateMeasurementGoal().instanceProject;        
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name _selectMeasurementGoalToView
-    * @description
-    * This function checks that in the url there's param id.
-    * If id is specified, the page is loaded with the Measurement Goal id specified.
-    * Otherwise page is loaded with Measurement Goal in MeasurementGoalService
-    ********************************************************************************/
-    function _selectMeasurementGoalToView(){
-        if (!$routeParams.measurementgoalid) {
-            //Can modify
-            vm.modifying = true;
-            _initMeasurementGoalDialog();
-            //$location.path('/measurementgoal');
-        }
-        else {
-            //Only for readers
-            vm.modifying = false;
-
-            vm.currMeasurementGoalId = {
-                id: $routeParams.measurementgoalid
-            };
-
-            //Retrieve Measurement Goal Details
-            MeasurementGoalService.getMeasurementGoalsBy(vm.currMeasurementGoalId.id,'id').then(
-                function(data){
-                    vm.measurementGoalDialog = data.measurementGoals[0];
-                    
-                    //Retrieve Measurement Goal Externals
-                    MeasurementGoalService.getMeasurementGoalExternals(vm.currMeasurementGoalId.id).then(
-                        function (response) {
-                            console.log('Success in read to get Measurement Goal Externals');
-                            console.log(response);
-
-                            vm.metrics = response.metrics;
-                            vm.contextFactors = response.contextFactors;
-                            vm.assumptions = response.assumptions;
-                            vm.organizationalGoal = response.organizationalGoal;
-                            vm.instanceProject = response.instanceProject;
-
-                            var toUpdate = {
-                                measurementGoal : vm.measurementGoalDialog,
-                                metrics : response.metrics,
-                                contextFactors : response.contextFactors,
-                                assumptions : response.assumptions,
-                                organizationalGoal : response.organizationalGoal,
-                                instanceProject : response.instanceProject
-                            };
-
-                            MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
-
-                        },
-                        function (response) {
-                            console.log('Failure get Measurement Goal Externals');
-                            console.log(response);
-                        }
-                    );
-
-                    //vm.loading=false;
-                    //initMetric();
-                },function(data){
-                    vm.error = true;
-                }
-            );
-        }
-    }
-
     /********************************************************************************
     * @ngdoc method
     * @name getMetricsByMeasurementGoal
@@ -288,23 +318,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Get approved metrics by measurement goal.
     ********************************************************************************/
     function getMetricsByMeasurementGoal(){
-
-        /*var metricsGetter = [];
-        for(var i=0; i<vm.measurementGoalDialog.metrics.length;i++){ 
-            MetricService.getMetricsById(vm.measurementGoalDialog.metrics[i].instance).then(
-                function(data) {
-                    console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
-                    console.log(data.metricsDTO);
-                    metricsGetter.push(data.metricsDTO);
-                },
-                function(data) {
-                    alert('Error retriving Metrics');
-                }
-            );
-        }
-
-        vm.metricsDialog = metricsGetter;*/
-
         MetricService.getMetricsByMeasurementGoalId(vm.measurementGoalDialog.metadata.id).then(
                 function(data) {
                     console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
@@ -391,44 +404,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         );
     }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name getOrganizationalGoal
-    * @description
-    * Get organizational goal.
-    ********************************************************************************/
-    /*function getOrganizationalGoalById(id){
-         MeasurementGoalService.getOrganizationalGoalById(id).then(
-            function(data) {
-                console.log("getOrganizationalGoalDialog");
-                console.log(data);
-                vm.organizationalGoalDialog = data;
-                //return data;//vm.organizationalGoalDialog;
-            },
-            function(data) {
-                alert('Error retriving Measurement Goals by state');
-            }
-        );
-    }*/
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name cancelSignup
-    * @description
-    * Cancels the ongoing submit.
-    ********************************************************************************/
-    function cancelSubmit() {
-        $location.path('/measurementgoal');
-    }
-
-    /*function setMeasurementGoalDialog(measurementGoalToAssignId){
-            vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
-
-            if(vm.measurementGoalDialog !== null){
-                setOrganizationalGoalDialog(vm.measurementGoalDialog.organizatoinalGoalId);
-            }
-    }*/
-
     function setMetricDialog(metricToAssignId){
             MetricService.storeMetric(vm.metrics[metricToAssignId]);
             MetricModalService.openMetricModal();
@@ -444,30 +419,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             AssumptionModalService.openAssumptionModal();
     }
 
-
-    //function setExternalMetricDialog(metricToAssignId){
-    //        MetricService.storeExternalMetric();
-    //        MetricModalService.openExternalMetricModal();
-    //}
-
-    /*function setOrganizationalGoalDialog(organizationalGoalToAssignId){
-            if(organizationalGoalToAssignId !== null){
-                //vm.organizationalGoalDialog = 
-                getOrganizationalGoalById(organizationalGoalToAssignId);
-                console.log(vm.organizationalGoalDialog);
-            }
-    }*/
-
-    //function initOrganizationalGoalDialog(){
-    //    if(vm.measurementGoalDialog !== null){
-    //        setOrganizationalGoalDialog('1');//vm.measurementGoalDialog.organizatoinalGoalId);
-    //    }
-    //}
-
     function goToUpdateMeasurementGoal(){
-        //MeasurementGoalService.toUpdateMeasurementGoal(vm.measurementGoalDialog);
         $location.path('/measurementgoal');
-        //console.log($location.path('/measurementgoal'));
     }
 
     /********************************************************************************
@@ -570,20 +523,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Measurement Goal can be updated.
     ********************************************************************************/
     function isModifiable(){
-        //console.log(vm.measurementGoalDialog.metricatorId);
-        //console.log(AuthService.getUser().username);
-        //console.log(vm.measurementGoalDialog.metricatorId == AuthService.getUser().username);
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !(vm.measurementGoalDialog.metadata.state == 'Pending');
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name isChanged
-    * @description
-    * Is the Function Javascript changed.
-    ********************************************************************************/
-    function isChanged(){
-        return vm.functionJavascript !== vm.measurementGoalDialog.interpretationModel.functionJavascript;
     }
 
     /********************************************************************************
@@ -594,6 +534,52 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     ********************************************************************************/ 
     function isSubmittable(){
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isForApproval
+    * @description
+    * Measurement Goal can be sent for approval.
+    ********************************************************************************/ 
+    function isForApproval(){
+        return AuthService.getUser().role == 'METRICATOR' &&
+        vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && 
+        vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isToReject
+    * @description
+    * Measurement Goal can be rejected.
+    ********************************************************************************/ 
+    function isToReject(){
+        return AuthService.getUser().role == 'EXPERT' && 
+        vm.measurementGoalDialog.metadata.state == 'Pending';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isToApproved
+    * @description
+    * Measurement Goal can be approved.
+    ********************************************************************************/ 
+    function isToApprove(){
+        return AuthService.getUser().role == 'EXPERT' && 
+        vm.measurementGoalDialog.metadata.state == 'Pending';
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isToSuspend
+    * @description
+    * Measurement Goal can be suspended.
+    ********************************************************************************/ 
+    function isToSuspend(){
+        return AuthService.getUser().role == 'EXPERT' && 
+        vm.measurementGoalDialog.metadata.state == 'Approved'
+        vm.measurementGoalDialog.metadata.state == 'Rejected';
     }
 
     /********************************************************************************
