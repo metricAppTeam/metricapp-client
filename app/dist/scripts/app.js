@@ -5669,119 +5669,148 @@ function ChatsWidgetController($scope, $location, MessageService, UserService, A
 
 /************************************************************************************
 * @ngdoc controller
-* @name HomeController
-* @module metricapp
-* @requires $rootScope
-* @requires $scope
+* @name Error401Controller
 * @requires $location
 * @requires AuthService
 *
 * @description
-* Realizes the control layer for `home.view`.
+* Handles the 401 error.
+* Realizes the control layer for `401.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('HomeController', HomeController);
+.controller('Error401Controller', Error401Controller);
 
-HomeController.$inject = ['$rootScope', '$scope', '$location', '$timeout', 'AuthService'];
+Error401Controller.$inject = ['$window', '$location'];
 
-function HomeController($rootScope, $scope, $location, $timeout, AuthService) {
+function Error401Controller($window, $location) {
 
     var vm = this;
 
-    _init();
+    vm.goHome = goHome;
+    vm.goBack = goBack;
 
-    function _loadHome() {
-        vm.loading = true;
-        vm.success = false;
-        vm.currUser = AuthService.getUser();
-        vm.success = true;
-        vm.loading = false;
+    /********************************************************************************
+    * @ngdoc method
+    * @name goHome
+    * @description
+    * Changes `$location` to the Home.
+    ********************************************************************************/
+    function goHome() {
+        $location.path('/home');
     }
 
-    /******************************************************
-    *
-    *
-    * EXPERT SECTION ON HOME
-    *
-    *
-    *******************************************************/
-
-    //Active and Inactive Users
-    vm.active_questioners = 10;
-    vm.active_metricators = 15;
-    vm.active_experts = 1;
-    vm.inactive_questioners = 3;
-    vm.inactive_metricators = 2;
-    vm.inactive_experts = 0;
-
-    //Active Tasks
-    vm.active_tasks = 10;
-
-    //Active Teams
-    vm.active_teams = 2;
-
-    //Total Users
-    vm.total_active_users = vm.active_questioners + vm.active_metricators + vm.active_experts;
-    vm.total_inactive_users = vm.inactive_experts + vm.inactive_metricators + vm.inactive_questioners;
-    vm.total_users = vm.total_inactive_users + vm.total_active_users;
-
-    //Active Users chart
-    vm.active_users_chart_data = [
-        {label: 'Metricators', value: vm.active_questioners},
-        {label: 'Questioners', value: vm.active_metricators},
-        {label: 'Experts',     value: vm.active_experts}
-    ];
-
-    //Active Users Trend Chart
-    vm.trend_active_users = [
-        { y: 'Q2/15', questioners: 19,  metricators: 29 },
-        { y: 'Q3/15', questioners: 30,  metricators: 35 },
-        { y: 'Q1/16', questioners: 55,  metricators: 45 },
-        { y: 'Q2/16', questioners: 78,  metricators: 80 }
-    ];
-
-    //Projects Box
-    vm.projects = [
-        {name: 'ISSR Project',status: 'active',progress: 30},
-        {name: 'ISSR Project2',status: 'active',progress: 70}
-    ];
-
-    //Date() for clock
-    vm.date = new Date();
-
-    vm.exportDataXLS = function () {
-        var blob = new Blob([document.getElementById('exportable').innerHTML], {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
-        });
-        saveAs(blob, 'Report.xls');
-    };
-
-    /******************************************************
-    *
-    *
-    * QUESTIONER SECTION ON HOME
-    *
-    *
-    *******************************************************/
-
-
-    /******************************************************
-    *
-    *
-    * METRICATOR SECTION ON HOME
-    *
-    *
-    *******************************************************/
-
-
-    function _init() {
-        vm.loading = true;
-        vm.success = false;
-        vm.errmsg = null;
-        _loadHome();
+    /********************************************************************************
+    * @ngdoc method
+    * @name goBack
+    * @description
+    * Changes `$location` to the previous page in history.
+    ********************************************************************************/
+    function goBack() {
+        $window.history.back();
     }
+
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name Error404Controller
+* @requires $location
+* @requires AuthService
+*
+* @description
+* Handles the 404 error.
+* Realizes the control layer for `404.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('Error404Controller', Error404Controller);
+
+Error404Controller.$inject = ['$window', '$location'];
+
+function Error404Controller($window, $location) {
+
+    var vm = this;
+
+    vm.goHome = goHome;
+    vm.goBack = goBack;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name goHome
+    * @description
+    * Changes `$location` to the Home.
+    ********************************************************************************/
+    function goHome() {
+        $location.path('/home');
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name goBack
+    * @description
+    * Changes `$location` to the previous page in history.
+    ********************************************************************************/
+    function goBack() {
+        $window.history.back();
+    }
+
+}
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name Error500Controller
+* @requires $location
+* @requires AuthService
+*
+* @description
+* Handles the 500 error.
+* Realizes the control layer for `500.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('Error500Controller', Error500Controller);
+
+Error500Controller.$inject = ['$window', '$location'];
+
+function Error500Controller($window, $location) {
+
+    var vm = this;
+
+    vm.goHome = goHome;
+    vm.goBack = goBack;
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name goHome
+    * @description
+    * Changes `$location` to the Home.
+    ********************************************************************************/
+    function goHome() {
+        $location.path('/home');
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name goBack
+    * @description
+    * Changes `$location` to the previous page in history.
+    ********************************************************************************/
+    function goBack() {
+        $window.history.back();
+    }
+
 }
 
 })();
@@ -6220,148 +6249,119 @@ function GridsController($scope, $location, $filter, GridService, UserService, R
 
 /************************************************************************************
 * @ngdoc controller
-* @name Error401Controller
+* @name HomeController
+* @module metricapp
+* @requires $rootScope
+* @requires $scope
 * @requires $location
 * @requires AuthService
 *
 * @description
-* Handles the 401 error.
-* Realizes the control layer for `401.view`.
+* Realizes the control layer for `home.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('Error401Controller', Error401Controller);
+.controller('HomeController', HomeController);
 
-Error401Controller.$inject = ['$window', '$location'];
+HomeController.$inject = ['$rootScope', '$scope', '$location', '$timeout', 'AuthService'];
 
-function Error401Controller($window, $location) {
-
-    var vm = this;
-
-    vm.goHome = goHome;
-    vm.goBack = goBack;
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name goHome
-    * @description
-    * Changes `$location` to the Home.
-    ********************************************************************************/
-    function goHome() {
-        $location.path('/home');
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name goBack
-    * @description
-    * Changes `$location` to the previous page in history.
-    ********************************************************************************/
-    function goBack() {
-        $window.history.back();
-    }
-
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name Error404Controller
-* @requires $location
-* @requires AuthService
-*
-* @description
-* Handles the 404 error.
-* Realizes the control layer for `404.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('Error404Controller', Error404Controller);
-
-Error404Controller.$inject = ['$window', '$location'];
-
-function Error404Controller($window, $location) {
+function HomeController($rootScope, $scope, $location, $timeout, AuthService) {
 
     var vm = this;
 
-    vm.goHome = goHome;
-    vm.goBack = goBack;
+    _init();
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name goHome
-    * @description
-    * Changes `$location` to the Home.
-    ********************************************************************************/
-    function goHome() {
-        $location.path('/home');
+    function _loadHome() {
+        vm.loading = true;
+        vm.success = false;
+        vm.currUser = AuthService.getUser();
+        vm.success = true;
+        vm.loading = false;
     }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name goBack
-    * @description
-    * Changes `$location` to the previous page in history.
-    ********************************************************************************/
-    function goBack() {
-        $window.history.back();
+    /******************************************************
+    *
+    *
+    * EXPERT SECTION ON HOME
+    *
+    *
+    *******************************************************/
+
+    //Active and Inactive Users
+    vm.active_questioners = 10;
+    vm.active_metricators = 15;
+    vm.active_experts = 1;
+    vm.inactive_questioners = 3;
+    vm.inactive_metricators = 2;
+    vm.inactive_experts = 0;
+
+    //Active Tasks
+    vm.active_tasks = 10;
+
+    //Active Teams
+    vm.active_teams = 2;
+
+    //Total Users
+    vm.total_active_users = vm.active_questioners + vm.active_metricators + vm.active_experts;
+    vm.total_inactive_users = vm.inactive_experts + vm.inactive_metricators + vm.inactive_questioners;
+    vm.total_users = vm.total_inactive_users + vm.total_active_users;
+
+    //Active Users chart
+    vm.active_users_chart_data = [
+        {label: 'Metricators', value: vm.active_questioners},
+        {label: 'Questioners', value: vm.active_metricators},
+        {label: 'Experts',     value: vm.active_experts}
+    ];
+
+    //Active Users Trend Chart
+    vm.trend_active_users = [
+        { y: 'Q2/15', questioners: 19,  metricators: 29 },
+        { y: 'Q3/15', questioners: 30,  metricators: 35 },
+        { y: 'Q1/16', questioners: 55,  metricators: 45 },
+        { y: 'Q2/16', questioners: 78,  metricators: 80 }
+    ];
+
+    //Projects Box
+    vm.projects = [
+        {name: 'ISSR Project',status: 'active',progress: 30},
+        {name: 'ISSR Project2',status: 'active',progress: 70}
+    ];
+
+    //Date() for clock
+    vm.date = new Date();
+
+    vm.exportDataXLS = function () {
+        var blob = new Blob([document.getElementById('exportable').innerHTML], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
+        });
+        saveAs(blob, 'Report.xls');
+    };
+
+    /******************************************************
+    *
+    *
+    * QUESTIONER SECTION ON HOME
+    *
+    *
+    *******************************************************/
+
+
+    /******************************************************
+    *
+    *
+    * METRICATOR SECTION ON HOME
+    *
+    *
+    *******************************************************/
+
+
+    function _init() {
+        vm.loading = true;
+        vm.success = false;
+        vm.errmsg = null;
+        _loadHome();
     }
-
-}
-
-})();
-
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name Error500Controller
-* @requires $location
-* @requires AuthService
-*
-* @description
-* Handles the 500 error.
-* Realizes the control layer for `500.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('Error500Controller', Error500Controller);
-
-Error500Controller.$inject = ['$window', '$location'];
-
-function Error500Controller($window, $location) {
-
-    var vm = this;
-
-    vm.goHome = goHome;
-    vm.goBack = goBack;
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name goHome
-    * @description
-    * Changes `$location` to the Home.
-    ********************************************************************************/
-    function goHome() {
-        $location.path('/home');
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name goBack
-    * @description
-    * Changes `$location` to the previous page in history.
-    ********************************************************************************/
-    function goBack() {
-        $window.history.back();
-    }
-
 }
 
 })();
@@ -7475,152 +7475,6 @@ function create() {
 
 })();
 
-(function() { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name MGoalController
-* @module metricapp
-* @requires $scope
-* @requires $location
-* @requires $routeParams
-* @requires MGoalService
-*
-* @description
-* Realizes the control layer for `mgoal.view` and `update-mgoal.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('MGoalController', MGoalController);
-
-MGoalController.$inject = ['$scope', '$location', '$routeParams', 'MGoalService'];
-
-function MGoalController($scope, $location, $routeParams, MGoalService) {
-
-    var vm = this;
-
-    _init();
-
-    function _loadMGoal(goalid) {
-        vm.loading = true;
-        vm.success = false;
-        MGoalService.getById(goalid).then(
-            function(resolve) {
-                vm.currMGoal = angular.copy(resolve.mgoal);
-                vm.updtMGoal = angular.copy(vm.currMGoal);
-                vm.success = true;
-            },
-            function(reject) {
-                vm.errmsg = reject.errmsg;
-                vm.success = false;
-            }
-        ).finally(function() {
-            vm.loading = false;
-        });
-    }
-
-    function _init() {
-        vm.loading = true;
-        vm.success = false;
-        vm.errmsg = null;
-        if (!$routeParams.goalid) {
-            $location.path('/mgoals');
-            return;
-        }
-        vm.currMGoal = {
-            id: $routeParams.goalid
-        };
-        _loadMGoal(vm.currMGoal.id);
-    }
-}
-
-})();
-
-(function() {  'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name MGoalsController
-* @module metricapp
-* @requires $scope
-* @requires $location
-* @requires $filter
-* @requires MGoalService
-*
-* @description
-* Realizes the control layer for `mgoals.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('MGoalsController', MGoalsController);
-
-MGoalsController.$inject = ['$scope', '$location', '$filter', 'MGoalService'];
-
-function MGoalsController($scope, $location, $filter, MGoalService) {
-
-    var vm = this;
-
-    vm.loadMore = loadMore;
-    vm.search = search;
-
-    _init();
-
-    function loadMore() {
-        if (vm.idx < vm.buffer.length) {
-            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.mgoals = vm.mgoals.concat(vm.buffer.slice(vm.idx, e));
-            vm.idx = e;
-        }
-    }
-
-    function search(query) {
-        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
-    }
-
-    function _loadAllMGoals() {
-        vm.loading = true;
-        vm.success = false;
-        MGoalService.getAll().then(
-            function(resolve) {
-                vm.data = angular.copy(resolve.mgoals);
-                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
-                vm.success = true;
-            },
-            function(reject) {
-                vm.errmsg = reject.errmsg;
-                vm.success = false;
-            }
-        ).finally(function() {
-            vm.loading = false;
-        });
-  }
-
-    function _init() {
-        vm.loading = true;
-        vm.success = false;
-        vm.errmsg = null;
-        vm.data = [];
-        vm.buffer = [];
-        vm.mgoals = [];
-        vm.idx = 0;
-        vm.step = 4;
-        vm.query = '';
-        vm.orderBy = 'name';
-        _loadAllMGoals();
-        $scope.$watch('vm.buffer', function() {
-            vm.idx = 0;
-            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.mgoals = vm.buffer.slice(vm.idx, e);
-            vm.idx = e;
-        });
-    }
-
-}
-
-})();
-
 /*
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
@@ -7869,6 +7723,152 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
 
         //mtc.getMeasurementGoals();
     }
+
+})();
+
+(function() { 'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name MGoalController
+* @module metricapp
+* @requires $scope
+* @requires $location
+* @requires $routeParams
+* @requires MGoalService
+*
+* @description
+* Realizes the control layer for `mgoal.view` and `update-mgoal.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('MGoalController', MGoalController);
+
+MGoalController.$inject = ['$scope', '$location', '$routeParams', 'MGoalService'];
+
+function MGoalController($scope, $location, $routeParams, MGoalService) {
+
+    var vm = this;
+
+    _init();
+
+    function _loadMGoal(goalid) {
+        vm.loading = true;
+        vm.success = false;
+        MGoalService.getById(goalid).then(
+            function(resolve) {
+                vm.currMGoal = angular.copy(resolve.mgoal);
+                vm.updtMGoal = angular.copy(vm.currMGoal);
+                vm.success = true;
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
+    }
+
+    function _init() {
+        vm.loading = true;
+        vm.success = false;
+        vm.errmsg = null;
+        if (!$routeParams.goalid) {
+            $location.path('/mgoals');
+            return;
+        }
+        vm.currMGoal = {
+            id: $routeParams.goalid
+        };
+        _loadMGoal(vm.currMGoal.id);
+    }
+}
+
+})();
+
+(function() {  'use strict';
+
+/************************************************************************************
+* @ngdoc controller
+* @name MGoalsController
+* @module metricapp
+* @requires $scope
+* @requires $location
+* @requires $filter
+* @requires MGoalService
+*
+* @description
+* Realizes the control layer for `mgoals.view`.
+************************************************************************************/
+
+angular.module('metricapp')
+
+.controller('MGoalsController', MGoalsController);
+
+MGoalsController.$inject = ['$scope', '$location', '$filter', 'MGoalService'];
+
+function MGoalsController($scope, $location, $filter, MGoalService) {
+
+    var vm = this;
+
+    vm.loadMore = loadMore;
+    vm.search = search;
+
+    _init();
+
+    function loadMore() {
+        if (vm.idx < vm.buffer.length) {
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.mgoals = vm.mgoals.concat(vm.buffer.slice(vm.idx, e));
+            vm.idx = e;
+        }
+    }
+
+    function search(query) {
+        vm.buffer = $filter('orderBy')($filter('filter')(vm.data, query), vm.orderBy);
+    }
+
+    function _loadAllMGoals() {
+        vm.loading = true;
+        vm.success = false;
+        MGoalService.getAll().then(
+            function(resolve) {
+                vm.data = angular.copy(resolve.mgoals);
+                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                vm.success = true;
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
+  }
+
+    function _init() {
+        vm.loading = true;
+        vm.success = false;
+        vm.errmsg = null;
+        vm.data = [];
+        vm.buffer = [];
+        vm.mgoals = [];
+        vm.idx = 0;
+        vm.step = 4;
+        vm.query = '';
+        vm.orderBy = 'name';
+        _loadAllMGoals();
+        $scope.$watch('vm.buffer', function() {
+            vm.idx = 0;
+            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+            vm.mgoals = vm.buffer.slice(vm.idx, e);
+            vm.idx = e;
+        });
+    }
+
+}
 
 })();
 
