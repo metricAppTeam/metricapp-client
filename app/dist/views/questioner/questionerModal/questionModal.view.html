@@ -1,0 +1,50 @@
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="qstModal.closeModal()">
+        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title" id="largeModalHead">Question</h4>
+</div>
+<div class="modal-body">
+    <h2>Question</h2>
+    <ul class="list-group border-bottom">
+    	<br>
+        <h4>Focus</h4>
+        <li class="list-group-item">{{qstModal.questionDialog.focus}}</li>
+        <br>
+        <h4>Subject</h4>
+        <li class="list-group-item">{{qstModal.questionDialog.subject}}</li>
+        <br>
+        <h4>Description</h4>
+        <li class="list-group-item">{{qstModal.questionDialog.description}}</li> 
+        <br>
+        <h4>Tags</h4>
+        <li class="list-group-item" ng-repeat="tag in qstModal.questionDialog.metadata.tags">{{tag}}</li> 
+        <br>
+        <h4>State</h4>
+        <li class="list-group-item">{{qstModal.questionDialog.metadata.state}}</li>  
+        <br>
+        <h4>Last Version Date</h4>
+        <li class="list-group-item">{{qstModal.questionDialog.metadata.lastVersionDate}}</li>  
+        <br>
+        <h4>Creation Date</h4>
+        <li class="list-group-item">{{qstModal.questionDialog.metadata.creationDate}}</li> 
+        <br>
+        <h4>Release Note</h4>
+        <li class="list-group-item">  
+            <div class="panel-body scroll" style="height: 30px;">         
+                <p>{{qstModal.questionDialog.metadata.releaseNote}}</p>
+            </div>                                   
+        </li>  
+    </ul>            
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="qstModal.closeModal()">Close</button>
+    <a ng-click="qstModal.editQuestion(qstModal.questionDialog)" class="btn btn-primary"
+        ng-show="qstModal.questionDialog.metadata.state == 'OnUpdate' || qstModal.questionDialog.metadata.state == 'Rejected'">Update Question</a>
+    <a ng-click="qstModal.sendForApproval()" class="btn btn-primary" 
+        ng-show="qstModal.questionDialog.metadata.state == 'OnUpdate'">Send For Approval</a>
+    <a ng-click="qstModal.deleteQuestion(qstModal.questionDialog.metadata.id)" 
+    	ng-show="qstModal.questionDialog.metadata.state == 'Suspended'" class="btn btn-danger">
+    	Delete Question
+    </a>
+</div>

@@ -1,0 +1,47 @@
+<div class="page-title">                    
+    <h2><span class="fa fa-arrow-circle-o-left"></span> Search For MeasurementGoal</h2>
+</div>
+
+ <div class="page-content-wrap" ng-controller="QuestionerMeasurementGoalListCtrl as mgc">
+
+    <div class="block">
+        <div class="panel panel-default">
+            
+            <div class="panel-body">
+                
+                    <table st-table="mgList" st-safe-src="mgc.measurementGoals" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th st-sort="id">Id</th>
+                                <th st-sort="name">Name</th>
+                                <th st-sort="creationDate">CreationDate</th>
+                                <th st-sort="lastVersionDate">LastVersionDate</th>
+                                <th st-sort="releaseNote">ReleaseNote</th>
+                                <th st-sort="state">State</th>
+                            </tr>
+                            <tr>
+                            <th colspan="6"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="mg in mgc.measurementGoals">
+                            
+                                <td>
+                                    <button id="modal_button_{{$index}}" class="btn btn-default btn-rounded" data-toggle="modal"
+                                     ng-click="mgc.open($index)">{{mg.metadata.id}}</button>
+                                </td>
+                            
+                                <td>{{mg.metadata.entityType}}</td>
+                                <td>{{mg.metadata.creationDate}}</td>
+                                <td>{{mg.metadata.lastVersionDate}}</td>
+                                <td>{{mg.metadata.releaseNote}}</td>
+                                <td>{{mg.metadata.state}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div>   
+
+    </div>
+</div>
+

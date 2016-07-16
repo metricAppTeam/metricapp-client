@@ -1,0 +1,51 @@
+<div class="page-title">                    
+    <h2><span class="fa fa-arrow-circle-o-left"></span> Question Details</h2>
+</div>
+
+ <div class="page-content-wrap" ng-controller="QuestionDetailsCtrl as qst">
+    <div class="row">
+        <div class="col-md-12">
+            
+            <div class="panel panel-default">
+				<div class="panel-header">
+				    <button type="button" class="close" data-dismiss="modal" ng-click="qst.closeModal()">
+				        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				    <h4 class="modal-title" id="largeModalHead">Question</h4>
+				</div>
+				<div class="panel-body">
+				    <h2>Question</h2>
+				    <ul class="list-group border-bottom">
+				    	<br>
+				        <h4>Focus</h4>
+				        <li class="list-group-item">{{qst.questionDialog.focus}}</li>
+				        <br>
+				        <h4>Subject</h4>
+				        <li class="list-group-item">{{qst.questionDialog.subject}}</li>
+				        <br>
+				        <h4>Description</h4>
+				        <li class="list-group-item">{{qst.questionDialog.description}}</li> 
+				        <br>
+				        <h4>Tags</h4>
+				        <li class="list-group-item" ng-repeat="tag in qst.questionDialog.metadata.tags">{{tag}}</li> 
+				        <br>
+				        <h4>State</h4>
+				        <li class="list-group-item">{{qst.questionDialog.metadata.state}}</li>  
+				        <br>
+				        <h4>Last Version Date</h4>
+				        <li class="list-group-item">{{qst.questionDialog.metadata.lastVersionDate}}</li>  
+				        <br>
+				        <h4>Creation Date</h4>
+				        <li class="list-group-item">{{qst.questionDialog.metadata.creationDate}}</li> 
+				        <br>
+				        <h4>Release Note</h4>
+				        <li class="list-group-item">  
+				            <div class="panel-body scroll" style="height: 300px;">         
+				                <p>{{qst.questionDialog.metadata.releaseNote}}</p>
+				            </div>                                   
+				        </li>  
+				    </ul>            
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

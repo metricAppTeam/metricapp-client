@@ -1,0 +1,117 @@
+<div class="page-title">                    
+    <h2><span class="fa fa-arrow-circle-o-left"></span> Create a New Question</h2>
+</div>
+
+ <div class="page-content-wrap" ng-controller="QuestionCreationCtrl as qst">
+    <div class="row">
+        <div class="col-md-12">
+            
+            <form class="form-horizontal" name="creationForm" novalidate>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <ul class="panel-controls">
+                        <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Input Description</label>
+
+                        <div class="col-md-6 col-xs-12" ng-init="focusDescription=false" ng-class="{ 'has-error' :
+                             creationForm.inputDescription.$invalid && creationForm.inputDescription.$dirty && !focusDescription}">
+
+                            <textarea name="inputDescription" class="form-control" rows="5" 
+                                ng-required="true" ng-minlength="10" ng-focus="focusDescription=true" 
+                                ng-blur="focusDescription=false" ng-model="qst.question.description"></textarea>
+
+                            <span ng-show="creationForm.inputDescription.$invalid && creationForm.inputDescription.$dirty
+                                && !focusDescription" class="help-block">Invalid description for the question</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Input Focus</label>
+                        <div class="col-md-6 col-xs-12" ng-init="focusFocus" ng-class="{ 'has-error' :
+                             creationForm.inputFocus.$invalid && creationForm.inputFocus.$dirty && !focusFocus}">                                            
+                           
+                        <div class="input-group col-md-12 col-xs-12">
+                                <input type="text" name="inputFocus" class="form-control"
+                                    ng-required="true" ng-minlength="3" ng-focus="focusFocus=true" 
+                                    ng-blur="focusFocus=false" ng-model="qst.question.focus"/>
+                            </div>                                            
+                            
+                            <span ng-show="creationForm.inputFocus.$invalid && creationForm.inputFocus.$dirty
+                                && !focusFocus" class="help-block">Insert what is the focus of the question</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Input Subject</label>
+                        
+                        <div class="col-md-6 col-xs-12" ng-init="focusSubject=false" ng-class="{ 'has-error' :
+                             creationForm.inputSubject.$invalid && creationForm.inputSubject.$dirty && !focusSubject}">                                            
+                           
+                            <div class="input-group col-md-12 col-xs-12">
+                                <input type="text" name="inputSubject" class="form-control" 
+                                    ng-required="true" ng-minlength="3" ng-focus="focusSubject=true" 
+                                    ng-blur="focusSubject=false" ng-model="qst.question.subject"/>
+                            </div>                                            
+                        
+                            <span ng-show="creationForm.inputSubject.$invalid && creationForm.inputSubject.$dirty
+                                && !focusSubject" class="help-block">Insert what is the subject of the question</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Input Release Note</label>
+                        <div class="col-md-6 col-xs-12" ng-init="focusReleaseNote=false" ng-class="{ 'has-error' :
+                             creationForm.inputReleaseNote.$invalid && creationForm.inputReleaseNote.$dirty && !focusReleaseNote}">                                            
+                            
+                            <textarea class="form-control" name="inputReleaseNote" rows="5" 
+                                ng-required="true" ng-minlength="10" ng-focus="focusReleaseNote=true" 
+                                ng-blur="focusReleaseNote=false" ng-model="qst.question.metadata.releaseNote"></textarea>
+                            
+                            <span ng-show="creationForm.inputReleaseNote.$invalid && creationForm.inputReleaseNote.$dirty
+                                && !focusReleaseNote" class="help-block">Insert a release note for the question</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Tags</label>
+                        <div class="col-md-6 col-xs-12">
+                            <span 
+                                class="btn btn-info btn-rounded col-md-3 col-xs-12" ng-repeat="tag in qst.question.metadata.tags">
+                                {{tag}}
+                                <i ng-click="qst.removeTagFromQuestion($index)" 
+                                    class="glyphicon glyphicon-remove-circle pull-right"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">New Tag</label>
+                        <div class="col-md-6 col-xs-12">
+                            <input type="text" ng-model="qst.newTag">
+                            <a ng-click="qst.addTagToQuestion()" class="btn btn-primary">Add</a>
+                        </div>
+                    </div>
+
+                </div>
+                    <div class="panel-footer">
+                        <button ng-click="qst.clearForm()" class="btn btn-default">Clear Form</button>                                    
+
+                        <button ng-disabled="creationForm.$invalid" ng-click="qst.createNewQuestion()" 
+                        class="btn btn-primary pull-right">Submit</button>
+                        <br>
+                        <label ng-show="creationForm.$invalid && !creationForm.$pristine" class="help-block pull-right">
+                            The form is not valid and cannot be submitted
+                        </label>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>                    
+</div>

@@ -9,9 +9,6 @@
 # Ignore anyway
 #==============================================================================#
 _ignore
-dist
-app/dist
-dist/views/metricator/modal
 builds
 docs
 app/uploads
