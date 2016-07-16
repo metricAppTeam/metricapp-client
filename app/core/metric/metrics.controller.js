@@ -126,6 +126,7 @@ function _loadAllApprovedMetrics() {
     vm.success = false;
     MetricService.getAllApproved().then(
         function(resolve) {
+            vm.data = [];
             vm.data = angular.copy(resolve.metricsDTO);
             vm.buffer = $filter('orderBy')(vm.data, vm.orderBy,true);
             vm.success = true;

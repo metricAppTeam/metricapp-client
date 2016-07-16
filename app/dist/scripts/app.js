@@ -2780,7 +2780,7 @@ function getAll() {
 * an error message, otherwise.
 ********************************************************************************/
 function getAllApproved() {
-          return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?approved=true').then(
+          return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?bus=true').then(
                function(response) {
                    var message = angular.fromJson(response.data);
                    console.log('SUCCESS GET METRICS');
@@ -3009,32 +3009,7 @@ function getInArray(metricids) {
 
 
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name getApprovedMetrics
-    * @description
-    * Get approved metric by state.
-    ********************************************************************************/
 
-    function getAllApproved() {
-
-        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/metric?state=Approved').then(
-            function(response) {
-                var message = angular.fromJson(response.data);
-                console.log('SUCCESS GET METRICS BY APPROVED VERSION');
-                console.log(message);
-                return message;
-            },
-            function(response) {
-                var message = angular.fromJson(response.data);
-                console.log('FAILURE GET METRICS');
-                FlashService.danger('Error in retrieving Metrics');
-                console.log(message);
-                return message;
-            }
-        );
-
-    }
 
     function getByStateAndUser(state,user) {
 
@@ -7002,6 +6977,7 @@ function _loadAllApprovedMetrics() {
     vm.success = false;
     MetricService.getAllApproved().then(
         function(resolve) {
+            vm.data = [];
             vm.data = angular.copy(resolve.metricsDTO);
             vm.buffer = $filter('orderBy')(vm.data, vm.orderBy,true);
             vm.success = true;
