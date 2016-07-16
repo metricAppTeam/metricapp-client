@@ -50,30 +50,7 @@
                 <button ng-click="vm.getMeasurementGoalsBy(vm.keyword, vm.field)" class="btn btn-primary pull-right">Search</button>
             </div>
             <div class="panel-body">
-                <table class="table datatable">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>CreationDate</th>
-                            <th>LastVersionDate</th>
-                            <th>ReleaseNote</th>
-                            <th>State</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="measurementGoal in vm.measurementGoals">
-                            <td>
-                                <button class="btn btn-default btn-rounded" data-toggle="modal" ng-click="vm.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
-                            </td>     
-                            <td>{{measurementGoal.metadata.entityType}}</td>
-                            <td>{{measurementGoal.metadata.creationDate}}</td>
-                            <td>{{measurementGoal.metadata.lastVersionDate}}</td>
-                            <td>{{measurementGoal.metadata.releaseNote}}</td>
-                            <td>{{measurementGoal.metadata.state}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div ng-include="'dist/views/metricator/table/table.measurementgoal.html'"></div>
             </div>
         </div>   
     </div>

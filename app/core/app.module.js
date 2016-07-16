@@ -21,7 +21,8 @@ angular.module('metricapp',[
     'nvd3',
     'angular.morris-chart',
     'ui.ace',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'smart-table'
 ]);
 
 })();
