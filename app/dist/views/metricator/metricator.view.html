@@ -7,11 +7,63 @@
 
 <!-- PAGE CONTENT WRAPPER -->
 <div class="page-content-wrap">
-
+<div ng-controller="MetricatorController as vm">
+<div class="row">
+    <div class="col-md-12">
+    <div class="panel panel-default pull-left">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-10">                                    
+                    <label class="col-md-2 control-label">
+                        <input type="Text" class="form-control" ng-model="vm.keyword" required/> 
+                        Search For:
+                     </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">                                    
+                    <label class="check">
+                        <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="qualityFocus" /> 
+                        QualityFocus
+                    </label>
+                </div>
+                <div class="col-md-4">                                    
+                    <label class="check">
+                        <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="object" /> 
+                        Object
+                    </label>
+                </div>
+                <div class="col-md-4">                                    
+                    <label class="check">
+                        <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="purpose" /> 
+                        Purpose
+                    </label>
+                </div>
+                <div class="col-md-4">                                    
+                    <label class="check">
+                        <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="viewPoint" /> 
+                        ViewPoint
+                    </label>
+                </div>
+                <div class="col-md-4">                                    
+                    <label class="check">
+                        <input type="radio" class="iradio" name="selectRadio" ng-model="vm.field" value="tag" /> 
+                        Tag
+                    </label>
+                </div>
+            </div>
+        </div>  
+        <div class="panel-footer">
+            <button ng-click="vm.getMeasurementGoalsBy(vm.keyword, vm.field)" class="btn btn-primary pull-right" ng-disabled="vm.loading">Search</button>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-centered"><h2 ng-show="vm.loading">Loading Measurement Goals</h2></div>
+</div>
 <div class="row">
 <div class="col-md-12">
-
-<div ng-controller="MetricatorController as vm">
 <!-- START DEFAULT SMART-TABLE -->
 <!--<div class="panel panel-default" ng-repeat="state in vm.states">-->
 <div class="panel panel-default">
@@ -20,14 +72,13 @@
     </div>
     <div class="panel-body">
             <div ng-include="'dist/views/metricator/table/table.measurementgoal.html'"></div>
-        </div>
     </div>
+</div>
 </div>
 <!-- END DEFAULT SMART-TABLE -->
 </div>
 </div>
 </div>
-
 
 
 <!--<table ng-repeat="result in vm.results" class="table datatable">-->

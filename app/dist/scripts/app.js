@@ -8418,7 +8418,7 @@ function create() {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-17 16:21:02
+* @Last Modified time: 2016-07-17 17:28:36
 */
 (function () { 'use strict';
 
@@ -8458,7 +8458,8 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     //vm.isSubmittable = isSubmittable;
     //vm.sendForApproval = sendForApproval;
     //vm.getMeasurementGoals = getMeasurementGoals;
-    vm.getMeasurementGoalsByState = getMeasurementGoalsByState;
+    //vm.getMeasurementGoalsByState = getMeasurementGoalsByState;
+    vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
     //vm.getMetrics = getMetrics;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
     vm.getMeasurementGoalExternals = getMeasurementGoalExternals;
@@ -8472,7 +8473,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * @description
     * Get measurement goals by state for a metricator.
     ********************************************************************************/
-    function getMeasurementGoalsByState(index){
+    /*function getMeasurementGoalsByState(index){
          MeasurementGoalService.getMeasurementGoals(vm.states[index]).then(
             function(data) {
                 console.log(data.measurementGoals);
@@ -8483,7 +8484,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 alert('Error retriving Measurement Goals');
             }
         );
-    };
+    };*/
 
     /********************************************************************************
     * @ngdoc method
@@ -8506,6 +8507,36 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
             }
         );
     };
+
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name submitMeasurementGoal
+    * @description
+    * Get active measurement goals for a metricator by some field.
+    ********************************************************************************/
+    function getMeasurementGoalsBy(keyword,field){
+        vm.loading = true;
+        console.log("Inside getMeasurementGoalsBy");
+        if (keyword != null && field != null){
+            MeasurementGoalService.getMeasurementGoalsBy(keyword,field).then(
+                function(data) {
+                    console.log(data.measurementGoals);
+                    vm.measurementGoals = data.measurementGoals;
+                    if(vm.measurementGoals.length === 0)
+                        $window.alert(data.error);
+                    vm.loading = false;
+                },
+                function(data) {
+                    alert('Error retriving Measurement Goals');
+                    vm.loading = false;
+                }
+            );
+        }
+        else
+            $window.alert("You must enter keyword and field");
+            vm.loading = false;
+    }
 
     /********************************************************************************
     * @ngdoc method
@@ -8641,7 +8672,6 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         $location.path('/measurementgoal/sendforapproval');
     }*/
 
-    }
     /********************************************************************************
     * @ngdoc method
     * @name _init
@@ -8649,9 +8679,10 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Initializes the controller.
     ********************************************************************************/
     function _init() {
+        vm.loading = false;
     }
-
-
+    }
+    
 })();
 
 (function() { 'use strict';
