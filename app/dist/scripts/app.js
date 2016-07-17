@@ -1477,7 +1477,7 @@ function FlashService(Flash) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 19:51:55
+* @Last Modified time: 2016-07-17 01:57:36
 */
 (function() { 'use strict';
 
@@ -1729,7 +1729,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
 
     	switch(typeObject) {
             case 'Metric':
-                if (checkDouble(service.measurementGoalToUpdate.metrics,obj)){
+                if (_checkDouble(service.measurementGoalToUpdate.metrics,obj)){
                 	service.measurementGoalToUpdate.metrics.push(obj);
                     service.measurementGoalToUpdate.measurementGoal.metrics.push(pointerBus);
                 	return true;
@@ -1739,7 +1739,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
                 } 
                 break;
             case 'Question':
-                if (checkDouble(service.measurementGoalToUpdate.questions,obj)){
+                if (_checkDouble(service.measurementGoalToUpdate.questions,obj)){
                 	service.measurementGoalToUpdate.questions.push(obj);
                     service.measurementGoalToUpdate.measurementGoal.questions.push(pointerBus);
                 	return true;
@@ -1749,7 +1749,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
                 }
                 break;
             case 'ContextFactor':
-                if (checkDouble(service.measurementGoalToUpdate.contextFactors,obj)){
+                if (_checkDouble(service.measurementGoalToUpdate.contextFactors,obj)){
                 	service.measurementGoalToUpdate.contextFactors.push(obj);
                     service.measurementGoalToUpdate.measurementGoal.contextFactors.push(pointerBus);
                     return true;
@@ -1759,7 +1759,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
                 }
                 break;
             case 'Assumption':
-            	if (checkDouble(service.measurementGoalToUpdate.assumptions,obj)){
+            	if (_checkDouble(service.measurementGoalToUpdate.assumptions,obj)){
                 	service.measurementGoalToUpdate.assumptions.push(obj);
                     service.measurementGoalToUpdate.measurementGoal.assumptions.push(pointerBus);
                     return true;
