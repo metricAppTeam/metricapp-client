@@ -74,7 +74,8 @@ var paths = {
             logo    : 'app/assets/images/logos/logo.svg',
             logotype: 'app/assets/images/logos/logotype.svg',
             icon    : 'app/assets/images/icons/icon.svg',
-            bg      : 'app/assets/images/backgrounds/**/*.{svg,eps,png,jpg}'
+            bg      : 'app/assets/images/backgrounds/**/*.{svg,eps,png,jpg}',
+            uploads : 'app/assets/images/uploads/**/*.{svg,eps,png,jpg}'
         }
     },
 
@@ -123,8 +124,9 @@ var paths = {
             base    : 'app/dist/images',
             every   : 'app/dist/images/**/*.{svg,eps,png,jpg,ico}',
             icons   : 'app/dist/images/icons',
-            logos    : 'app/dist/images/logos',
-            bg      : 'app/dist/images/backgrounds'
+            logos   : 'app/dist/images/logos',
+            bg      : 'app/dist/images/backgrounds',
+            uploads : 'app/uploads'
         }
     },
 
@@ -161,8 +163,6 @@ gulp.task('live', ['connect'], function() {
     gulp.watch([paths.core.scripts], ['build-scripts']);
 
     gulp.watch([paths.assets.styles.every], ['build-styles']);
-
-    gulp.watch([paths.assets.images.every], ['build-images']);
 });
 
 gulp.task('connect', function() {
@@ -256,10 +256,17 @@ gulp.task('build-styles', function() {
 *******************************************************************************/
 
 gulp.task('build-images', function() {
+    gulp.start('all-images');
     gulp.start('logo');
     gulp.start('logotype');
     gulp.start('icons');
     gulp.start('backgrounds');
+    gulp.start('uploads');
+});
+
+gulp.task('all-images', function() {
+    gulp.src(paths.assets.images.every)
+    .pipe(gulp.dest(paths.dist.images.base));
 });
 
 gulp.task('logo', function() {
@@ -351,6 +358,11 @@ gulp.task('icons', function() {
 gulp.task('backgrounds', function() {
     gulp.src(paths.assets.images.bg)
     .pipe(gulp.dest(paths.dist.images.bg));
+});
+
+gulp.task('uploads', function() {
+    gulp.src(paths.assets.images.uploads)
+    .pipe(gulp.dest(paths.dist.images.uploads));
 });
 
 

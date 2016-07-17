@@ -25,7 +25,7 @@ function Error404Interceptor($q, $location) {
 
         responseError: function(response) {            
             if (response.status === 404) {
-            	if (response.measurementGoals !== null || response.metrics !==null) {
+            	if (response.measurementGoals !== null || response.metrics !==null || response.questions !== null) {
 	                return response;
             	}
             	else {

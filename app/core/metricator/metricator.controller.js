@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 20:15:41
+* @Last Modified time: 2016-07-17 16:21:02
 */
 (function () { 'use strict';
 
@@ -16,7 +16,6 @@
 * Manages the MetricatorGoal.
 * Realizes the control layer for `metricator.view`.
 ************************************************************************************/
-
 angular.module('metricapp')
 
 .controller('MetricatorController', MetricatorController);
@@ -27,8 +26,9 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
 
     var vm = this;
 
-    vm.states = [STATES.ONUPDATEQUESTIONERENDPOINT, STATES.ONUPDATEWAITINGQUESTIONS];
-    vm.measurementGoals = [undefined,undefined];
+    vm.states = [STATES.ONUPDATEENDPOINT, STATES.ONUPDATEWAITING];
+    //vm.measurementGoals = [undefined,undefined];
+    vm.measurementGoals = [];
     vm.metrics = [];
     vm.contextFactors = [];
     vm.assumptions = [];
@@ -40,7 +40,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
     //vm.isModifiable = isModifiable;
     //vm.isSubmittable = isSubmittable;
-    vm.sendForApproval = sendForApproval;
+    //vm.sendForApproval = sendForApproval;
     //vm.getMeasurementGoals = getMeasurementGoals;
     vm.getMeasurementGoalsByState = getMeasurementGoalsByState;
     //vm.getMetrics = getMetrics;
@@ -76,9 +76,19 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * Get active measurement goals for a metricator.
     ********************************************************************************/
     function _getMeasurementGoals(){
-        for (var i=0; i<vm.states.length; i++){
-            getMeasurementGoalsByState(i);
-        }
+        //for (var i=0; i<vm.states.length; i++){
+        //    getMeasurementGoalsByState(i);
+        //}
+        MeasurementGoalService.getMyMeasurementGoals().then(
+            function(data) {
+                console.log(data.measurementGoals);
+                //vm.results.measurementGoals = data.measurementGoals;
+                vm.measurementGoals = data.measurementGoals;
+            },
+            function(data) {
+                alert('Error retriving Measurement Goals');
+            }
+        );
     };
 
     /********************************************************************************
@@ -87,7 +97,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * @description
     * Get active metrics for a metricator.
     ********************************************************************************/
-    function getMetrics(){
+    /*function getMetrics(){
          MetricService.getMetrics().then(
             function(data) {
                 console.log(data.metricsDTO);
@@ -97,7 +107,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 alert('Error retriving Metrics');
             }
         );
-    };
+    };*/
 
     /********************************************************************************
     * @ngdoc method
@@ -137,9 +147,11 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         );
     };
 
-    function setMeasurementGoalDialog(parentIndex,measurementGoalToAssignId){
-        vm.measurementGoalDialog = vm.measurementGoals[parentIndex][measurementGoalToAssignId];
-        var toSearchId = vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id;
+    function setMeasurementGoalDialog(measurementGoalToAssignId){
+        //vm.measurementGoalDialog = vm.measurementGoals[parentIndex][measurementGoalToAssignId];
+        vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
+        //var toSearchId = vm.measurementGoals[parentIndex][measurementGoalToAssignId].metadata.id;
+        var toSearchId = vm.measurementGoals[measurementGoalToAssignId].metadata.id;
         var doubleInCache = false;
 
         for (var t=0, length = vm.modalIds.length; t<length; t++){
@@ -148,6 +160,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
                 MeasurementGoalService.toUpdateMeasurementGoal(vm.modalIds[t][1]);
                 MeasurementGoalModalService.openMeasurementGoalModal();
                 doubleInCache = true;
+                break;
             }
         }
 
@@ -195,7 +208,7 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
     * @description
     * Send Measurement Goal for approval.
     ********************************************************************************/ 
-    function sendForApproval(){
+    /*function sendForApproval(){
 
         console.log("Send For Approval");
         var toUpdate = {
@@ -210,7 +223,8 @@ function MetricatorController($scope, $location, MetricService, MeasurementGoalS
         MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
         
         $location.path('/measurementgoal/sendforapproval');
-    }
+    }*/
+
     }
     /********************************************************************************
     * @ngdoc method

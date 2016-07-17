@@ -1,39 +1,51 @@
 <!-- METRICATOR'S HOME-->
 <!-- PAGE TITLE -->
-<div class="page-title">                    
-	<h2><span class="fa fa-arrow-circle-o-left"></span> Metricator's Dashboard</h2>
+<div class="page-title">
+	<h2><span class="fa fa-arrow-circle-o-left"></span> MeasurementGoals Page</h2>
 </div>
-<!-- END PAGE TITLE -->                
+<!-- END PAGE TITLE -->
 
 <!-- PAGE CONTENT WRAPPER -->
-<div class="page-content-wrap">                
+<div class="page-content-wrap">
 
 <div class="row">
 <div class="col-md-12">
 
 <div ng-controller="MetricatorController as vm">
 <!-- START DEFAULT SMART-TABLE -->
-<div class="panel panel-default" ng-repeat="state in vm.states">
+<!--<div class="panel panel-default" ng-repeat="state in vm.states">-->
+<div class="panel panel-default">
     <div class="panel-heading">                                
-        <h3 class="panel-title">{{state}} Measurement Goals</h3>
+        <h3 class="panel-title">Measurement Goals</h3>
     </div>
     <div class="panel-body">
-            <!--<table ng-repeat="result in vm.results" class="table datatable">-->
-			<table st-table="vm.measurementGoals[$index]" colspan="10" class="table table-striped">
+            <div ng-include="'dist/views/metricator/table/table.measurementgoal.html'"></div>
+        </div>
+    </div>
+</div>
+<!-- END DEFAULT SMART-TABLE -->
+</div>
+</div>
+</div>
+
+
+
+<!--<table ng-repeat="result in vm.results" class="table datatable">-->
+<!--            <table st-table="vm.measurementGoals[$index]" colspan="10" class="table table-striped">
                 <thead>
                     <tr>
-				        <th st-sort="metadata.id">Id</th>
-				        <th st-sort="metadata.entityType">Name</th>
-				        <th st-sort="metadata.creationDate">CreationDate</th>
-				        <th st-sort="metadata.lastVersionDate">LastVersionDate</th>
-				        <th>ReleaseNote</th>
-				        <th st-sort="metadata.state">State</th>
-				    </tr>
-				    <tr>
-						<th colspan="10">
-							<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
-						</th>
-					</tr>
+                        <th st-sort="metadata.id">Id</th>
+                        <th st-sort="metadata.entityType">Name</th>
+                        <th st-sort="metadata.creationDate">CreationDate</th>
+                        <th st-sort="metadata.lastVersionDate">LastVersionDate</th>
+                        <th>ReleaseNote</th>
+                        <th st-sort="metadata.state">State</th>
+                    </tr>
+                    <tr>
+                        <th colspan="10">
+                            <input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="measurementGoal in vm.measurementGoals[$index]">
@@ -48,19 +60,10 @@
                     </tr>
                 </tbody>
                 <tfoot>
-					<tr>
-						<td colspan="5" class="text-center">
-						<div st-pagination="" st-items-by-page="10" st-displayed-pages="7"></div>
-						</td>
-					</tr>
-				</tfoot>
-            </table>
-        </div>   
-    </div>
-
-
-</div>
-<!-- END DEFAULT SMART-TABLE -->
-</div>
-</div>
-</div>                                
+                    <tr>
+                        <td colspan="5" class="text-center">
+                        <div st-pagination="" st-items-by-page="10" st-displayed-pages="7"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>-->

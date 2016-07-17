@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-07-12 23:08:35
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 21:05:03
+* @Last Modified time: 2016-07-17 16:15:24
 */
 
 (function () { 'use strict';
@@ -22,9 +22,9 @@ angular.module('metricapp')
 
 .controller('MetricatorDashboardController', MetricatorDashboardController);
 
-MetricatorDashboardController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window', 'STATES', 'STATES_METRIC'];
+MetricatorDashboardController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window', 'STATES'];
 
-function MetricatorDashboardController($scope, $location, MetricService, MeasurementGoalService, $window, STATES, STATES_METRIC) {
+function MetricatorDashboardController($scope, $location, MetricService, MeasurementGoalService, $window, STATES) {
 
     var vm = this;
 
@@ -37,7 +37,7 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
 
     vm.measurementGoalStates = [
     	STATES.APPROVED,
-    	STATES.ONUPDATEQUESTIONERENDPOINT,
+    	STATES.ONUPDATEENDPOINT,
         STATES.PENDING
     ];
 
@@ -48,9 +48,9 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     
 
     vm.metricStates = [
-        STATES_METRIC.APPROVED,
-        STATES_METRIC.ONUPDATE,
-        STATES_METRIC.PENDING
+        STATES.APPROVED,
+        STATES.ONUPDATE,
+        STATES.PENDING
     ];
 
     vm.measurementGoals = {};
@@ -72,11 +72,11 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     	measurementGoals : measurementGoals,
     }; */
 
-    vm.getMeasurementGoals = getMeasurementGoals;
-    vm.getMetrics = getMetrics;
+    //vm.getMeasurementGoals = getMeasurementGoals;
+    //vm.getMetrics = getMetrics;
 
-    vm.getMeasurementGoals();
-    vm.getMetrics();
+    _getMeasurementGoals();
+    _getMetrics();
     _init();
 
     /********************************************************************************
@@ -85,7 +85,7 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     * @description
     * Get measurement goals for a metricator.
     ********************************************************************************/
-    function getMeasurementGoals(){
+    function _getMeasurementGoals(){
         console.log("Retrieving some informations about Measurement Goals");
 
         //for (var i = 0, len = vm.measurementGoalStates.length; i<len ; i++){
@@ -113,7 +113,7 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     * @description
     * Get metrics for a metricator.
     ********************************************************************************/
-    function getMetrics(){
+    function _getMetrics(){
         console.log("Retrieving some informations about Metrics");
 
     	//for (var i = 0; i < vm.metricStates.lenght; i++){

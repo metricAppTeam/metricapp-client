@@ -110,8 +110,6 @@ function MeasurementGoalSearchController($scope, $location, MetricService, Measu
     function getMeasurementGoalExternals(externalId){
          MeasurementGoalService.getMeasurementGoalExternals(externalId).then(
             function(data) {
-                //console.log(data.measurementGoals);
-                //TODO add check if variable is undefined
                 vm.metrics = data.metrics;
                 vm.contextFactors = data.contextFactors;
                 vm.assumptions = data.assumptions;

@@ -1,0 +1,99 @@
+<div class="panel panel-default nav-tabs-vertical">                   
+    <div class="panel-heading">
+        <h3 class="panel-title">Add Metric to a Measurement Goal</h3>
+    </div>
+	<br>
+	<div class="tabs" id="accOneColOne">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" data-target="#externalMetricDialogActive">active</a>
+                <i class="btn btn-default btn-block" ng-click="vm.addSomethingToMeasurementGoal('Metric',0)">Add</i>
+            </li>
+            <li ng-repeat="metric in vm.externalMetricDialog.slice(1, vm.externalMetricDialog.length)">
+            	<a data-toggle="tab" data-target="#tab{{$index}}">{{$index}}</a>
+            	<i class="btn btn-default btn-block" ng-click="vm.addSomethingToMeasurementGoal('Metric',$index+1)">Add</i>
+        	</li>
+        </ul>                    
+        <div class="panel-body tab-content">
+            <div class="tab-pane active" id="externalMetricDialogActive">
+                <!--BEGIN ACTIVE METRIC-->
+                <h4>{{vm.externalMetricDialog[0].name}}</h4>
+                <br>
+                <br>
+                <ul class="list-group border-bottom">
+                    <h4>Has Max</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].hasMax}}</li>
+                    <h4>Has Min</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].hasMin}}</li>
+                    <h4>Has User Defined List</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].hasUserDefinedList}}</li>
+                    <span ng-show="vm.externalMetricDialog[0].hasUserDefinedList === 'True'"><h4>User Defined List</h4>
+                    <li ng-repeat="listItem in vm.externalMetricDialog[0].userDefinedList">{{listItem}}</li></span>
+                    <h4>Is Ordered</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].isOrdered}}</li>
+                    <h4>Max</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].max}}</li>
+                    <h4>Min</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].min}}</li>
+                    <h4>Unit</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].unit}}</li>  
+                    <h4>Scale Type</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].scaleType}}</li>  
+                    <h4>Set</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].set}}</li>  
+                    <h4>Tags</h4>
+                    <li class="list-group-item" ng-repeat="tag in vm.externalMetricDialog[{$index}].tags">{{tag}}</li>
+                    <h4>State</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].metadata.state}}</li>  
+                    <h4>Last Version Date</h4>
+                    <li class="list-group-item">{{vm.externalMetricDialog[0].metadata.lastVersionDate}}</li>  
+                    <h4>Release Note</h4>
+                    <li class="list-group-item">  
+                        {{vm.externalMetricDialog[0].metadata.releaseNote}}                                
+                    </li>  
+                </ul> 
+                <!--END ACTIVE METRIC-->
+            </div>
+
+            <div class="tab-pane" ng-repeat="metric in vm.externalMetricDialog.slice(1, vm.externalMetricDialog.length)" id="tab{{$index}}">
+                <!--BEGIN HIDDEN METRIC-->
+                <ul class="list-group border-bottom">
+	                <h4>{{metric.name}}</h4>
+	                 <br>
+	                 <br>
+                    <h4>Has Max</h4>
+                    <li class="list-group-item">{{metric.hasMax}}</li>
+                    <h4>Has Min</h4>
+                    <li class="list-group-item">{{metric.hasMin}}</li>
+                    <h4>Has User Defined List</h4>
+                    <li class="list-group-item">{{metric.hasUserDefinedList}}</li>
+                    <span ng-show="metric.hasUserDefinedList === 'True'"><h4>User Defined List</h4>
+                    <li ng-repeat="listItem in metric.userDefinedList">{{listItem}}</li></span>
+                    <h4>Is Ordered</h4>
+                    <li class="list-group-item">{{metric.isOrdered}}</li>
+                    <h4>Max</h4>
+                    <li class="list-group-item">{{metric.max}}</li>
+                    <h4>Min</h4>
+                    <li class="list-group-item">{{metric.min}}</li>
+                    <h4>Unit</h4>
+                    <li class="list-group-item">{{metric.unit}}</li>  
+                    <h4>Scale Type</h4>
+                    <li class="list-group-item">{{metric.scaleType}}</li>
+                    <h4>Set</h4>
+                    <li class="list-group-item">{{metric.set}}</li>  
+                    <h4>Tags</h4>
+                    <li class="list-group-item" ng-repeat="tag in metric.tags">{{tag}}</li>  
+                    <h4>State</h4>
+                    <li class="list-group-item">{{metric.metadata.state}}</li>  
+                    <h4>Last Version Date</h4>
+                    <li class="list-group-item">{{metric.metadata.lastVersionDate}}</li>  
+                    <h4>Release Note</h4>
+                    <li class="list-group-item">  
+                        {{metric.metadata.releaseNote}}               
+                    </li>  
+                </ul>    
+                <!--END HIDDEN METRIC-->       
+            </div>                  
+        </div>
+    </div>
+</div>

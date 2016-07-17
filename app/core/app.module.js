@@ -6,7 +6,7 @@
 * @requires ngRoute
 * @requires ngCookies
 * @requires ngMessage
-* @requires ngMockE2E
+* @requires ngFlash
 *
 * @description
 * Defines the app module, giving all its dependencies.
@@ -17,12 +17,16 @@ angular.module('metricapp',[
     'ngCookies',
     'ngMessages',
     'ngFlash',
-    'ngMockE2E',
+    'smart-table',
+    'ui.ace',
+    'as.sortable',
     'nvd3',
     'angular.morris-chart',
-    'ui.ace',
-    'ui.bootstrap',
-    'smart-table'
+    'angular-svg-round-progress',
+    'angular-bubbletree',
+    'angularChart',
+    'ngCytoscape',
+    'ui.bootstrap'
 ]);
 
 })();

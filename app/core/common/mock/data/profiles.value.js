@@ -35,8 +35,8 @@ angular.module('metricapp')
         firstname: 'Andrea',
         lastname: 'Gennusa',
         gender:     'MALE',
-        birthday:   '27/06/1990',
-        email:      'andrea.gennusa@domain.com',
+        birthday:   '06/05/1993',
+        email:      'andrea.gennusa@gmail.com',
         picture:    'uploads/profile-picture.png'
     }
 ]);

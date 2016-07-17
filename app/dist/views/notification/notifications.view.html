@@ -1,3 +1,84 @@
-<div ng-controller="NotificationController as vm">
-    <h1>Notifications</h1>
+<!-- START: NOTIFICATIONS -->
+<div ng-controller="NotificationsController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li class="active"><a ng-href="#/notifications">Notifications</a></li>
+    </ul>
+    <div class="page-title">
+        <h2><span class="fa fa-globe"></span>
+            Notifications
+            <span class="label label-success" ng-show="!vm.loading && vm.success && vm.toread == 0">Up to date</span>
+            <span class="label label-danger" ng-show="!vm.loading && vm.success && vm.toread != 0">{{vm.toread}} to read</span>
+        </h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form name="searchForm" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-search"></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Who are you looking for?"
+                                        ng-model="vm.query"
+                                        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary"
+                                            ng-disabled="!vm.query || vm.loading"
+                                            ng-click="vm.search(vm.query)">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-success btn-block"
+                                    ng-click="vm.setAllRead()"
+                                    ng-disabled="vm.loading || !vm.success || vm.toread == 0"><span class="fa fa-check"></span> Mark all read</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading notifications ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <p ng-switch-when="true" ng-if="vm.notifications.length == 0">No notifications yet.</p>
+                    <div ng-switch-when="true">
+                        <div class="panel panel-default">
+                            <div class="panel-body list-group list-group-contacts list-group-messages">
+                                <a class="list-group-item list-group-item-message"
+                                ng-repeat="notification in vm.notifications | filter:vm.query | orderBy:vm.orderBy track by notification.id"
+                                ng-class="{'status-read': notification.read,
+                                'status-unread': !notification.read}"
+                                ng-href="#/{{notification.scope}}/{{notification.artifact_id}}" ng-click="vm.setRead(notification.id)">
+                                    <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
+                                    <span class="contacts-title">
+                                        {{notification.author | userFullname}} <small>{{notification.ts_create | datetimeFilter:'ago'}}</small>
+                                        <p>{{notification.name}}</p>
+                                    </span>
+                                    <div class="list-group-controls">
+                                        <span class="fa" ng-class="{'fa-check': notification.read, 'fa-envelope': !notification.read}"></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1 col-centered">
+                                <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- END: NOTIFICATIONS -->

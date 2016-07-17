@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-17 01:57:36
+* @Last Modified time: 2016-07-17 16:15:05
 */
 (function() { 'use strict';
 
@@ -31,8 +31,9 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
 
     service.measurementGoalToUpdate = {};
     service.submitMeasurementGoal = submitMeasurementGoal;
-    service.getMeasurementGoals = getMeasurementGoals;
+    service.getMeasurementGoalsByState = getMeasurementGoalsByState;
     service.getMeasurementGoalsBy = getMeasurementGoalsBy;
+    service.getMyMeasurementGoals = getMyMeasurementGoals;
     service.toUpdateMeasurementGoal = toUpdateMeasurementGoal;
     service.getUpdateMeasurementGoal = getUpdateMeasurementGoal;
     service.getMeasurementGoalExternals = getMeasurementGoalExternals;
@@ -50,7 +51,7 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     ********************************************************************************/
     function submitMeasurementGoal(measurementGoal) {
         console.log('SUBMIT measurementGoal WITH ' +
-        'name= '  + measurementGoal.name + ' & ' +	
+        'name= '  + measurementGoal.name + ' & ' +
         'object=' + measurementGoal.object + ' & ' +
         'purpose=' + measurementGoal.purpose + ' & ' +
         'viewPoint=' + measurementGoal.viewPoint + ' & ' +
@@ -106,15 +107,40 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
 
     /********************************************************************************
     * @ngdoc method
-    * @name getMeasurementGoals
+    * @name getMeasurementGoalsByState
     * @description
-    * Get measurement goals.
+    * Get measurement goals by state.
     ********************************************************************************/
-    
-    function getMeasurementGoals(state) {
+    function getMeasurementGoalsByState(state) {
         console.log('GET Measurement Goals with userid='+AuthService.getUser().username+'&state='+state);
 
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal?userid='+AuthService.getUser().username+'&state='+state).then(
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('SUCCESS GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            },
+            function(response) {
+                var message = angular.fromJson(response.data);
+                console.log('FAILURE GET MEASUREMENT GOALS');
+                console.log(message);
+                return message;
+            }
+        );
+
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getMyMeasurementGoals
+    * @description
+    * Get measurement goals by user.
+    ********************************************************************************/
+    function getMyMeasurementGoals() {
+        console.log('GET Measurement Goals with userid='+AuthService.getUser().username);
+
+        return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal?userid='+AuthService.getUser().username).then(
             function(response) {
                 var message = angular.fromJson(response.data);
                 console.log('SUCCESS GET MEASUREMENT GOALS');
@@ -187,7 +213,6 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     * @description
     * Get measurement goal externals.
     ********************************************************************************/
-    
     function getMeasurementGoalExternals(measurementGoalId) {
         
         return $http.get('http://qips.sweng.uniroma2.it/metricapp-server/external/measurementgoal?id='+measurementGoalId).then(
@@ -312,10 +337,10 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
         else {
             for (var j=0, len = toCheck.length; j<len ; j++){   
                 if (toCheck[j].metadata == undefined){
-                    if (toCheck[j].id == item.id) return false;    
+                    if (toCheck[j].id == item.metadata.id) return false;    
                 }
                 else{
-                    if (toCheck[j].metadata.id == item.id) return false;                            
+                    if (toCheck[j].metadata.id == item.metadata.id) return false;                            
                 }    
             }
         }
@@ -345,7 +370,5 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
     }
 
 }
-
-
 
 })();

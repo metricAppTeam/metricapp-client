@@ -1,0 +1,54 @@
+<!--<div class="panel panel-default">
+    <div class="panel-heading">                                
+        <h3 class="panel-title">Assumptions</h3>
+        <ul class="panel-controls">
+            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+            <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+            <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+        </ul>                                
+    </div>
+    <div class="panel-body">-->
+        <table st-table="vm.externalAssumptionDialog" colspan="10" class="table table-striped">
+            <thead>
+                <tr>
+                    <th st-sort="title">Title</th>
+                    <th st-sort="description">Description</th>
+                    <th st-sort="criticallyValue">CriticallyValue</th>
+                    <th st-sort="validationState">ValidationState</th>
+                    <th st-sort="invalidationReason">InvalidationReason</th>
+                    <th></th>
+                </tr>
+                <tr>
+		        	<th colspan="10">
+						<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+					</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="assumption in vm.externalAssumptionDialog">
+                    <td>
+                        <span 
+                        class="btn btn-info btn-rounded">
+                        <a ng-click="vm.setAssumptionDialog($index)">
+                        {{assumption.title}}</a></span>
+                    </td>
+                    <td>{{assumption.description}}</td>
+                    <td>{{assumption.criticallyValue}}</td>
+                    <td>{{assumption.validationState}}</td>
+                    <td>{{assumption.invalidationReason}}</td>
+                	<td>
+                    <i ng-click="vm.addAssumptionToMeasurementGoal(assumption)" 
+                        class="glyphicon glyphicon-plus-sign pull-right"></i></td>
+                </tr>
+            </tbody>
+            <tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+					<div st-pagination="" st-items-by-page="10" st-displayed-pages="7"></div>
+					</td>
+				</tr>
+			</tfoot>
+        </table>
+    <!--</div>   
+  
+</div>-->

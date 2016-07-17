@@ -1,0 +1,36 @@
+<table st-table="measurementGoals" st-safe-src="vm.measurementGoals" colspan="10" class="table table-striped">
+    <thead>
+        <tr>
+            <th st-sort="metadata.id">Id</th>
+            <th st-sort="metadata.entityType">Name</th>
+            <th st-sort="metadata.creationDate">CreationDate</th>
+            <th st-sort="metadata.lastVersionDate">LastVersionDate</th>
+            <th>ReleaseNote</th>
+            <th st-sort="metadata.state">State</th>
+        </tr>
+        <tr>
+        	<th colspan="10">
+				<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+			</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="measurementGoal in measurementGoals">
+            <td>
+                <button class="btn btn-default btn-rounded" ng-click="vm.setMeasurementGoalDialog($index)">{{measurementGoal.metadata.id}}</button>
+            </td>     
+            <td>{{measurementGoal.metadata.entityType}}</td>
+            <td>{{measurementGoal.metadata.creationDate}}</td>
+            <td>{{measurementGoal.metadata.lastVersionDate}}</td>
+            <td>{{measurementGoal.metadata.releaseNote}}</td>
+            <td>{{measurementGoal.metadata.state}}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+			<div st-pagination="" st-items-by-page="10" st-displayed-pages="7"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>

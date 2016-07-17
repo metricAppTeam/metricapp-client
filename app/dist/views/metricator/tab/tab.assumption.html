@@ -1,0 +1,53 @@
+<div class="panel panel-default nav-tabs-vertical accordion">   
+	<div class="panel-heading">
+        <h3 class="panel-title">
+        	<a data-toggle="collapse" data-target="#accOneColOneAssumption">Assumptions</a>
+        </h3>
+    </div>
+    <div class="tabs collapse" id="accOneColOneAssumption">
+        <ul class="nav nav-tabs">
+            <li class="active"> <a data-toggle="tab" data-target="#assumptionActive">active</a>
+            </li>
+            <li ng-repeat="assumption in vm.assumptions.slice(1, vm.assumptions.length)"><a data-toggle="tab" data-target="#tab{{$index}}">{{$index}}</a></li>
+        </ul>
+        <div class="panel-body tab-content">
+            <div class="tab-pane active" id="assumptionActive">
+	            <!--BEGIN ACTIVE ASSUMPTION-->
+				<ul class="list-group border-bottom">
+				    <h4>Title</h4>
+				    <li class="list-group-item">{{vm.assumptions[0].title}}</li>
+				    <h4>Description</h4>
+				    <li class="list-group-item">{{vm.assumptions[0].description}}</li>
+				    <h4>Critically Value</h4>
+				    <li class="list-group-item">{{vm.assumptions[0].criticallyValue}}</li>
+				    <h4>Validation State</h4>
+				    <li class="list-group-item">{{vm.assumptions[0].validationState}}</li>
+				    <h4>Invalidation Reason</h4>
+				    <li class="list-group-item">{{vm.assumptions[0].invalidationReason}}</li>
+				    <h4>Instance Project</h4>
+				    <li class="list-group-item">{{vm.assumptions[0].instanceProject}}</li> 
+				</ul>
+	            <!--END ACTIVE ASSUMPTION-->
+            </div>
+            <div class="tab-pane" ng-repeat="assumption in vm.assumptions.slice(1, vm.assumptions.length)" id="tab{{$index}}">
+            	<!--BEGIN HIDDEN ASSUMPTION-->
+				<ul class="list-group border-bottom">
+				    <h4>Title</h4>
+				    <li class="list-group-item">{{assumption.title}}</li>
+				    <h4>Description</h4>
+				    <li class="list-group-item">{{assumption.description}}</li>
+				    <h4>Critically Value</h4>
+				    <li class="list-group-item">{{assumption.criticallyValue}}</li>
+				    <h4>Validation State</h4>
+				    <li class="list-group-item">{{assumption.validationState}}</li>
+				    <h4>Invalidation Reason</h4>
+				    <li class="list-group-item">{{assumption.invalidationReason}}</li>
+				    <h4>Instance Project</h4>
+				    <li class="list-group-item">{{assumption.instanceProject}}</li> 
+				</ul>
+            	<!--END HIDDEN ASSUMPTION-->
+			</div>
+		</div>
+	</div>
+</div>
+

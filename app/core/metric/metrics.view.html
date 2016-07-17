@@ -1,0 +1,134 @@
+<!-- START: METRICS -->
+<div ng-controller="MetricsController as vm">
+   <ul class="breadcrumb">
+      <li><a ng-href="#/home">Home</a></li>
+      <li class="active"><a ng-href="#/metrics">Metrics</a></li>
+   </ul>
+
+
+   <div class="content-frame">
+      <!-- START: FRAME-TOP -->
+      <div class="content-frame-top">
+         <div class="page-title">
+            <h2><span class="fa fa-bullseye"></span> Metrics <small>{{vm.buffer.length}} running</small></h2>
+
+         </div>
+         <div class="pull-right">
+            <button class="btn btn-danger" ng-show="vm.metricator" ng-click="vm.create()"><span class="fa fa-pencil"></span> New</button>
+            <button class="btn btn-info" ng-click="vm.reset()"
+            ><span class="fa fa-refresh"></span> Reset</button>
+
+         </div></div>
+
+
+
+
+
+
+
+         <div class="page-content-wrap">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="panel panel-default">
+                     <div class="panel-body">
+                        <form name="searchForm" class="form-horizontal">
+                           <div class="form-group">
+                              <div class="col-md-12">
+                                 <div class="input-group">
+                                    <div class="input-group-addon">
+                                       <span class="fa fa-search"></span>
+                                    </div><span class="input-group-btn">
+
+                                       <button class="btn btn-default" ng-disabled="!vm.metricator" ng-click="vm.mine=!vm.mine;vm.update();" type="button"><div  ng-show="vm.mine">My Metrics</div><div  ng-show="!vm.mine">All Metrics</button>
+                                          <button class="btn btn-default" ng-click="vm.approved=!vm.approved;vm.update();" type="button"><div  ng-show="!vm.approved">All State</div><div  ng-show="vm.approved">Approved</button>
+                                          </span>
+                                          <input type="text" ng-change="vm.search(vm.query);" class="form-control" ng-click="vm.query=undefined" placeholder="What Metric are you looking for?"
+                                          ng-model="vm.query"
+                                          ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
+                                          <div class="input-group-btn">
+                                             <button class="btn btn-primary"
+                                             ng-disabled="!vm.query || vm.loading"
+                                             ng-click="vm.search(vm.query)">Search</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="row" ng-switch="vm.loading">
+                     <div class="col-md-12">
+                        <p ng-switch-when="true">Loading metrics ...</p>
+                        <div ng-switch-when="false" ng-switch="vm.success">
+                           <p ng-switch-when="true" ng-if="vm.metrics.length == 0">No results.</p>
+                           <div ng-switch-when="true" class="scrollable" m-when-scroll-bottom="vm.loadMore()">
+                              <ul>
+                                 <div class="col-md-4" ng-repeat="metric in vm.metrics | filter:vm.query | orderBy:vm.orderBy:true track by metric.metadata.id">
+
+
+                                    <a href="#/metrics/{{metric.metadata.id}}">
+                                       <div class="panel panel-default" style="height:170px;" >
+                                          <div class="panel-body profile" >
+
+                                             <div class="profile-data" style="height:43px;">
+                                                <div class="profile-data-name">{{metric.name}}</div>
+                                                <div class="profile-data-title">{{metric.metadata.id}}</div>
+                                             </div>
+                                          </div>
+                                          <div class="panel-body">
+                                             <div class="contact-info" style="color:black;">
+                                                <p><small>Metricator: </small>{{metric.metricatorId}}</p>
+                                                <p><small>Last Update: </small>{{metric.metadata.lastVersionDate}}</p>
+                                                <p><small>State: </small><span ng-class="vm.getLabelState(metric.metadata.state)">{{metric.metadata.state}}</span></p>
+
+                                                <span ng-class="vm.stateLabel">{{vm.newMetric.metadata.state}}</span>
+                                             </div>
+
+                                          </div>
+                                       </div>
+                                    </a>
+                                 </div>                              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                              </div>
+                           </ul>
+                           <div class="row">
+                              <div class="col-md-12 col-centered">
+                                 <button type="button" class="btn btn-default" ng-show="vm.idx < vm.buffer.length" ng-click="vm.loadMore()">Load More</button>
+                              </div>
+                           </div>
+                        </div>
+                        <p ng-show="!vm.success">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+
+
+         <div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+               <div
+               <div>
+                  <div ng-include="'dist/views/metric/modal.metric.html'"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+   </div>
+   <!-- END: METRICS -->

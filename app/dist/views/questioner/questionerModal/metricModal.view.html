@@ -1,0 +1,62 @@
+<div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="vm.closeModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="largeModalHead">Metric</h4>
+            </div>
+            <div class="modal-body">
+            <h2>Metric</h2>
+            <ul class="list-group border-bottom">
+                <h4>Has Max</h4>
+                    <li class="list-group-item">{{vm.metricDialog.hasMax}}</li>
+                    <br>
+                    <h4>Has Min</h4>
+                    <li class="list-group-item">{{vm.metricDialog.hasMin}}</li>
+                    <br>
+                    <h4>Has User Defined List</h4>
+                    <li class="list-group-item">{{vm.metricDialog.hasUserDefinedList}}</li>
+                    <span ng-show="vm.metricDialog.hasUserDefinedList === 'True'"><h4>User Defined List</h4>
+                    <li ng-repeat="listItem in vm.metricDialog.userDefinedList">{{listItem}}</li></span>
+                    <br>
+                    <h4>Is Ordered</h4>
+                    <li class="list-group-item">{{vm.metricDialog.isOrdered}}</li>
+                    <br>
+                    <h4>Max</h4>
+                    <li class="list-group-item">{{vm.metricDialog.max}}</li>
+                    <br>
+                    <h4>Min</h4>
+                    <li class="list-group-item">{{vm.metricDialog.min}}</li>
+                    <br>
+                    <h4>Unit</h4>
+                    <li class="list-group-item">{{vm.metricDialog.unit}}</li>  
+                    <br>
+                    <h4>Scale Type</h4>
+                    <li class="list-group-item">{{vm.metricDialog.scaleType}}</li>  
+                    <br>
+                    <h4>Set</h4>
+                    <li class="list-group-item">{{vm.metricDialog.set}}</li>  
+                    <br>
+                    <h4>Tags</h4>
+                    <li class="list-group-item" ng-repeat="tag in vm.metricDialog.tags">{{tag}}</li>  
+                    <br>
+                    <h4>State</h4>
+                    <li class="list-group-item">{{vm.metricDialog.metadata.state}}</li>  
+                    <h4>Last Version Date</h4>
+                    <li class="list-group-item">{{vm.metricDialog.metadata.lastVersionDate}}</li>  
+                    <br>
+                    <h4>Release Note</h4>
+                    <li class="list-group-item">  
+                        <div class="panel-body scroll" style="height: 30px;">         
+                            <p>{{vm.metricDialog.metadata.releaseNote}}</p>
+                        </div>                                   
+                    </li>
+                    <br>
+                    <hr>
+                    <label class="col-xs-12 control-label">Release Note</label>
+                    <textarea columns="10" rows="3" ng-model="vm.report" ng-minlength="10" ng-required="true" name="inputReport"></textarea>  
+            </ul>                           
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-disabled="inputReport.$invalid" ng-click="vm.sendReport()">Send Report</button>
+                <button type="button" class="btn btn-default" ng-click="vm.closeModal()">Close</button>       
+            </div>
+        </div>

@@ -1,18 +1,23 @@
 <!-- START: HOME -->
 <div ng-controller="HomeController as vm">
-    <div ng-if="globals.user">Welcome, {{globals.user.username}}</div>
-    <div ng-switch="globals.user.role">
-        <div ng-switch-when="EXPERT">You have EXPERT rights.</div>
-        <div ng-switch-when="QUESTIONER">You have QUESTIONER rights.</div>
-        <!--<div ng-switch-when="METRICATOR">You have METRICATOR rights.</div>-->
-        <div ng-switch-when="METRICATOR">
-            <viewmetricatordashboard/>
-            <!--<a href="#/metricatordashboard">Metricator's Dashboard</a>-->
-        	<!--<div ng-include="'dist/views/metricator/metricator.view.html'"></div>-->
-        	<!--<div ng-include="'dist/views/measurementgoal/measurementgoal.view.html'"></div>-->
-        </div>
-        <div ng-switch-default="ng-switch-default">You have no rights.</div>
-</div>
+    <div class="page-title">
+        <h2><span class="fa fa-desktop"></span> Home <small ng-show="!vm.loading && vm.success">{{vm.currUser | userFullname}}</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading home ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <div ng-switch-when="true" ng-switch="globals.user.role">
+                        <p ng-switch-when="EXPERT"><viewexpertdashboard></viewexpertdashboard></p>
+                        <p ng-switch-when="QUESTIONER"><questioner-dashboard></questioner-dashboard></p>
+                        <p ng-switch-when="METRICATOR"><viewmetricatordashboard/></p>
+                        <p ng-switch-default="ng-switch-default">You have no rights.</p>
+                    </div>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
+            	</div>
+        	</div>
+    	</div>
+	</div>
 </div>
 <!-- END: HOME -->
-

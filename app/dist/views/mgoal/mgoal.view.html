@@ -1,0 +1,25 @@
+<!-- START: MEASUREMENT GOAL -->
+<div ng-controller="MGoalController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li><a ng-href="#/mgoals">Measurement Goals</a></li>
+        <li class="active"><a ng-href="#/mgoals/{{vm.currMGoal.id}}">Goal</a></li>
+    </ul>
+    <div class="page-title">
+        <h2><span class="fa fa-tasks"></span> Measurement Goal <small ng-show="!vm.loading && vm.success">{{vm.currMGoal.name}}</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading mgoal {{vm.currMGoal.id}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <ul ng-switch-when="true">
+                        <li ng-repeat="(key, value) in vm.currMGoal">{{key}} = {{value}}</li>
+                    </ul>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: MEASUREMENT GOAL -->

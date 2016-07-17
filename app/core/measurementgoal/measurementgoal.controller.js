@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 20:21:57
+* @Last Modified time: 2016-07-17 13:45:11
 */
 (function () { 'use strict';
 
@@ -27,17 +27,16 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
 
     var vm = this;
 
-    vm.measurementGoals = [];
+    //vm.measurementGoals = [];
 
     //Initialize some transition variables
     vm.externalMetricDialog = MetricService.getExternalMetricDialog();
-    vm.externalQuestionDialog = [];
+    //vm.externalQuestionDialog = [];
     vm.externalContextFactorDialog = [];
     vm.externalAssumptionDialog = [];
 
     vm.submitMeasurementGoal = submitMeasurementGoal;
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
-    vm.setMetricDialog = setMetricDialog;
     vm.addTagToMeasurementGoal = addTagToMeasurementGoal;
     vm.removeTagFromMeasurementGoal = removeTagFromMeasurementGoal;
     //vm.getMetricsByMeasurementGoal = getMetricsByMeasurementGoal;
@@ -50,6 +49,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.getExternalContextFactors = getExternalContextFactors;
     vm.getExternalAssumptions = getExternalAssumptions;
     vm.getMetricsToUpdate = getMetricsToUpdate;
+    vm.setMetricDialog = setMetricDialog;
     vm.getContextFactorsToUpdate = getContextFactorsToUpdate;
     vm.getAssumptionsToUpdate = getAssumptionsToUpdate;
     vm.setContextFactorDialog = setContextFactorDialog;
@@ -299,7 +299,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * @description
     * Get active measurement goals for a metricator.
     ********************************************************************************/
-    function getMeasurementGoals(){
+    /*function getMeasurementGoals(){
          MeasurementGoalService.getMeasurementGoals().then(
             function(data) {
                 console.log(data.measurementGoals);
@@ -309,7 +309,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 alert('Error retriving Measurement Goals');
             }
         );
-    }
+    }*/
 
     /********************************************************************************
     * @ngdoc method
@@ -317,7 +317,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * @description
     * Get approved metrics by measurement goal.
     ********************************************************************************/
-    function getMetricsByMeasurementGoal(){
+    /*function getMetricsByMeasurementGoal(){
         MetricService.getMetricsByMeasurementGoalId(vm.measurementGoalDialog.metadata.id).then(
                 function(data) {
                     console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
@@ -329,7 +329,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
                 }
         );        
 
-    }
+    }*/
 
     /********************************************************************************
     * @ngdoc method
@@ -340,15 +340,13 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     function getApprovedMetrics(){
 
     	if (vm.externalMetricDialog.length === 0){
-	        MetricService.getApprovedMetrics().then(
+	        MetricService.getAllApproved().then(
 	            function(data) {
 	                console.log('SUCCESS GET APPROVED METRICS');
 	                console.log(data.metricsDTO);
 	                //vm.externalMetricDialog = data.metricsDTO;
 	                MetricService.storeExternalMetric(data.metricsDTO);
     			    MetricModalService.openExternalMetricModal();
-
-	                //$("#modal_large_external_metric").modal("show");
 	            },
 	            function(data) {
 	                alert('Error retriving Metrics');
@@ -367,19 +365,24 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Get external context factors.
     ********************************************************************************/
     function getExternalContextFactors(){
-         MeasurementGoalService.getExternalContextFactors().then(
-            function(data) {
-                console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
-                console.log(data);
-                //vm.externalContextFactorDialog = data;
-                //$("#modal_large_external_contextfactor").modal("show");
-                ContextFactorService.storeExternalContextFactor(data);
-			    ContextFactorModalService.openExternalContextFactorModal();
-            },
-            function(data) {
-                alert('Error retrieving Context Factors');
-            }
-        );
+
+        if (vm.externalContextFactorDialog.length === 0){
+            MeasurementGoalService.getExternalContextFactors().then(
+                function(data) {
+                    console.log('SUCCESS GET EXTERNAL CONTEXT FACTORS');
+                    console.log(data);
+                    //vm.externalContextFactorDialog = data;
+                    ContextFactorService.storeExternalContextFactor(data);
+    			    ContextFactorModalService.openExternalContextFactorModal();
+                },
+                function(data) {
+                    alert('Error retrieving Context Factors');
+                }
+            );
+        }
+        else {
+            ContextFactorModalService.openExternalContextFactorModal();
+        }
     }
 
     /********************************************************************************
@@ -389,19 +392,23 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Get external assumptions.
     ********************************************************************************/
     function getExternalAssumptions(){
-         MeasurementGoalService.getExternalAssumptions().then(
-            function(data) {
-                console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');
-                console.log(data);
-                //vm.externalAssumptionDialog = data;
-                //$("#modal_large_external_assumption").modal("show");
-                AssumptionService.storeExternalAssumption(data);
-			    AssumptionModalService.openExternalAssumptionModal();
-            },
-            function(data) {
-                alert('Error retrieving Assumptions');
-            }
-        );
+        if (vm.externalAssumptionDialog.length === 0){
+            MeasurementGoalService.getExternalAssumptions().then(
+                function(data) {
+                    console.log('SUCCESS GET EXTERNAL ASSUMPTIONS');
+                    console.log(data);
+                    //vm.externalAssumptionDialog = data;
+                    AssumptionService.storeExternalAssumption(data);
+    			    AssumptionModalService.openExternalAssumptionModal();
+                },
+                function(data) {
+                    alert('Error retrieving Assumptions');
+                }
+            );
+        }
+        else {
+            AssumptionModalService.openExternalAssumptionModal();
+        }
     }
 
     function setMetricDialog(metricToAssignId){
@@ -449,7 +456,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * @description
     * Add metric to measurement goal.
     ********************************************************************************/
-    function addMetricToMeasurementGoal(index){
+    /*function addMetricToMeasurementGoal(index){
         for(var i=0; i<vm.metrics.length; i++){
             if(vm.externalMetricDialog[index].metadata.id == vm.metrics[i].metadata.id){
                 $window.alert('You cannot add a metric twice!');
@@ -469,7 +476,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
         $window.alert('Item added');
         console.log(vm.measurementGoalDialog);
         return false;
-    }
+    }*/
 
     /********************************************************************************
     * @ngdoc method
@@ -477,12 +484,12 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * @description
     * Remove metric from measurement goal.
     ********************************************************************************/
-    function removeMetricFromMeasurementGoal(index){
+    /*function removeMetricFromMeasurementGoal(index){
         vm.measurementGoalDialog.metrics.splice(index, 1);
         vm.metrics.splice(index, 1);
         $window.alert('Item removed');
         console.log(vm.measurementGoalDialog);
-    }
+    }*/
 
     /********************************************************************************
     * @ngdoc method

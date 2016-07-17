@@ -6,6 +6,7 @@
 * @module metricapp
 * @requires $scope
 * @requires $location
+* @requires AUTH_EVENTS
 *
 * @description
 * Manages the topbar for all users.
@@ -16,11 +17,25 @@ angular.module('metricapp')
 
 .controller('TopbarController', TopbarController);
 
-TopbarController.$inject = ['$scope', '$location', 'AuthService'];
+TopbarController.$inject = ['$scope', '$location', 'AuthService', 'AUTH_EVENTS'];
 
-function TopbarController($scope, $location, AuthService) {
+function TopbarController($scope, $location, AuthService, AUTH_EVENTS) {
 
     var vm = this;
+
+    function _render() {
+        if ($rootScope.globals && $rootScope.globals.user) {
+            //
+        } else {
+            //
+        }
+    }
+
+    function _init() {
+        _render();
+        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, _render);
+        $scope.$on(AUTH_EVENTS.LOGOUT_SUCCESS, _render);
+    }
 
 }
 

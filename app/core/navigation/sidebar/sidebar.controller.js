@@ -4,66 +4,42 @@
 * @ngdoc controller
 * @name SidebarController
 * @module metricapp
+* @requires $rootScope
 * @requires $scope
 * @requires $location
 * @requires ActionService
+* @requires AUTH_EVENTS
 *
 * @description
-* Manages the sidebar for all users.
-* Realizes the control layer for {sidebar.directive}.
+* Realizes the control layer for `sidebar.directive`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .controller('SidebarController', SidebarController);
 
-SidebarController.$inject = ['$scope', '$location','ActionService'];
+SidebarController.$inject = ['$rootScope', '$scope', '$location','ActionService', 'AUTH_EVENTS'];
 
-function SidebarController($scope, $location, ActionService) {
+function SidebarController($rootScope, $scope, $location, ActionService, AUTH_EVENTS) {
 
     var vm = this;
 
-    vm.getDashboardForRole = getDashboardForRole;
-    vm.getActionsForRole = getActionsForRole;
-
     _init();
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name getDashboardForRole
-    * @description
-    * Returns the dashboard href for the specified user role.
-    * @param {String} rolename The name of the user role.
-    * @return {String} The Dashboard href for the specified role.
-    ********************************************************************************/
-    function getDashboardForRole(role) {
-        return ActionService.DASHBOARDS[role];
+    function _render() {
+        if ($rootScope.globals && $rootScope.globals.user) {
+            vm.actions = ActionService.getActionsForRole($rootScope.globals.user.role);
+        } else {
+            vm.actions = [];
+        }
     }
 
-    /********************************************************************************
-    * @ngdoc method
-    * @name getActionsForRole
-    * @description
-    * Returns the list of actions for the specified user role.
-    * @param {String} rolename The name of the user role.
-    * @return {List[Action]} The list of actions provided for the specified role.
-    ********************************************************************************/
-    function getActionsForRole(role) {
-        return ActionService.ACTIONS[role];
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name _init
-    * @description
-    * Initializes the controller:
-    * - initialization 1.
-    * - initialization 2.
-    * - initialization 3.
-    ********************************************************************************/
     function _init() {
-
+        _render();
+        $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, _render);
+        $scope.$on(AUTH_EVENTS.LOGOUT_SUCCESS, _render);
     }
+
 }
 
 })();

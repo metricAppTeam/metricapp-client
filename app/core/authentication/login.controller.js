@@ -9,7 +9,6 @@
 * @requires AUTH_EVENTS
 *
 * @description
-* Manages the user login.
 * Realizes the control layer for `login.view`.
 ************************************************************************************/
 
@@ -23,8 +22,6 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
 
     var vm = this;
 
-    vm.loading = false;
-
     vm.login = login;
 
     /********************************************************************************
@@ -33,28 +30,37 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
     * @description
     * Authenticates the user, by its username and password.
     ********************************************************************************/
-    function login() {
+    function login(credentials) {
         vm.loading = true;
+        vm.success = false;
 
-        var credentials = {
-            username: vm.username,
-            password: vm.password
-        };
-
-        AuthService.login(credentials).then(function(authuser) {
-            if (authuser) {
+        AuthService.login(credentials).then(
+            function(resolve) {
+                var authuser = resolve.authuser;
                 AuthService.setUser(authuser);
+                vm.success = true;
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_SUCCESS);
                 $location.path('/home');
-            } else {
-                alert('Invalid username or password');
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                alert(vm.errmsg);
+                vm.success = false;
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILURE);
-
             }
+        ).finally(function() {
+            vm.loading = false;
         });
+    }
 
+    function _init() {
         vm.loading = false;
-
+        vm.success = false;
+        vm.errmsg = null;
+        vm.credentials = {
+            username: null,
+            password: null
+        };
     }
 
 }

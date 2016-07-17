@@ -1,0 +1,37 @@
+<h4>{{vm.metrics[0].name}}</h4>
+ <br>
+ <br>
+ <ul class="list-group border-bottom">
+    <h4>Has Max</h4>
+    <li class="list-group-item">{{vm.metrics[0].hasMax}}</li>
+    <h4>Has Min</h4>
+    <li class="list-group-item">{{vm.metrics[0].hasMin}}</li>
+    <h4>Has User Defined List</h4>
+    <li class="list-group-item">{{vm.metrics[0].hasUserDefinedList}}</li>
+    <span ng-show="vm.metrics[0].hasUserDefinedList === 'True'"><h4>User Defined List</h4>
+    <li ng-repeat="listItem in vm.metrics[0].userDefinedList">{{listItem}}</li></span>
+    <h4>Is Ordered</h4>
+    <li class="list-group-item">{{vm.metrics[0].isOrdered}}</li>
+    <h4>Max</h4>
+    <li class="list-group-item">{{vm.metrics[0].max}}</li>
+    <h4>Min</h4>
+    <li class="list-group-item">{{vm.metrics[0].min}}</li>
+    <h4>Unit</h4>
+    <li class="list-group-item">{{vm.metrics[0].unit}}</li>  
+    <h4>Scale Type</h4>
+    <li class="list-group-item">{{vm.metrics[0].scaleType}}</li>  
+    <h4>Set</h4>
+    <li class="list-group-item">{{vm.metrics[0].set}}</li>  
+    <h4>Tags</h4>
+    <li class="list-group-item" ng-repeat="tag in vm.metrics[{$index}].tags">{{tag}}</li>  
+    <h4>State</h4>
+    <li class="list-group-item">{{vm.metrics[0].metadata.state}}</li>
+    <h4>Last Version Date</h4>
+    <li class="list-group-item">{{vm.metrics[0].metadata.lastVersionDate}}</li>  
+    <h4>Release Note</h4>
+    <li class="list-group-item">  
+        <div class="panel-body scroll" style="height: 30px;">     
+            <p>{{vm.metrics[0].metadata.releaseNote}}</p>
+        </div>                                   
+    </li>  
+</ul> 

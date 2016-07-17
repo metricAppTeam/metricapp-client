@@ -2,21 +2,31 @@
 
 /************************************************************************************
 * @ngdoc constant
-* @name GOAL_EVENTS
+* @name TEAM_EVENTS
 * @module metricapp
 * @description
-* Defines events related to measurement goals.
-* - GOAL_EVENT_A:
-* - GOAL_EVENT_B:
-* - GOAL_EVENT_C:
+* Defines events related to teams management.
+* - CREATE_SUCCESS:
+* - CREATE_FAILURE:
+* - READ_SUCCESS:
+* - READ_FAILURE:
+* - UPDATE_SUCCESS:
+* - UPDATE_FAILURE:
+* - DELETE_SUCCESS:
+* - DELETE_FAILURE:
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.constant('GOAL_EVENTS', {
-    GOAL_EVENT_A: 'goal.event.a',
-    GOAL_EVENT_B: 'goal.event.b',
-    GOAL_EVENT_C: 'goal.event.c'
+.constant('TEAM_EVENTS', {
+    CREATE_SUCCESS: 'team.create.success',
+    CREATE_FAILURE: 'team.create.failure',
+    READ_SUCCESS:   'team.read.success',
+    READ_FAILURE:   'team.read.failure',
+    UPDATE_SUCCESS: 'team.update.success',
+    UPDATE_FAILURE: 'team.update.failure',
+    DELETE_SUCCESS: 'team.delete.success',
+    DELETE_FAILURE: 'team.delete.failure'
 });
 
 })();

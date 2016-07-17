@@ -1,0 +1,70 @@
+<div ng-controller="ProfileController as vm">
+    <div class="col-md-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 class="panel-title">ABOUT</h4>
+            </div>
+            <div class="panel-body">
+                <div class="block">
+                    <h5 style="color:#757575;">BIO</h5>
+                    <div class="col-md-10">
+                        <p class="text-justify">{{vm.currUser.bio}}</p>
+                    </div>
+                </div>
+
+                <!-- START HORIZONTAL FORM SAMPLE -->
+                <div class="block"> 
+                    <h5 style="color:#757575;">BASIC INFORMATION</h5>
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            
+                            <label class="col-sm-2 control-label">Username</label>
+                            <div class="col-md-10">
+                                <p class="form-control-static">{{vm.currUser.username}}</p>
+                            </div>
+
+                            <label class="col-sm-2 control-label">Email</label>
+                            <div class="col-md-10">
+                                <p class="form-control-static">{{vm.currUser.email}}</p>
+                            </div>
+                        
+                            <label class="col-sm-2 control-label">Mobile</label>
+                            <div class="col-md-10">
+                                <p class="form-control-static">{{vm.currUser.mobile}}</p>
+                            </div>
+
+                            <label class="col-sm-2 control-label">Website</label>
+                            <div class="col-md-10">
+                                <p class="form-control-static">{{vm.currUser.website}}</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- END HORIZONTAL FORM SAMPLE --> 
+
+                <!-- START HORIZONTAL FORM SAMPLE -->
+                <div class="block"> 
+                    <h5 style="color:#757575;">PERSONAL INFORMATION</h5>
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            
+                            <label class="col-sm-2 control-label">Birth Date</label>
+                            <div class="col-md-10">
+                                <p class="form-control-static">{{vm.currUser.birthday | datetimeFilter: 'normal'}} </p>
+                            </div>
+                        
+                            <label class="col-sm-2 control-label">Gender</label>
+                            <div class="col-md-10">
+                                <p class="form-control-static">{{vm.currUser.gender}}</p>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="panel-footer"><br></div>
+        </div>   
+        <!-- END DEFAULT PANEL -->
+    </div>
+    <!-- END COL -->
+</div>

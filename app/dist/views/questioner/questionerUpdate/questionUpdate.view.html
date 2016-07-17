@@ -1,0 +1,139 @@
+<div class="page-content-wrap" ng-controller="QuestionUpdateCtrl as qst">
+    <div class="page-title">                    
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Update Question</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+            
+                <div class="panel-body">
+
+                    <form class="form-horizontal" name="updateForm" novalidate>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Description</label>
+
+                        <div class="col-md-6 col-xs-12" ng-init="focusDescription=false" ng-class="{ 'has-error' :
+                             updateForm.updateDescription.$invalid && updateForm.updateDescription.$dirty && !focusDescription,
+                             'has-warning' : updateForm.updateDescription.$valid && updateForm.updateDescription.$dirty}">
+
+                            <textarea name="updateDescription" class="form-control" rows="5" 
+                                ng-required="true" ng-minlength="10" ng-focus="focusDescription=true" 
+                                ng-blur="focusDescription=false" ng-model="qst.question.description"></textarea>
+
+                            <span ng-show="updateForm.updateDescription.$invalid && updateForm.updateDescription.$dirty
+                                && !focusDescription" class="help-block">Invalid description for the question</span>
+                            <span ng-show="updateForm.updateDescription.$valid && updateForm.updateDescription.$dirty"
+                                    class="help-block">Description has been modified</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Subject</label>
+
+                        <div class="col-md-6 col-xs-12" ng-init="focusSubject=false" ng-class="{ 'has-error' :
+                             updateForm.updateSubject.$invalid && updateForm.updateSubject.$dirty && !focusSubject,
+                             'has-warning' : updateForm.updateSubject.$valid && updateForm.updateSubject.$dirty}">
+
+                            <div class="input-group col-md-12 col-xs-12">
+                                <input type="text" name="updateSubject" class="form-control"
+                                    ng-required="true" ng-minlength="3" ng-focus="focusSubject=true" 
+                                    ng-blur="focusSubject=false" ng-model="qst.question.subject"/>
+                            </div>
+
+                            <span ng-show="updateForm.updateSubject.$invalid && updateForm.updateSubject.$dirty
+                                && !focusSubject" class="help-block">Invalid subject for the question</span>
+                            <span ng-show="updateForm.updateSubject.$valid && updateForm.updateSubject.$dirty"
+                                    class="help-block">Subject has been modified</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Focus</label>
+
+                        <div class="col-md-6 col-xs-12" ng-init="focusFocus=false" ng-class="{ 'has-error' :
+                             updateForm.updateFocus.$invalid && updateForm.updateFocus.$dirty && !focusFocus,
+                             'has-warning' : updateForm.updateFocus.$valid && updateForm.updateFocus.$dirty}">
+
+                            <div class="input-group col-md-12 col-xs-12">
+                                <input type="text" name="updateFocus" class="form-control"
+                                    ng-required="true" ng-minlength="3" ng-focus="focusFocus=true" 
+                                    ng-blur="focusFocus=false" ng-model="qst.question.focus"/>
+                            </div>
+
+                            <span ng-show="updateForm.updateFocus.$invalid && updateForm.updateFocus.$dirty
+                                && !focusFocus" class="help-block">Invalid focus for the question</span>
+                            <span ng-show="updateForm.updateFocus.$valid && updateForm.updateFocus.$dirty"
+                                    class="help-block">Focus has been modified</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Release Note</label>
+
+                        <div class="col-md-6 col-xs-12" ng-init="focusReleaseNote=false" ng-class="{ 'has-error' :
+                             updateForm.updateReleaseNote.$invalid && updateForm.updateReleaseNote.$dirty && !focusReleaseNote,
+                             'has-warning' : updateForm.updateReleaseNote.$valid && updateForm.updateReleaseNote.$dirty}">
+
+                            <textarea name="updateReleaseNote" class="form-control" rows="5" 
+                                ng-required="true" ng-minlength="10" ng-focus="focusReleaseNote=true" 
+                                ng-blur="focusReleaseNote=false" ng-model="qst.question.metadata.releaseNote"></textarea>
+
+                            <span ng-show="updateForm.updateReleaseNote.$invalid && updateForm.updateReleaseNote.$dirty
+                                && !focusReleaseNote" class="help-block">Invalid description for the question</span>
+                            <span ng-show="updateForm.updateReleaseNote.$valid && updateForm.updateReleaseNote.$dirty"
+                                    class="help-block">Release Note has been modified</span>
+                        </div>
+                    </div>
+                              
+                   <!--  <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Tags</label>
+                        <div class="col-md-3 col-xs-12">
+                            <span class="list-group-item" ng-repeat="tag in qst.question.metadata.tags">
+                                {{tag}}
+                                <a class="pull-right"
+                                     ng-click="qst.removeTagFromQuestion($index)"> 
+                                    &times;
+                                </a>
+                            </span>
+                        </div>
+                    </div> -->
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Tags</label>
+                        <div class="col-md-6 col-xs-12">
+                            <span 
+                                class="btn btn-info btn-rounded col-md-3 col-xs-12" ng-repeat="tag in qst.question.metadata.tags">
+                                {{tag}}
+                                <i ng-click="qst.removeTagFromQuestion($index)" 
+                                    class="glyphicon glyphicon-remove-circle pull-right"></i>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">New Tag</label>
+                        <div class="col-md-6 col-xs-12">
+                            <input type="text" ng-model="qst.newTag">
+                            <a ng-click="qst.addTagToQuestion()" class="btn btn-primary">Add</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+
+                    <a class="btn btn-default" ng-click="qst.reset()">Reset Form</a>                                  
+                    <a ng-disabled="updateForm.$invalid" 
+                        class="btn btn-primary pull-right" ng-click="qst.updateQuestion()">Commit Update</a>
+                    <span ng-show="creationForm.$invalid && !creationForm.$pristine" class="help-block pull-right">
+                        The form is not valid and cannot be submitted
+                    </span>
+                </div>
+            </div>
+            </form>
+            
+        </div>
+    </div>                    
+
+</div>

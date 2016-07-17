@@ -1,0 +1,53 @@
+
+<div class="panel panel-default nav-tabs-vertical accordion">   
+	<div class="panel-heading">
+        <h3 class="panel-title">
+        	<a data-toggle="collapse" data-target="#accOneColOneContextFactor">Context Factors</a>
+        </h3>
+    </div>
+    <div class="tabs collapse" id="accOneColOneContextFactor">
+        <ul class="nav nav-tabs">
+            <li class="active"> <a data-toggle="tab" data-target="#contextFactorActive">active</a>
+            </li>
+            <li ng-repeat="contextFactor in vm.contextFactors.slice(1, vm.contextFactors.length)"><a data-toggle="tab" data-target="#tab{{$index}}">{{$index}}</a></li>
+        </ul>
+        <div class="panel-body tab-content">
+            <div class="tab-pane active" id="contextFactorActive">
+            <!--BEGIN ACTIVE CONTEXT FACTOR-->
+            <ul class="list-group border-bottom">
+                <h4>Title</h4>
+                <li class="list-group-item">{{vm.contextFactors[0].title}}</li>
+                <h4>Description</h4>
+                <li class="list-group-item">{{vm.contextFactors[0].description}}</li>
+                <h4>Critically Value</h4>
+                <li class="list-group-item">{{vm.contextFactors[0].criticallyValue}}</li>
+                <h4>Decay Reason</h4>
+                <li class="list-group-item">{{vm.contextFactors[0].decayReason}}</li>
+                <h4>Instance Project</h4>
+                <li class="list-group-item">{{vm.contextFactors[0].instanceProjectId}}</li>
+                <h4>State</h4>
+                <li class="list-group-item">{{vm.contextFactors[0].contextFactorState}}</li>
+            </ul>
+            <!--END ACTIVE CONTEXT FACTOR-->
+            </div>
+            <div class="tab-pane" ng-repeat="contextFactor in vm.contextFactors.slice(1, vm.contextFactors.length)" id="tab{{$index}}">
+            <!--BEGIN HIDDEN CONTEXT FACTOR-->
+            <ul class="list-group border-bottom">
+                <h4>Title</h4>
+                <li class="list-group-item">{{contextFactor.title}}</li>
+                <h4>Description</h4>
+                <li class="list-group-item">{{contextFactor.description}}</li>
+                <h4>Critically Value</h4>
+                <li class="list-group-item">{{contextFactor.criticallyValue}}</li>
+                <h4>Decay Reason</h4>
+                <li class="list-group-item">{{contextFactor.decayReason}}</li>
+                <h4>Instance Project</h4>
+                <li class="list-group-item">{{contextFactor.instanceProjectId}}</li>
+                <h4>State</h4>
+                <li class="list-group-item">{{contextFactor.contextFactorState}}</li>
+            </ul>
+            <!--END HIDDEN CONTEXT FACTOR-->
+            </div>
+        </div>
+    </div>
+</div>

@@ -25,13 +25,11 @@ function authcheck($rootScope, $cookies, $http, $location) {
     var failoverLocation = '/login';
 
     $rootScope.globals = $cookies.getObject('globals') || {};
-    //$rootScope.globals = $cookies.get('globals') || {};
+    
     if ($rootScope.globals.user) {
         $http.defaults.headers.common.Authorization =
         'Basic ' + $rootScope.globals.user.authdata;
     }
-
-    // INSERT HERE AUTOLOGIN
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         var restrict = $.inArray($location.path(), openLocations) === -1;

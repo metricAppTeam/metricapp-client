@@ -1,0 +1,19 @@
+.list-group-messages {
+
+    .list-group-item-message {
+
+        &.status-read {
+            //font-weight: inherit;
+        }
+
+        &.status-unread {
+            background-color: $light-grey;
+        }
+
+        &.btn-load-more {
+            background-color: $light-grey;
+        }
+
+    }
+
+}
