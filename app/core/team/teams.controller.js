@@ -80,7 +80,6 @@ function TeamsController($scope, $location, $filter, TeamService, UserService) {
             vm.idx = e;
         });
     }
-
 }
 
 })();

@@ -104,6 +104,7 @@ function routes($routeProvider, $locationProvider) {
     .when('/teams', {
         templateUrl: 'dist/views/teams/teams.view.html'
     })
+
     */
 
     // MEASUREMENT GOALS
@@ -122,15 +123,63 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/question/question.view.html'
     })
 
+	// QUESTIONER
+	.when('/questionCreation', {
+        templateUrl: 'dist/views/questioner/questionerCreate/questionCreation.view.html'
+    })
+    .when('/questionSearch', {
+        templateUrl: 'dist/views/questioner/questionerSearch/questionSearch.view.html'
+    })
+    .when('/questionUpdate', {
+        templateUrl: 'dist/views/questioner/questionerUpdate/questionUpdate.view.html'
+    })
+    .when('/questionList', {
+        templateUrl: 'dist/views/questioner/questionerList/questionList.view.html'
+    })
+    .when('/questions/:questionId', {
+        templateUrl: 'dist/views/questioner/questionDetails.view.html'  
+    })
+    .when('/measurementGoalQuestionList', {
+        templateUrl: 'dist/views/questioner/measurementGoal/measurementGoalQuestionsList.view.html'
+    })
+    .when('/measurementGoalAddExistingQuestion', {
+        templateUrl: 'dist/views/questioner/measurementGoal/measurementGoalAddExistingQuestion.view.html'
+    })
+    .when('/questionerMeasurementGoalList', {
+        templateUrl: 'dist/views/questioner/measurementGoal/measurementGoalList.view.html'
+    })
+
     // METRICS
     .when('/metrics', {
         templateUrl: 'dist/views/metric/metrics.view.html'
     })
     .when('/metrics/:metricid', {
-        templateUrl: 'dist/views/metric/metric.view.html'
+        templateUrl: 'dist/views/metric/metricpage.view.html'
+    })
+    
+    //MEASUREMENT GOALS
+    .when('/measurementgoal', {
+        templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
+    })
+    .when('/measurementgoal/:measurementgoalid', {
+        templateUrl: 'dist/views/measurementgoal/measurementgoal.view.html'
+    })
+    .when('/metricatordashboard', {
+        templateUrl: 'dist/views/home/metricatordashboard/metricatordashboard.view.html'
+    })
+    .when('/measurementgoalsearch', {
+        templateUrl: 'dist/views/measurementgoal/measurementgoalsearch.view.html'
+    })
+    .when('/metricator', {
+        templateUrl: 'dist/views/metricator/metricator.view.html'
+    })
+    .when('/measurementgoalchangestate', {
+        templateUrl: 'dist/views/measurementgoal/measurementgoal.sendforapproval.view.html'
     })
 
     // ERRORS
+
+
     .when('/401', {
         templateUrl: 'dist/views/error/error401.view.html'
     })

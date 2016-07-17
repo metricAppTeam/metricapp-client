@@ -25,9 +25,14 @@ function Error404Interceptor($q, $location) {
 
         responseError: function(response) {            
             if (response.status === 404) {
-                console.log('Error404Interceptor.responseError');
-                $location.path('/404');
-                return $q.reject(response);
+            	if (response.measurementGoals !== null || response.metrics !==null || response.questions !== null) {
+	                return response;
+            	}
+            	else {
+            		console.log('Error404Interceptor.responseError');
+	                $location.path('/404');
+	                return $q.reject(response);
+            	}
             }
             return $q.reject(response);
         }

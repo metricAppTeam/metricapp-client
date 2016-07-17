@@ -1,0 +1,46 @@
+<!-- COMPONENT VIEW PROFILE -->
+<div ng-controller="ProfileController as vm">
+    <div class="page-title">                    
+        <h2><span class="fa fa-arrow-circle-o-left"></span>View Personal Profile</h2>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <!-- PROFILE WIDGET -->
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body profile bg-info">
+
+                        <div class="profile-image">
+                            <img ng-src="{{ vm.picture }}">
+                        </div>
+                        <div class="profile-data">
+                            <div class="profile-data-name"  value="{{ vm.userFullName }}"></div>
+                            <div class="profile-data-title" value="{{ vm.workRole}}" tyle="color:#FFF;"></div>
+                        </div>
+                        
+                    </div>
+                    <div class="panel-body list-group">
+                        <a class="list-group-item" ng-click="vm.show=1"><span class="fa fa-user"></span> About</a>
+                        <a class="list-group-item" ng-click="vm.show=2"><span class="fa fa-tasks"></span> Projects</a>
+                        <a class="list-group-item" ng-click="vm.show=3"><span class="fa fa-bar-chart-o"></span> Statistics</a>
+                        <a class="list-group-item" ng-click="vm.show=4"><span class="fa fa-pencil"></span> Edit Profile</a>
+                        <a class="list-group-item" ng-click="vm.show=5"><span class="fa fa-gear"></span> Edit Credentials</a>
+                    </div>                            
+                </div>
+            </div>
+            
+            <div ng-switch on="vm.show">
+                <div ng-switch-when="1"><viewabout></viewabout></div>
+                <div ng-switch-when="2"><viewprojects></viewprojects></div>
+                <div ng-switch-when="3"><viewstatistics></viewstatistics></div>
+                <!-- AGGIUNGERE NG-IF PER DIVIDERE DA PERSONAL PROFILE A USER PROFILE--> 
+                <div ng-switch-when="4"><vieweditprofile></vieweditprofile></div>
+                <div ng-switch-when="5"><vieweditcredentials></vieweditcredentials></div>
+            </div>
+
+        </div>
+        <!-- END PANEL BODY -->
+    </div>
+    <!-- END PANEL DEFAULT -->
+</div>
+<!-- NG CONTROLLER -->

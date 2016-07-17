@@ -1,0 +1,94 @@
+<div ng-controller="UserAnalyticsController as vm">
+    <div class="col-md-8">
+        <!-- START PANEL -->
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 class="panel-title">STATISTICS</h4>
+            </div>
+            <!-- PANEL BODY -->
+            <div class="panel-body">
+                <div class="row"> 
+                    <div class="col-md-2">                        
+                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.GQM_SCORE]}}<p>GQM Score</p>
+                        </a>                        
+                    </div>
+
+                    <div class="col-md-2">                        
+                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.GRIDS_TOT]}}<p>GQM Score</p>
+                        </a>                        
+                    </div>
+
+                    <div class="col-md-2">                        
+                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.ARTIFACTS_TOT]}}<p>GQM Score</p>
+                        </a>                        
+                    </div>
+
+                    <div class="col-md-2">                         
+                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.ACCEPTANCE_RATIO]}}<p>GQM Score</p>
+                        </a>                        
+                    </div>
+
+                    <div class="col-md-2">                        
+                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.ARTIFACTS_MGOAL]}}<p>GQM Score</p>
+                        </a>                        
+                    </div>
+
+                    <div class="col-md-2">                       
+                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.ARTIFACTS_RATE]}}<p>GQM Score</p>
+                        </a>                        
+                    </div>
+
+                    <div class="col-md-2">                        
+                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.WORKTIME_RATIO]}}<p>GQM Score</p>
+                        </a>                        
+                    </div>
+
+                    <div class="col-md-2">                       
+                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.TASKS_PROGRESS]}}<p>GQM Score</p>
+                        </a>                        
+                    </div>
+
+                    <div class="col-md-2">                        
+                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.TASKS_RECORD]}}<p>GQM Score</p>
+                        </a>                        
+                    </div>
+
+                    <div class="col-md-2">                        
+                        <a class="tile tile-success"> 6,432
+                            <p>Visitors Today</p>
+                        </a>
+                    </div>
+                    <div class="col-md-3">                        
+                        <a class="tile tile-info"> 6,432
+                            <p>Visitors Today</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="col-md-12">
+                        <div 
+                            line-chart
+                            line-data='vm.currUser.analytics.user.analytics.tasks.record'
+                            line-xkey='ts'
+                            line-ykeys='["assigned", "submitted","accepted"]'
+                            line-labels='["Assigned Tasks", "Submitted Tasks","Accepted Tasks"]'
+                            line-labels='["Serie A", "Serie B"]'
+                            line-colors='["#31C0BE", "#c7254e","#fea223"]'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- END PANEL -->
+                    <br>
+                    <br>
+                    <br>
+                </div>         
+                <!-- END TILES -->
+            </div>
+            <!-- END PAGE WRAP -->
+        </div>   
+        <!-- END DEFAULT PANEL -->
+    </div>
+    <!-- END COL -->
+</div>

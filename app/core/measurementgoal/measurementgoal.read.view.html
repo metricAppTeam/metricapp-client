@@ -1,0 +1,6 @@
+<div class="row">
+	<button type="button" ng-show="vm.isSubmittable()" class="btn btn-default padding-2" ng-click="vm.sendForApproval()" data-dismiss="modal">Send for approval</button> <button type="button" ng-show="vm.isModifiable()" ng-click="vm.goToUpdateMeasurementGoal()" class="btn btn-default padding-2" data-dismiss="modal">Update</button>
+</div>
+<div class="row">
+<div ng-include="'dist/views/metricator/modal/modal.body.measurementgoal.html'">
+</div>

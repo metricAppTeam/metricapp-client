@@ -1,0 +1,47 @@
+<!--<div class="panel panel-default">
+    <div class="panel-heading">                                
+        <h3 class="panel-title">Context Factors</h3>
+        <ul class="panel-controls">
+            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+            <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+            <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+        </ul>                                
+    </div>
+    <div class="panel-body">-->
+        <table st-table="vm.externalContextFactorDialog" colspan="10" class="table table-striped">
+            <thead>
+                <tr>
+                    <th st-sort="title">Title</th>
+                    <th st-sort="description">Description</th>
+                    <th st-sort="criticallyValue">CriticallyValue</th>
+                    <th st-sort="decayReason">DecayReason</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="contextFactor in vm.externalContextFactorDialog">
+                    <td>
+                    <span 
+                        class="btn btn-info btn-rounded">
+                        <a ng-click="vm.setContextFactorDialog($index)">
+                        {{contextFactor.title}}</a>
+                        </span>    </td>
+                    <td>{{contextFactor.description}}</td>
+                    <td>{{contextFactor.criticallyValue}}</td>
+                    <td>{{contextFactor.decayReason}}</td>
+                    <td>
+    		        <i ng-click="vm.addContextFactorToMeasurementGoal(contextFactor)" 
+                    class="glyphicon glyphicon-plus-sign pull-right"></i></td>
+                </tr>
+            </tbody>
+            <tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+					<div st-pagination="" st-items-by-page="10" st-displayed-pages="7"></div>
+					</td>
+				</tr>
+			</tfoot>
+        </table>
+    <!--</div>   
+  
+</div>-->

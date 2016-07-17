@@ -1,0 +1,88 @@
+<div class="page-title">                    
+    <h2><span class="fa fa-arrow-circle-o-left"></span> Search For Question</h2>
+</div>
+
+ <div class="page-content-wrap" ng-controller="QuestionSearchCtrl as qst">
+
+    <div class="block">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-10">                                    
+                        <label class="col-md-10 control-label">
+                            <input type="Text" class="form-control" ng-model="qst.keyword" required/> 
+                            Search For:
+                         </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">                                    
+                        <label class="check">
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="qst.searchField" value="focus" /> 
+                            Focus
+                        </label>
+                    </div>
+                    <div class="col-md-6">                                    
+                        <label class="check">
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="qst.searchField" value="subject" /> 
+                            Subject
+                        </label>
+                    </div>
+                    <div class="col-md-6">                                    
+                        <label class="check">
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="qst.searchField" value="questionerId" /> 
+                            Questioner
+                        </label>
+                    </div>
+                    <div class="col-md-6">                                    
+                        <label class="check">
+                            <input type="radio" class="iradio" name="selectRadio" ng-model="qst.searchField" value="tag" /> 
+                            Tag
+                        </label>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="panel-footer">
+                <button ng-click="qst.searchBy(qst.keyword, qst.searchField)" class="btn btn-primary pull-right">Search</button>
+            </div>
+            <hr>
+            <br>
+
+            <div class="panel-body">
+
+                <table st-table="questionList" st-safe-src="qst.questions" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th st-sort="id">Id</th>
+                            <th st-sort="name">Name</th>
+                            <th st-sort="creationDate">CreationDate</th>
+                            <th st-sort="lastVersionDate">LastVersionDate</th>
+                            <th st-sort="releaseNote">ReleaseNote</th>
+                            <th st-sort="state">State</th>
+                        </tr>
+                        <tr>
+                            <th colspan="6"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="question in questionList">
+                            <td>
+                            
+                                <button id="modal_button_{{$index}}" class="btn btn-default btn-rounded" data-toggle="modal"
+                                 ng-click="qst.open($index)">{{question.metadata.id}}</button>
+                            </td>
+                            <td>{{question.metadata.entityType}}</td>
+                            <td>{{question.metadata.creationDate}}</td>
+                            <td>{{question.metadata.lastVersionDate}}</td>
+                            <td>{{question.metadata.releaseNote}}</td>
+                            <td>{{question.metadata.state}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>   
+
+    </div>
+</div>
+

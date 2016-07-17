@@ -12,7 +12,10 @@
 angular.module('metricapp')
 
 .constant('METRICATOR_ACTIONS', [
-    {name: 'Action', href: '#/metricator_action', icon: 'cog'}
+
+
+    {name: 'MeasurementGoals', 			href: '#/metricator',     icon:'fa fa-tasks'          },
+    {name: 'Metrics', 				href: '#/metrics',             icon:'fa fa-tasks'         }
 ]);
 
 })();

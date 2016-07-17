@@ -1,0 +1,55 @@
+<!-- START: MODAL CREATE GRID -->
+<div class="modal" id="modal-create-grid" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true"
+ng-controller="CreateGridController as vm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="defModalHead">New Grid</h4>
+            </div>
+            <div class="modal-body">
+                <!-- FORM: CREATE GRID -->
+                <form name="createGridForm" role="form" class="form-horizontal" novalidate="novalidate">
+                    <!-- FORM FIELD: NAME -->
+                    <div class="form-group" ng-class="{ 'hash-error': createGridForm.name.$dirty && createGridForm.name.$invalid }">
+                        <label class="col-md-3 control-label">Name:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="name" type="text" role="textbox" placeholder="Name" required="required"
+                            ng-model="vm.grid.name"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': createGridForm.name.$dirty && createGridForm.name.$invalid }"
+                            ng-minlength="3" ng-maxlength="30"
+                            required/>
+                            <div class="form-group-helper" role="alert" ng-messages="createGridForm.name.$error" ng-show="createGridForm.name.$dirty">
+                                <div ng-messages-include="dist/views/grid/messages/create-grid.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM FIELD: DESCRIPTION -->
+                    <div class="form-group" ng-class="{ 'hash-error': createGridForm.description.$dirty && createGridForm.description.$invalid }">
+                        <label class="col-md-3 control-label">Description:</label>
+                        <div class="col-md-9">
+                            <input class="form-control" name="description" type="text" role="textbox" placeholder="Description" required="required"
+                            ng-model="vm.grid.description"
+                            ng-model-options="{ updateOn: 'default' }"
+                            ng-class="{ 'error': createGridForm.description.$dirty && createGridForm.description.$invalid }"
+                            ng-minlength="3" ng-maxlength="300"
+                            required/>
+                            <div class="form-group-helper" role="alert" ng-messages="createGridForm.description.$error" ng-show="createGridForm.description.$dirty">
+                                <div ng-messages-include="dist/views/grid/messages/create-grid.message.html"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary"
+                ng-disabled="createGridForm.$invalid || vm.loading"
+                ng-click="vm.createGrid(vm.grid)"
+                data-dismiss="modal">Create</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: MODAL CREATE GRID -->

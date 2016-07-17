@@ -17,11 +17,13 @@ angular.module('metricapp')
 
 .controller('TeamAnalyticsController', TeamAnalyticsController);
 
-TeamAnalyticsController.$inject = ['$location', '$routeParams', 'TeamService', 'TeamAnalyticsService'];
+TeamAnalyticsController.$inject = ['$location', '$routeParams', 'TeamService', 'TeamAnalyticsService','TEAM_ANALYTICS'];
 
-function TeamAnalyticsController($location, $routeParams, TeamService, TeamAnalyticsService) {
+function TeamAnalyticsController($location, $routeParams, TeamService, TeamAnalyticsService,TEAM_ANALYTICS) {
 
     var vm = this;
+
+    vm.TEAM_ANALYTICS = TEAM_ANALYTICS;
 
     _init();
 

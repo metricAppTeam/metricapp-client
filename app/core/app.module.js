@@ -17,11 +17,16 @@ angular.module('metricapp',[
     'ngCookies',
     'ngMessages',
     'ngFlash',
+    'smart-table',
+    'ui.ace',
+    'as.sortable',
     'nvd3',
     'angular.morris-chart',
     'angular-svg-round-progress',
     'angular-bubbletree',
-    'angularChart'
+    'angularChart',
+    'ngCytoscape',
+    'ui.bootstrap'
 ]);
 
 })();

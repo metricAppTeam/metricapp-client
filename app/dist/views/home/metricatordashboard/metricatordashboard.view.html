@@ -1,0 +1,63 @@
+<!-- START: MetricatorDashboard -->
+<div ng-controller="MetricatorDashboardController as vm">
+<!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle"> 
+                    <div class="widget-big-int"><span>{{vm.measurementGoals.Approved}}</span></div>
+                    <div class="widget-subtitle">Approved Measurement Goals</div>
+                    <!-- MANCA IL LINK ALLA PAGINA DEI TASKS -->
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle">
+                    <div class="widget-big-int"><span class="num-count">{{vm.measurementGoals.OnUpdateQuestionerEndpoint}}</span></div>
+                    <div class="widget-subtitle">OnUpdateQuestionerEndpoint Measurement Goals</div>
+                    <!-- MANCA IL LINK ALLA PAGINA DEI TEAM -->
+                </div>                        
+            </div>
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle">
+                    <div class="widget-big-int"><span class="num-count">{{vm.measurementGoals.Pending}}</span></div>
+                    <div class="widget-subtitle">Pending Measurement Goals</div>
+                    <!-- MANCA IL LINK ALLA PAGINA DEI TEAM -->
+                </div>                        
+            </div>
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle">
+                    <div class="widget-big-int"><span class="num-count">{{vm.metrics.Approved}}</span></div>
+                    <div class="widget-subtitle">Approved Metrics</div>
+                    <!-- MANCA IL LINK ALLA PAGINA DEI TEAM -->
+                </div>                        
+            </div> 
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle">
+                    <div class="widget-big-int"><span class="num-count">{{vm.metrics.OnUpdate}}</span></div>
+                    <div class="widget-subtitle">OnUpdate Metrics</div>
+                    <!-- MANCA IL LINK ALLA PAGINA DEI TEAM -->
+                </div>                        
+            </div> 
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle">
+                    <div class="widget-big-int"><span class="num-count">{{vm.metrics.Pending}}</span></div>
+                    <div class="widget-subtitle">Pending Metrics</div>
+                    <!-- MANCA IL LINK ALLA PAGINA DEI TEAM -->
+                </div>                        
+            </div>           
+            <div class="col-md-3">
+                <div class="widget widget-info widget-item-icon">                 
+                	<div class="widget-item-left">
+                	    <span class="fa fa-clock-o"></span>
+                	</div>  
+                    <div class="widget-data">
+                    	<br>
+                        <div class="widget-big-int">{{vm.date | date:'HH:mm'}}</div> 
+                        <div class="widget-subtitle">{{vm.date | date:'EEEE, dd/MM/yyyy'}}</div>
+                    </div>
+                </div>                        
+            </div>
+        </div> 
+    </div>
+</div>
+<!-- END: MetricatorDashboard -->

@@ -1,0 +1,25 @@
+<div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="vm.closeModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="largeModalHead">ContextFactor</h4>
+            </div>
+            <div class="modal-body">
+	            <ul class="list-group border-bottom">
+	                <h4>Title</h4>
+	                <li class="list-group-item">{{vm.contextFactorDialog.title}}</li>
+	                <h4>Description</h4>
+	                <li class="list-group-item">{{vm.contextFactorDialog.description}}</li>
+	                <h4>Critically Value</h4>
+	                <li class="list-group-item">{{vm.contextFactorDialog.criticallyValue}}</li>
+	                <h4>Decay Reason</h4>
+	                <li class="list-group-item">{{vm.contextFactorDialog.decayReason}}</li>
+	                <h4>Instance Project</h4>
+	                <li class="list-group-item">{{vm.contextFactorDialog.instanceProjectId}}</li>
+	                <h4>State</h4>
+	                <li class="list-group-item">{{vm.contextFactorDialog.contextFactorState}}</li>
+	            </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="vm.closeModal()">Close</button>       
+            </div>
+</div>
