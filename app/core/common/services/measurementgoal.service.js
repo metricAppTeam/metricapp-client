@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-17 16:15:05
+* @Last Modified time: 2016-07-17 17:45:26
 */
 (function() { 'use strict';
 
@@ -59,9 +59,6 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
                 
         console.log("PUT MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
-        
-        //TODO leave here
-        return false;
 
         return $http.put('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal/', measurementGoal).then(
             function(response) {

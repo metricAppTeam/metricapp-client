@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<!--<div class="panel panel-info">
     <div class="panel-heading">                                
         <h3 class="panel-title">Metrics</h3>
         <ul class="panel-controls">
@@ -7,16 +7,22 @@
             <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
         </ul>                                
     </div>
-    <div class="panel-body">
-        <table class="table datatable">
+    <div class="panel-body">-->
+        <table st-table="vm.externalMetricDialog" colspan="10" class="table table-striped">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>CreationDate</th>
-                    <th>LastVersionDate</th>
+                    <th st-sort="metadata.id">Id</th>
+                    <th st-sort="metadata.entityType">Name</th>
+                    <th st-sort="metadata.creationDate">CreationDate</th>
+                    <th st-sort="metadata.lastVersionDate">LastVersionDate</th>
                     <th>ReleaseNote</th>
-                    <th>State</th>
+                    <th st-sort="metadata.state">State</th>
+                    <th></th>
+                </tr>
+                <tr>
+		        	<th colspan="10">
+						<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+					</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,16 +31,25 @@
 		                class="btn btn-info btn-rounded">
 		                <a ng-click="vm.setMetricDialog($index)">
 		                {{metric.metadata.id}}</a>
-		                <i ng-click="vm.addMetricToMeasurementGoal(metric)" 
-		                    class="glyphicon glyphicon-plus-sign pull-right"></i></span></td>
+		                </span></td>
                     <td>{{metric.metadata.entityType}}</td>
                     <td>{{metric.metadata.creationDate}}</td>
                     <td>{{metric.metadata.lastVersionDate}}</td>
                     <td>{{metric.metadata.releaseNote}}</td>
                     <td>{{metric.metadata.state}}</td>
+                    <td><i ng-click="vm.addMetricToMeasurementGoal(metric)" 
+		                    class="glyphicon glyphicon-plus-sign pull-right"></i></td>
                 </tr>
             </tbody>
+            <tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+					<div st-pagination="" st-items-by-page="10" st-displayed-pages="7"></div>
+					</td>
+				</tr>
+			</tfoot>
         </table>
+    <!--</div>
     </div>   
 </div>
 
@@ -42,4 +57,4 @@
     <div class="modal-dialog modal-lg">
         <div ng-include="'dist/views/metricator/modal/modal.metric.html'"></div>
     </div>
-</div>
+</div>-->

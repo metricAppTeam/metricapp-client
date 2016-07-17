@@ -2,7 +2,7 @@
 * @Author: alessandro.fazio
 * @Date:   2016-07-12 23:08:35
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-17 16:15:24
+* @Last Modified time: 2016-07-17 17:59:58
 */
 
 (function () { 'use strict';
@@ -27,12 +27,7 @@ MetricatorDashboardController.$inject = ['$scope', '$location','MetricService','
 function MetricatorDashboardController($scope, $location, MetricService, MeasurementGoalService, $window, STATES) {
 
     var vm = this;
-
-    //var states = [
-    //	Approved = 'Approved',
-    //	OnUpdate = 'OnUpdate',
-    //	Pending = 'Pending'
-    //];
+    
     vm.date = new Date();
 
     vm.measurementGoalStates = [
@@ -40,12 +35,6 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     	STATES.ONUPDATEENDPOINT,
         STATES.PENDING
     ];
-
-    //vm.measurementGoalStates = [];
-    //vm.measurementGoalStates[0] = 'Approved';
-    //vm.measurementGoalStates[1] = 'OnUpdateQuestionerEndpoint';
-    //vm.measurementGoalStates[2] = 'Pending';
-    
 
     vm.metricStates = [
         STATES.APPROVED,
@@ -56,24 +45,6 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     vm.measurementGoals = {};
 
     vm.metrics = {};
-
-    /*var approvedMeasurementGoals = 0;
-    var onUpdateMeasurementGoals = 0;
-    var pendingMeasurementGoals = 0;
-    var measurementGoals = [approvedMeasurementGoals, onUpdateMeasurementGoals, pendingMeasurementGoals];
-
-    var approvedMetrics = 0;
-    var onUpdateMetrics = 0;
-    var pendingMetrics = 0;
-    var metrics = [approvedMetrics, onUpdateMetrics, pendingMetrics];
-
-    vm.results = {
-    	metrics : metrics,
-    	measurementGoals : measurementGoals,
-    }; */
-
-    //vm.getMeasurementGoals = getMeasurementGoals;
-    //vm.getMetrics = getMetrics;
 
     _getMeasurementGoals();
     _getMetrics();

@@ -70,9 +70,7 @@ angular.module('metricapp')
 
 
     {name: 'MeasurementGoals', 			href: '#/metricator',     icon:'fa fa-tasks'          },
-    {name: 'Metrics', 				href: '#/metrics',             icon:'fa fa-tasks'         },
-    {name: 'Search MG', 			href: '#/measurementgoalsearch', icon:'fa fa-tasks'       }
-
+    {name: 'Metrics', 				href: '#/metrics',             icon:'fa fa-tasks'         }
 ]);
 
 })();
@@ -1844,217 +1842,6 @@ function Error500Interceptor($q, $location) {
 
 })();
 
-/*
-* @Author: alessandro.fazio
-* @Date:   2016-07-15 12:46:59
-* @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 00:10:28
-*/
-(function() {'use strict';
-
-angular.module('metricapp')
-
-.service('AssumptionModalService', AssumptionModalService);
-
-AssumptionModalService.$inject = ['$window', '$uibModal'];
-
-function AssumptionModalService($window, $uibModal) {
-
-	var service = this;
-	service.openAssumptionModal = openAssumptionModal;
-    service.openExternalAssumptionModal = openExternalAssumptionModal;
-
-	function openAssumptionModal(){
-	     var modalInstance = $uibModal.open({
-
-            templateUrl: 'dist/views/metricator/modal/modal.assumption.html',
-            controller: 'AssumptionModalCtrl',
-            controllerAs: 'vm',
-            size: 'lg'
-        });
-
-        modalInstance.result.then(
-            function(){
-                console.log("Modal showing");
-            },
-            function () {
-                console.log('Modal dismissed');
-            });
-	};
-
-    function openExternalAssumptionModal(){
-         var modalInstance = $uibModal.open({
-
-            templateUrl: 'dist/views/metricator/modal/modal.external.assumption.html',
-            controller: 'ExternalAssumptionModalCtrl',
-            controllerAs: 'vm',
-            size: 'lg'
-        });
-
-        modalInstance.result.then(
-            function(){
-                console.log("Modal showing");
-            },
-            function () {
-                console.log('Modal dismissed');
-            });
-    };
-
-}
-
-})();
-/*
-* @Author: alessandro.fazio
-* @Date:   2016-07-15 12:46:59
-* @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 00:11:05
-*/
-(function() {'use strict';
-
-angular.module('metricapp')
-
-.service('ContextFactorModalService', ContextFactorModalService);
-
-ContextFactorModalService.$inject = ['$window', '$uibModal'];
-
-function ContextFactorModalService($window, $uibModal) {
-
-	var service = this;
-	service.openContextFactorModal = openContextFactorModal;
-    service.openExternalContextFactorModal = openExternalContextFactorModal;
-
-	function openContextFactorModal(){
-	     var modalInstance = $uibModal.open({
-
-            templateUrl: 'dist/views/metricator/modal/modal.contextfactor.html',
-            controller: 'ContextFactorModalCtrl',
-            controllerAs: 'vm',
-            size: 'lg'
-        });
-
-        modalInstance.result.then(
-            function(){
-                console.log("Modal showing");
-            },
-            function () {
-                console.log('Modal dismissed');
-            });
-	};
-
-	function openExternalContextFactorModal(){
-	     var modalInstance = $uibModal.open({
-
-            templateUrl: 'dist/views/metricator/modal/modal.external.contextfactor.html',
-            controller: 'ExternalContextFactorModalCtrl',
-            controllerAs: 'vm',
-            size: 'lg'
-        });
-
-        modalInstance.result.then(
-            function(){
-                console.log("Modal showing");
-            },
-            function () {
-                console.log('Modal dismissed');
-            });
-	};
-
-}
-
-})();
-/*
-* @Author: alessandro.fazio
-* @Date:   2016-07-15 12:46:59
-* @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-16 12:39:46
-*/
-(function() {'use strict';
-
-angular.module('metricapp')
-
-.service('MeasurementGoalModalService', MeasurementGoalModalService);
-
-MeasurementGoalModalService.$inject = ['$window', '$uibModal'];
-
-function MeasurementGoalModalService($window, $uibModal) {
-
-	var service = this;
-	service.openMeasurementGoalModal = openMeasurementGoalModal;
-
-	function openMeasurementGoalModal(){
-	     var modalInstance = $uibModal.open({
-
-            templateUrl: 'dist/views/metricator/modal/modal.wrapper.measurementgoal.html',
-            controller: 'MeasurementGoalModalCtrl',
-            controllerAs: 'vm',
-            size: 'lg'
-        });
-
-        modalInstance.result.then(
-            function(){
-                console.log("Modal showing");
-            },
-            function () {
-                console.log('Modal dismissed');
-            });
-	};
-
-}
-
-})();
-(function() {'use strict';
-
-angular.module('metricapp')
-
-.service('MetricModalService', MetricModalService);
-
-MetricModalService.$inject = ['$window', '$uibModal'];
-
-function MetricModalService($window, $uibModal) {
-
-	var service = this;
-	service.openMetricModal = openMetricModal;
-	service.openExternalMetricModal = openExternalMetricModal;
-
-	function openMetricModal(){
-	     var modalInstance = $uibModal.open({
-
-            templateUrl: 'dist/views/metricator/modal/modal.metric.html',
-            controller: 'MetricModalCtrl',
-            controllerAs: 'vm',
-            size: 'lg'
-        });
-
-        modalInstance.result.then(
-            function(){
-                console.log("Modal showing");
-            },
-            function () {
-                console.log('Modal dismissed');
-            });
-	};
-
-	function openExternalMetricModal(){
-	     var modalInstance = $uibModal.open({
-
-            templateUrl: 'dist/views/metricator/modal/modal.external.metric.html',
-            controller: 'ExternalMetricModalCtrl',
-            controllerAs: 'vm',
-            size: 'lg'
-        });
-
-        modalInstance.result.then(
-            function(){
-                console.log("Modal showing");
-            },
-            function () {
-                console.log('Modal dismissed');
-            });
-	};
-
-}
-
-})();
 (function() {'use strict';
 
 /* Services */
@@ -2887,7 +2674,7 @@ function GridService($http, $q, REST_SERVICE, AuthService, DB_GRIDS) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 16:21:06
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-17 16:15:05
+* @Last Modified time: 2016-07-17 17:45:26
 */
 (function() { 'use strict';
 
@@ -2944,9 +2731,6 @@ function MeasurementGoalService($http, $rootScope, $cookies, $window, AuthServic
                 
         console.log("PUT MEASUREMENT GOAL");        
         console.log(JSON.stringify(measurementGoal));
-        
-        //TODO leave here
-        return false;
 
         return $http.put('http://qips.sweng.uniroma2.it/metricapp-server/measurementgoal/', measurementGoal).then(
             function(response) {
@@ -4066,6 +3850,217 @@ function MGoalService($http, $q, REST_SERVICE, AuthService, DB_MGOALS) {
 
 })();
 
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 12:46:59
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:10:28
+*/
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.service('AssumptionModalService', AssumptionModalService);
+
+AssumptionModalService.$inject = ['$window', '$uibModal'];
+
+function AssumptionModalService($window, $uibModal) {
+
+	var service = this;
+	service.openAssumptionModal = openAssumptionModal;
+    service.openExternalAssumptionModal = openExternalAssumptionModal;
+
+	function openAssumptionModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.assumption.html',
+            controller: 'AssumptionModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+    function openExternalAssumptionModal(){
+         var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.external.assumption.html',
+            controller: 'ExternalAssumptionModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+    };
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 12:46:59
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 00:11:05
+*/
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.service('ContextFactorModalService', ContextFactorModalService);
+
+ContextFactorModalService.$inject = ['$window', '$uibModal'];
+
+function ContextFactorModalService($window, $uibModal) {
+
+	var service = this;
+	service.openContextFactorModal = openContextFactorModal;
+    service.openExternalContextFactorModal = openExternalContextFactorModal;
+
+	function openContextFactorModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.contextfactor.html',
+            controller: 'ContextFactorModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+	function openExternalContextFactorModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.external.contextfactor.html',
+            controller: 'ExternalContextFactorModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+}
+
+})();
+/*
+* @Author: alessandro.fazio
+* @Date:   2016-07-15 12:46:59
+* @Last Modified by:   alessandro.fazio
+* @Last Modified time: 2016-07-16 12:39:46
+*/
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.service('MeasurementGoalModalService', MeasurementGoalModalService);
+
+MeasurementGoalModalService.$inject = ['$window', '$uibModal'];
+
+function MeasurementGoalModalService($window, $uibModal) {
+
+	var service = this;
+	service.openMeasurementGoalModal = openMeasurementGoalModal;
+
+	function openMeasurementGoalModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.wrapper.measurementgoal.html',
+            controller: 'MeasurementGoalModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+}
+
+})();
+(function() {'use strict';
+
+angular.module('metricapp')
+
+.service('MetricModalService', MetricModalService);
+
+MetricModalService.$inject = ['$window', '$uibModal'];
+
+function MetricModalService($window, $uibModal) {
+
+	var service = this;
+	service.openMetricModal = openMetricModal;
+	service.openExternalMetricModal = openExternalMetricModal;
+
+	function openMetricModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.metric.html',
+            controller: 'MetricModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+	function openExternalMetricModal(){
+	     var modalInstance = $uibModal.open({
+
+            templateUrl: 'dist/views/metricator/modal/modal.external.metric.html',
+            controller: 'ExternalMetricModalCtrl',
+            controllerAs: 'vm',
+            size: 'lg'
+        });
+
+        modalInstance.result.then(
+            function(){
+                console.log("Modal showing");
+            },
+            function () {
+                console.log('Modal dismissed');
+            });
+	};
+
+}
+
+})();
 (function() { 'use strict';
 
 /************************************************************************************
@@ -5156,42 +5151,6 @@ services.factory('QuestionerMetricModalFactory', ['$window', '$uibModal', functi
 
 })();
 
-/*
-* @Author: alessandro.fazio
-* @Date:   2016-07-14 16:38:56
-* @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-14 16:39:58
-*/
-
-(function () {
-  'use strict';
-
-  angular.module('metricapp')
-      .directive('measurementgoalsendforapproval', metricator);
-
-  function metricator() {
-    return {
-      restrict: 'E',
-      templateUrl: 'dist/views/measurementgoal/measurementgoal.sendforapproval.view.html'
-    };
-  }
-
-})();
-
-(function () {
-  'use strict';
-
-  angular.module('metricapp')
-      .directive('measurementgoalsearch', metricator);
-
-  function metricator() {
-    return {
-      restrict: 'E',
-      templateUrl: 'dist/views/measurementgoal/measurementgoalsearch.view.html'
-    };
-  }
-
-})();
 (function () {
   'use strict';
 
@@ -5248,21 +5207,6 @@ services.factory('QuestionerMetricModalFactory', ['$window', '$uibModal', functi
       templateUrl: 'dist/metric/metric.view.html'
     };
   }
-})();
-
-(function () {
-  'use strict';
-
-  angular.module('metricapp')
-      .directive('metricator', metricator);
-
-  function metricator() {
-    return {
-      restrict: 'E',
-      templateUrl: 'dist/views/metricator/metricator.view.html'
-    };
-  }
-
 })();
 
 (function () {
@@ -7044,7 +6988,7 @@ function HomeController($rootScope, $scope, $location, $timeout, AuthService) {
 * @Author: alessandro.fazio
 * @Date:   2016-06-14 15:53:20
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-17 13:45:11
+* @Last Modified time: 2016-07-17 17:59:23
 */
 (function () { 'use strict';
 
@@ -7069,11 +7013,8 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
 
     var vm = this;
 
-    //vm.measurementGoals = [];
-
     //Initialize some transition variables
     vm.externalMetricDialog = MetricService.getExternalMetricDialog();
-    //vm.externalQuestionDialog = [];
     vm.externalContextFactorDialog = [];
     vm.externalAssumptionDialog = [];
 
@@ -7081,13 +7022,9 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
     vm.addTagToMeasurementGoal = addTagToMeasurementGoal;
     vm.removeTagFromMeasurementGoal = removeTagFromMeasurementGoal;
-    //vm.getMetricsByMeasurementGoal = getMetricsByMeasurementGoal;
     vm.getApprovedMetrics = getApprovedMetrics;
-    //vm.addMetricToMeasurementGoal = addMetricToMeasurementGoal;
-    //vm.removeMetricFromMeasurementGoal = removeMetricFromMeasurementGoal;
     vm.removeSomethingFromMeasurementGoal = removeSomethingFromMeasurementGoal;
     vm.isModifiable = isModifiable;
-    //vm.isSubmittable = isSubmittable;
     vm.getExternalContextFactors = getExternalContextFactors;
     vm.getExternalAssumptions = getExternalAssumptions;
     vm.getMetricsToUpdate = getMetricsToUpdate;
@@ -7190,48 +7127,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Submits a MeasurementGoal.
     ********************************************************************************/
     function submitMeasurementGoal(state) {
-
-        /*var objectSubmit = (vm.object !== undefined) ? vm.object :  vm.measurementGoalDialog.object;
-        var purposeSubmit = (vm.purpose !== undefined) ? vm.purpose :  vm.measurementGoalDialog.purpose;
-        var viewPointSubmit = (vm.viewPoint !== undefined) ? vm.viewPoint :  vm.measurementGoalDialog.viewPoint;
-        var qualityFocusSubmit = (vm.qualityFocus !== undefined) ? vm.qualityFocus :  vm.measurementGoalDialog.qualityFocus;
-        //var functionJavascriptSubmit = (vm.functionJavascript !== undefined) ? vm.functionJavascript :  vm.measurementGoalDialog.interpretationModel.functionJavascript;
-        var queryNoSQLSubmit = (vm.queryNoSQL !== undefined) ? vm.queryNoSQL :  vm.measurementGoalDialog.interpretationModel.queryNoSQL;
-        var releaseNoteSubmit = (vm.sendMessage !== undefined) ? vm.sendMessage :  vm.measurementGoalDialog.metadata.releaseNote;
-        var stateSubmit = (state != null) ? state :  vm.measurementGoalDialog.metadata.state;
-
-        var measurementGoal = {
-            userid : vm.measurementGoalDialog.userid,
-        	name : vm.name,
-        	object : objectSubmit,
-            viewPoint : viewPointSubmit,
-            qualityFocus : qualityFocusSubmit,
-        	purpose : purposeSubmit,
-            OrganizationalGoalId : vm.measurementGoalDialog.OrganizationalGoalId,
-            metrics : vm.measurementGoalDialog.metrics,
-            questions : vm.measurementGoalDialog.questions,
-            metricatorId : vm.measurementGoalDialog.metricatorId,
-            questionersId : vm.measurementGoalDialog.questionersId,
-            contextFactors : vm.measurementGoalDialog.contextFactors,
-            assumptions : vm.measurementGoalDialog.assumptions,
-            interpretationModel : {
-                functionJavascript : vm.measurementGoalDialog.interpretationModel.functionJavascript,
-                queryNoSQL : queryNoSQLSubmit
-            },
-            metadata : {
-                id : vm.measurementGoalDialog.metadata.id,
-                version : vm.measurementGoalDialog.metadata.version,
-                tags : vm.measurementGoalDialog.metadata.tags,
-                creatorId : vm.measurementGoalDialog.metadata.creatorId,
-                state : stateSubmit,
-                releaseNote : releaseNoteSubmit,
-                entityType : vm.measurementGoalDialog.metadata.entityType,
-                versionBus : vm.measurementGoalDialog.metadata.versionBus,
-                creationDate : vm.measurementGoalDialog.metadata.creationDate,
-                lastVersionDate : vm.measurementGoalDialog.metadata.lastVersionDate
-            }
-        };*/
-
         if (state !== undefined) vm.measurementGoalDialog.metadata.state = state;
 
         MeasurementGoalService.submitMeasurementGoal(vm.measurementGoalDialog).then(
@@ -7278,7 +7173,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
             case STATES.SUSPENDED : 
                 _suspend();
                 break;
-            case STATES.ONUPDATEWAITINGQUESTIONS :
+            case STATES.ONUPDATEWAITING :
                 _assign();
                 break;
                
@@ -7312,7 +7207,7 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     * Assign a MeasurementGoal.
     ********************************************************************************/
     function _assign() {
-        submitMeasurementGoal(STATES.ONUPDATEWAITINGQUESTIONS);    
+        submitMeasurementGoal(STATES.ONUPDATEWAITING);    
     }
 
     /********************************************************************************
@@ -7334,44 +7229,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     function _suspend() {
         submitMeasurementGoal(STATES.SUSPENDED);
     }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name submitMeasurementGoal
-    * @description
-    * Get active measurement goals for a metricator.
-    ********************************************************************************/
-    /*function getMeasurementGoals(){
-         MeasurementGoalService.getMeasurementGoals().then(
-            function(data) {
-                console.log(data.measurementGoals);
-                vm.measurementGoals = data.measurementGoals;
-            },
-            function(data) {
-                alert('Error retriving Measurement Goals');
-            }
-        );
-    }*/
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name getMetricsByMeasurementGoal
-    * @description
-    * Get approved metrics by measurement goal.
-    ********************************************************************************/
-    /*function getMetricsByMeasurementGoal(){
-        MetricService.getMetricsByMeasurementGoalId(vm.measurementGoalDialog.metadata.id).then(
-                function(data) {
-                    console.log('SUCCESS GET METRICS BY MEASUREMENT GOAL');
-                    console.log(data.metrics);
-                    vm.metricsDialog = data.metrics;
-                },
-                function(data) {
-                    alert('Error retriving Metrics');
-                }
-        );        
-
-    }*/
 
     /********************************************************************************
     * @ngdoc method
@@ -7494,47 +7351,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
 
     /********************************************************************************
     * @ngdoc method
-    * @name addMetricToMeasurementGoal
-    * @description
-    * Add metric to measurement goal.
-    ********************************************************************************/
-    /*function addMetricToMeasurementGoal(index){
-        for(var i=0; i<vm.metrics.length; i++){
-            if(vm.externalMetricDialog[index].metadata.id == vm.metrics[i].metadata.id){
-                $window.alert('You cannot add a metric twice!');
-                return true;
-            }
-        }
-
-        var pointerBus = {
-           objIdLocalToPhase : "",
-           typeObj : "Metric",
-           instance : vm.externalMetricDialog[index].metadata.id,
-           busVersion : "",
-           tags: []
-        };
-        vm.measurementGoalDialog.metrics.push(pointerBus);
-        vm.metrics.push(vm.externalMetricDialog[index]);
-        $window.alert('Item added');
-        console.log(vm.measurementGoalDialog);
-        return false;
-    }*/
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name removeMetricFromMeasurementGoal
-    * @description
-    * Remove metric from measurement goal.
-    ********************************************************************************/
-    /*function removeMetricFromMeasurementGoal(index){
-        vm.measurementGoalDialog.metrics.splice(index, 1);
-        vm.metrics.splice(index, 1);
-        $window.alert('Item removed');
-        console.log(vm.measurementGoalDialog);
-    }*/
-
-    /********************************************************************************
-    * @ngdoc method
     * @name removeSomethingFromMeasurementGoal
     * @description
     * Remove something from measurement goal.
@@ -7573,16 +7389,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     ********************************************************************************/
     function isModifiable(){
         return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && !(vm.measurementGoalDialog.metadata.state == 'Pending');
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name isSubmittable
-    * @description
-    * Measurement Goal can be submitted.
-    ********************************************************************************/ 
-    function isSubmittable(){
-        return vm.measurementGoalDialog.metricatorId == AuthService.getUser().username && vm.measurementGoalDialog.metadata.state == 'OnUpdateQuestionerEndpoint';
     }
 
     /********************************************************************************
@@ -7642,180 +7448,6 @@ function MeasurementGoalController($scope, $location, MeasurementGoalService, Me
     }
 
 }
-
-})();
-
-(function () { 'use strict';
-
-/************************************************************************************
-* @ngdoc controller
-* @name MeasurementGoalSearchController
-* @module metricapp
-* @requires $scope
-* @requires $location
-* @description
-* Manages the MeasurementGoal.
-* Realizes the control layer for `measurementgoalsearch.view`.
-************************************************************************************/
-
-angular.module('metricapp')
-
-.controller('MeasurementGoalSearchController', MeasurementGoalSearchController);
-
-MeasurementGoalSearchController.$inject = ['$scope', '$location','MetricService','MeasurementGoalService','$window', 'MeasurementGoalModalService'];
-
-function MeasurementGoalSearchController($scope, $location, MetricService, MeasurementGoalService, $window, MeasurementGoalModalService) {
-
-    var vm = this;
-    vm.measurementGoals = [];
-    vm.metrics = [];
-    vm.contextFactors = [];
-    vm.assumptions = [];
-    vm.organizationalGoal = {};
-    vm.instanceProject = {};
-    vm.measurementGoalDialog = {};
-    vm.modal = "";
-    
-    vm.getMeasurementGoals = getMeasurementGoals;
-    vm.getMetrics = getMetrics;
-    vm.goToUpdateMeasurementGoal = goToUpdateMeasurementGoal;
-    vm.getMeasurementGoalExternals = getMeasurementGoalExternals;
-    vm.setMeasurementGoalDialog = setMeasurementGoalDialog;
-    vm.getMeasurementGoalsBy = getMeasurementGoalsBy;
-    
-    _init();
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name submitMeasurementGoal
-    * @description
-    * Get active measurement goals for a metricator.
-    ********************************************************************************/
-    function getMeasurementGoals(){
-        //TODO add method to retrieve last approved measurementGoal
-        //TODO add method to send for approval
-         MeasurementGoalService.getMeasurementGoals().then(
-            function(data) {
-                console.log(data.measurementGoals);
-                vm.measurementGoals = data.measurementGoals;
-            },
-            function(data) {
-                alert('Error retriving Measurement Goals');
-            }
-        );
-    };
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name submitMeasurementGoal
-    * @description
-    * Get active measurement goals for a metricator by some field.
-    ********************************************************************************/
-    function getMeasurementGoalsBy(keyword,field){
-
-        if (keyword != null && field != null){
-            MeasurementGoalService.getMeasurementGoalsBy(keyword,field).then(
-                function(data) {
-                    console.log(data.measurementGoals);
-                    vm.measurementGoals = data.measurementGoals;
-                    if(vm.measurementGoals.length === 0)
-                        $window.alert(data.error);
-                },
-                function(data) {
-                    alert('Error retriving Measurement Goals');
-                }
-            );
-        }
-        else
-            $window.alert("You must enter keyword and field");
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name submitMeasurementGoal
-    * @description
-    * Get active metrics for a metricator.
-    ********************************************************************************/
-    function getMetrics(){
-         MetricService.getMetrics().then(
-            function(data) {
-                console.log(data.metricsDTO);
-                vm.results.metrics = data.metricsDTO;
-            },
-            function(data) {
-                alert('Error retriving Metrics');
-            }
-        );
-    };
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name getMeasurementGoalExternals
-    * @description
-    * Get measurement goals externals.
-    ********************************************************************************/
-    function getMeasurementGoalExternals(externalId){
-         MeasurementGoalService.getMeasurementGoalExternals(externalId).then(
-            function(data) {
-                vm.metrics = data.metrics;
-                vm.contextFactors = data.contextFactors;
-                vm.assumptions = data.assumptions;
-                vm.organizationalGoal = data.organizationalGoal;
-                vm.instanceProject = data.instanceProject;
-                //$("#modal_large").modal("show");
-            },
-            function(data) {
-                alert('Error retriving Metrics');
-            }
-        );
-    };
-
-    function setMeasurementGoalDialog(measurementGoalToAssignId){
-        vm.measurementGoalDialog = vm.measurementGoals[measurementGoalToAssignId];
-        getMeasurementGoalExternals(vm.measurementGoals[measurementGoalToAssignId].metadata.id);
-        
-        //Send to MeasurementGoalService to open a modal
-        var toUpdate = {
-            measurementGoal : vm.measurementGoalDialog,
-            metrics : vm.metrics,
-            contextFactors : vm.contextFactors,
-            assumptions : vm.assumptions,
-            organizationalGoal : vm.organizationalGoal,
-            instanceProject : vm.instanceProject
-        };
-
-        MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
-        MeasurementGoalModalService.openMeasurementGoalModal();
-    };
-
-    function goToUpdateMeasurementGoal(){
-
-            var toUpdate = {
-                measurementGoal : vm.measurementGoalDialog,
-                metrics : vm.metrics,
-                contextFactors : vm.contextFactors,
-                assumptions : vm.assumptions,
-                organizationalGoal : vm.organizationalGoal,
-                instanceProject : vm.instanceProject
-            };
-
-            MeasurementGoalService.toUpdateMeasurementGoal(toUpdate);
-            console.log("Going to Update Measurement Goal");
-            $location.path('/measurementgoal');
-            console.log($location.path('/measurementgoal'));
-
-    }
-    }
-
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name _init
-    * @description
-    * Initializes the controller.
-    ********************************************************************************/
-    function _init() {
-    }
 
 })();
 
@@ -10484,7 +10116,7 @@ function ProfileController($scope, $rootScope, $location, $routeParams, UserServ
 * @Author: alessandro.fazio
 * @Date:   2016-07-12 23:08:35
 * @Last Modified by:   alessandro.fazio
-* @Last Modified time: 2016-07-17 16:15:24
+* @Last Modified time: 2016-07-17 17:59:58
 */
 
 (function () { 'use strict';
@@ -10509,12 +10141,7 @@ MetricatorDashboardController.$inject = ['$scope', '$location','MetricService','
 function MetricatorDashboardController($scope, $location, MetricService, MeasurementGoalService, $window, STATES) {
 
     var vm = this;
-
-    //var states = [
-    //	Approved = 'Approved',
-    //	OnUpdate = 'OnUpdate',
-    //	Pending = 'Pending'
-    //];
+    
     vm.date = new Date();
 
     vm.measurementGoalStates = [
@@ -10522,12 +10149,6 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     	STATES.ONUPDATEENDPOINT,
         STATES.PENDING
     ];
-
-    //vm.measurementGoalStates = [];
-    //vm.measurementGoalStates[0] = 'Approved';
-    //vm.measurementGoalStates[1] = 'OnUpdateQuestionerEndpoint';
-    //vm.measurementGoalStates[2] = 'Pending';
-    
 
     vm.metricStates = [
         STATES.APPROVED,
@@ -10538,24 +10159,6 @@ function MetricatorDashboardController($scope, $location, MetricService, Measure
     vm.measurementGoals = {};
 
     vm.metrics = {};
-
-    /*var approvedMeasurementGoals = 0;
-    var onUpdateMeasurementGoals = 0;
-    var pendingMeasurementGoals = 0;
-    var measurementGoals = [approvedMeasurementGoals, onUpdateMeasurementGoals, pendingMeasurementGoals];
-
-    var approvedMetrics = 0;
-    var onUpdateMetrics = 0;
-    var pendingMetrics = 0;
-    var metrics = [approvedMetrics, onUpdateMetrics, pendingMetrics];
-
-    vm.results = {
-    	metrics : metrics,
-    	measurementGoals : measurementGoals,
-    }; */
-
-    //vm.getMeasurementGoals = getMeasurementGoals;
-    //vm.getMetrics = getMetrics;
 
     _getMeasurementGoals();
     _getMetrics();
