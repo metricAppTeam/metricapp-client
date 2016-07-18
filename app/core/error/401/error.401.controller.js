@@ -2,22 +2,21 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name Error404Controller
+* @name Error401Controller
+* @requires $window
 * @requires $location
-* @requires AuthService
 *
 * @description
-* Handles the 404 error.
-* Realizes the control layer for `404.view`.
+* Realizes the control layer for `error.401.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('Error404Controller', Error404Controller);
+.controller('Error401Controller', Error401Controller);
 
-Error404Controller.$inject = ['$window', '$location'];
+Error401Controller.$inject = ['$window', '$location'];
 
-function Error404Controller($window, $location) {
+function Error401Controller($window, $location) {
 
     var vm = this;
 

@@ -28,6 +28,11 @@ function routes($routeProvider, $locationProvider) {
         templateUrl: 'dist/views/home/home.view.html'
     })
 
+    // TESTS
+    .when('/test', {
+        templateUrl: 'dist/views/test/test.view.html'
+    })
+
     // AUTHENTICATION
     .when('/login', {
         templateUrl: 'dist/views/authentication/login.view.html'
@@ -132,13 +137,13 @@ function routes($routeProvider, $locationProvider) {
 
     // ERRORS
     .when('/401', {
-        templateUrl: 'dist/views/error/error.401.view.html'
+        templateUrl: 'dist/views/error/401/error.401.view.html'
     })
     .when('/404', {
-        templateUrl: 'dist/views/error/error.404.view.html'
+        templateUrl: 'dist/views/error/404/error.404.view.html'
     })
     .when('/500', {
-        templateUrl: 'dist/views/error/error.500.view.html'
+        templateUrl: 'dist/views/error/500/error.500.view.html'
     })
 
     // FALLBACK

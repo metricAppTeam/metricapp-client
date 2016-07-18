@@ -2,22 +2,22 @@
 
 /************************************************************************************
 * @ngdoc controller
-* @name Error401Controller
+* @name Error500Controller
+* @requires $window
 * @requires $location
-* @requires AuthService
 *
 * @description
-* Handles the 401 error.
-* Realizes the control layer for `401.view`.
+* Handles the 500 error.
+* Realizes the control layer for `500.view`.
 ************************************************************************************/
 
 angular.module('metricapp')
 
-.controller('Error401Controller', Error401Controller);
+.controller('Error500Controller', Error500Controller);
 
-Error401Controller.$inject = ['$window', '$location'];
+Error500Controller.$inject = ['$window', '$location'];
 
-function Error401Controller($window, $location) {
+function Error500Controller($window, $location) {
 
     var vm = this;
 

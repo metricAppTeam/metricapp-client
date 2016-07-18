@@ -7,6 +7,7 @@
 * @requires $http
 * @requires $rootScope
 * @requires $cookies
+* @requires CryptoService
 * @requires REST_SERVICE
 * @requires ROLES
 *
@@ -18,9 +19,11 @@ angular.module('metricapp')
 
 .service('AuthService', AuthService);
 
-AuthService.$inject = ['$http', '$rootScope', '$cookies', '$q', 'REST_SERVICE', 'ROLES', 'DB_USERS'];
+AuthService.$inject = ['$http', '$rootScope', '$cookies', '$q', 'CryptoService',
+'REST_SERVICE', 'ROLES', 'DB_USERS'];
 
-function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_USERS) {
+function AuthService($http, $rootScope, $cookies, $q, CryptoService,
+    REST_SERVICE, ROLES, DB_USERS) {
 
     var service = this;
 
@@ -48,12 +51,28 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
     function login(credentials) {
         var username = credentials.username;
         var password = credentials.password;
+        var req = {
+            method: 'POST',
+            url: '',
+            headers: {
+                'Cotnent-Type': ''
+            }
+        };
+        $http(req).then(
+            function(resolve) {
+
+            },
+            function(reject) {
+
+            }
+        );
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 var USER = DB_USERS[username];
                 if (USER) {
                     if (USER.password === password) {
                         USER.online = true;
+                        setUser(USER);
                         resolve({authuser: USER});
                     } else {
                         reject({errmsg: 'Wrong password for: ' + username});
@@ -116,19 +135,21 @@ function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_US
     * @returns {String} Insert description here.
     ********************************************************************************/
     function setUser(authuser) {
-        var authdata = authuser.username + ':' + authuser.password + ':' + authuser.role;
+        //var authdata = authuser.username + ':' + authuser.password + ':' + authuser.role;
+        var authdata = authuser.username + ':' + authuser.password;
 
         $rootScope.globals = {
             user: {}
         };
         $rootScope.globals.user = angular.copy(authuser);
-        $rootScope.globals.user.authdata = authdata;
-
-
+        //delete $rootScope.globals.user.password;
+        //$rootScope.globals.user.authdata = authdata;
+        $rootScope.globals.user.authdataB64 = CryptoService.encodeBase64(authdata);
 
         $cookies.putObject('globals', $rootScope.globals);
 
-        $http.defaults.headers.common.Authorization = 'Basic ' + authdata;
+        $http.defaults.headers.common.Authorization =
+            'Basic ' + $rootScope.globals.user.authdataB64;
     }
 
     /********************************************************************************

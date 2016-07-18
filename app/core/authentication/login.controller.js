@@ -37,7 +37,6 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
         AuthService.login(credentials).then(
             function(resolve) {
                 var authuser = resolve.authuser;
-                AuthService.setUser(authuser);
                 vm.success = true;
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_SUCCESS);
                 $location.path('/home');
