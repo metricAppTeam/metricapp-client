@@ -36,14 +36,13 @@ function LoginController($rootScope, $location, AuthService, AUTH_EVENTS) {
 
         AuthService.login(credentials).then(
             function(resolve) {
-                var authuser = resolve.authuser;
                 vm.success = true;
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_SUCCESS);
                 $location.path('/home');
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
-                alert(vm.errmsg);
+                //alert(vm.errmsg);
                 vm.success = false;
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILURE);
             }

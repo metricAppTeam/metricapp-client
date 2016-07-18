@@ -49,39 +49,27 @@ function AuthService($http, $rootScope, $cookies, $q, CryptoService,
     * an error message, otherwise.
     ***************************************************************************/
     function login(credentials) {
-        var username = credentials.username;
-        var password = credentials.password;
         var req = {
             method: 'POST',
-            url: '',
+            url: REST_SERVICE.URL + '/login',
             headers: {
-                'Cotnent-Type': ''
-            }
-        };
-        $http(req).then(
-            function(resolve) {
-
+                'Content-Type': 'application/json'
             },
-            function(reject) {
-
+            data: credentials
+        };
+        return $http(req).then(
+            function(success) {
+                var userCrudDTO = angular.fromJson(success.data);
+                var user = userCrudDTO.userList[0];
+                delete user.metadata;
+                setUser(user);
+                return $q.resolve();
+            },
+            function(error) {
+                var errmsg = angular.fromJson(error.data.message);
+                return $q.reject({errmsg: errmsg});
             }
         );
-        return $q(function(resolve, reject) {
-            setTimeout(function() {
-                var USER = DB_USERS[username];
-                if (USER) {
-                    if (USER.password === password) {
-                        USER.online = true;
-                        setUser(USER);
-                        resolve({authuser: USER});
-                    } else {
-                        reject({errmsg: 'Wrong password for: ' + username});
-                    }
-                } else {
-                    reject({errmsg: 'Wrong username for: ' + username});
-                }
-            }, 500);
-        });
     }
 
     /********************************************************************************
@@ -93,19 +81,20 @@ function AuthService($http, $rootScope, $cookies, $q, CryptoService,
     * @returns {} Insert description here.
     ********************************************************************************/
     function logout() {
-        var username = $cookies.getObject('globals').user.username;
-        return $q(function(resolve, reject) {
-            setTimeout(function() {
-                var USER = DB_USERS[username];
-                if (USER) {
-                    USER.online = false;
-                    clearUser();
-                    resolve({username: username});
-                } else {
-                    reject({errmsg: 'Wrong username for: ' + username});
-                }
-            }, 500);
-        });
+        var req = {
+            method: 'POST',
+            url: REST_SERVICE.URL + '/logout',
+        };
+        return $http(req).then(
+            function(success) {
+                clearUser();
+                return $q.resolve();
+            },
+            function(error) {
+                var errmsg = angular.fromJson(error.data.message);
+                return $q.reject({errmsg: errmsg});
+            }
+        );
     }
 
     /********************************************************************************
