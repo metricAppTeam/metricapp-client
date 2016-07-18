@@ -132,14 +132,16 @@ function routes($routeProvider, $locationProvider) {
 
     // ERRORS
     .when('/401', {
-        templateUrl: 'dist/views/error/error401.view.html'
+        templateUrl: 'dist/views/error/error.401.view.html'
     })
     .when('/404', {
-        templateUrl: 'dist/views/error/error404.view.html'
+        templateUrl: 'dist/views/error/error.404.view.html'
     })
     .when('/500', {
-        templateUrl: 'dist/views/error/error500.view.html'
+        templateUrl: 'dist/views/error/error.500.view.html'
     })
+
+    // FALLBACK
     .otherwise({
         redirectTo: '/404'
     });
