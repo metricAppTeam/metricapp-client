@@ -9,9 +9,9 @@
                 <p ng-switch-when="true">Loading home ...</p>
                 <div ng-switch-when="false" ng-switch="vm.success">
                     <div ng-switch-when="true" ng-switch="globals.user.role">
-                        <p ng-switch-when="EXPERT">You have EXPERT rights.</p>
-                        <p ng-switch-when="QUESTIONER">You have QUESTIONER rights.</p>
-                        <p ng-switch-when="METRICATOR">You have METRICATOR rights.</p>
+                        <p ng-switch-when="GQMExpert">You have GQMExpert rights.</p>
+                        <p ng-switch-when="Questioner">You have Questioner rights.</p>
+                        <p ng-switch-when="Metricator">You have Metricator rights.</p>
                         <p ng-switch-default="ng-switch-default">You have no rights.</p>
                     </div>
                     <p ng-switch-when="false">Ooops! Something went wrong :-(</p>
