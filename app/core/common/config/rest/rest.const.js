@@ -14,9 +14,9 @@
 angular.module('metricapp')
 
 .constant('REST_SERVICE', {
-    DOMAIN: 'localhost:8080',
+    DOMAIN: 'http://localhost:8080',
     PORT: 8080,
-    URL: 'localhost:8080'
+    URL: 'http://localhost:8080'
 });
 
 })();
