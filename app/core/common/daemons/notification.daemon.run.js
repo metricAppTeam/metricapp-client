@@ -8,6 +8,7 @@
 * @requires $interval
 * @requires NotificationService
 * @requires UserService
+* @requires AUTH_EVENTS
 * @requires NOTIFICATION_EVENTS
 *
 * @description
@@ -18,53 +19,48 @@ angular.module('metricapp')
 
 .run(notificationDaemon);
 
-notificationDaemon.$inject = ['$rootScope', '$interval', 'NotificationService', 'UserService', 'NOTIFICATION_EVENTS'];
+notificationDaemon.$inject = ['$rootScope', '$interval', 'NotificationService', 'UserService', 'AUTH_EVENTS', 'NOTIFICATION_EVENTS'];
 
-function notificationDaemon($rootScope, $interval, NotificationService, UserService, NOTIFICATION_EVENTS) {
-    $rootScope.eventbox = $rootScope.eventbox || {news:0, toread:0, notifications:[], loading:false, success:true, errmsg:null};
-/*
-    function _loadAllNotifications() {
-        NotificationService.getAll().then(
-            function(resolve) {
-                var notifications = resolve.notifications;
-                $rootScope.eventbox.toread = resolve.toread;
-                $rootScope.eventbox.news = resolve.news;
-                var authors = [];
-                notifications.forEach(function(notification) {
-                    authors.push(notification.author);
-                });
-                return UserService.getInArray(authors).then(
-                    function(resolve) {
-                        var users = resolve.users;
-                        notifications.forEach(function(notification) {
-                            var author = notification.author;
-                            notification.author = angular.copy(users[author]);
-                            if (notification.author) {
-                                $rootScope.eventbox.notifications.push(notification);
-                            }
-                        });
-                    },
-                    function(reject) {
-                        $rootScope.eventbox.errmsg = reject.errmsg;
-                        vm.success = false;
-                    }
-                );
-            },
-            function(reject) {
-                vm.errmsg = reject.errmsg;
-                vm.success = false;
-            }
-        ).finally(function() {
-            vm.loading = false;
-        });
+function notificationDaemon($rootScope, $interval, NotificationService, UserService, AUTH_EVENTS, NOTIFICATION_EVENTS) {
+
+    function _startPolling() {
+        $rootScope.polling = $interval(function() {
+            NotificationService.getNews().then(
+                function(resolve) {
+                    var newNotifications = resolve.notifications;
+                    _broadcastNewNotifications(newNotifications);
+                },
+                function(reject) {
+                    var errmsg = reject.errmsg;
+                    alert(errmsg);
+                }
+            );
+        }, 3000);
     }
 
-    _loadAllNotifications();
+    function _stopPolling() {
+        if ($rootScope.polling) {
+            $interval.cancel($rootScope.polling);
+        }
+    }
+    /********************************************************************************
+    * BROADCASTERS
+    ********************************************************************************/
+    function _broadcastNewNotifications(newNotifications) {
+        $rootScope.$broadcast(NOTIFICATION_EVENTS.NEWS, newNotifications);
+    }
 
-    $interval(function() {
-        _loadAllNotifications();
-    }, 10000);
-*/
+    /********************************************************************************
+    * WATCHERS
+    ********************************************************************************/
+    $rootScope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
+        _startPolling();
+    });
+
+    $rootScope.$on(AUTH_EVENTS.LOGOUT_SUCCESS, function() {
+        _stopPolling();
+    });
+
 }
 
 

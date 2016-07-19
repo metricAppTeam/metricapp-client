@@ -83,6 +83,36 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
                 var notifications = angular.copy(resolve.notifications);
                 vm.toread = resolve.toread;
                 vm.news = resolve.news;
+                notifications.forEach(function(notification) {
+                    var author = {
+                        username: notification.authorId,
+                        firstname: notification.metadata.userFirstname,
+                        lastname: notification.metadata.userLastname,
+                        picture: notification.metadata.userPicture
+                    };
+                    notification.author = angular.copy(author);
+                    vm.data.push(notification);
+                });
+                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                vm.success = true;
+                _broadcastNoNews();
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                vm.success = false;
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
+
+        /*
+        * CONSIDER THE NotificationService.getAll() RETURNING ONLY DTO WITHOUT METADATA
+        *
+        NotificationService.getAll().then(
+            function(resolve) {
+                var notifications = angular.copy(resolve.notifications);
+                vm.toread = resolve.toread;
+                vm.news = resolve.news;
                 var authors = [];
                 notifications.forEach(function(notification) {
                     authors.push(notification.author);
@@ -114,6 +144,14 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
         ).finally(function() {
             vm.loading = false;
         });
+        */
+    }
+
+    function _refreshNotifications() {
+        vm.idx = 0;
+        var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+        vm.notifications = vm.buffer.slice(vm.idx, e);
+        vm.idx = e;
     }
 
     /********************************************************************************
@@ -146,9 +184,9 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
         vm.toread = 0;
         vm.news = 0;
         vm.idx = 0;
-        vm.step = 1;
+        vm.step = 5;
         vm.query = '';
-        vm.orderBy = '-ts_create';
+        vm.orderBy = '-creationDate';
 
         _loadAllNotifications();
 
@@ -157,15 +195,19 @@ function NotificationsController($scope, $rootScope, $location, $filter, Notific
         ****************************************************************************/
 
         $scope.$watch('vm.buffer', function() {
-            vm.idx = 0;
-            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.notifications = vm.buffer.slice(vm.idx, e);
-            vm.idx = e;
+            _refreshNotifications();
         });
 
         /****************************************************************************
         * LISTENERS
         ****************************************************************************/
+
+        $scope.$on(NOTIFICATION_EVENTS.NEWS, function(event, newNotifications) {
+            vm.data.push(notification);
+            vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+            _refreshNotifications();
+            vm.news = newNotifications.length;
+        });
 
         $scope.$on(NOTIFICATION_EVENTS.ALL_READ, function() {
             vm.buffer.forEach(function(notification) {

@@ -85,28 +85,19 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
                 var notifications = angular.copy(resolve.notifications);
                 vm.toread = resolve.toread;
                 vm.news = resolve.news;
-                var authors = [];
                 notifications.forEach(function(notification) {
-                    authors.push(notification.author);
+                    var author = {
+                        username: notification.authorId,
+                        firstname: notification.metadata.userFirstname,
+                        lastname: notification.metadata.userLastname,
+                        picture: notification.metadata.userPicture
+                    };
+                    notification.author = angular.copy(author);
+                    vm.data.push(notification);
                 });
-                return UserService.getInArray(authors).then(
-                    function(resolve) {
-                        var users = angular.copy(resolve.users);
-                        notifications.forEach(function(notification) {
-                            var author = notification.author;
-                            notification.author = angular.copy(users[author]);
-                            if (notification.author) {
-                                vm.data.push(notification);
-                            }
-                        });
-                        vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
-                        vm.success = true;
-                    },
-                    function(reject) {
-                        vm.errmsg = reject.errmsg;
-                        vm.success = false;
-                    }
-                );
+                vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+                vm.success = true;
+                _broadcastNoNews();
             },
             function(reject) {
                 vm.errmsg = reject.errmsg;
@@ -115,6 +106,13 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
         ).finally(function() {
             vm.loading = false;
         });
+    }
+
+    function _refreshNotifications() {
+        vm.idx = 0;
+        var e = Math.min(vm.idx + vm.step, vm.buffer.length);
+        vm.notifications = vm.buffer.slice(vm.idx, e);
+        vm.idx = e;
     }
 
     /********************************************************************************
@@ -149,7 +147,7 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
         vm.idx = 0;
         vm.step = 1;
         vm.query = '';
-        vm.orderBy = '-ts_create';
+        vm.orderBy = '-creationDate';
 
         if (AuthService.isLogged()) {
             _loadAllNotifications();
@@ -160,10 +158,7 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
         ****************************************************************************/
 
         $scope.$watch('vm.buffer', function() {
-            vm.idx = 0;
-            var e = Math.min(vm.idx + vm.step, vm.buffer.length);
-            vm.notifications = vm.buffer.slice(vm.idx, e);
-            vm.idx = e;
+            _refreshNotifications();
         });
 
         /****************************************************************************
@@ -172,6 +167,13 @@ function NotificationsWidgetController($scope, $rootScope, $location, $filter, N
 
         $scope.$on(AUTH_EVENTS.LOGIN_SUCCESS, function() {
             _loadAllNotifications();
+        });
+
+        $scope.$on(NOTIFICATION_EVENTS.NEWS, function(event, newNotifications) {
+            vm.data.push(notification);
+            vm.buffer = $filter('orderBy')(vm.data, vm.orderBy);
+            _refreshNotifications();
+            vm.news = newNotifications.length;
         });
 
         $scope.$on(NOTIFICATION_EVENTS.NO_NEWS, function() {

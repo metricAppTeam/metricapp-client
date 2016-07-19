@@ -6,6 +6,7 @@
 * @module metricapp
 * @description
 * Defines events related to notifications management.
+* - NEWS:
 * - NO_NEWS:
 * - ALL_READ:
 * - SET_READ:
@@ -14,9 +15,10 @@
 angular.module('metricapp')
 
 .constant('NOTIFICATION_EVENTS', {
+    NEWS:       'notification.news',
     NO_NEWS:    'notification.nonews',
     ALL_READ:   'notification.all.read',
-    SET_READ:   'notification.set.read',
+    SET_READ:   'notification.set.read'
 });
 
 })();

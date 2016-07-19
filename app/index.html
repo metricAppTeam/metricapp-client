@@ -200,16 +200,16 @@
                                         <a ng-switch-when="true" ng-show="vm.notifications.length == 0" class="list-group-item list-group-item-message" href="">
                                             <span class="contacts-title">No notifications yet</span>
                                         </a>
-                                        <a ng-switch-when="true" ng-repeat="notification in vm.notifications | orderBy:'-ts_create' track by notification.id"
+                                        <a ng-switch-when="true" ng-repeat="notification in vm.notifications | orderBy:vm.orderBy track by notification.id"
                                         class="list-group-item list-group-item-message"
                                         ng-class="{'status-read': notification.read,
                                         'status-unread': !notification.read}"
-                                        ng-href="#/{{notification.scope}}/{{notification.artifact_id}}" ng-click="vm.setRead(notification.id)">
+                                        ng-href="#/{{notification.artifactScope}}/{{notification.artifactId}}" ng-click="vm.setRead(notification.id)">
                                             <img ng-src="{{notification.author.picture}}" m-fallback-src="dist/images/users/user-picture.svg" class="pull-left" alt="{{notification.author.username}}"/>
                                             <span class="contacts-title">
                                                 {{notification.author | userFullnameFormat}}
-                                                <small>{{notification.ts_create | dateFormat:'ago'}}</small>
-                                                <p>{{notification.name}}</p>
+                                                <small>{{notification.creationDate | dateFormat:'ago'}}</small>
+                                                <p>{{notification.description}}</p>
                                             </span>
                                         </a>
                                         <a ng-switch-when="true" ng-if="vm.idx < vm.buffer.length" class="list-group-item list-group-item-message a-centered btn-load-more"
