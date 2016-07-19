@@ -9,6 +9,7 @@
 * @requires REST_SERVICE
 * @requires AuthService
 * @requires ROLES
+* @requires GENDERS
 *
 * @description
 * Provides users management services.
@@ -18,11 +19,15 @@ angular.module('metricapp')
 
 .service('UserService', UserService);
 
-UserService.$inject = ['$http', '$q', '$cookies', 'REST_SERVICE', 'AuthService', 'ROLES', 'DB_USERS'];
+UserService.$inject = ['$http', '$q', '$cookies', 'REST_SERVICE', 'AuthService',
+'ROLES', 'GENDERS', 'DB_USERS'];
 
-function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_USERS) {
+function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, GENDERS, DB_USERS) {
 
     var service = this;
+
+    service.ROLES = ROLES;
+    service.GENDERS = GENDERS;
 
     service.getAll = getAll;
     service.getById = getById;
@@ -156,18 +161,23 @@ function UserService($http, $q, $cookies, REST_SERVICE, AuthService, ROLES, DB_U
     * an error message, otherwise.
     ********************************************************************************/
     function create(user) {
-        return $q(function(resolve, reject) {
-            var username = user.username;
-            setTimeout(function() {
-                if (DB_USERS[username]) {
-                    reject({errmsg: 'User ' + username + ' already registered'});
-                } else {
-                    DB_USERS[username] = angular.copy(user);
-                    DB_USERS[username].online = false;
-                    resolve({username: username, msg: 'Thank you for signing up ' + username});
-                }
-            }, 500);
-        });
+        var req = {
+            method: 'POST',
+            url: REST_SERVICE.URL + '/users',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: user
+        };
+        return $http(req).then(
+            function(success) {
+                return $q.resolve();
+            },
+            function(error) {
+                var errmsg = angular.fromJson(error.error);
+                return $q.reject({errmsg:errmsg});
+            }
+        );
     }
 
     /********************************************************************************

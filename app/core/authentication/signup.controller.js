@@ -18,15 +18,14 @@ angular.module('metricapp')
 
 .controller('SignupController', SignupController);
 
-SignupController.$inject = ['$scope', '$location', 'UserService',
-'ROLES', 'GENDERS'];
+SignupController.$inject = ['$scope', '$location', 'UserService'];
 
-function SignupController($scope, $location, UserService, ROLES, GENDERS) {
+function SignupController($scope, $location, UserService) {
 
     var vm = this;
 
-    vm.ROLES = ROLES;
-    vm.GENDERS = GENDERS;
+    vm.ROLES = UserService.ROLES;
+    vm.GENDERS = UserService.GENDERS;
 
     vm.signup = signup;
     vm.cancelSignup = cancelSignup;
@@ -45,7 +44,6 @@ function SignupController($scope, $location, UserService, ROLES, GENDERS) {
 
         UserService.create(user).then(
             function(resolve) {
-                var msg = resolve.msg;
                 vm.success = true;
             },
             function(reject) {

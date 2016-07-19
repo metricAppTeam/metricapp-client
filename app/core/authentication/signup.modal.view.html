@@ -58,11 +58,10 @@ ng-controller="SignupController as vm">
                     <div class="form-group" ng-class="{ 'hash-error': signupForm.birthday.$dirty && signupForm.birthday.$invalid }">
                         <label class="col-md-3 control-label">Birthday:</label>
                         <div class="col-md-9">
-                            <input class="form-control" name="birthday" type="date" required="required"
+                            <input class="form-control" name="birthday" type="text" required="required" placeholder="YYYY-MM-DD"
                             ng-model="vm.user.birthday"
                             ng-model-options="{ updateOn: 'default' }"
-                            ng-class="{ 'error': signupForm.birthday.$dirty && signupForm.birthday.$invalid }"
-                            min="01-01-1900" max="01-01-2016" date/>
+                            ng-class="{ 'error': signupForm.birthday.$dirty && signupForm.birthday.$invalid }"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.birthday.$error" ng-show="signupForm.birthday.$dirty">
                                 <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
@@ -132,7 +131,7 @@ ng-controller="SignupController as vm">
                             ng-model="vm.user.username"
                             ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                             ng-class="{ 'error': signupForm.username.$dirty && signupForm.username.$invalid }"
-                            ng-minlength="3" ng-maxlength="20"/>
+                            ng-minlength="3" ng-maxlength="25"/>
                             <div class="form-group-helper" role="alert" ng-messages="signupForm.username.$error" ng-show="signupForm.username.$dirty">
                                 <div ng-messages-include="dist/views/authentication/messages/signup.message.html"></div>
                             </div>
@@ -157,7 +156,7 @@ ng-controller="SignupController as vm">
                         <label class="col-md-3 control-label">Password:</label>
                         <div class="col-md-9">
                             <input class="form-control" name="password_r" type="password" placeholder="Password (repeat)" required="required"
-                            ng-model="vm.user.password_r"
+                            ng-model="vm.password_r"
                             ng-model-options="{ updateOn: 'default' }"
                             ng-class="{ 'error': signupForm.password_r.$dirty && signupForm.password_r.$invalid }"
                             m-match="{{vm.user.password}}"/>
