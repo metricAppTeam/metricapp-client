@@ -25,9 +25,9 @@ function ActionService(USER_ACTIONS, EXPERT_ACTIONS, METRICATOR_ACTIONS, QUESTIO
 
     service.ACTIONS = {
         USER: USER_ACTIONS,
-        EXPERT: EXPERT_ACTIONS,
-        METRICATOR: METRICATOR_ACTIONS,
-        QUESTIONER: QUESTIONER_ACTIONS
+        GQMExpert: EXPERT_ACTIONS,
+        Metricator: METRICATOR_ACTIONS,
+        Questioner: QUESTIONER_ACTIONS
     };
 
     service.getActionsForRole = getActionsForRole;

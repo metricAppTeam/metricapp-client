@@ -13,8 +13,8 @@
 angular.module('metricapp')
 
 .constant('GENDERS', {
-    MALE:   'MALE',
-    FEMALE: 'FEMALE'
+    MALE:   'Male',
+    FEMALE: 'Female'
 });
 
 })();

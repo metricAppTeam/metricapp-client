@@ -14,9 +14,9 @@
 angular.module('metricapp')
 
 .constant('ROLES', {
-    EXPERT:     'EXPERT',
-    QUESTIONER: 'QUESTIONER',
-    METRICATOR: 'METRICATOR'
+    EXPERT:     'GQMExpert',
+    QUESTIONER: 'Questioner',
+    METRICATOR: 'Metricator'
 });
 
 })();
