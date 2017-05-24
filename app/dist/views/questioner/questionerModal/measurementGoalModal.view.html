@@ -1,0 +1,67 @@
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="mgModal.closeModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title" id="largeModalHead">Measurement Goal</h4>
+</div>
+<div class="modal-body">
+<h2>Measurement Goal</h2>
+<ul class="list-group border-bottom">
+    <h4>Name</h4>
+        <li class="list-group-item">{{mgModal.mgDialog.name}}</li>
+        <br>
+        <h4>Focus</h4>
+        <li class="list-group-item">{{mgModal.mgDialog.focus}}</li>
+        <br>
+        <h4>Object</h4>
+        <li class="list-group-item">{{mgModal.mgDialog.object}}</li>
+        <br>
+        <h4>Purpose</h4>
+        <li class="list-group-item">{{mgModal.mgDialog.purpose}}</li>
+        <br>
+        <h4>ViewPoint</h4>
+        <li class="list-group-item">{{mgModal.mgDialog.viewPoint}}</li>
+        
+        <br>
+        <h3>Interpretation Model</h3>
+            <br>
+            <h4 class="panel-title">Function Javascript :</h4>
+            <li class="list-group-item">
+            <div class="panel-body scroll" style="height: 30px;">         
+                <p>{{mgModal.mgDialog.interpretationModel.functionJavascript}}
+            </div>                                   
+            </li>
+            <br>
+            <h4 class="panel-title">Query NoSQL :</h4>
+            <li class="list-group-item">
+            <div class="panel-body scroll" style="height: 30px;">         
+                <p>{{mgModal.mgDialog.interpretationModel.queryNoSQL}}</p>
+            </div>
+        </li>
+        <br>
+        <li ng-show="mgModal.showReleaseNote" class="list-group-item">
+            <label class="col-md-3 col-xs-12 control-label">Release Note</label>
+            <textarea name="inputReleaseNote" class="form-control" rows="5" 
+                                    ng-required="true" ng-minlength="10" 
+                                    ng-model="mgModal.mgDialog.metadata.releaseNote">
+                                        
+            </textarea>     
+            <button type="button" class="btn btn-default" ng-click="mgModal.askForQuestionEndpoint()" ng-disabled="inputReleaseNote.$invalid">
+                Submit
+            </button>
+        </li>
+</ul>                           
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="mgModal.closeModal()">Close</button>      
+    <button type="button" class="btn btn-default" ng-click="mgModal.addExistingQuestion()"
+        ng-show="mgModal.mgDialog.metadata.state == 'OnUpdateWaitingQuestions' ||
+        mgModal.mgDialog.metadata.state == 'Created'">Add Existing Question</button>    
+    <button type="button" class="btn btn-default" ng-click="mgModal.showQuestions()">Show Questions</button>  
+    <div ng-show="!mgModal.showReleaseNote && mgModal.stateIsWaiting">
+        <button type="button" class="btn btn-primary" ng-click="mgModal.inputReleaseNote()">
+        Ask For Question Endpoint
+        </button>
+    </div>
+    
+</div>
+

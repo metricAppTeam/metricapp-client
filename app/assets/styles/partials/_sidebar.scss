@@ -1,0 +1,25 @@
+.x-navigation {
+
+    height: 100vh;
+
+    li > a {
+        padding: 15px 5px 15px 15px;
+    }
+/*
+    li.active > a {
+        background: inherit;
+    }*/
+
+}
+
+.x-navigation.x-navigation-minimized {
+
+    li.active {
+
+        .profile {
+            display: none;
+        }
+
+    }
+
+}

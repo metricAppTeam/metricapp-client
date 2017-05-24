@@ -1,0 +1,30 @@
+.page-container {
+    background: url($bg-url) left top repeat $light-grey;
+}
+
+.body-full {
+
+    .page-container {
+        background: inherit;
+
+        .page-content {
+            background: url($bg-url) left top repeat $dark-grey;
+            margin: 0;
+        }
+
+    }
+
+}
+
+.scrollable {
+    overflow-y: scroll;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.a-centered {
+    text-align: center;
+}

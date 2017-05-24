@@ -1,0 +1,110 @@
+<!-- PAGE TITLE -->
+<div class="page-title">                    
+	<h2><span class="fa fa-arrow-circle-o-left"></span> Measurement Goal Question List</h2>
+</div>
+<!-- END PAGE TITLE -->                
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">                
+
+<div class="row">
+<div class="col-md-12">
+
+<div ng-controller="QuestionMeasurementGoalListCtrl as mgc">
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Measurement Goal details</h3>
+    </div>
+    <div class="panel-body">
+    <h6>Object</h6>    
+    <p>{{mgc.mgDialog.object}} </p>
+    <h6>Focus</h6>    
+    <p>{{mgc.mgDialog.focus}} </p>
+    <h6>Purpose</h6>    
+    <p>{{mgc.mgDialog.purpose}} </p>
+    <h6>Viewpoint</h6>    
+    <p>{{mgc.mgDialog.viewpoint}} </p>
+    </div>
+</div>   
+
+
+<!-- START DEFAULT DATATABLE -->
+<div class="panel panel-default">
+    <div class="panel-heading">                                
+        <h3 class="panel-title">Measurement Goal Data</h3>
+        <ul class="panel-controls">
+            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+            <li><a ng-click="mgc.getMeasurementGoals()" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+            <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+        </ul>                                
+    </div>
+    <div class="panel-body">
+            <h3> Questions </h3>
+            <table st-table="questionList" st-safe-src="mgc.questions" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th st-sort="id">Id</th>
+                        <th st-sort="name">Name</th>
+                        <th st-sort="creationDate">CreationDate</th>
+                        <th st-sort="lastVersionDate">LastVersionDate</th>
+                        <th st-sort="releaseNote">ReleaseNote</th>
+                        <th st-sort="state">State</th>
+                    </tr>
+            <tr>
+            <th colspan="6"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
+            </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="question in questionList">
+                        <td>
+                        <!--#modal_large mgc.setModal($parent.$index)-->
+                    <button id="modal_button_{{$index}}" class="btn btn-default btn-rounded" data-toggle="modal"
+                         ng-click="mgc.openQuestion($index)">{{question.metadata.id}}</button>
+                        </td>
+                        <td>{{question.metadata.entityType}}</td>
+                        <td>{{question.metadata.creationDate}}</td>
+                        <td>{{question.metadata.lastVersionDate}}</td>
+                        <td>{{question.metadata.releaseNote}}</td>
+                        <td>{{question.metadata.state}}</td>
+                    </tr>
+                </tbody>
+            </table>  
+
+            <br>
+
+            <h3> Metrics </h3>
+            <table st-table="metricList" st-safe-src="mgc.metrics" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th st-sort="id">Id</th>
+                        <th st-sort="name">Name</th>
+                        <th st-sort="creationDate">CreationDate</th>
+                        <th st-sort="lastVersionDate">LastVersionDate</th>
+                        <th st-sort="releaseNote">ReleaseNote</th>
+                        <th st-sort="state">State</th>
+                    </tr>
+                <tr>
+                <th colspan="6"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="metric in metricList">
+                        <td>
+                        <!--#modal_large mgc.setModal($parent.$index)-->
+                    <button id="modal_button_{{$index}}" class="btn btn-default btn-rounded" data-toggle="modal"
+                         ng-click="mgc.openMetric($index)">{{metric.metadata.id}}</button>
+                        </td>
+                        <td>{{metric.metadata.entityType}}</td>
+                        <td>{{metric.metadata.creationDate}}</td>
+                        <td>{{metric.metadata.lastVersionDate}}</td>
+                        <td>{{metric.metadata.releaseNote}}</td>
+                        <td>{{metric.metadata.state}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>   
+    </div>
+
+</div>
+<!-- END DEFAULT DATATABLE -->

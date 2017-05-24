@@ -7,23 +7,20 @@
 * @requires $http
 * @requires $rootScope
 * @requires $cookies
-* @requires UserService
 * @requires REST_SERVICE
 * @requires ROLES
 *
 * @description
-* Provides authentication and registration services.
+* Provides authentication services.
 ************************************************************************************/
 
 angular.module('metricapp')
 
 .service('AuthService', AuthService);
 
-AuthService.$inject = [
-    '$http', '$rootScope', '$cookies',
-    'UserService', 'REST_SERVICE', 'ROLES'];
+AuthService.$inject = ['$http', '$rootScope', '$cookies', '$q', 'REST_SERVICE', 'ROLES', 'DB_USERS'];
 
-function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROLES) {
+function AuthService($http, $rootScope, $cookies, $q, REST_SERVICE, ROLES, DB_USERS) {
 
     var service = this;
 
@@ -31,10 +28,13 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
 
     service.login = login;
     service.logout = logout;
-    service.signup = signup;
     service.getUser = getUser;
     service.setUser = setUser;
     service.clearUser = clearUser;
+    service.getUsername = getUsername;
+    service.isLogged = isLogged;
+
+    service.editPassword = editPassword;
 
     /********************************************************************************
     * @ngdoc method
@@ -42,28 +42,27 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
     * @description
     * Autheticates with the specified credentials.
     * @param {Credentials} credentials The user credentials.
-    * @returns {User} On success, the authenticated User; null otherwise.
+    * @returns {User|Error} On success, the authuser;
+    * an error message, otherwise.
     ***************************************************************************/
     function login(credentials) {
-        console.log('LOGIN user WITH ' +
-        'username=' + credentials.username + ' & ' +
-        'password=' + credentials.password);
-        return $http.post(REST_SERVICE.URL + '/api/login', credentials).then(
-            function(response) {
-                var authuser = response.data;
-                console.log('SUCCESS LOGIN user WITH ' +
-                'username=' + authuser.username + ' & ' +
-                'password=' + authuser.password + ' & ' +
-                'role=' + authuser.role);
-                return authuser;
-            },
-            function(response) {
-                console.log('FAILURE LOGIN user WITH ' +
-                'username=' + credentials.username + ' & ' +
-                'password=' + credentials.password);
-                return null;
-            }
-        );
+        var username = credentials.username;
+        var password = credentials.password;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var USER = DB_USERS[username];
+                if (USER) {
+                    if (USER.password === password) {
+                        USER.online = true;
+                        resolve({authuser: USER});
+                    } else {
+                        reject({errmsg: 'Wrong password for: ' + username});
+                    }
+                } else {
+                    reject({errmsg: 'Wrong username for: ' + username});
+                }
+            }, 500);
+        });
     }
 
     /********************************************************************************
@@ -72,59 +71,22 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
     * @description
     * Deautheticates user with the specified credentials.
     * @param {Credentials} credentials The user credentials.
-    * @returns {Response} Insert description here.
+    * @returns {} Insert description here.
     ********************************************************************************/
     function logout() {
-        console.log('LOGOUT user');
-        return $http.post(REST_SERVICE.URL + '/api/logout').then(
-            function(response) {
-                var username = response.data;
-                console.log('SUCCESS LOGOUT user WITH ' +
-                'username=' + username);
-            },
-            function(response) {
-                var username = response.data;
-                console.log('FAILURE LOGOUT user WITH ' +
-                'username=' + username);
-            }
-        );
-    }
-
-    /********************************************************************************
-    * @ngdoc method
-    * @name signup
-    * @description
-    * Registers a new user with the specified profile.
-    * @param {User} user The user to register.
-    * @param {Profile} profile The user profile.
-    ********************************************************************************/
-    function signup(user, profile) {
-        console.log('SIGN-UP user WITH ' +
-        'username=' + user.username + ' & ' +
-        'password=' + user.password + ' & ' +
-        'role=' + user.role + ' & ' +
-        'firstname=' + profile.firstname + ' & ' +
-        'lastname=' + profile.lastname + ' & ' +
-        'email=' + profile.email);
-        var registration = {user: user, profile: profile};
-        return $http.post(REST_SERVICE.URL + '/api/signup', registration).then(
-            function(response) {
-                var message = response.data;
-                console.log('SUCCESS SIGN-UP user WITH ' +
-                'username=' + user.username + ' & ' +
-                'password=' + user.password + ' & ' +
-                'role=' + user.role);
-                return message;
-            },
-            function(response) {
-                var message = response.data;
-                console.log('FAILURE SIGN-UP user WITH ' +
-                'username=' + credentials.username + ' & ' +
-                'password=' + credential.username);
-                return message;
-            }
-        );
-
+        var username = $cookies.getObject('globals').user.username;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var USER = DB_USERS[username];
+                if (USER) {
+                    USER.online = false;
+                    clearUser();
+                    resolve({username: username});
+                } else {
+                    reject({errmsg: 'Wrong username for: ' + username});
+                }
+            }, 500);
+        });
     }
 
     /********************************************************************************
@@ -132,16 +94,17 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
     * @name getUser
     * @description
     * Retrieves user stored into the cookie.
-    * @returns {User} THe user stored into the cookie.
+    * @returns {User} THe authuser stored into the cookie.
     ********************************************************************************/
     function getUser() {
-        console.log('GET-USER cookie');
-        var user = $cookies.getObject('globals').user;
-        console.log('GET-COOKIE globals.user WITH ' +
-        'username=' + user.username + ' & ' +
-        'role=' + user.role + ' & ' +
-        'authdata=' + user.authdata);
-        return user;
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return user;
+            }
+        }
+        return null;
     }
 
     /********************************************************************************
@@ -153,31 +116,19 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
     * @returns {String} Insert description here.
     ********************************************************************************/
     function setUser(authuser) {
-        console.log('SET-USER cookie WITH ' +
-        'username=' + authuser.username + ' & ' +
-        'password=' + authuser.password + ' & ' +
-        'role=' + authuser.role);
-
         var authdata = authuser.username + ':' + authuser.password + ':' + authuser.role;
 
         $rootScope.globals = {
-            user: {
-                username: authuser.username,
-                role: authuser.role,
-                authdata: authdata
-            }
+            user: {}
         };
+        $rootScope.globals.user = angular.copy(authuser);
+        $rootScope.globals.user.authdata = authdata;
+
+
 
         $cookies.putObject('globals', $rootScope.globals);
-        console.log('PUT-COOKIE globals.user WITH ' +
-        'username=' + $rootScope.globals.user.username + ' & ' +
-        'role=' + $rootScope.globals.user.role + ' & ' +
-        'authdata=' + $rootScope.globals.user.authdata);
 
         $http.defaults.headers.common.Authorization = 'Basic ' + authdata;
-        console.log('SET-HEADER common WITH ' +
-        'Authorization=' + $http.defaults.headers.common.Authorization);
-
     }
 
     /********************************************************************************
@@ -187,13 +138,80 @@ function AuthService($http, $rootScope, $cookies, UserService, REST_SERVICE, ROL
     * Removes the user stored ito the cookie.
     ********************************************************************************/
     function clearUser() {
-        console.log('CLEAR-USER cookie');
         $rootScope.globals = {};
         $cookies.remove('globals');
-        console.log('REMOVE-COOKIE globals');
         $http.defaults.headers.common.Authorization = 'Basic';
-        console.log('SET-HEADER common WITH ' +
-        'Authorization=' + $http.defaults.headers.common.Authorization);
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name getUsername
+    * @description
+    * Retrieves the username of authuser, stored into the cookie.
+    * @returns {String} The username of the authuser, if exists;
+    * null, otherwise.
+    ********************************************************************************/
+    function getUsername() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return user.username;
+            }
+        }
+        return null;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name isLogged
+    * @description
+    * Check if the user is logged.
+    * @returns {Boolean} True, if the user is logged;
+    * false, otherwise.
+    ********************************************************************************/
+    function isLogged() {
+        var globals = $cookies.getObject('globals');
+        if (globals) {
+            var user = globals.user;
+            if (user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /********************************************************************************
+    * @ngdoc method
+    * @name editPassword
+    * @description
+    * Changes the password for authuser and deauthenticates it.
+    * @param {String} oldPassword The user old password.
+    * @param {String} newPassword The user new password.
+    * @returns {String|Error} On success, the username for the authuser and a success
+    * message;
+    * an error message, otherwise.
+    ********************************************************************************/
+    function editPassword(oldPassword, newPassword) {
+        var username = $cookies.getObject('globals').user.username;
+        return $q(function(resolve, reject) {
+            setTimeout(function() {
+                var USER = DB_USERS[username];
+                if (USER) {
+                    if (USER.password === oldPassword) {
+                        USER.password = newPassword;
+                        // other deauthentication actions.
+                        resolve({username: username, msg:'Successfully changed password for user ' + username});
+                    } else {
+                        reject({errmsg: 'Wrong old password for user ' + username});
+                    }
+                    USER.online = false;
+                    resolve({username: username});
+                } else {
+                    reject({errmsg: 'User ' + username + ' not found'});
+                }
+            }, 500);
+        });
     }
 
 }

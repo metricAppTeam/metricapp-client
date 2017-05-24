@@ -1,0 +1,109 @@
+<!-- START: USER ANALYTICS -->
+<div ng-controller="UserAnalyticsController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li><a ng-href="#/organization">Organization</a></li>
+        <li><a ng-href="#/profile/{{vm.currUser.id}}">Profile</a></li>
+        <li class="active"><a ng-href="#/profile/{{vm.currUser.id}}/analytics">Analytics</a></li>
+    </ul>
+    <div class="page-title">
+        <h2><span class="fa fa-user"></span> User Analytics <small ng-show="!vm.loading && vm.success">{{vm.currUser | userFullname}}</small></h2>
+    </div>
+
+    <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading analytics for user {{vm.currUser.username}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+
+                    <!-- START PANEL -->
+                    <div class="panel panel-danger">
+                        <div class="panel-heading"></div>
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="row" > 
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-info">{{vm.currUser.analytics[vm.USER_ANALYTICS.GQM_SCORE]}}<p>GQM Score</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-success">{{vm.currUser.analytics[vm.USER_ANALYTICS.GRIDS_TOT]}}<p>Tot. Grids</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-warning">{{vm.currUser.analytics[vm.USER_ANALYTICS.ARTIFACTS_TOT]}}<p>Tot. Artifacts</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                         
+                                        <a class="tile tile-default">{{vm.currUser.analytics[vm.USER_ANALYTICS.ACCEPTANCE_RATIO]}}<p>Acceptance Ratio</p>
+                                        </a>                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.ARTIFACTS_MGOAL]}}<p>Artifacts Mgoal</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                       
+                                        <a class="tile tile-default">{{vm.currUser.analytics[vm.USER_ANALYTICS.ARTIFACTS_RATE]}}<p>Artifacs Rate</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                        
+                                        <a class="tile tile-danger">{{vm.currUser.analytics[vm.USER_ANALYTICS.WORKTIME_RATIO]}}<p>Worktime Ratio</p>
+                                        </a>                        
+                                    </div>
+
+                                    <div class="col-md-3">                       
+                                        <a class="tile tile-success">{{vm.currUser.analytics[vm.USER_ANALYTICS.TASKS_PROGRESS]}}<p>Tasks Progress</p>
+                                        </a>                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h5> BUG CHART DA RISOLVERE <h5>
+                            
+                            <!-- area-chart='vm.currUser.analytics[vm.USER_ANALYTICS.TASKS_RECORD]'-->
+                            
+                            <h4 class="text-center">Assigned, Submitted and Accepted tasks over time for {{vm.currUser | userFullname}}</font></h4>
+                            <div class="row"> 
+                                <div class="col-md-15">
+                                    <div 
+                                        area-chart
+                                        area-data='[{"ts":"2016-01-31T11:30:00.000Z","assigned":9,"submitted":8,"accepted":3},{"ts":"2016-02-01T11:30:00.000Z","assigned":9,"submitted":2,"accepted":0},{"ts":"2016-02-02T11:30:00.000Z","assigned":7,"submitted":4,"accepted":0},{"ts":"2016-02-03T11:30:00.000Z","assigned":6,"submitted":9,"accepted":5},{"ts":"2016-02-04T11:30:00.000Z","assigned":0,"submitted":9,"accepted":0},{"ts":"2016-02-05T11:30:00.000Z","assigned":6,"submitted":5,"accepted":0},{"ts":"2016-02-06T11:30:00.000Z","assigned":7,"submitted":7,"accepted":0},{"ts":"2016-02-07T11:30:00.000Z","assigned":5,"submitted":5,"accepted":2},{"ts":"2016-02-08T11:30:00.000Z","assigned":1,"submitted":6,"accepted":7},{"ts":"2016-02-09T11:30:00.000Z","assigned":9,"submitted":2,"accepted":5},{"ts":"2016-02-10T11:30:00.000Z","assigned":4,"submitted":9,"accepted":3},{"ts":"2016-02-11T11:30:00.000Z","assigned":3,"submitted":3,"accepted":5},{"ts":"2016-02-12T11:30:00.000Z","assigned":5,"submitted":2,"accepted":3},{"ts":"2016-02-13T11:30:00.000Z","assigned":9,"submitted":8,"accepted":1},{"ts":"2016-02-14T11:30:00.000Z","assigned":2,"submitted":2,"accepted":8},{"ts":"2016-02-15T11:30:00.000Z","assigned":2,"submitted":7,"accepted":0},{"ts":"2016-02-16T11:30:00.000Z","assigned":1,"submitted":8,"accepted":3},{"ts":"2016-02-17T11:30:00.000Z","assigned":7,"submitted":1,"accepted":4},{"ts":"2016-02-18T11:30:00.000Z","assigned":3,"submitted":1,"accepted":2},{"ts":"2016-02-19T11:30:00.000Z","assigned":0,"submitted":3,"accepted":4},{"ts":"2016-02-20T11:30:00.000Z","assigned":7,"submitted":3,"accepted":2},{"ts":"2016-02-21T11:30:00.000Z","assigned":8,"submitted":7,"accepted":8},{"ts":"2016-02-22T11:30:00.000Z","assigned":1,"submitted":5,"accepted":1},{"ts":"2016-02-23T11:30:00.000Z","assigned":2,"submitted":8,"accepted":0},{"ts":"2016-02-24T11:30:00.000Z","assigned":7,"submitted":8,"accepted":8},{"ts":"2016-02-25T11:30:00.000Z","assigned":3,"submitted":4,"accepted":6},{"ts":"2016-02-26T11:30:00.000Z","assigned":5,"submitted":5,"accepted":0},{"ts":"2016-02-27T11:30:00.000Z","assigned":5,"submitted":3,"accepted":2},{"ts":"2016-02-28T11:30:00.000Z","assigned":2,"submitted":9,"accepted":4},{"ts":"2016-02-29T11:30:00.000Z","assigned":2,"submitted":6,"accepted":9}]'
+                                        area-xkey='ts'
+                                        area-ykeys='["assigned", "submitted","accepted"]'
+                                        area-labels='["Assigned Tasks", "Submitted Tasks","Accepted Tasks"]'
+                                        line-colors='["#31C0BE", "#c7254e","#fea223"]'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--<div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading analytics for user {{vm.currUser.username}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-href="#/profile/{{vm.currUser.username}}">Profile</a>
+                    <ul ng-switch-when="true">
+                        <li ng-repeat="(key, value) in vm.currUser.analytics">{{key}} = {{value}}</li>
+                    </ul>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                </div>
+            </div>
+        </div>
+    </div>-->
+</div>
+<!-- END: USER ANALYTICS -->

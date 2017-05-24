@@ -16,12 +16,34 @@ Finally, install locally node modules and Bower components, running the followin
 
 Now you are ready!
 
+## Develop
+Launch the live server, running:
+
+	gulp live
+
+The server will be running at *localhost:8090*.
+Gulp will be watching your file, thus you just need to save your changes and refresh the page!
+
 ## Build
 Completely build the app, running:
 
 	gulp build
 
 You will find everything built up inside the *dist* folder.
+
+You can also build part of app separately.
+
+To build views, run:
+	gulp build-views
+
+To build scripts, run:
+	gulp build-scripts
+
+To build styles, run:
+	gulp build-styles
+
+To build images, run:
+	gulp build-images
 
 ## Run
 Launch the app locally, running:
@@ -54,3 +76,12 @@ If you have problems with compass installation like:
 you have to install *ruby dev*, running:
 
 	sudo apt-get install ruby-dev
+
+If you have problems with jshint installation like:
+
+ 	throw err;
+	Error: Cannot find module 'jshint/src/cli'
+
+you have to install *jshint* manually, running:
+
+	sudo npm install -g jshint

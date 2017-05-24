@@ -1,0 +1,67 @@
+<!-- START: ExpertDashboard -->
+<div ng-controller="QuestionerCtrl as qst">
+<!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-3" role="link">
+                <div class="widget widget-default widget-no-subtitle" onclick="location.href='#/questionSearch';">
+                    <div class="widget-big-int"><span>{{qst.onUpdateQuestions}}</span></div>
+                    <div class="widget-subtitle">OnUpdate Questions</div>
+                </div>
+
+            </div>
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle" onclick="location.href='#/questionSearch';">
+                    <div class="widget-big-int"><span class="num-count">{{qst.approvedQuestions}}</span></div>
+                    <div class="widget-subtitle">Approved Questions</div>
+                </div>                        
+            </div>
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle" onclick="location.href='#/questionSearch';">
+                    <div class="widget-big-int"><span class="num-count">{{qst.rejectedQuestions}}</span></div>
+                    <div class="widget-subtitle">Approved Questions</div>
+                </div>                        
+            </div>
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle" onclick="location.href='#/measurementGoalList';">
+                    <div class="widget-big-int"><span class="num-count">{{qst.waitingForQuestionsMeasurementGoals}}</span></div>
+                    <div class="widget-subtitle">Waiting for questions Measurement Goals</div>
+                </div>                        
+            </div>
+            <div class="col-md-3">
+                <div class="widget widget-default widget-no-subtitle" onclick="location.href='#/measurementGoalList';">
+                    <div class="widget-big-int"><span class="num-count">{{qst.approvedMeasurementGoals}}</span></div>
+                    <div class="widget-subtitle">Approved Measurement Goals</div>
+                </div>                        
+            </div>
+            <div class="col-md-3">
+	            <!-- START WIDGET MESSAGES -->
+	            <div class="widget widget-default widget-item-icon" onclick="location.href='#/messages';">
+	                <div class="widget-item-left">
+	                    <span class="fa fa-envelope"></span>
+	                </div>                             
+	                <div class="widget-data">
+	                    <div class="widget-int num-count">{{qst.messagesInbox}}</div>
+	                    <div class="widget-title">New messages</div>
+	                    <div class="widget-subtitle">In your mailbox</div>
+	                </div>
+	            </div>                  
+	        </div>          
+            <!-- END WIDGET MESSAGES -->
+            <div class="col-md-3">
+                <div class="widget widget-info widget-item-icon">                            
+                	<div class="widget-item-left">
+                	    <span class="fa fa-clock-o"></span>
+                	</div>  
+                    <div class="widget-data">
+                    	<br>
+                        <div class="widget-big-int">{{qst.date | date:'HH:mm'}}</div> 
+                        <div class="widget-subtitle">{{qst.date | date:'EEEE, dd/MM/yyyy'}}</div>
+                    </div>
+                </div>                        
+            </div>
+        </div> 
+        
+    </div>
+</div>
+<!-- END: HOME -->

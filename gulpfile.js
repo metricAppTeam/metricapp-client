@@ -31,14 +31,13 @@ var jshint      = require('gulp-jshint');
 var svg2png     = require('gulp-svg2png');
 var imageResize = require('gulp-image-resize');
 
-// Views
-var pug         = require('gulp-pug');
-var pugLint     = require('gulp-pug-lint');
+// Deploy
+var connect     = require('gulp-connect');
 
 // Other
 var shell       = require('gulp-shell');
 var notify      = require('gulp-notify');
-var connect     = require('gulp-connect');
+
 var ngdocs      = require('gulp-ngdocs');
 var replace     = require('gulp-replace');
 
@@ -72,8 +71,11 @@ var paths = {
         images      : {
             base    : 'app/assets/images',
             every   : 'app/assets/images/**/*.{svg,eps,png,jpg,ico}',
-            logo    : 'app/assets/images/logo.svg',
-            icon    : 'app/assets/images/icons/icon.svg'
+            logo    : 'app/assets/images/logos/logo.svg',
+            logotype: 'app/assets/images/logos/logotype.svg',
+            icon    : 'app/assets/images/icons/icon.svg',
+            bg      : 'app/assets/images/backgrounds/**/*.{svg,eps,png,jpg}',
+            uploads : 'app/assets/images/uploads/**/*.{svg,eps,png,jpg}'
         }
     },
 
@@ -82,10 +84,8 @@ var paths = {
         every       : 'app/core/**/*',
 
         scripts     : 'app/core/**/*.js',
-        views       : 'app/core/**/*.view.pug',
-        messages    : 'app/core/**/*.message.pug',
-
-        index       : 'app/core/index.pug',
+        views       : 'app/core/**/*.{view,message}.html',
+        index       : 'app/index.html',
 
         main        : 'app/core/app.module.js',
         constants   : 'app/core/**/*.const.js',
@@ -106,7 +106,6 @@ var paths = {
         views       : {
             base    : 'app/dist/views',
             every   : 'app/dist/views/**/*.html',
-            index   : 'app/index.html'
         },
 
         scripts     : {
@@ -125,7 +124,9 @@ var paths = {
             base    : 'app/dist/images',
             every   : 'app/dist/images/**/*.{svg,eps,png,jpg,ico}',
             icons   : 'app/dist/images/icons',
-            logo    : 'app/dist/images/logo.svg'
+            logos   : 'app/dist/images/logos',
+            bg      : 'app/dist/images/backgrounds',
+            uploads : 'app/uploads'
         }
     },
 
@@ -145,25 +146,23 @@ gulp.task('default', function() {
 });
 
 gulp.task('build', function() {
-    gulp.start('views');
-    gulp.start('scripts');
-    gulp.start('styles');
-    gulp.start('images');
+    gulp.start('build-views');
+    gulp.start('build-scripts');
+    gulp.start('build-styles');
+    gulp.start('build-images');
 });
 
 gulp.task('clean', function() {
-    del([paths.app.index, paths.dist.base, paths.docs.base, paths.tmp.sass]);
+    del([paths.dist.base, paths.docs.base, paths.tmp.sass]);
 });
 
-gulp.task('watch', function() {
+gulp.task('live', ['connect'], function() {
 
-    watch([paths.core.index, paths.core.views, paths.core.messages], ['views']);
+    gulp.watch([paths.core.views, paths.core.index], ['build-views']);
 
-    watch([paths.core.scripts], ['scripts']);
+    gulp.watch([paths.core.scripts], ['build-scripts']);
 
-    watch([paths.assets.styles.every], ['styles']);
-
-    watch([paths.assets.images.every], ['images']);
+    gulp.watch([paths.assets.styles.every], ['build-styles']);
 });
 
 gulp.task('connect', function() {
@@ -182,19 +181,9 @@ gulp.task('disconnect', function() {
 /*******************************************************************************
 * VIEWS
 *******************************************************************************/
-gulp.task('views', function() {
-    gulp.src(paths.core.index)
+gulp.task('build-views', function() {
+    gulp.src([paths.core.views])
     .pipe(plumber())
-    .pipe(pug({
-        pretty: true
-    }))
-    .pipe(gulp.dest(paths.app.base));
-
-    gulp.src([paths.core.views, paths.core.messages])
-    .pipe(plumber())
-    .pipe(pug({
-        pretty: true
-    }))
     .pipe(gulp.dest(paths.dist.views.base));
 });
 
@@ -203,7 +192,7 @@ gulp.task('views', function() {
 * SCRIPTS
 *******************************************************************************/
 
-gulp.task('scripts', function() {
+gulp.task('build-scripts', function() {
     gulp.src([
         paths.core.main,
         paths.core.constants,
@@ -233,7 +222,7 @@ gulp.task('scripts', function() {
 * STYLES
 *******************************************************************************/
 
-gulp.task('styles', function() {
+gulp.task('build-styles', function() {
     gulp.src(paths.assets.styles.every)
     .pipe(plumber())
     .pipe(sassLint())
@@ -266,9 +255,18 @@ gulp.task('styles', function() {
 * IMAGES
 *******************************************************************************/
 
-gulp.task('images', function() {
+gulp.task('build-images', function() {
+    gulp.start('all-images');
     gulp.start('logo');
+    gulp.start('logotype');
     gulp.start('icons');
+    gulp.start('backgrounds');
+    gulp.start('uploads');
+});
+
+gulp.task('all-images', function() {
+    gulp.src(paths.assets.images.every)
+    .pipe(gulp.dest(paths.dist.images.base));
 });
 
 gulp.task('logo', function() {
@@ -276,8 +274,8 @@ gulp.task('logo', function() {
         name: 'logo', width: 500, height: 500
     };
 
-    gulp.src(paths.assets.images.logo, {base: paths.assets.images.base})
-    .pipe(gulp.dest(paths.dist.images.base))
+    gulp.src(paths.assets.images.logo)
+    .pipe(gulp.dest(paths.dist.images.logos))
     .pipe(plumber())
     .pipe(svg2png())
     .pipe(imageResize({
@@ -290,7 +288,29 @@ gulp.task('logo', function() {
     .pipe(rename({
         basename: logo.name
     }))
-    .pipe(gulp.dest(paths.dist.images.base));
+    .pipe(gulp.dest(paths.dist.images.logos));
+});
+
+gulp.task('logotype', function() {
+    var logotype = {
+        name: 'logotype', width: 400, height: 50
+    };
+
+    gulp.src(paths.assets.images.logotype)
+    .pipe(gulp.dest(paths.dist.images.logos))
+    .pipe(plumber())
+    .pipe(svg2png())
+    .pipe(imageResize({
+        width: logotype.width,
+        height: logotype.height,
+        crop: false,
+        upscale: false,
+        imageMagick: true
+    }))
+    .pipe(rename({
+        basename: logotype.name
+    }))
+    .pipe(gulp.dest(paths.dist.images.logos));
 });
 
 gulp.task('icons', function() {
@@ -333,6 +353,16 @@ gulp.task('icons', function() {
         }))
         .pipe(gulp.dest(paths.dist.images.icons));
     });
+});
+
+gulp.task('backgrounds', function() {
+    gulp.src(paths.assets.images.bg)
+    .pipe(gulp.dest(paths.dist.images.bg));
+});
+
+gulp.task('uploads', function() {
+    gulp.src(paths.assets.images.uploads)
+    .pipe(gulp.dest(paths.dist.images.uploads));
 });
 
 

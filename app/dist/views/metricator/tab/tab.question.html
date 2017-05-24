@@ -1,0 +1,70 @@
+<div class="panel panel-default nav-tabs-vertical accordion">                   
+    <div class="panel-heading">
+        <h3 class="panel-title">
+        	<a data-toggle="collapse" data-target="#accOneColOneQuestion">Questions</a>
+        </h3>
+    </div>
+    <div class="tabs collapse" id="accOneColOneQuestion">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" data-target="#questionActive">active</a></li>
+            <li ng-repeat="question in qstModal.questions.slice(1, qstModal.questions.length)"><a data-toggle="tab" data-target="#tab{{$index}}">{{$index}}</a>
+            </li>
+        </ul>          
+        <div class="panel-body tab-content">
+            <div class="tab-pane active" id="questionActive">
+                <!--BEGIN ACTIVE QUESTION-->
+                 <h4>Question</h4>
+                 <br>
+                 <br>
+                 <ul class="list-group border-bottom">
+                    <h4>Focus</h4>
+                    <li class="list-group-item">{{qstModal.questions[0].focus}}</li>
+                    <h4>Subject</h4>
+                    <li class="list-group-item">{{qstModal.questions[0].subject}}</li>
+                    <h4>Description</h4>
+                    <li class="list-group-item">{{qstModal.questions[0].description}}</li>
+                    <h4>Tags</h4>
+                    <li class="list-group-item" ng-repeat="tag in qstModal.questions[0].tags">{{tag}}</li>  
+                    <h4>State</h4>
+                    <li class="list-group-item">{{qstModal.questions[0].metadata.state}}</li>
+                    <h4>Last Version Date</h4>
+                    <li class="list-group-item">{{qstModal.questions[0].metadata.lastVersionDate}}</li>
+                    <h4>Creation Date</h4>
+        			<li class="list-group-item">{{qstModal.questions[0].metadata.creationDate}}</li>  
+                    <h4>Release Note</h4>
+                    <li class="list-group-item">
+                            {{qstModal.questions[0].metadata.releaseNote}}
+                    </li>  
+                </ul> 
+                <!--END ACTIVE QUESTION-->
+            </div>
+            <div class="tab-pane" ng-repeat="question in qstModal.questions.slice(1, qstModal.questions.length)" id="tab{{$index}}">
+                <!--BEGIN HIDDEN QUESTION-->
+                <h4>Question</h4>
+                 <br>
+                 <br>
+                <ul class="list-group border-bottom">
+                    <h4>Focus</h4>
+                    <li class="list-group-item">{{question.focus}}</li>
+                    <h4>Subject</h4>
+                    <li class="list-group-item">{{question.subject}}</li>
+                    <h4>Description</h4>
+                    <li class="list-group-item">{{question.description}}</li> 
+                    <h4>Tags</h4>
+                    <li class="list-group-item" ng-repeat="tag in question.tags">{{tag}}</li>  
+                    <h4>State</h4>
+                    <li class="list-group-item">{{question.metadata.state}}</li>  
+                    <h4>Last Version Date</h4>
+                    <li class="list-group-item">{{question.metadata.lastVersionDate}}</li>
+                    <h4>Creation Date</h4>
+                    <li class="list-group-item">{{question.metadata.creationDate}}</li>  
+                    <h4>Release Note</h4>
+                    <li class="list-group-item">  
+                        {{question.metadata.releaseNote}}
+                    </li>  
+                </ul>          
+                <!--END HIDDEN QUESTION--> 
+            </div>                    
+        </div>
+    </div>
+</div>

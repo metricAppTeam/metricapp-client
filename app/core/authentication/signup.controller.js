@@ -6,11 +6,12 @@
 * @module metricapp
 * @requires $scope
 * @requires $location
-* @requires AuthService
+* @requires UserService
+* @requires FlashService
 * @requires ROLES
+* @requires GENDERS
 *
 * @description
-* Manages the user registration.
 * Realizes the control layer for `signup.view`.
 ************************************************************************************/
 
@@ -18,13 +19,15 @@ angular.module('metricapp')
 
 .controller('SignupController', SignupController);
 
-SignupController.$inject = ['$scope', '$location', 'AuthService', 'ROLES'];
+SignupController.$inject = ['$scope', '$location', 'UserService', 'FlashService',
+'ROLES', 'GENDERS'];
 
-function SignupController($scope, $location, AuthService, ROLES) {
+function SignupController($scope, $location, UserService, FlashService, ROLES, GENDERS) {
 
     var vm = this;
 
     vm.ROLES = ROLES;
+    vm.GENDERS = GENDERS;
 
     vm.signup = signup;
     vm.cancelSignup = cancelSignup;
@@ -37,27 +40,27 @@ function SignupController($scope, $location, AuthService, ROLES) {
     * @description
     * Registers a new user.
     ********************************************************************************/
-    function signup() {
-        var user = {
-            username: vm.username,
-            password: vm.password,
-            role: vm.role
-        };
+    function signup(user) {
+        vm.loading = true;
+        vm.success = false;
 
-        var profile = {
-            firstname: vm.firstname,
-            lastname: vm.lastname,
-            email: vm.email
-        };
-
-        AuthService.signup(user, profile).then(
-            function(message) {
-                alert(message);
+        UserService.create(user).then(
+            function(resolve) {
+                var msg = resolve.msg;
+                vm.success = true;
+                alert(msg);
+                //FlashService.success(msg);
                 $location.path('/');
             },
-            function(message) {
-                alert(message);
-            });
+            function(reject) {
+                var errmsg = reject.errmsg;
+                alert(errmsg);
+                vm.success = false;
+                //FlashService.danger(errmsg);
+            }
+        ).finally(function() {
+            vm.loading = false;
+        });
     }
 
     /********************************************************************************
@@ -78,12 +81,22 @@ function SignupController($scope, $location, AuthService, ROLES) {
     ********************************************************************************/
     function _init() {
         vm.loading = false;
+        vm.success = false;
+        vm.errmsg = null;
+        /*vm.user = {
+            username: null,
+            password: null,
+            role: null,
+            firstname: null,
+            lastname: null,
+            gender: null,
+            birthday: new Date(),
+            email: null,
+            mobile: null,
+            picture: null
 
-        vm.firstname = '';
-        vm.lastname = '';
-        vm.firstname = '';
-        vm.firstname = '';
-        vm.firstname = '';
+        };
+        */
     }
 
 }

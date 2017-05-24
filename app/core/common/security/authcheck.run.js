@@ -20,18 +20,16 @@ angular.module('metricapp')
 authcheck.$inject = ['$rootScope', '$cookies', '$http', '$location'];
 
 function authcheck($rootScope, $cookies, $http, $location) {
-    var openLocations = ['/login', '/signup'];
-    var homeLocation = '/home';
+    var openLocations = ['/login', '/signup', '/401', '/404', '/500'];
+    var homeLocation = '/';
     var failoverLocation = '/login';
 
-    $rootScope.globals = $cookies.get('globals') || {};
-
+    $rootScope.globals = $cookies.getObject('globals') || {};
+    
     if ($rootScope.globals.user) {
         $http.defaults.headers.common.Authorization =
         'Basic ' + $rootScope.globals.user.authdata;
     }
-
-    // INSERT HERE AUTOLOGIN
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         var restrict = $.inArray($location.path(), openLocations) === -1;

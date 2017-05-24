@@ -1,0 +1,145 @@
+<!-- START: TEAM -->
+<div ng-controller="TeamController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li><a ng-href="#/teams">Teams</a></li>
+        <li class="active"><a ng-href="#/teams/{{vm.currTeam.id}}">Team</a></li>
+    </ul>
+    <div class="page-title">
+        <h2><span class="fa fa-users"></span> Team <small ng-show="!vm.loading && vm.success">{{vm.currTeam.name}}</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading team {{vm.currTeam.id}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    
+                    <div class="col-md-2">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h5 style="color:#757575;" class="text-center">DETAILS</h5>         
+                            </div>
+                            <div class="panel-body list-group list-group-contacts"">     
+                                <div class="list-group-item"> 
+                                    <h5 class="text-left">Expert:</h5> 
+                                    <h2 class="contacts-title text-center"><a ng-href="#/profile/{{user.username}}">{{vm.currTeam.expert | userFullname}}</a></h2>
+                                </div>
+                                
+                                <div class="list-group-item"> 
+                                    <span class="contacts-title"># Questioners: {{vm.num_questioners}}</span>
+                                </div>
+
+                                <div class="list-group-item"> 
+                                    <span class="contacts-title"># Metricators: {{vm.num_metricators}}</span>
+                                </div>
+
+                                <div class="list-group-item"> 
+                                    <span class="contacts-title">Creation:</span>
+                                    <p>{{vm.currTeam.ts_create | datetimeFilter: 'normal'}}</p>
+                                </div>
+
+                                <div class="list-group-item"> 
+                                    <span class="contacts-title">Update:</span>
+                                    <p>{{vm.currTeam.ts_update | datetimeFilter: 'normal'}}</p>
+                                </div>
+                                <div class="list-group-item"> 
+                                    <a type="button" role="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-update-team" ng-switch-when="true" ng-if="globals.user.username == vm.currTeam.expert.username"><i class="fa fa-edit"> </i> Edit Team</a>
+                                </div>
+                                <div class="list-group-item"> 
+                                    <a type="button" role="button" class="btn btn-success btn-block" ng-switch-when="true"
+                                    ng-if="globals.user.username == vm.currTeam.expert.username"
+                                    ng-href="#/grids/{{vm.currTeam.id}}"><i class="fa fa-codepen"> </i> Manage Grid</a>
+                                </div>
+                                <div class="list-group-item"> 
+                                    <a type="button" role="button" class="btn btn-danger btn-block" ng-switch-when="true" ng-href="#/teams/{{vm.currTeam.id}}/analytics"><i class="fa fa-bar-chart-o"> </i> Analytics</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- Questioners LIST WIDGET -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 style="color:#757575;" class="text-center">QUESTIONERS</h5>         
+                                </div>
+                                <div class="panel-body list-group list-group-contacts" ng-repeat="user in vm.currTeam.questioners">
+                                    <div class="list-group-item">  
+                                        <div ng-switch on="{{user.online}}">
+                                            <div ng-switch-when="true">
+                                                <div class="list-group-status status-online"></div>
+                                            </div>
+                                            <div ng-switch-when="false">
+                                                <div class="list-group-status status-offline"></div>
+                                            </div>
+                                        </div>
+                                        <img ng-src="{{user.picture}}" m-fallback-src="dist/images/users/user-picture.svg" alt="{{user.username}}"/>
+                                        <span class="contacts-title"><a ng-href="#/profile/{{user.username}}">{{user | userFullname}}</a></span>
+                                        <p>{{user.email}}</p>
+                                        <div class="list-group-controls">
+                                            <a class="btn btn-danger" role="button"  ng-href="#/messages/{{user.username}}"><span class="fa fa-envelope-o"></span></a>
+                                            <a class="btn btn-success" role="button" ng-href="#/messages/{{user.username}}"><span class="fa fa-phone"></span></a>
+                                        </div>   
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- END Questioners List -->
+                        </div>
+
+                        <div class="col-md-5">
+                            <!-- Metricators LIST WIDGET -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 style="color:#757575;" class="text-center">METRICATORS</h5>         
+                                </div>
+                                <div class="panel-body list-group list-group-contacts" ng-repeat="user in vm.currTeam.metricators">     
+                                    <div class="list-group-item">  
+                                        <div ng-switch on="{{user.online}}">
+                                            <div ng-switch-when="true">
+                                                <div class="list-group-status status-online"></div>
+                                            </div>
+                                            <div ng-switch-when="false">
+                                                <div class="list-group-status status-offline"></div>
+                                            </div>
+                                        </div>
+                                        <img ng-src="{{user.picture}}" m-fallback-src="dist/images/users/user-picture.svg" alt="{{user.username}}"/>
+                                        <span class="contacts-title"><a ng-href="#/profile/{{user.username}}">{{user | userFullname}}</a></span>
+                                        <p><a ng-href="#/messages/{{user.username}}">{{user.email}}</p> 
+                                        <div class="list-group-controls">
+                                            <a>
+                                                <script src="https://apis.google.com/js/platform.js" async defer></script>
+                                                <div class="g-hangout" data-render="createhangout"  invite-></div>
+                                            </a>
+                                        </div>                                                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END Questioners List -->
+                        </div>
+                    </div>
+
+                    <!--<a type="button" role="button" class="btn btn-default"
+                    data-toggle="modal" data-target="#modal-update-team"
+                    ng-switch-when="true"
+                    ng-if="globals.user.username == vm.currTeam.expert.username">Edit</a>
+                    <a type="button" role="button" class="btn btn-default"
+                    ng-switch-when="true"
+                    ng-if="globals.user.username == vm.currTeam.expert.username"
+                    ng-href="#/grids/{{vm.currTeam.id}}">Manage Grid</a>
+                    <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-href="#/teams/{{vm.currTeam.id}}/analytics">View Analytics</a>
+                    <ul ng-switch-when="true">
+                        <li ng-repeat="(key, value) in vm.currTeam">{{key}} = {{value}}</li>
+                    </ul>
+                    -->
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- START: MODAL UPDATE TEAM -->
+    <div ng-include="'dist/views/team/update-team.modal.view.html'"></div>
+    <!-- END: MODAL UPDATE TEAM -->
+</div>
+<!-- END: TEAM -->

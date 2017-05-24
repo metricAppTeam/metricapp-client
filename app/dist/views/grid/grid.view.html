@@ -1,0 +1,143 @@
+<!-- START: GRID -->
+<div ng-controller="GridController as vm">
+    <ul class="breadcrumb">
+        <li><a ng-href="#/home">Home</a></li>
+        <li><a ng-href="#/grids">Grids</a></li>
+        <li class="active"><a ng-href="#/grids/{{vm.currGrid.id}}">Grid</a></li>
+    </ul>
+    <div class="page-title">
+        <h2><span class="fa fa-codepen"></span> Grid <small ng-show="!vm.loading && vm.success">{{vm.currGrid.name}}</small></h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading grid {{vm.currGrid.id}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    <!-- START PANEL  -->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="panel-title-box">
+                                            <h3>GQM {{vm.currGrig.name}} details: </h3>
+                                        </div>
+                                    </div>
+                                    <!-- START HORIZONTAL FORM SAMPLE -->
+                                    <div class="block"> 
+                                        <form class="form-horizontal" role="form">
+                                                <h5><span class="fa fa-caret-down"></span> Name:</h5>
+                                                <p class="col-md-12">{{vm.currGrid.name}}</p>
+
+                                                <h5><span class="fa fa-caret-down"></span> Description:</h5>
+                                                <p class="col-md-12 text-justify">{{vm.currGrid.description}}</p>
+
+                                                <h5><span class="fa fa-caret-down"></span> Creation:</h5>
+                                                <p class="col-md-12">{{vm.currGrid.ts_create | datetimeFilter: 'normal'}}</p>
+
+                                                <h5><span class="fa fa-caret-down"></span> Update:</h5>
+                                                <p class="col-md-12">{{vm.currGrid.ts_update | datetimeFilter: 'normal'}}</p>
+
+                                                <h5># Measurement Goals: <span  class="text-info">{{vm.num_mgoals}}</span></h5>
+
+                                                <h5># Questions: <span class="text-info">{{vm.num_questions}}</span></h5>
+
+                                                <h5># Metrics: <span class="text-info">{{vm.num_metrics}}</span></h5>
+                                                
+                                                <h5 class="text-danger"># MGs to be assigned: <span>{{vm.num_mgoals}} DA CAMBIARE</span></h5>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-warning btn-lg btn-block" role="button" data-toggle="modal" data-target="#modal-update-grid" ng-switch-when="true" ng-if="globals.user.username == vm.currGrid.expert.username"><i class="fa fa-edit"></i> Edit Grid</button>
+
+                                <button class="btn btn-info btn-lg btn-block" role="button" ng-switch-when="true"
+                                ng-if="globals.user.username == vm.currGrid.expert.username" data-toggle="modal" data-target="#modal-team"><i class="fa fa-group"></i> View Team</button>
+                                
+                                <button class="btn btn-danger btn-lg btn-block" role="button" ng-switch-when="true"
+                                ng-if="globals.user.username == vm.currGrid.expert.username" data-toggle="modal" data-target="#modal-assignmgs"><i class="fa fa-edit"></i> Assign Measurement Goal</button>
+                                
+                                <br>
+                                <br>
+                            </div>
+                            
+                            <div class="col-md-9">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="panel-title-box">
+                                            <h3>GQM {{vm.name}} graph      CAMBIARE IL JSON</h3>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <cytoscape 
+                                            graph-options="vm.options" 
+                                            graph-elements="vm.elements" 
+                                            graph-layout="vm.layout" 
+                                            graph-style="vm.style">
+                                        </cytoscape>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="panel-title-box">
+                                            <h3>Graph's Node Details</h3>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="block"> 
+                                            <form class="form-horizontal" role="form">
+                                                    <h5 id="nodename"><span class="fa fa-caret-down"></span> Name:{{node_name}}</h5>
+
+                                                    <h5 id="nodedescription"><span class="fa fa-caret-down"></span> Description: {{vm.node_description}}</h5>
+
+                                                    <h5 id="nodecreation"><span class="fa fa-caret-down"></span> Creation: {{vm.node_creation}}</h5>
+
+                                                    <h5 id="nodeupdate"><span class="fa fa-caret-down"></span> Update: {{vm.node_update}}</h5>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="page-content-wrap">
+        <div class="row" ng-switch="vm.loading">
+            <div class="col-md-12">
+                <p ng-switch-when="true">Loading grid {{vm.currGrid.id}} ...</p>
+                <div ng-switch-when="false" ng-switch="vm.success">
+                    
+                    <a type="button" role="button" class="btn btn-default"
+                    data-toggle="modal" data-target="#modal-update-grid"
+                    ng-switch-when="true"
+                    ng-if="globals.user.username == vm.currGrid.expert.username">Edit</a>
+                    
+                    <a type="button" role="button" class="btn btn-default"
+                    ng-switch-when="true"
+                    ng-if="globals.user.username == vm.currGrid.expert.username"
+                    ng-href="#/teams/{{vm.currGrid.id}}">Manage Team</a>
+                    
+                    <a type="button" role="button" class="btn btn-default" ng-switch-when="true" ng-href="#/grids/{{vm.currGrid.id}}/analytics">View Analytics</a>
+                    <ul ng-switch-when="true">
+                        <li ng-repeat="(key, value) in vm.currGrid">{{key}} = {{value}}</li>
+                    </ul>
+                    <p ng-switch-when="false">Ooops! Something went wrong :-( {{vm.errmsg}}</p>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    
+    <!-- START: MODAL UPDATE GRID -->
+    <div ng-include="'dist/views/grid/update-grid.modal.view.html'"></div>
+    <!-- END: MODAL UPDATE GRID -->
+    <!-- START MODAL: TEAM -->
+    <div ng-include="'dist/views/grid/view-team.dialog.view.html'"></div>
+    <!-- END MODAL: TEAM -->
+    <!-- START MODAL: ASSIGN MGS -->
+    <div ng-include="'dist/views/grid/assignmgs.dialog.view.html'"></div>
+    <!-- END MODAL: ASSIGN MGS -->
+</div>
+<!-- END: GRID -->

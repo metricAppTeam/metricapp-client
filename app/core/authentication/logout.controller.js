@@ -3,11 +3,12 @@
 /************************************************************************************
 * @ngdoc controller
 * @name LogoutController
+* @requires $rootScope
 * @requires $location
 * @requires AuthService
+* @requires AUTH_EVENTS
 *
 * @description
-* Manages the user logout.
 * Realizes the control layer for `logout.view`.
 ************************************************************************************/
 
@@ -15,15 +16,15 @@ angular.module('metricapp')
 
 .controller('LogoutController', LogoutController);
 
-LogoutController.$inject = ['$location', 'AuthService'];
+LogoutController.$inject = ['$rootScope', '$location', 'AuthService', 'AUTH_EVENTS'];
 
-function LogoutController($location, AuthService) {
+function LogoutController($rootScope, $location, AuthService, AUTH_EVENTS) {
 
     var vm = this;
 
-    vm.loading = false;
-
     vm.logout = logout;
+
+    _init();
 
     /********************************************************************************
     * @ngdoc method
@@ -33,11 +34,28 @@ function LogoutController($location, AuthService) {
     ********************************************************************************/
     function logout() {
         vm.loading = true;
-        AuthService.logout().then(function(response) {
-            AuthService.clearUser();            
+        AuthService.logout().then(
+            function(resolve) {
+                vm.success = true;
+                $rootScope.$broadcast(AUTH_EVENTS.LOGOUT_SUCCESS);               
+                $location.path('/');
+            },
+            function(reject) {
+                vm.errmsg = reject.errmsg;
+                alert(vm.errmsg);
+                vm.success = false;
+                $rootScope.$broadcast(AUTH_EVENTS.LOGOUT_FAILURE);
+                $location.path('/');
+            }
+        ).finally(function() {
             vm.loading = false;
-            $location.path('/');
         });
+    }
+
+    function _init() {
+        vm.loading = false;
+        vm.success = false;
+        vm.errmsg = null;
     }
 
 }

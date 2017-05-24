@@ -1,0 +1,14 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="vm.closeModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="largeModalHead"> Context Factors</h4>
+    </div>
+    <div class="modal-body">
+    <!-- START EXTERNAL METRIC TAB-->
+        <div ng-include="'dist/views/metricator/table/table.contextfactor.html'"></div>
+    <!-- END EXTERNAL METRIC TAB-->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="vm.closeModal()">Close</button>       
+    </div>  
+</div>
